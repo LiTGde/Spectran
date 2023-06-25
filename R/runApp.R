@@ -12,3 +12,4 @@ run_app <- function(lang_setting = NULL) {
   #Run the app:
   shiny::runApp(appDir = system.file("app", package = "Spectran"))
 }
+

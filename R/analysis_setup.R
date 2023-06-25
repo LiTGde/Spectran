@@ -15,7 +15,7 @@ analysis_setupUI <-
 analysis_setupServer <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     Spectrum = NULL
     ) {
   
@@ -28,6 +28,7 @@ analysis_setupServer <-
           )
     }
     
+    #Create a Table that already contains some base information
     Table <- shiny::reactive({
       temp <- Specs$Plot
       temp$Efficacy <- Specs$Efficacy %>% unlist()

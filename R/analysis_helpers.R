@@ -7,6 +7,7 @@ Spec_int <- function(spectrum, sensitivity) {
 }
 
 
+
 # #Nimmt das Plot-Resizing wieder vor, sobald sich die Fensterbreite ändert
 # observeEvent(input$dimension, {obs$resume()})
 
