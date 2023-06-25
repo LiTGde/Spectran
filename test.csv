@@ -1,0 +1,12 @@
+Name,Beschreibung,Identifier,Button_Name,Dateinamen,URL,embargo,download
+tag,Tageslicht,,,,https://mstream.hm.edu/static/mh_default_org/api/079dabd0-b8e1-48fb-b0ef-3a6a1d7236a5/61df6b52-26bf-4bcf-94aa-17b3f543b06f/concat.mp4,FALSE,
+led,LED-Licht,,,,https://mstream.hm.edu/static/mh_default_org/api/176b9bbc-7935-4af9-b511-b2562adc0f96/8a7f4764-563c-40fd-a2d6-67018416176d/concat.mp4,FALSE,
+inc,Halogen-/Glühlampenlicht,,,,https://mstream.hm.edu/static/mh_default_org/api/80d855f4-c619-4b75-bd59-1802ac80fc96/1a877b07-5ec5-461f-a46f-7448faed17ef/concat.mp4,FALSE,
+flu,Fluoreszenz-/Leuchtstofflampenlicht,,,,https://mstream.hm.edu/static/mh_default_org/api/a085f9de-a66c-4d2b-acf1-5f7b24270d66/d10c8159-37f4-4251-b646-8cba93c03153/concat.mp4,FALSE,
+equ,Equal-Energy Spektrum,,,,NA,FALSE,
+CIE_ACDE,"CIE Referenz Lichtart A, C, D, E",,,,NA,TRUE,
+CIE_ID,"CIE Referenz Lichtart ""Innenraum Tageslicht""",,,,NA,TRUE,
+CIE_LED,"CIE Referenz Lichtart ""LED""",,,,NA,TRUE,
+CIE_FL,"CIE Referenz Lichtart ""Leuchtstofflampen""",,,,NA,TRUE,
+CIE_HP,"CIE Referenz Lichtart ""Hochdruck-Entladungslampen""",,,,NA,TRUE,
+CIE_BGPXe,"CIE Referenz Lichtart B, G, P, Xe",,,,NA,TRUE,

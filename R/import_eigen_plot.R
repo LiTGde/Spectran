@@ -1,0 +1,241 @@
+
+# UI ----------------------------------------------------------------------
+
+import_eigen_plotUI <- 
+  function(
+    id, 
+    lang_setting = get("lang_setting", envir = caller_env(n = 1))
+    ) {
+
+    ns <- NS(id)
+    
+    tagList(
+          #Main plot
+          plotOutput(
+            ns("eigenes_spektrum"),
+            height = 400,
+            click = ns("plot_click"),
+            brush = ns("plot_brush")
+          ),
+          # Script so that you don´t click when brushing
+          tags$script(
+            HTML( paste0(
+              "
+              $('#", ns("eigenes_spektrum"), "').mousedown(function(e) {
+              var parentOffset = $(this).offset();
+              var relX = e.pageX - parentOffset.left;
+              var relY = e.pageY - parentOffset.top;
+              Shiny.setInputValue('", ns("x1"), "', relX);
+              Shiny.setInputValue('", ns("y1"), "', relY);
+              }).mouseup(function(e) {
+              var parentOffset = $(this).offset();
+              var relX = e.pageX - parentOffset.left;
+              var relY = e.pageY - parentOffset.top;
+              Shiny.setInputValue('", ns("x2"), "', relX);
+              Shiny.setInputValue('", ns("y2"), "', relY);
+              Shiny.setInputValue('", ns("action"), "', Math.random());
+              });
+              "
+              )
+              )
+            )
+          )
+    }
+
+# Server ------------------------------------------------------------------
+
+import_eigen_plotServer <- 
+  function(
+    id, 
+    lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+    Spectrum = NULL,
+    sensitivitaeten,
+    default,
+    import
+    ) {
+  
+  moduleServer(id, function(input, output, session) {
+    
+    #Set up a container for the spectra to go into, if it isn´t already defined
+    if (is.null(Spectrum)){
+      Spectrum <- 
+        reactiveValues(Spectrum_raw = NULL, Name = NULL, Destination = NULL)
+    }
+    
+    #Plottheme
+    theme_set(theme_cowplot(font_size = 15, font_family = "sans"))
+    
+    #Setup a raw spectrum
+    Spec_raw <- tibble(Wellenlaenge = c(300, 379, 781, 850),
+                       Bestrahlungsstaerke = 0,
+                       keeprows = rep(TRUE, 4))
+    
+    eigen_Spektrum <- reactiveValues(Spec_raw = Spec_raw)
+    
+    #Import a spectrum for adjustment
+    observe({
+      if(all((Spectrum$Destination) == lang$ui(94),
+             !is.null((Spectrum$Spectrum)))) {
+        
+      eigen_Spektrum$Spec_raw <- Spectrum$Spectrum
+      
+      eigen_Spektrum$Spec_raw <- eigen_Spektrum$Spec_raw %>% 
+        mutate(Bestrahlungsstaerke =
+                 Bestrahlungsstaerke/(max(Bestrahlungsstaerke)),
+               keeprows = TRUE) %>% 
+        rbind(Spec_raw)
+      }
+    }) %>% bindEvent(Spectrum$Destination, Spectrum$Spectrum)
+    
+    # Interpolate new wavelengths
+    observe({
+      r_fun <-
+        approxfun(
+          x = eigen_Spektrum$Spec_raw$Wellenlaenge,
+          y = eigen_Spektrum$Spec_raw$Bestrahlungsstaerke)
+      eigen_Spektrum$gradient <-
+        tibble(Wellenlaenge = 380:780,
+               Bestrahlungsstaerke = r_fun(380:780)
+               )
+    })
+
+    # Create a Spectral plot
+    output$eigenes_spektrum <- renderPlot({
+
+      # Create the color scale for the action spectra
+      Colors <-
+        Specs$Plot %>%
+        filter((Names %in% sensitivitaeten()))
+      # Filter the action spectra
+      Action_Spectra <- 
+        Specs$AS_long %>%
+        filter(Type %in% sensitivitaeten())
+      
+      #Create the Hull of the Plot
+      ggplot(data = eigen_Spektrum$Spec_raw,
+             aes(x = Wellenlaenge, y = Bestrahlungsstaerke))+
+        labs(x = lang$server(100), y = lang$server(36))+
+        scale_x_continuous(breaks = c(400, 500, 600, 700, 780))+
+        scale_y_continuous(
+          expand = expansion(mult = c(0, .1)),
+          breaks = c(0, 0.25, 0.5, 0.75, 1),
+          labels = scales::percent_format(scale = 100))+
+        coord_cartesian(ylim = c(0, 1), xlim = c(380, 780))+
+        theme(legend.position = "none")+
+        
+        #Line with only the Chosen Points - for some reason that is connected to
+        #the JS script used for click and brush, this cannot go below 
+        #geom_ridgelinge, as the plot otherwise won´t create the correct labels
+        geom_line(lwd = 1)+
+        
+        #Gradient fill under the curve - this needs the gradient-Spectrum data
+        geom_ridgeline_gradient(
+          data = eigen_Spektrum$gradient,
+          aes(y = 0, height =Bestrahlungsstaerke, fill = Wellenlaenge))+
+        scale_fill_gradientn(colors = ColorP$regenbogen, guide = "none")+
+        
+        #Points over the gradient
+        geom_point(size = 2)+
+        
+        #Conditional dashed curve for imported spectra that get adjusted
+        {if(all((Spectrum$Destination) == lang$ui(94),
+                !is.null((Spectrum$Spectrum)))) {
+        geom_line(
+          data = Spectrum$Spectrum, 
+          aes(y=Bestrahlungsstaerke/(max(Bestrahlungsstaerke))), 
+          lty = 5)
+        }}+
+        
+        #Conditional action spectra along with their labels
+        scale_color_manual(values = Specs$Plot$Col)+
+        {if(length(sensitivitaeten()) != 0){
+          geom_path(
+            data = Specs$AS_long %>%
+              filter(Type %in% sensitivitaeten()),
+            aes(x=Wellenlaenge, y= rel_Sens, col = Type),
+            lwd = 0.75)}} + 
+        {if(length(sensitivitaeten()) != 0){
+          geom_label_repel(
+            data = Colors,
+            aes(x=Peak, y= 1, label = Names, col = Names),
+            min.segment.length = 0,
+            ylim = c(1, 1.1),
+            alpha = 0.9,
+            parse = TRUE)
+      }}
+    }, height = 400 )
+    
+    #Deals with click events. The inputs are defined in the UI script
+    observe({
+      #make shure that a brush is not registered as a click
+      if(!(input$x1 == input$x2 && input$y1 == input$y2)) {
+        return(NULL)
+      }
+      #collect all the near points
+      Anzahl <- 
+        nearPoints(
+          eigen_Spektrum$Spec_raw, input$plot_click, threshold = 10
+          ) 
+      
+      #create new points within reasonable limits
+      if(
+        ShinyTrue(all(
+            nrow(Anzahl) == 0 & 
+            input$plot_click$x %>% between(380, 780) ,
+            input$plot_click$y <= 1
+            ))
+        ){
+        eigen_Spektrum$Spec_raw <- 
+          eigen_Spektrum$Spec_raw %>% 
+          rbind(c(input$plot_click$x, input$plot_click$y, keeprows = TRUE))
+      } 
+      #delete old points within reasonable limits
+      else if (ShinyTrue(
+        all(nrow(Anzahl) != 0
+        )
+        )
+        ){try(
+        eigen_Spektrum$Spec_raw <- 
+          eigen_Spektrum$Spec_raw %>% 
+          filter(
+            Wellenlaenge != 
+              (Anzahl %>% filter(between(Wellenlaenge, 380, 780)) %>% 
+                 pull(Wellenlaenge))))
+      }
+    }
+    ) %>% bindEvent(input$action)
+    
+    #Deals with brush events. The inputs are defined in the UI script
+    observe({
+      #collect all the near points within reasonable limits
+      Anzahl <- brushedPoints(eigen_Spektrum$Spec_raw, input$plot_brush)
+      Anzahl <- Anzahl %>% filter(between(Wellenlaenge, 380, 780))
+      
+      #delete old points
+      if(nrow(Anzahl) != 0) {
+        eigen_Spektrum$Spec_raw <- 
+          eigen_Spektrum$Spec_raw %>% 
+          filter( ! Wellenlaenge %in% Anzahl$Wellenlaenge)
+      }
+    }
+    ) %>% bindEvent(input$plot_brush)
+
+    #Reset the Spectrum
+    observe({
+      if(is.null(Spectrum$Spectrum)) {
+        eigen_Spektrum$Spec_raw <- Spec_raw
+        }
+      else if (Spectrum$Destination == lang$ui(94)) {
+        eigen_Spektrum$Spec_raw <- Spectrum$Spectrum %>% 
+          mutate(Bestrahlungsstaerke =
+                   Bestrahlungsstaerke/(max(Bestrahlungsstaerke)))
+      }
+
+    }) %>% bindEvent(default())
+    
+    #Return Value
+    reactive(eigen_Spektrum$gradient)
+  })
+}
+
+# App ---------------------------------------------------------------------
