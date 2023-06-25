@@ -3,9 +3,9 @@
 
 analysis_radioUI <- function(
     id, lang_setting = get("lang_setting", envir = caller_env(n = 1))) {
-  tagList(
+  htmltools::tagList(
     # Radiometrie_UI <- p(
-    #   checkboxGroupInput(
+    #   shiny::checkboxGroupInput(
     #     "sensitivitaeten",
     #     label = lang_ui[95],
     #     choiceNames = c(
@@ -23,7 +23,7 @@ analysis_radioUI <- function(
     #     inline = TRUE
     #   ),
     #   #Übersichtsplot des Spektrums und Tabelle
-    #   plotOutput("Uebersichtsplot_A", height = "350px"),
+    #   shiny::plotOutput("Uebersichtsplot_A", height = "350px"),
     #   gt::gt_output("Spektraldaten_radio")
     # )
   )
@@ -33,16 +33,20 @@ analysis_radioUI <- function(
 
 analysis_radioServer <- 
   function(id, 
-           lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+           lang_setting = get("lang_setting", 
+                              envir = rlang::caller_env(n = 1)
+                              ),
            Spectrum = NULL
            ) {
   
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     
     #Set up a container for the spectra to go into, if it isn´t already defined
     if (is.null(Spectrum)){
       Spectrum <- 
-        reactiveValues(Spectrum_raw = NULL, Name = NULL, Destination = NULL)
+        shiny::reactiveValues(
+          Spectrum_raw = NULL, Name = NULL, Destination = NULL
+          )
     }
     
 #     #Plottheme
@@ -204,20 +208,20 @@ analysis_radioServer <-
 
 analysis_radioApp <- function(lang_setting = "Deutsch") {
   
-  ui <- fluidPage(
+  ui <- shiny::fluidPage(
     analysis_radioUI("import"),
-      verbatimTextOutput("Data_ok")
+      shiny::verbatimTextOutput("Data_ok")
       )
   server <- function(input, output, session) {
 
     analysis_radioServer("import")
-    output$Data_ok <- renderPrint({
+    output$Data_ok <- shiny::renderPrint({
       {
         print(Spectrum$Name)
         print(Spectrum$Destination)
-        Spectrum$Spectrum_raw %>% head()
+        Spectrum$Spectrum_raw %>% utils::head()
       }
     })
     }
-  shinyApp(ui, server)
+  shiny::shinyApp(ui, server)
 }

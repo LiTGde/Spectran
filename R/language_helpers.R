@@ -3,14 +3,14 @@
 #An expression to catch the two ways in which a language can be defined 
 #(globally or per call) and generate warning messages
 
-lang_sec <- expr({
+lang_sec <- rlang::expr({
   if (!is.null(language_direct)) {
     #coming from the function call
     lang_setting <- language_direct
   }
-  else if (exists("lang_setting", envir = caller_env(n=3))) {
+  else if (exists("lang_setting", envir = rlang::caller_env(n=3))) {
     #coming globally
-    lang_setting <- get("lang_setting", envir = caller_env(n=3))
+    lang_setting <- get("lang_setting", envir = rlang::caller_env(n=3))
   }
   else
     warning("No language chosen") #warning

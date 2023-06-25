@@ -1,21 +1,13 @@
-#library calls - will be removed later
-library(shiny)
-library(tidyverse)
-library(rlang)
-library(shiny)
-library(shinyWidgets)
-library(htmltools)
-library(shinydashboard)
-library(shinyFeedback)
-library(gt)
-library(cowplot)
-library(shinyalert)
-library(colorSpec)
-library(ggridges)
-library(ggrepel)
 
-
-
+#' Title
+#'
+#' @param lang_setting 
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 Spectran <- function(lang_setting = "Deutsch", ...) {
     
     ui <- dashboardPage(

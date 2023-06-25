@@ -2,40 +2,40 @@
 # UI ----------------------------------------------------------------------
 
 import_dataUI <- function(
-    id, lang_setting = get("lang_setting", envir = caller_env(n = 1))) {
-  tagList(
-    useShinyFeedback(),
-    br(),
-    box(
+    id, lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))) {
+  htmltools::tagList(
+    shinyFeedback::useShinyFeedback(),
+    htmltools::br(),
+    shinydashboard::box(
       #Introductory Text:
       #paragraph 1:
-      p(
+      htmltools::p(
         lang$ui(47),
-        (HTML(paste0(
-          "(W/m", tags$sup("2"), "*nm)"
+        (htmltools::HTML(paste0(
+          "(W/m", htmltools::tags$sup("2"), "*nm)"
         ))),
         lang$ui(48),
-        a(.noWS = "outside", 
+        htmltools::a(.noWS = "outside", 
           lang$ui(49), 
           href = "Beispiel.csv", 
           target="_blank"),
         lang$ui(50),
-        em(.noWS = "outside", lang$ui(51)),
+        htmltools::em(.noWS = "outside", lang$ui(51)),
         lang$ui(52)
         ),
       #paragraph 2:
-      p(lang$ui(53),
-        em(.noWS = "outside", lang$ui(54)),
+      htmltools::p(lang$ui(53),
+                   htmltools::em(.noWS = "outside", lang$ui(54)),
         lang$ui(55),
-        em(.noWS = "outside", lang$ui(56)),
+        htmltools::em(.noWS = "outside", lang$ui(56)),
         "."
         ),
       #Upload section:
-      fluidPage(
+      shiny::fluidPage(
         #Upload individual file:
-        column(width = 8,
-               fileInput(
-                 NS(id,"in_file"),
+        shiny::column(width = 8,
+                      shiny::fileInput(
+                        shiny::NS(id,"in_file"),
                  lang$ui(57),
                  accept = c("csv", "comma-separated-values", ".csv"),
                  width = "100%",
@@ -43,13 +43,13 @@ import_dataUI <- function(
                  )
                ),
         #Upload an example spectrum:
-        column(width = 4, align = "center", 
-               verticalLayout(
-                 actionButton(
-                   NS(id,"jgtm"), 
-                   HTML(
+        shiny::column(width = 4, align = "center", 
+                      shiny::verticalLayout(
+                        shiny::actionButton(
+                          shiny::NS(id,"jgtm"), 
+                          htmltools::HTML(
                      paste0(
-                       img(width = "100%", src = lang$ui(59), 
+                       htmltools::img(width = "100%", src = lang$ui(59), 
                        align = "center")
                        )
                      ),
@@ -58,43 +58,43 @@ import_dataUI <- function(
                )
         ),
       #Settings for the Import:
-        column(width = 2, align = "center",
-               br(),
+      shiny::column(width = 2, align = "center",
+                    htmltools::br(),
                #Parameter settings for the CSV-import:
-               dropdown(
+               shinyWidgets::dropdown(
                  import_csv_settingsUI(
-                   NS(id, "import"), lang_setting = lang_setting),
+                   shiny::NS(id, "import"), lang_setting = lang_setting),
                  #Dropdown-Settings
                  status = "danger",
                  up = TRUE,
-                 icon = icon("gear"), 
+                 icon = shiny::icon("gear"), 
                  width = "600px",
-                 tooltip = tooltipOptions(title = lang$ui(46)),
-                 animate = animateOptions(
+                 tooltip = shinyWidgets::tooltipOptions(title = lang$ui(46)),
+                 animate = shinyWidgets::animateOptions(
                    enter = "fadeInLeft", exit = "fadeOutLeft", duration = 1
                  )
                )),
       # Setting a name of the spectrum:
-      column(width = 10, 
-             textInput(NS(id,"name_id"), 
+      shiny::column(width = 10, 
+                    shiny::textInput(shiny::NS(id,"name_id"), 
                        label = lang$ui(60), 
                        value = lang$ui(61)
                        )
              ),
-      br(),
+      htmltools::br(),
       #Controlling how the spectrum looks:
-      import_visual_checkUI(NS(id,"visual")),
+      import_visual_checkUI(shiny::NS(id,"visual")),
       width = 12),
-    br(),
-    br(),
+    htmltools::br(),
+    htmltools::br(),
     #Importbutton:
-    fluidRow(
-      import_data_verifierUI(NS(id, "importbutn"), 
+    shiny::fluidRow(
+      import_data_verifierUI(shiny::NS(id, "importbutn"), 
                         label = lang$ui(62),
                         icon = icon("play", lib = "glyphicon"),
                         class = "btn-lg"),
       #Adjusting the Spectrum:
-      import_data_verifierUI(NS(id, "adjustbutn"), 
+      import_data_verifierUI(shiny::NS(id, "adjustbutn"), 
                         label = lang$ui(63),
                         icon = icon("wrench", lib = "glyphicon"),
                         class = "btn"),
@@ -108,46 +108,48 @@ import_dataUI <- function(
 
 import_dataServer <- 
   function(id, 
-           lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            Spectrum = NULL
            ) {
   
-  moduleServer(id, function(input, output, session) {
+    shiny::moduleServer(id, function(input, output, session) {
     
     #Set up a container for the spectra to go into, if it isn´t already defined
     if (is.null(Spectrum)){
       Spectrum <- 
-        reactiveValues(Spectrum_raw = NULL, Name = NULL, Destination = NULL)
+        shiny::reactiveValues(
+          Spectrum_raw = NULL, Name = NULL, Destination = NULL
+          )
     }
     
     #Setting up a container for the import filepath:
-    importfile <- reactiveVal()
+    importfile <- shiny::reactiveVal()
     
     #Choosing the example spectrum:
-    observe({
+    shiny::observe({
       importfile("www/Beispiel.csv")
-    }) %>% bindEvent(input$jgtm)
+    }) %>% shiny::bindEvent(input$jgtm)
     
     #Uploading a file:
-    observe({
+    shiny::observe({
       importfile(input$in_file$datapath)
-    }) %>% bindEvent(input$in_file$datapath)
+    }) %>% shiny::bindEvent(input$in_file$datapath)
     
     #Setting a default name for the spectrum:
-    spec_name <- reactiveVal(lang$ui(61))
+    spec_name <- shiny::reactiveVal(lang$ui(61))
     
     #Update the name of the light spectrum after choosing a new import file:
-    observe({
-      updateTextInput(
+    shiny::observe({
+      shiny::updateTextInput(
         session, "name_id", value = split_filename(input$in_file$name)
       )
-    }) %>% bindEvent(input$in_file$datapath)
+    }) %>% shiny::bindEvent(input$in_file$datapath)
     
     #Import Data from a file:
-    dat0 <- reactive({
-      req(importfile(), csv_settings()$row_nr)
+    dat0 <- shiny::reactive({
+      shiny::req(importfile(), csv_settings()$row_nr)
       temp <- 
-        try(read.csv(importfile(),
+        try(utils::read.csv(importfile(),
                      sep= csv_settings()$separator, 
                      dec = csv_settings()$decimal,
                      skip = csv_settings()$row_nr, 
@@ -158,17 +160,17 @@ import_dataServer <-
       temp
     })
     
-    dat <- reactiveVal()
+    dat <- shiny::reactiveVal()
     
     #Make adjustments to the Import when coming from a file:
-    observe({
+    shiny::observe({
       dat({
-      req(
+        shiny::req(
         dat0(), cancelOutput = TRUE
       )
       temp <- dat0()
-      if(between(csv_settings()$x_y2, 1, ncol(temp))){
-        if(isTruthy(
+      if(dplyr::between(csv_settings()$x_y2, 1, ncol(temp))){
+        if(shiny::isTruthy(
           is.numeric(temp[[csv_settings()$x_y2]]) & 
           csv_settings()$multiplikator > 0)){
           #Multiplying irradiance with the multiplikator, if it is numeric
@@ -183,10 +185,12 @@ import_dataServer <-
     })
     
     #Make adjustments to the Import when coming from other sources
-    observe({
+    shiny::observe({
+      if(Spectrum$Destination == lang$ui(69)) {
       dat(Spectrum$Spectrum)
       importfile(Spectrum$Name)
-    }) %>% bindEvent(Spectrum$Spectrum)
+      }
+    }) %>% shiny::bindEvent(Spectrum$Spectrum)
     
     #Functions to set the csv-settings
     csv_settings <- 
@@ -213,25 +217,25 @@ import_dataServer <-
     #Checks on the data when transfering the File for further analysis
     import_data_verifierServer("importbutn",
                           lang_setting = lang_setting,
-                          Data_ok = reactive(Data_ok$x),
+                          Data_ok = shiny::reactive(Data_ok$x),
                           dat = dat,
                           Spectrum = Spectrum,
                           csv_settings = csv_settings,
-                          Name = reactive(input$name_id))
+                          Name = shiny::reactive(input$name_id))
     
     #Checks on the data when transfering the File to adjustments
     import_data_verifierServer("adjustbutn",
                           lang_setting = lang_setting,
-                          Data_ok = reactive(Data_ok$x),
+                          Data_ok = shiny::reactive(Data_ok$x),
                           dat = dat,
                           Spectrum = Spectrum,
                           csv_settings = csv_settings,
-                          Name = reactive(input$name_id),
+                          Name = shiny::reactive(input$name_id),
                           Destination = lang$ui(94))
     
     #Set the name of the Spectrum depending on the global Name
-    observe({
-      updateTextInput(session, "name_id", value = Spectrum$Name)
+    shiny::observe({
+      shiny::updateTextInput(session, "name_id", value = Spectrum$Name)
     })
     
   })
@@ -241,20 +245,20 @@ import_dataServer <-
 
 import_dataApp <- function(lang_setting = "Deutsch") {
   
-  ui <- fluidPage(
+  ui <- shiny::fluidPage(
        import_dataUI("import"),
-      verbatimTextOutput("Data_ok")
+       shiny::verbatimTextOutput("Data_ok")
       )
   server <- function(input, output, session) {
 
     import_dataServer("import")
-    output$Data_ok <- renderPrint({
+    output$Data_ok <- shiny::renderPrint({
       {
         print(Spectrum$Name)
         print(Spectrum$Destination)
-        Spectrum$Spectrum_raw %>% head()
+        Spectrum$Spectrum_raw %>% utils::head()
       }
     })
     }
-  shinyApp(ui, server)
+  shiny::shinyApp(ui, server)
 }

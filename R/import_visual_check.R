@@ -2,9 +2,13 @@
 # UI ----------------------------------------------------------------------
 
 import_visual_checkUI <-
-  function(id, lang_setting = get("lang_setting", envir = caller_env(n = 1))) {
-    tagList(
-      uiOutput(NS(id,"inputuebersicht"))
+  function(id, 
+           lang_setting = get(
+             "lang_setting", envir = rlang::caller_env(n = 1)
+             )
+           ) {
+    htmltools::tagList(
+      shiny::uiOutput(shiny::NS(id,"inputuebersicht"))
     )
   }
 
@@ -12,56 +16,64 @@ import_visual_checkUI <-
 
 import_visual_checkServer <-
   function(id,
-           lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            dat,
            csv_settings
            ) {
-    stopifnot(is.reactive(dat))
-    stopifnot(is.reactive(csv_settings))
+    stopifnot(shiny::is.reactive(dat))
+    stopifnot(shiny::is.reactive(csv_settings))
     
-    moduleServer(id, function(input, output, session) {
+    shiny::moduleServer(id, function(input, output, session) {
       
       #Plotoverview of the data
-      output$Uebersichtsplot <- renderPlot({
-        validate(
-          need(between(csv_settings()$x_y2, 1, ncol(dat())), lang$server(17)),
-          need(between(csv_settings()$x_y, 1, ncol(dat())), lang$server(18))
+      output$Uebersichtsplot <- shiny::renderPlot({
+        shiny::validate(
+          shiny::need(
+            dplyr::between(
+              csv_settings()$x_y2, 1, ncol(dat())), lang$server(17)
+            ),
+          shiny::need(
+            dplyr::between(
+              csv_settings()$x_y, 1, ncol(dat())
+              ), 
+            lang$server(18)
+            )
         )
-        ggplot(
+        ggplot2::ggplot(
           data = dat(),
-          aes(
+          ggplot2::aes(
             .data[[names(dat())[csv_settings()$x_y]]],
             .data[[names(dat())[csv_settings()$x_y2]]]
           )) +
-          geom_area(fill = "grey")+
-          geom_point(size = 0.5)+
+          ggplot2::geom_area(fill = "grey")+
+          ggplot2::geom_point(size = 0.5)+
           # geom_path(size = 0.1)+
-          theme_cowplot()
+          cowplot::theme_cowplot()
       })
 
       #Table overview of the data
-      output$Spektraldaten <- render_gt({
-        validate(
-          need(dat(), lang$server(19))
+      output$Spektraldaten <- gt::render_gt({
+        shiny::validate(
+          shiny::need(dat(), lang$server(19))
         )
 
         dat() %>% 
         # head(n=8) %>%
           dplyr::mutate(rows = 1:nrow(.)) %>%
-          gt(rowname_col = "rows") %>% 
+          gt::gt(rowname_col = "rows") %>% 
           # tab_header(subtitle = lang$server(20)) %>% 
-          opt_interactive(page_size_default = 8)
+          gt::opt_interactive(page_size_default = 8)
       })
       
       # UI generation for the overview
-      output$inputuebersicht <- renderUI({
-        req(dat())
+      output$inputuebersicht <- shiny::renderUI({
+        shiny::req(dat())
         ns <- session$ns
-        fluidPage(
-          tags$head(
-            tags$style(
+        shiny::fluidPage(
+          htmltools::tags$head(
+            htmltools::tags$style(
               #Change the Validation message for the plot:
-              HTML(
+              htmltools::HTML(
                 "
                 .shiny-output-error-validation {
                 color: #ff0000;
@@ -71,11 +83,11 @@ import_visual_checkServer <-
               )
             )
           ),
-          column(width = 6,
-                 plotOutput(ns("Uebersichtsplot"))
+          shiny::column(width = 6,
+                 shiny::plotOutput(ns("Uebersichtsplot"))
           ),
-          column(width = 6,
-                 gt_output(ns("Spektraldaten"))
+          shiny::column(width = 6,
+                 gt::gt_output(ns("Spektraldaten"))
           )
         )
         })
@@ -83,13 +95,3 @@ import_visual_checkServer <-
     }
 
 # App ---------------------------------------------------------------------
-
-# import_visual_checkApp <- function(lang_setting = "Deutsch") {
-#   ui <- fluidPage(
-#     import_data_checkUI("import")
-#   )
-#   server <- function(input, output, session) {
-#     import_data_checkServer("import")
-#   }
-#   shinyApp(ui, server)
-# }

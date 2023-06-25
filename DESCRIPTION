@@ -12,3 +12,26 @@ RoxygenNote: 7.0.0
 Depends: 
     R (>= 2.10)
 LazyData: true
+Imports: 
+    colorSpec,
+    cowplot,
+    dplyr,
+    ggplot2,
+    ggrepel,
+    ggridges,
+    gt,
+    htmltools,
+    purrr,
+    readr,
+    rlang,
+    scales,
+    shiny,
+    shinyalert,
+    shinydashboard,
+    shinyFeedback,
+    shinyWidgets,
+    stats,
+    stringr,
+    tibble,
+    tidyr,
+    utils

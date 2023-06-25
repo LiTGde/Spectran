@@ -1,2 +1,2 @@
 pkgload::load_all('.')
-analysis_setupApp('Deutsch')
+analysis_setupApp('English')

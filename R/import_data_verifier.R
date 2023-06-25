@@ -3,14 +3,14 @@
 
 import_data_verifierUI <-
   function(id, 
-           lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            label,
            icon,
            class) {
-    tagList(
+    htmltools::tagList(
       #Importbutton
-      actionButton(
-        NS(id, "import"),
+      shiny::actionButton(
+        shiny::NS(id, "import"),
         label = label,
         icon = icon,
         class = class),
@@ -21,7 +21,7 @@ import_data_verifierUI <-
 
 import_data_verifierServer <-
   function(id,
-           lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            Data_ok,
            dat,
            csv_settings,
@@ -29,24 +29,25 @@ import_data_verifierServer <-
            Destination = lang$ui(69),
            Name
            ) {
-    stopifnot(Data_ok %>% is.reactive())
-    stopifnot(dat %>% is.reactive())
-    # stopifnot(csv_settings %>% is.reactive())
-    
-    moduleServer(id, function(input, output, session) {
+    stopifnot(Data_ok %>% shiny::is.reactive())
+    stopifnot(dat %>% shiny::is.reactive())
+
+    shiny::moduleServer(id, function(input, output, session) {
 
       #Set up a container for the spectra to go into, if it isn´t already
       #defined
       if (is.null(Spectrum)){
         Spectrum <- 
-          reactiveValues(Spectrum_raw = NULL, Name = NULL, Destination = NULL)
+          shiny::reactiveValues(
+            Spectrum_raw = NULL, Name = NULL, Destination = NULL
+            )
       }
       
       #Error Message, should the Data be not ok, but people want to proceed:
-      observe({
+      shiny::observe({
         if(!isTRUE(Data_ok())) {
           # obs$suspend()
-          shinyalert(
+          shinyalert::shinyalert(
             lang$server(21), 
             lang$server(22),
             timer = 10000,
@@ -58,14 +59,14 @@ import_data_verifierServer <-
             if(identical(Spectrum$Spectrum, Spectrum$Spectrum_raw) &
                identical(Spectrum$Name, Name()) &
                identical(Spectrum$Destination, Destination)) {
-              shinyalert(
+              shinyalert::shinyalert(
                 "OK", 
                 "Spectrum is already imported", 
                 type = "info"
               )
             }
           else{
-          showNotification(lang$server(23), type = "message", 
+            shiny::showNotification(lang$server(23), type = "message", 
                            duration = 4)
           
           Spectrum$Spectrum_raw <- 
@@ -75,7 +76,7 @@ import_data_verifierServer <-
           }
         }
         
-      }) %>% bindEvent(input$import)
+      }) %>% shiny::bindEvent(input$import)
      
     })
   }

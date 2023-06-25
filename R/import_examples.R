@@ -4,14 +4,14 @@
 import_examplesUI <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = caller_env(n = 1))
+    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
     ) {
-    ns <- NS(id)
+    ns <- shiny::NS(id)
     
     CCT_Daylight <- list(
-      tagList(div(
+      htmltools::tagList(htmltools::div(
         style = "display:inline-block",
-        numericInput(
+        shiny::numericInput(
           ns("CCT_norm"),
           label = lang$ui(72),
           value = 6500,
@@ -22,56 +22,56 @@ import_examplesUI <-
       ),
       " K"))
 
-    examplespectraUI <- map(examplespectra_descriptor, \(x) { x %>% 
-      transmute(id = ns(Name),
+    examplespectraUI <- purrr::map(examplespectra_descriptor, \(x) { x %>% 
+      dplyr::transmute(id = ns(Name),
              title = Beschreibung,
              left = list(list("video", URL)),
              mid = list(list("image", Name)),
              right = list(list("download", download)))})
         
-    tagList(
-      useShinyFeedback(),
-      fluidPage(
-        box(
+    htmltools::tagList(
+      shinyFeedback::useShinyFeedback(),
+      shiny::fluidPage(
+        shinydashboard::box(
           width = 12,
-          p(
+          htmltools::p(
             #general information
             lang$ui(64),
-            a(
+            htmltools::a(
               .noWS = "outside",
               "Jeti Specbos 1201",
               href = "https://www.jeti.com",
               target = "_blank"
             ),
             lang$ui(65),
-            br(),
+            htmltools::br(),
             lang$ui(66),
-            strong(.noWS = "outside", lang$ui(67)),
+            htmltools::strong(.noWS = "outside", lang$ui(67)),
             lang$ui(68)
           ),
           #Setting illuminance
-          column(
+          shiny::column(
             width = 6,
-            div(style = "display:inline-block",
-                numericInput(
-                  ns("illu_eigen"),
-                  lang$ui(70),
-                  value = 100,
-                  min = 0
-                )),
+            htmltools::div(style = "display:inline-block",
+                           shiny::numericInput(
+                            ns("illu_eigen"),
+                             lang$ui(70),
+                             value = 100,
+                             min = 0
+                             )),
             " lux"
           ),
           #Setting the option to download or import
-          column(width = 6,
-                 radioGroupButtons(
-                   ns("down_import"),
+          shiny::column(width = 6,
+                        shinyWidgets::radioGroupButtons(
+                          ns("down_import"),
                    label = "",
                    selected = "Import",
                    choices = c("Download", "Import"),
                    checkIcon = list(
-                     yes = icon("ok", 
+                     yes = shiny::icon("ok", 
                                 lib = "glyphicon"),
-                     no = icon("remove",
+                     no = shiny::icon("remove",
                                lib = "glyphicon"))
                  )
                  )
@@ -86,7 +86,7 @@ import_examplesUI <-
         ),
 
         #Boxes for all other spectra
-        pmap(
+        purrr::pmap(
           examplespectraUI[[lang_setting]],
           import_examples_boxUI,
           lang_setting = lang_setting)
@@ -99,28 +99,30 @@ import_examplesUI <-
 import_examplesServer <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     Spectrum = NULL
     ) {
   
-  moduleServer(id, function(input, output, session) {
+    shiny::moduleServer(id, function(input, output, session) {
     #Set up a container for the spectra to go into, if it isn´t already defined
     if (is.null(Spectrum)){
       Spectrum <- 
-        reactiveValues(Spectrum_raw = NULL, Name = NULL, Destination = NULL)
+        shiny::reactiveValues(
+          Spectrum_raw = NULL, Name = NULL, Destination = NULL
+          )
     }
     
     #Server logic for all spectra except the adjustable Daylight
     #Illuminant
-    pmap(list(
+    purrr::pmap(list(
       id = examplespectra_descriptor[[lang_setting]]$Name,
       examplespectra_descriptor =
         DF2list(examplespectra_descriptor[[lang_setting]])
     ),
     import_examples_boxServer,
     lang_setting = lang_setting,
-    illu_eigen = reactive(input$illu_eigen),
-    down_import = reactive(input$down_import),
+    illu_eigen = shiny::reactive(input$illu_eigen),
+    down_import = shiny::reactive(input$down_import),
     examplespectra = examplespectra,
     Spectrum = Spectrum
     )
@@ -132,18 +134,18 @@ import_examplesServer <-
     import_examples_boxServer(
       id = "norm",
       Spectrum = Spectrum,
-      examplespectra_descriptor = tibble(
-        download = list(list("norm") %>% setNames(lang$ui(71)))),
+      examplespectra_descriptor = tibble::tibble(
+        download = list(list("norm") %>% stats::setNames(lang$ui(71)))),
       lang_setting = lang_setting,
-      illu_eigen = reactive(input$illu_eigen),
-      down_import = reactive(input$down_import),
-      daylight_CCT = reactive(input$CCT_norm) #only necessary for the daylight
-      #spectrum
+      illu_eigen = shiny::reactive(input$illu_eigen),
+      down_import = shiny::reactive(input$down_import),
+      daylight_CCT = shiny::reactive(input$CCT_norm) #only necessary for the
+      #spectrum daylight
     )
 
     # Error message, should the cct be outside the valid area
-    observeEvent(input$CCT_norm, {
-      feedbackDanger("CCT_norm",
+    shiny::observeEvent(input$CCT_norm, {
+      shinyFeedback::feedbackDanger("CCT_norm",
                      !(input$CCT_norm <=25000 & input$CCT_norm >=4000),
                      lang$server(34))
       })
@@ -159,10 +161,10 @@ import_examplesServer <-
 
 import_examplesApp <- function(lang_setting = "Deutsch") {
   
-  ui <- dashboardPage(
-    dashboardHeader(),
-    dashboardSidebar(),
-    dashboardBody(verbatimTextOutput("Data_ok"),
+  ui <- shinydashboard::dashboardPage(
+    shinydashboard::dashboardHeader(),
+    shinydashboard::dashboardSidebar(),
+    shinydashboard::dashboardBody(shiny::verbatimTextOutput("Data_ok"),
                   import_examplesUI("examples")
                   )
        
@@ -170,13 +172,13 @@ import_examplesApp <- function(lang_setting = "Deutsch") {
   server <- function(input, output, session) {
 
     Spectrum <- import_examplesServer("examples")
-    output$Data_ok <- renderPrint({
+    output$Data_ok <- shiny::renderPrint({
       {
         print(Spectrum$Name)
         print(Spectrum$Destination)
-        Spectrum$Spectrum_raw %>% head()
+        Spectrum$Spectrum_raw %>% utils::head()
         }
     })
     }
-  shinyApp(ui, server)
+  shiny::shinyApp(ui, server)
 }

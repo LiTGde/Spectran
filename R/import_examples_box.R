@@ -6,16 +6,16 @@ box_filling <-
   function(
     id, 
     filling, 
-    lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     title = NULL) {
-    ns <- NS(id)
+    ns <- shiny::NS(id)
     #Give an empty frame if it is NULL or filling[[2]] is NA
     if (any(is.null(filling), is.na(filling[[2]]))) {}
     else {
       switch (filling[[1]],
               #paste 1(!) image, with the filename in filling[[2]]
               image = 
-                img(
+                htmltools::img(
                   width = "100%", 
                   src = 
                     paste0(
@@ -25,7 +25,7 @@ box_filling <-
                   ),
               #paste 1(!) video, with the video URL in filling[[2]]
               video =
-                tags$video(
+                htmltools::tags$video(
                   src = filling[[2]],
                   width = "100%",
                   type = "video/mp4",
@@ -34,7 +34,7 @@ box_filling <-
               #paste as many Download buttons as there are in the named 
               #character vector of filling[[2]].
               download = {
-                uiOutput(ns("download"))
+                shiny::uiOutput(ns("download"))
                 },
               #if nothing fits, then filling[[2]] is just put in - it needs to
               #be a list around tagList, if there is more than one element
@@ -45,31 +45,33 @@ box_filling <-
 
 import_examples_boxUI <-
   function(id, 
-           lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+           lang_setting = get(
+             "lang_setting", envir = rlang::caller_env(n = 1)
+             ),
            title = "",
            left = NULL,
            mid = NULL,
            right = NULL) {
-    ns <- NS(id)
+    ns <- shiny::NS(id)
     #creating an empty box hull, where the user decides what goes into the parts
-    tagList(
-      box(
+    htmltools::tagList(
+      shinydashboard::box(
         width = 12,
         collapsible = TRUE,
         solidHeader = FALSE,
         collapsed = TRUE,
         title = title,
-        column(
+        shiny::column(
           width = 4,
           align = "center",
           box_filling(id, left)
         ),
-        column(
+        shiny::column(
           width = 4, 
           align = "center",
           box_filling(id, mid)
         ),
-        column(
+        shiny::column(
           align = "center",
           width = 4,
           box_filling(id, right, title = title)
@@ -82,7 +84,9 @@ import_examples_boxUI <-
 
 import_examples_boxServer <-
   function(id,
-           lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+           lang_setting = get(
+             "lang_setting", envir = rlang::caller_env(n = 1)
+             ),
            Spectrum = NULL,
            examplespectra = NULL,
            examplespectra_descriptor = NULL,
@@ -90,18 +94,20 @@ import_examples_boxServer <-
            down_import,
            daylight_CCT = NULL
            ) {
-    stopifnot(!(examplespectra_descriptor %>% is.reactive()))
-    stopifnot(!(examplespectra %>% is.reactive()))
-    stopifnot(illu_eigen %>% is.reactive())
-    stopifnot(down_import %>% is.reactive())
+    stopifnot(!(examplespectra_descriptor %>% shiny::is.reactive()))
+    stopifnot(!(examplespectra %>% shiny::is.reactive()))
+    stopifnot(illu_eigen %>% shiny::is.reactive())
+    stopifnot(down_import %>% shiny::is.reactive())
     
-    moduleServer(id, function(input, output, session) {
+    shiny::moduleServer(id, function(input, output, session) {
 
       #Set up a container for the spectra to go into, if it isn´t already
       #defined
       if (is.null(Spectrum)){
         Spectrum <- 
-          reactiveValues(Spectrum_raw = NULL, Name = NULL, Destination = NULL)
+          shiny::reactiveValues(
+            Spectrum_raw = NULL, Name = NULL, Destination = NULL
+            )
       }
       
       #Data Preparation for the dynamic UI
@@ -109,10 +115,10 @@ import_examples_boxServer <-
       
       #Render a Downloadbutton or an Importbutton
       selector <- function(func) {
-        output$download <- renderUI({
+        output$download <- shiny::renderUI({
           ns <- session$ns
           if(length(filling[[2]]) <= 3) {
-            pmap(
+            purrr::pmap(
               list(
                 paste0(
                   ns(filling[[2]])
@@ -121,15 +127,15 @@ import_examples_boxServer <-
                 class = "butt"
               ),
               func
-            ) %>% map(p)
+            ) %>% purrr::map(p)
           }
           else {
-            tagList(
-              pickerInput(
+            htmltools::tagList(
+              shinyWidgets::pickerInput(
                 inputId = ns("choose_from_many"),
                 label = lang$ui(170),
                 choices = filling[[2]],
-                selected = isolate(input$choose_from_many)
+                selected = shiny::isolate(input$choose_from_many)
               ),
               func(ns("save_from_many"),
                    label = 
@@ -147,11 +153,11 @@ import_examples_boxServer <-
         )
       
       #Apply the correct function for generating the buttons
-      observe({
+      shiny::observe({
         # switch(down_import(),
         #      Import = selector(actionButton),
         #      Download = selector(downloadButton))
-        switch(NS(down_import(), CIE),
+        switch(shiny::NS(down_import(), CIE),
              'Download-Measurement' = selector(downloadButton),
              Download = selector(downloadButton),
              selector(actionButton))
@@ -163,7 +169,8 @@ import_examples_boxServer <-
 
         Data <- 
           examplespectra[[CIE]] %>%
-          select(Wellenlaenge, .env$name)  %>% mutate(
+          dplyr::select(Wellenlaenge, .env$name)  %>% 
+          dplyr::mutate(
             Wellenlaenge = as.integer(Wellenlaenge)
           )
         Data[[2]] <- Data[[2]]*illu_eigen()
@@ -173,10 +180,12 @@ import_examples_boxServer <-
 
       #Function that creates a shinyAlert when trying to Download a CIE Spectrum
       CIE_download <- function(name){
-        shinyalert(
+        shinyalert::shinyalert(
           lang$server(134),
-          tagList(p(lang$server(133)),br(),
-                  downloadButton(session$ns(name), class = "btn-lg")),
+          htmltools::tagList(htmltools::p(lang$server(133)),htmltools::br(),
+                             shiny::downloadButton(
+                               session$ns(name), class = "btn-lg")
+                             ),
           type = "info",
           timer = 10000,
           html = TRUE,
@@ -189,19 +198,19 @@ import_examples_boxServer <-
       save_from_one <- function() {
 
         #Ready the Dataframe by expanding
-        dataframe <- examplespectra_descriptor %>% unnest(
+        dataframe <- examplespectra_descriptor %>% tidyr::unnest(
           c(Identifier, Button_Name, Dateinamen))
         
         #feeding the expanded Dataframe into a function that creats an observer
         #the observer decides what to do with a button input depending on 
         #whether it is a CIE Spectrum and Download or Imput are chosen.
-        pmap(list(
+        purrr::pmap(list(
           name = dataframe[["Identifier"]],
           filename = dataframe[["Dateinamen"]],
           Button_Name = dataframe[["Button_Name"]]),
           \(name, filename, Button_Name) {
             
-            observe({
+            shiny::observe({
               #CIE Download:
               if(all(down_import() == "Download",
                      examplespectra_descriptor$embargo)) {
@@ -216,12 +225,12 @@ import_examples_boxServer <-
                 }
                 Spectrum$Destination <- lang$ui(69)
               }
-            }) %>% bindEvent(input[[name]], ignoreInit = TRUE)
+            }) %>% shiny::bindEvent(input[[name]], ignoreInit = TRUE)
             #All Download
-            output[[name]] <- downloadHandler(
+            output[[name]] <- shiny::downloadHandler(
               filename = paste0(filename, ".csv"),
               content = function(file) {
-                write_csv(dataset_creator(name), file)
+                readr::write_csv(dataset_creator(name), file)
               }
             )
           })
@@ -231,10 +240,10 @@ import_examples_boxServer <-
       save_from_many <- function() {
 
         #Ready the Dataframe by expanding
-        dataframe <- examplespectra_descriptor %>% unnest(
+        dataframe <- examplespectra_descriptor %>% tidyr::unnest(
           c(Identifier, Button_Name, Dateinamen))
         
-        observe({
+        shiny::observe({
           #CIE Download:
           if(all(down_import() == "Download",
                  examplespectra_descriptor$embargo)) {
@@ -245,21 +254,21 @@ import_examples_boxServer <-
           Spectrum$Spectrum_raw <- dataset_creator(input$choose_from_many)
           Spectrum$Name <- 
             dataframe %>% 
-            filter(Identifier == input$choose_from_many) %>%
-            pull(Button_Name) %>% 
+            dplyr::filter(Identifier == input$choose_from_many) %>%
+            dplyr::pull(Button_Name) %>% 
             {paste0(examplespectra_descriptor$Beschreibung, ": ", .)}
           Spectrum$Destination <- lang$ui(69)
           }
-        }) %>% bindEvent(input[["save_from_many"]])
+        }) %>% shiny::bindEvent(input[["save_from_many"]])
         
-          output$save_from_many <- downloadHandler(
+          output$save_from_many <- shiny::downloadHandler(
             filename = function() {
               paste0(dataframe %>% 
-                       filter(Identifier == input$choose_from_many) %>%
-                       pull(Dateinamen), ".csv")
+                       dplyr::filter(Identifier == input$choose_from_many) %>%
+                       dplyr::pull(Dateinamen), ".csv")
               },
             content = function(file) {
-              write_csv(dataset_creator(input$choose_from_many), file)
+              readr::write_csv(dataset_creator(input$choose_from_many), file)
               }
           )
         }
@@ -268,13 +277,14 @@ import_examples_boxServer <-
       #Daylight:
       if(id == "norm") {
         # Creating the Daylight Spectrum:
-        daylight_spectrum <- reactive({
-          Bspdat <- tibble(
+        daylight_spectrum <- shiny::reactive({
+          Bspdat <- tibble::tibble(
             Wellenlaenge = 380:780,
             Bestrahlungsstaerke =
-              daylightSpectra(daylight_CCT(), wavelength = Wellenlaenge)
+              colorSpec::daylightSpectra(
+                daylight_CCT(), wavelength = Wellenlaenge)
             ) %>%
-            mutate(Bestrahlungsstaerke =
+            dplyr::mutate(Bestrahlungsstaerke =
                      unclass(Bestrahlungsstaerke) /
                      Calc_lux(
                        Bestrahlungsstaerke,
@@ -285,26 +295,26 @@ import_examples_boxServer <-
         })
 
         # Daylight Illuminant Download_Name:
-        daylight_name <- reactive({
+        daylight_name <- shiny::reactive({
           paste0(lang$server(33), daylight_CCT(), "K.csv")
         })
         
         #Download for Daylight:
         observe({
         if(down_import() == "Download") {
-        output$norm <- downloadHandler(
+        output$norm <- shiny::downloadHandler(
           filename = daylight_name,
           content = function(file) {
-            write_csv(daylight_spectrum(), file)
+            readr::write_csv(daylight_spectrum(), file)
           }    )
         }
           #Import for Daylight:
         else if (down_import() == "Import"){
-          observe({
+          shiny::observe({
             Spectrum$Spectrum_raw <- daylight_spectrum()
             Spectrum$Name <-  paste0(lang$ui(71), " ",daylight_CCT(), "K")
             Spectrum$Destination <- lang$ui(69)
-          }) %>% bindEvent(input$norm, ignoreInit = TRUE)
+          }) %>% shiny::bindEvent(input$norm, ignoreInit = TRUE)
         }
         })
       }

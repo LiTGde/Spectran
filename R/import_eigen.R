@@ -4,54 +4,54 @@
 import_eigenUI <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = caller_env(n = 1))
+    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
     ) {
 
-    ns <- NS(id)
+    ns <- shiny::NS(id)
     
-    tagList(
-      withMathJax(),
-      fluidPage(
-        br(),
+    htmltools::tagList(
+      shiny::withMathJax(),
+      shiny::fluidPage(
+        htmltools::br(),
         #Starting with an explainer box
-        box(
+        shinydashboard::box(
           width = 12,
-          box(
+          shinydashboard::box(
             title = lang$ui(73),
-            p(
+            htmltools::p(
               lang$ui(74),
-              em(.noWS = "outside", lang$ui(69)),
+              htmltools::em(.noWS = "outside", lang$ui(69)),
               lang$ui(75),
-              em(.noWS = "outside", lang$ui(63)),
+              htmltools::em(.noWS = "outside", lang$ui(63)),
               lang$ui(76),
-              br(),
-              br(),
-              strong(.noWS = "outside", lang$ui(77)),
+              htmltools::br(),
+              htmltools::br(),
+              htmltools::strong(.noWS = "outside", lang$ui(77)),
               lang$ui(78),
-              br(),
-              strong(.noWS = "outside", lang$ui(79)),
+              htmltools::br(),
+              htmltools::strong(.noWS = "outside", lang$ui(79)),
               lang$ui(80),
-              br(),
-              strong(.noWS = "outside", lang$ui(81)),
+              htmltools::br(),
+              htmltools::strong(.noWS = "outside", lang$ui(81)),
               lang$ui(82),
-              br(),
-              strong(.noWS = "outside", lang$ui(83)),
+              htmltools::br(),
+              htmltools::strong(.noWS = "outside", lang$ui(83)),
               lang$ui(84),
-              br(),
-              br(),
-              em(.noWS = "outside", lang$ui(85)),
+              htmltools::br(),
+              htmltools::br(),
+              htmltools::em(.noWS = "outside", lang$ui(85)),
               lang$ui(86), 
-              br(),
-              strong(.noWS = "outside", lang$ui(87))
+              htmltools::br(),
+              htmltools::strong(.noWS = "outside", lang$ui(87))
             ),
             collapsed = TRUE,
             collapsible = TRUE,
             width = 12,
             align = "left"
           ),
-          fluidPage(
+          shiny::fluidPage(
             #choosing which action spectra are shown in the plot
-            checkboxGroupInput(
+            shiny::checkboxGroupInput(
               ns("sensitivitaeten"),
               label = lang$ui(88),
               choiceNames = c(unname(Specs$Alpha$names),
@@ -61,33 +61,33 @@ import_eigenUI <-
               inline = TRUE
             ),
             #setting an individual illuminance for the resulting spectrum
-            column(
+            shiny::column(
               width = 6,
-              checkboxInput(ns("is_illu_eigen"),
+              shiny::checkboxInput(ns("is_illu_eigen"),
                             lang$ui(90),
                             value = TRUE)
             ),
-            column(width = 6, uiOutput(ns("eigene_Skala"))),
+            shiny::column(width = 6, shiny::uiOutput(ns("eigene_Skala"))),
             #setting a name for the spectrum generated here
-            textInput(ns("name_id"), 
+            shiny::textInput(ns("name_id"), 
                       label = lang$ui(60), 
                       value = lang$ui(61), 
                       width = "80%")),
           import_eigen_plotUI(ns("plot"))
           ),
         #Import Button
-        actionButton(
+        shiny::actionButton(
           ns("uebernahme"),
           lang$ui(91),
           class = "btn-lg",
-          icon("play", lib = "glyphicon")
+          shiny::icon("play", lib = "glyphicon")
           ),
         "  ",
         #Reset Button
-        actionButton(
+        shiny::actionButton(
           ns("zurueck"),
           lang$ui(92),
-          icon("fast-backward", lib = "glyphicon")
+          shiny::icon("fast-backward", lib = "glyphicon")
           ),
         align = "center"
         )
@@ -99,34 +99,37 @@ import_eigenUI <-
 import_eigenServer <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = caller_env(n = 1)),
+    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     Spectrum = NULL
     ) {
   
-  moduleServer(id, function(input, output, session) {
+    shiny::moduleServer(id, function(input, output, session) {
     
     #Set up a container for the spectra to go into, if it isn´t already defined
     if (is.null(Spectrum)){
       Spectrum <- 
-        reactiveValues(Spectrum_raw = NULL, Name = NULL, Destination = NULL)
+        shiny::reactiveValues(
+          Spectrum_raw = NULL, Name = NULL, Destination = NULL
+          )
     }
     
     eigen_Spectrum <- import_eigen_plotServer("plot",
                             lang_setting = lang_setting,
                             Spectrum = Spectrum,
-                            sensitivitaeten = reactive(input$sensitivitaeten),
-                            default = reactive(input$zurueck),
-                            import = reactive(input$uebernahme))
+                            sensitivitaeten = 
+                              shiny::reactive(input$sensitivitaeten),
+                            default = shiny::reactive(input$zurueck),
+                            import = shiny::reactive(input$uebernahme))
     
     #Show the Scale-Value
-    output$eigene_Skala <- renderUI({
-      req(input$is_illu_eigen)
+    output$eigene_Skala <- shiny::renderUI({
+      shiny::req(input$is_illu_eigen)
       ns <- session$ns
-      fluidRow(
-        div(
+      shiny::fluidRow(
+        htmltools::div(
           style = "display:inline-block",
 
-          numericInput(
+          shiny::numericInput(
             ns("illu_eigen"),
             lang$server(35),
             value = Spectrum$Illu %||% 100,
@@ -135,15 +138,15 @@ import_eigenServer <-
         ),
         " lux")
     })
-    outputOptions(output, "eigene_Skala", suspendWhenHidden = FALSE)
+    shiny::outputOptions(output, "eigene_Skala", suspendWhenHidden = FALSE)
 
     #Change the Name
-    observe({
-      updateTextInput(session, "name_id", value = Spectrum$Name)
+    shiny::observe({
+      shiny::updateTextInput(session, "name_id", value = Spectrum$Name)
     })
 
     #Import the Spectrum
-    observe ({
+    shiny::observe ({
       Ev <- 
         eigen_Spectrum()$Bestrahlungsstaerke %>% 
         Calc_lux(Specs$AS_wide, Specs$Efficacy)
@@ -157,7 +160,7 @@ import_eigenServer <-
                   !is.null((Spectrum$Spectrum)))) {
         Spectrum$Spectrum_raw <-
           eigen_Spectrum() %>%
-          mutate(
+          dplyr::mutate(
             Bestrahlungsstaerke =
             Bestrahlungsstaerke*max(Spectrum$Spectrum$Bestrahlungsstaerke)
           )
@@ -169,16 +172,16 @@ import_eigenServer <-
       Spectrum$Destination <- lang$ui(69)
       Spectrum$Name <- input$name_id
       
-    }) %>% bindEvent(input$uebernahme)
+    }) %>% shiny::bindEvent(input$uebernahme)
     
     #Remove Scaling when Importing a spectrum for adjustment
-    observe({
+    shiny::observe({
       if(all((Spectrum$Destination) == lang$ui(94),
              !is.null((Spectrum$Spectrum)))) {
         
-        updateCheckboxInput(session, "is_illu_eigen", value = FALSE)
+        shiny::updateCheckboxInput(session, "is_illu_eigen", value = FALSE)
       }
-    }) %>% bindEvent(Spectrum$Destination, Spectrum$Spectrum)
+    }) %>% shiny::bindEvent(Spectrum$Destination, Spectrum$Spectrum)
     
     
     #Return Value
@@ -191,10 +194,10 @@ import_eigenServer <-
 
 import_eigenApp <- function(lang_setting = "Deutsch") {
   
-  ui <- dashboardPage(
-    dashboardHeader(),
-    dashboardSidebar(),
-    dashboardBody(verbatimTextOutput("Data_ok"),
+  ui <- shinydashboard::dashboardPage(
+    shinydashboard::dashboardHeader(),
+    shinydashboard::dashboardSidebar(),
+    shinydashboard::dashboardBody(shiny::verbatimTextOutput("Data_ok"),
                   import_eigenUI("eigen")
                   )
        
@@ -202,15 +205,15 @@ import_eigenApp <- function(lang_setting = "Deutsch") {
   server <- function(input, output, session) {
 
     Spectrum <- import_eigenServer("eigen", lang_setting = lang_setting)
-    output$Data_ok <- renderPrint({
+    output$Data_ok <- shiny::renderPrint({
       {
         print(cat("Developer Troubleshoot\n"))
         print(Spectrum$Name)
         print(Spectrum$Destination)
         print(Spectrum$Other)
-        Spectrum$Spectrum_raw %>% head()
+        Spectrum$Spectrum_raw %>% utils::head()
         }
     })
     }
-  shinyApp(ui, server)
+  shiny::shinyApp(ui, server)
 }
