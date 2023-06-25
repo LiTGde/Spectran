@@ -30,14 +30,21 @@ analysis_setupServer <-
     
     #Create a Table that already contains some base information
     Table <- shiny::reactive({
+      req(Spectrum$Spectrum,
+          Spectrum$Destination == lang$ui(69))
       temp <- Specs$Plot
       temp$Efficacy <- Specs$Efficacy %>% unlist()
       temp$Adjec <- names(temp$Efficacy)
       temp <- temp %>% 
         dplyr::mutate(
           E = purrr::map_dbl(Names, Spec_int, spectrum = Spectrum$Spectrum),
-               Ev = E * temp$Efficacy[Adjec])
+          Ev = E * temp$Efficacy[Adjec])
       temp
+    })
+    
+    #What is the maximum irradiance. This is used as a scaling-factor
+    shiny::observe({
+      Spectrum$maxE <- Spectrum$Spectrum$Bestrahlungsstaerke %>% max()*1000
     })
 
     #Return Value
@@ -55,8 +62,9 @@ analysis_setupApp <- function(lang_setting = "Deutsch") {
     shinydashboard::dashboardSidebar(),
     shinydashboard::dashboardBody(
       shiny::verbatimTextOutput("Data_ok"),
-      shiny::actionButton("action", label = "Go", class = "btn-lg"),
-      analysis_setupUI("setup")
+      # shiny::actionButton("action", label = "Go", class = "btn-lg"),
+      analysis_setupUI("setup"),
+      analysis_radioUI("radio")
       )
     )
   server <- function(input, output, session) {
@@ -69,15 +77,25 @@ analysis_setupApp <- function(lang_setting = "Deutsch") {
     Spectrum <- 
       shiny::reactiveValues(Spectrum = test.spectrum, 
                      Name = "Test", 
-                     Destination = "Import")
+                     Destination = lang$ui(69))
     
-    Table <- analysis_setupServer("setup",Spectrum = Spectrum)
+    Table <- analysis_setupServer("setup",
+                                  lang_setting = lang_setting,
+                                  Spectrum = Spectrum)
+    
+    analysis_radioServer("radio", 
+                         lang_setting = lang_setting,
+                         Spectrum = Spectrum)
     
     output$Data_ok <- shiny::renderPrint({
       {
+        print(Spectrum$maxE)
+        print(Spectrum$Name)
+        print(Spectrum$Destination)
+        print(Spectrum$radiometric)
         Table()
         }
-    }) %>% shiny::bindEvent(input$action, ignoreInit = TRUE)
+    })
     }
   shiny::shinyApp(ui, server)
 }

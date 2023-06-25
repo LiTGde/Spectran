@@ -15,11 +15,20 @@ Spectran <- function(lang_setting = "Deutsch", ...) {
         dashboardSidebar(),
         dashboardBody(
             verbatimTextOutput("Data_ok"),
-            importUI("import")
+            tabsetPanel(
+                tabPanel(title = "Import",
+                         importUI("import")),
+                tabPanel(title = "analysis",
+                         analysisUI("analysis"))
+            )
+            
         ))
     
     server <- function(input, output, session) {
         Spectrum <- importServer("import")
+        
+        analysisServer("analysis", lang_setting = lang_setting,
+                       Spectrum = Spectrum)
         
         output$Data_ok <- renderPrint({
             print("Developer Troubleshoot\n")
