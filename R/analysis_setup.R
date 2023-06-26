@@ -4,7 +4,7 @@
 analysis_setupUI <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = caller_env(n = 1))
+    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
     ) {
     ns <- shiny::NS(id)
     htmltools::tagList()
@@ -44,6 +44,7 @@ analysis_setupServer <-
     
     #What is the maximum irradiance. This is used as a scaling-factor
     shiny::observe({
+      req(Spectrum$Spectrum)
       Spectrum$maxE <- Spectrum$Spectrum$Bestrahlungsstaerke %>% max()*1000
     })
 

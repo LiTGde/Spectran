@@ -91,12 +91,12 @@ import_dataUI <- function(
     shiny::fluidRow(
       import_data_verifierUI(shiny::NS(id, "importbutn"), 
                         label = lang$ui(62),
-                        icon = icon("play", lib = "glyphicon"),
+                        icon = shiny::icon("play", lib = "glyphicon"),
                         class = "btn-lg"),
       #Adjusting the Spectrum:
       import_data_verifierUI(shiny::NS(id, "adjustbutn"), 
                         label = lang$ui(63),
-                        icon = icon("wrench", lib = "glyphicon"),
+                        icon = shiny::icon("wrench", lib = "glyphicon"),
                         class = "btn"),
       width = 12,
       align = "center"
@@ -154,8 +154,7 @@ import_dataServer <-
                      dec = csv_settings()$decimal,
                      skip = csv_settings()$row_nr, 
                      header = csv_settings()$header
-                     ),
-            silent = TRUE
+                     )
             )
       temp
     })
@@ -166,18 +165,19 @@ import_dataServer <-
     shiny::observe({
       dat({
         shiny::req(
-        dat0(), cancelOutput = TRUE
+        is.data.frame(dat0()), cancelOutput = TRUE
       )
       temp <- dat0()
       if(dplyr::between(csv_settings()$x_y2, 1, ncol(temp))){
         if(shiny::isTruthy(
-          is.numeric(temp[[csv_settings()$x_y2]]) & 
+          is.numeric(temp[[csv_settings()$x_y2]]) &
           csv_settings()$multiplikator > 0)){
           #Multiplying irradiance with the multiplikator, if it is numeric
-          temp[, csv_settings()$x_y2] <- 
+          temp[, csv_settings()$x_y2] <-
             temp[, csv_settings()$x_y2]*csv_settings()$multiplikator
           #Setting values < 0 to zero
-          temp[temp[[csv_settings()$x_y2]] < 0 , csv_settings()$x_y2] <- 0
+          temp[(temp[[csv_settings()$x_y2]] < 0 & !is.na(temp[[2]])) , 
+               csv_settings()$x_y2] <- 0
         }
       }
       temp
@@ -188,7 +188,7 @@ import_dataServer <-
     shiny::observe({
       if(Spectrum$Destination == lang$ui(69)) {
       dat(Spectrum$Spectrum)
-      importfile(Spectrum$Name)
+      # importfile(Spectrum$Name)
       }
     }) %>% shiny::bindEvent(Spectrum$Spectrum)
     

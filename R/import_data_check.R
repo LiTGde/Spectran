@@ -91,7 +91,7 @@ import_data_checkServer <-
       
       #setting the flag
       shiny::observe({
-        shiny::req(importfile())
+        shiny::req(dat())
         if(
           all(
             shiny::isTruthy(

@@ -67,7 +67,7 @@ Plot <- function(
     {
       if (length(Sensitivity) != 0) {
         ggrepel::geom_label_repel(
-          data = Specs$Plot %>% filter(Names %in% Sensitivity),
+          data = Specs$Plot %>% dplyr::filter(Names %in% Sensitivity),
           ggplot2::aes(
             x = Peak,
             y = Spectrum$maxE,
@@ -188,7 +188,7 @@ create_table <- function(
   #data selection
   Spectrum[[Table]] %>% dplyr::select(!c("Formelzeichen")) %>%
     #table generation
-    gt::gt(rowname_col = "Größe") %>% 
+    gt::gt(rowname_col = "Groesse") %>% 
     gt::opt_align_table_header(align = "left") %>%
     gt::tab_header(title = htmltools::strong(Spectrum$Name),
                    subtitle = subtitle) %>% 

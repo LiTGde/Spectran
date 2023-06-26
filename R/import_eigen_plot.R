@@ -189,7 +189,7 @@ import_eigen_plotServer <-
       if(
         ShinyTrue(all(
             nrow(Anzahl) == 0 & 
-            input$plot_click$x %>% between(380, 780) ,
+            input$plot_click$x %>% dplyr::between(380, 780) ,
             input$plot_click$y <= 1
             ))
         ){

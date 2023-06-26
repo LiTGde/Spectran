@@ -2,7 +2,7 @@
 # UI ----------------------------------------------------------------------
 
 analysis_radioUI <- function(
-    id, lang_setting = get("lang_setting", envir = caller_env(n = 1))) {
+    id, lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))) {
   
   ns <- shiny::NS(id)
   
@@ -55,17 +55,17 @@ analysis_radioServer <-
                  Spectrum$Destination == lang$ui(69))
       Spectrum$radiometric <- tibble::tribble(
       #columns
-      ~Größe, ~Zeichen, ~Formelzeichen, 
+      ~Groesse, ~Zeichen, ~Formelzeichen, 
       ~Wert, ~Einheit,
       #Irradiance
       lang$server(40), "E<sub>e</sub>", "E_e", 
-      sum(Spectrum$Spectrum$Bestrahlungsstaerke*1000), "mW/m²",
+      sum(Spectrum$Spectrum$Bestrahlungsstaerke*1000), "mW/m\u00b2",
       #peak wavelength
       lang$server(41), "&lambda;<sub>Emax</sub>", "lambda_Emax", 
       LambdaMax(Spectrum$Spectrum), "nm",
       #photon flux density
       lang$server(42), "N<sub>P</sub>", "N_P", 
-      sum(PD(Spectrum$Spectrum[[1]], Spectrum$Spectrum[[2]])), "quanta/(cm²*s)"
+      sum(PD(Spectrum$Spectrum[[1]], Spectrum$Spectrum[[2]])), "quanta/(cm\u00b2*s)"
     )
     })
 
