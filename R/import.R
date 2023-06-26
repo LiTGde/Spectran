@@ -7,6 +7,7 @@ importUI <- function(
     ) {
   htmltools::tagList(
     shiny::withMathJax(),
+    htmltools::h3("Import"),
     shiny::tabsetPanel(id = shiny::NS(id, "inTabset"),
                 shiny::tabPanel(
                          title = lang$ui(69),

@@ -1,2 +1,2 @@
 pkgload::load_all('.')
-Spectran('Deutsch')
+analysisApp('English')

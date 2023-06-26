@@ -8,7 +8,35 @@ analysisUI <-
     ) {
     ns <- shiny::NS(id)
     htmltools::tagList(
-                       analysis_radioUI(ns("radio"))
+      #heading
+      htmltools::h3(lang$ui(23)),
+      #tabs with ui
+      shiny::tabsetPanel(
+        shiny::tabPanel(id = "radiometrie",
+                 title = lang$ui(119),
+                 analysis_radioUI(ns("radio"))),
+        shiny::tabPanel(id = "photometrie",
+                 title = lang$ui(120),
+                 analysis_photoUI(ns("photo"))),
+        shiny::tabPanel(id = "alphaopie",
+                 title = paste0(Specs$Alpha.ico, lang$ui(121)),
+                 analysis_radioUI(ns("alpha"))),
+        shiny::tabPanel(id = "alter",
+                 title = lang$ui(122),
+                 analysis_radioUI(ns("age"))),
+        selected = lang$ui(119)
+      ),
+      #continue to export
+      shiny::fluidRow(
+        shiny::actionButton(
+          "zu_Export",
+          label = lang$ui(123),
+          class = "btn-lg",
+          shiny::icon("play", lib = "glyphicon")
+        ),
+        width = 12,
+        align = "center"
+      )
                        )
   }
 
@@ -28,6 +56,10 @@ analysisServer <-
                          Spectrum = Spectrum)
     
     analysis_radioServer("radio", 
+                         lang_setting = lang_setting,
+                         Spectrum = Spectrum)
+    
+    analysis_photoServer("photo", 
                          lang_setting = lang_setting,
                          Spectrum = Spectrum)
     

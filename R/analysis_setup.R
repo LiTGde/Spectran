@@ -63,9 +63,8 @@ analysis_setupApp <- function(lang_setting = "Deutsch") {
     shinydashboard::dashboardSidebar(),
     shinydashboard::dashboardBody(
       shiny::verbatimTextOutput("Data_ok"),
-      # shiny::actionButton("action", label = "Go", class = "btn-lg"),
-      analysis_setupUI("setup"),
-      analysis_radioUI("radio")
+      shiny::actionButton("action", label = "Go", class = "btn-lg"),
+      analysis_setupUI("setup")
       )
     )
   server <- function(input, output, session) {
@@ -83,10 +82,6 @@ analysis_setupApp <- function(lang_setting = "Deutsch") {
     Table <- analysis_setupServer("setup",
                                   lang_setting = lang_setting,
                                   Spectrum = Spectrum)
-    
-    analysis_radioServer("radio", 
-                         lang_setting = lang_setting,
-                         Spectrum = Spectrum)
     
     output$Data_ok <- shiny::renderPrint({
       {
