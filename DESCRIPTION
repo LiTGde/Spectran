@@ -16,6 +16,7 @@ Imports:
     colorSpec,
     cowplot,
     dplyr,
+    gghighlight,
     ggplot2,
     ggrepel,
     ggridges,
@@ -31,9 +32,12 @@ Imports:
     shinyalert,
     shinydashboard,
     shinyFeedback,
+    shinyjs,
     shinyWidgets,
     stats,
     stringr,
     tibble,
     tidyr,
-    utils
+    tidyselect,
+    utils,
+    withr

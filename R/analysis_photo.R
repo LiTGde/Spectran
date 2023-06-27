@@ -8,19 +8,34 @@ analysis_photoUI <- function(
   
   htmltools::tagList(
     shiny::withMathJax(),
-      shiny::checkboxGroupInput(
-        ns("sensitivitaeten"),
-        label = lang$ui(95),
-        choiceNames = c(
-          unname(Specs$Alpha$names),
-            paste(lang$ui(89), Specs$Vlambda)
-          ),
-        choiceValues = unname(Specs$Plot$Names),
-        inline = TRUE
-      ),
-      #Übersichtsplot des Spektrums und Tabelle
-      shiny::plotOutput(ns("plot"), height = "350px"),
-      gt::gt_output(ns("table"))
+    shinyjs::useShinyjs(),
+    #Inputs
+    shiny::checkboxInput(
+      ns("Sensitivity"), 
+      label = paste0(lang$ui(96), " ", Specs$Vlambda, lang$ui(97)), 
+      width = "100%"
+    ),
+    shiny::checkboxInput(
+      ns("Hintergrund"),
+      label = lang$ui(168),
+      value = FALSE,
+      width = "100%"
+    ),
+    shiny::checkboxInput(
+      ns("CIE_grenzen"),
+      label = lang$ui(98),
+      value = TRUE,
+      width = "100%"
+    ),
+    shiny::checkboxInput(
+      ns("Testfarben"),
+      label = tags$p(lang$ui(99), id=ns("r_label")),
+      value = FALSE,
+      width = "100%"
+    ),
+    #Outputs
+    shiny::plotOutput(ns("plot"), height = "350px"),
+    gt::gt_output(ns("table"))
   )
 }
 
@@ -30,78 +45,141 @@ analysis_photoServer <-
   function(id, 
            lang_setting = get("lang_setting", 
                               envir = rlang::caller_env(n = 1)
-                              ),
-           Spectrum = NULL
-           ) {
-  
-  shiny::moduleServer(id, function(input, output, session) {
+           ),
+           Analysis,
+           feed,
+           Name
+  ) {
     
-    #Plot
-    output$plot <- shiny::renderPlot({
-      shiny::req(Spectrum$Spectrum,
-          Spectrum$Destination == lang$ui(69))
+    shiny::moduleServer(id, function(input, output, session) {
       
-      Plot(Spectrum = Spectrum, 
-           Sensitivity = input$sensitivitaeten, 
-           subtitle = lang$server(39),
-           lang_setting)
+      #Warning message, if no color-rendering index can be shown
+      shiny::observe({
+        shiny::req(Analysis$Settings$Spectrum,
+                   cS$cS)
+        
+        input$CIE_grenzen
+        input$Testfarben
+        checkbox_update("Testfarben",
+                        sum(cS$CRI == 0),
+                        lang_setting)
+      })
       
-      } ,height = 350)
-    shiny::outputOptions(output, "plot", suspendWhenHidden = FALSE)
+      #package is needed for the S3 object to work properly
+      withr::local_package("colorSpec")
+      
+      #Color Rendering preparation
+      CRI <- tibble::tibble(Testfarbe = paste0("R", 1:14),
+                            CRI = 0) %>% 
+        dplyr::mutate(Testfarbe = factor(Testfarbe, levels = rev(Testfarbe)))
+      
+      #ColorSpec Object
+      cS <- shiny::reactiveValues(cs = NULL, CRI = CRI)
+      
+      shiny::observe({
+        shiny::req(Analysis$Settings$Spectrum)
+        cS$cS <- cS_object(Analysis$Settings$Spectrum)
+      })
+      
 
-    #create an (internal) Table
-    shiny::observe({
-      shiny::req(Spectrum$Spectrum,
-                 Spectrum$Destination == lang$ui(69))
-      Spectrum$radiometric <- tibble::tribble(
-      #columns
-      ~Groesse, ~Zeichen, ~Formelzeichen, 
-      ~Wert, ~Einheit,
-      #Irradiance
-      lang$server(40), "E<sub>e</sub>", "E_e", 
-      sum(Spectrum$Spectrum$Bestrahlungsstaerke*1000), "mW/m\u00b2",
-      #peak wavelength
-      lang$server(41), "&lambda;<sub>Emax</sub>", "lambda_Emax", 
-      LambdaMax(Spectrum$Spectrum), "nm",
-      #photon flux density
-      lang$server(42), "N<sub>P</sub>", "N_P", 
-      sum(PD(Spectrum$Spectrum[[1]], Spectrum$Spectrum[[2]])), "quanta/(cm\u00b2*s)"
-    )
-    })
-
-    #Creates a Table for Radiometry
-    table_rad <- function(...){
-      create_table(...) %>% 
-        gt::tab_footnote(
-          footnote = lang$server(44),
-          locations = gt::cells_stub(rows = lang$server(40))
-        ) %>%
-        gt::tab_footnote(
-          footnote = lang$server(45),
-          locations = gt::cells_stub(rows = lang$server(41))
-        ) %>%
-        gt::tab_footnote(
-          footnote = lang$server(46),
-          locations = gt::cells_stub(rows = lang$server(42))
-        ) %>%
-        gt::tab_source_note(
-          source_note = lang$server(47)
+      #Collect Plotsettings
+      shiny::observe({
+        shiny::req(Analysis$Settings$Spectrum,
+                   cS$cS)
+        
+        Plotdata <- list(
+          Spectrum = Analysis$Settings$Spectrum,
+          Spectrum_Name = Analysis$Settings$Spectrum_Name,
+          maxE = Analysis$Settings$general$Emax[[1]],
+          Sensitivity = ifelse(input$Sensitivity, Name, NA),
+          Sensitivity_Spectrum = Analysis$Settings$general$Ewtd[[6]],
+          subtitle = lang$server(53),
+          alpha = ifelse(input$Hintergrund, 0.85, 0),
+          lang_setting = lang_setting,
+          Second_plot = input$Testfarben,
+          CRI = cS$CRI
         )
-    }
+        
+        Analysis[[ns_plot(feed)]]$args <- Plotdata
+        Analysis[[ns_plot(feed)]]$fun <- "Plot_Combi"
+        
+      })
+      
+      #Plot generation
+      output$plot <- shiny::renderPlot({
+        shiny::req(Analysis[[ns_plot(feed)]])
+        
+        do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
 
-    # Table (Output for Radiometry)
-    output$table <- gt::render_gt({
-      shiny::req(Spectrum$radiometric)
-      table_rad(Spectrum = Spectrum, 
-                Table = "radiometric",
-                subtitle = lang$server(39),
-                Breite = 100,
-                cols_scientific = c(3),
-                lang_setting = lang_setting)
-    }, height = 300)
-    shiny::outputOptions(output, "table", suspendWhenHidden = FALSE)
+      } ,height = 350)
+      shiny::outputOptions(output, "plot", suspendWhenHidden = FALSE)
+      
+      #create an (internal) Table
+      shiny::observe({
+        shiny::req(Analysis$Settings$Spectrum,
+                   cS$cS)
+        
+        CRI_val <- cS$cS %>% CRI(input$CIE_grenzen)
 
-  })
-}
+        Analysis[[ns_table(feed)]]$internal <- tibble::tribble(
+          #columns
+          ~Groesse, ~Zeichen, ~Formelzeichen,
+          ~Wert, ~Einheit,
+          #Illuminance
+          lang$server(54), "E<sub>v</sub>", "E_v",
+          Analysis$Settings$general$Ev[Analysis$Settings$general$Names == Name], 
+          "lx",
+          #photometric irradiance
+          lang$server(55),"E<sub>e,v</sub>", "E_e,v",
+          Analysis$Settings$general$E[Analysis$Settings$general$Names == Name]*
+            1000, "mW/m²",
+          #photometric to complete visual irradiance
+          lang$server(56),"E<sub>e,v</sub>/E<sub>e</sub>", "E_e,v/E_e",
+          Analysis$Settings$general$E[Analysis$Settings$general$Names == Name]*
+            1000/sum(Analysis$Settings$Spectrum[[2]]),
+          "",
+          #CCT
+          lang$server(57),"CCT", "CCT",
+          colorSpec::computeCCT(cS$cS, strict = input$CIE_grenzen),
+          "K",
+          # CRI
+          lang$server(52),"R<sub>a</sub>", "R_a", CRI_val, ""
+        )
+
+        #fill in the CRI values from R1 to R14
+        if(!is.na(CRI_val)) {
+          cS$CRI$CRI <-
+            attr(CRI_val, "data")$table4$CRI
+        }
+        else {cS$CRI$CRI <- 0}
+      })
+
+      #create the Settings for the output Table
+      shiny::observe({
+        shiny::req(Analysis[[ns_table(feed)]]$internal)
+        
+        Analysis[[ns_table(feed)]]$output <-
+          list(
+            Table = Analysis[[ns_table(feed)]]$internal,
+            Spectrum_Name = Analysis$Settings$Spectrum_Name,
+            subtitle = lang$server(63),
+            Breite = 100,
+            lang_setting = lang_setting,
+            CIE_grenzen = input$CIE_grenzen
+          )
+        
+        Analysis[[ns_table(feed)]]$fun <- "table_phot"
+        
+      })
+      
+      # Table (Output for Radiometry)
+      output$table <- gt::render_gt({
+        shiny::req(Analysis[[ns_table(feed)]]$output)
+        do.call(Analysis[[ns_table(feed)]]$fun, Analysis[[ns_table(feed)]]$output)
+        })
+      shiny::outputOptions(output, "table", suspendWhenHidden = FALSE)
+
+    })
+  }
 
 # App ---------------------------------------------------------------------

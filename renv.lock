@@ -640,6 +640,23 @@
       ],
       "Hash": "9122b3958e749badb5c939f498038b57"
     },
+    "gghighlight": {
+      "Package": "gghighlight",
+      "Version": "0.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "dplyr",
+        "ggplot2",
+        "ggrepel",
+        "lifecycle",
+        "purrr",
+        "rlang",
+        "tibble"
+      ],
+      "Hash": "7e3fff5855e54692875e6dd5600241de"
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.4.2",
@@ -1700,6 +1717,19 @@
         "utils"
       ],
       "Hash": "e418b532e9bb4eb22a714b9a9f1acee7"
+    },
+    "shinyjs": {
+      "Package": "shinyjs",
+      "Version": "2.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "digest",
+        "jsonlite",
+        "shiny"
+      ],
+      "Hash": "802e4786b353a4bb27116957558548d5"
     },
     "sourcetools": {
       "Package": "sourcetools",

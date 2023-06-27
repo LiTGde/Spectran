@@ -8,6 +8,7 @@ analysis_radioUI <- function(
   
   htmltools::tagList(
     shiny::withMathJax(),
+    #Inputs to the page
       shiny::checkboxGroupInput(
         ns("sensitivitaeten"),
         label = lang$ui(95),
@@ -18,7 +19,7 @@ analysis_radioUI <- function(
         choiceValues = unname(Specs$Plot$Names),
         inline = TRUE
       ),
-      #Übersichtsplot des Spektrums und Tabelle
+      #Outputs
       shiny::plotOutput(ns("plot"), height = "350px"),
       gt::gt_output(ns("table"))
   )
@@ -31,74 +32,86 @@ analysis_radioServer <-
            lang_setting = get("lang_setting", 
                               envir = rlang::caller_env(n = 1)
                               ),
-           Spectrum = NULL
+           Analysis,
+           feed
            ) {
   
   shiny::moduleServer(id, function(input, output, session) {
     
+    shiny::observe({
+      shiny::req(Analysis$Settings$Spectrum)
+      
+      Plotdata <- list(
+        Spectrum = Analysis$Settings$Spectrum,
+        Spectrum_Name = Analysis$Settings$Spectrum_Name,
+        maxE = Analysis$Settings$general$Emax[[1]],
+        Sensitivity = input$sensitivitaeten,
+        subtitle = lang$server(39),
+        lang_setting = lang_setting
+      )
+      
+      Analysis[[ns_plot(feed)]]$args <- Plotdata
+      Analysis[[ns_plot(feed)]]$fun <- "Plot_Main"
+    })
+    
     #Plot
     output$plot <- shiny::renderPlot({
-      shiny::req(Spectrum$Spectrum,
-          Spectrum$Destination == lang$ui(69))
-      
-      Plot(Spectrum = Spectrum, 
-           Sensitivity = input$sensitivitaeten, 
-           subtitle = lang$server(39),
-           lang_setting)
-      
+      shiny::req(Analysis[[ns_plot(feed)]])
+
+      do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
+
       } ,height = 350)
     shiny::outputOptions(output, "plot", suspendWhenHidden = FALSE)
 
+    
     #create an (internal) Table
     shiny::observe({
-      shiny::req(Spectrum$Spectrum,
-                 Spectrum$Destination == lang$ui(69))
-      Spectrum$radiometric <- tibble::tribble(
+      shiny::req(Analysis$Settings$Spectrum)
+      
+      Analysis[[ns_table(feed)]]$internal <- tibble::tribble(
       #columns
-      ~Groesse, ~Zeichen, ~Formelzeichen, 
+      ~Groesse, ~Zeichen, ~Formelzeichen,
       ~Wert, ~Einheit,
       #Irradiance
-      lang$server(40), "E<sub>e</sub>", "E_e", 
-      sum(Spectrum$Spectrum$Bestrahlungsstaerke*1000), "mW/m\u00b2",
+      lang$server(40), "E<sub>e</sub>", "E_e",
+      sum(Analysis$Settings$Spectrum[[2]]), "mW/m\u00b2",
       #peak wavelength
-      lang$server(41), "&lambda;<sub>Emax</sub>", "lambda_Emax", 
-      LambdaMax(Spectrum$Spectrum), "nm",
+      lang$server(41), "&lambda;<sub>Emax</sub>", "lambda_Emax",
+      LambdaMax(Analysis$Settings$Spectrum), "nm",
       #photon flux density
-      lang$server(42), "N<sub>P</sub>", "N_P", 
-      sum(PD(Spectrum$Spectrum[[1]], Spectrum$Spectrum[[2]])), "quanta/(cm\u00b2*s)"
+      lang$server(42), "N<sub>P</sub>", "N_P",
+      sum(
+        PD(Analysis$Settings$Spectrum[[1]],
+           Analysis$Settings$Spectrum[[2]])), "quanta/(cm\u00b2*s)"
     )
     })
-
-    #Creates a Table for Radiometry
-    table_rad <- function(...){
-      create_table(...) %>% 
-        gt::tab_footnote(
-          footnote = lang$server(44),
-          locations = gt::cells_stub(rows = lang$server(40))
-        ) %>%
-        gt::tab_footnote(
-          footnote = lang$server(45),
-          locations = gt::cells_stub(rows = lang$server(41))
-        ) %>%
-        gt::tab_footnote(
-          footnote = lang$server(46),
-          locations = gt::cells_stub(rows = lang$server(42))
-        ) %>%
-        gt::tab_source_note(
-          source_note = lang$server(47)
+      
+    #create the Settings for the output Table
+      shiny::observe({
+        shiny::req(Analysis[[ns_table(feed)]]$internal)
+        
+        Analysis[[ns_table(feed)]]$output <-
+        list(
+          Table = Analysis[[ns_table(feed)]]$internal,
+          Spectrum_Name = Analysis$Settings$Spectrum_Name,
+          subtitle = lang$server(39),
+          Breite = 100,
+          cols_scientific = c(3),
+          lang_setting = lang_setting
         )
-    }
+        
+        Analysis[[ns_table(feed)]]$fun <- "table_rad"
+        
+    })
+
 
     # Table (Output for Radiometry)
     output$table <- gt::render_gt({
-      shiny::req(Spectrum$radiometric)
-      table_rad(Spectrum = Spectrum, 
-                Table = "radiometric",
-                subtitle = lang$server(39),
-                Breite = 100,
-                cols_scientific = c(3),
-                lang_setting = lang_setting)
-    }, height = 300)
+      shiny::req(Analysis[[ns_table(feed)]]$output)
+      
+      do.call(Analysis[[ns_table(feed)]]$fun, Analysis[[ns_table(feed)]]$output)
+
+            })
     shiny::outputOptions(output, "table", suspendWhenHidden = FALSE)
 
   })

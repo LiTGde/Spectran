@@ -20,14 +20,16 @@ analysisUI <-
                  analysis_photoUI(ns("photo"))),
         shiny::tabPanel(id = "alphaopie",
                  title = paste0(Specs$Alpha.ico, lang$ui(121)),
-                 analysis_radioUI(ns("alpha"))),
+                 analysis_alphaUI(ns("alpha"))),
         shiny::tabPanel(id = "alter",
                  title = lang$ui(122),
-                 analysis_radioUI(ns("age"))),
-        selected = lang$ui(119)
+                 analysis_ageUI(ns("age"))),
+        selected = lang$ui(122)
+        # selected = lang$ui(119)
       ),
       #continue to export
       shiny::fluidRow(
+        htmltools::br(),
         shiny::actionButton(
           "zu_Export",
           label = lang$ui(123),
@@ -51,18 +53,36 @@ analysisServer <-
   
   shiny::moduleServer(id, function(input, output, session) {
 
-    Table <- analysis_setupServer("setup",
-                         lang_setting = lang_setting,
-                         Spectrum = Spectrum)
+    Analysis <- shiny::reactiveValues(Tables = tibble::tibble(),
+                                      Plots = tibble::tibble(),
+                                      Settings = tibble::tibble())
     
-    analysis_radioServer("radio", 
+    analysis_setupServer("setup",
                          lang_setting = lang_setting,
-                         Spectrum = Spectrum)
+                         Spectrum = Spectrum,
+                         Analysis = Analysis)
     
-    analysis_photoServer("photo", 
+    # analysis_radioServer("radio",
+    #                      lang_setting = lang_setting,
+    #                      Analysis = Analysis,
+    #                      feed = "Radiometry")
+    # 
+    # analysis_photoServer("photo",
+    #                      lang_setting = lang_setting,
+    #                      Analysis = Analysis,
+    #                      feed = "V(lambda)",
+    #                      Name = Specs$Plot$Names[[6]])
+
+    # analysis_alphaServer("alpha",
+    #                      lang_setting = lang_setting,
+    #                      Analysis = Analysis)
+    
+    analysis_ageServer("age",
                          lang_setting = lang_setting,
-                         Spectrum = Spectrum)
+                         Analysis = Analysis)
     
+    #Return value
+    Analysis
   })
 }
 
@@ -70,36 +90,50 @@ analysisServer <-
 
 analysisApp <- function(lang_setting = "Deutsch") {
   
+  library(reactlog)
+  
+  # tell shiny to log all reactivity
+  reactlog_enable()
+  
   ui <- shinydashboard::dashboardPage(
     shinydashboard::dashboardHeader(),
     shinydashboard::dashboardSidebar(),
     shinydashboard::dashboardBody(
-      shiny::verbatimTextOutput("Data_ok"),
-      analysisUI("analysis")
+      analysisUI("analysis"),
+      shiny::verbatimTextOutput("Data_ok")
       )
     )
   server <- function(input, output, session) {
-
+    
     test.spectrum <-  
       examplespectra$Measurement %>% 
-      dplyr::select(Wellenlaenge, led) %>% 
-      dplyr::rename(Bestrahlungsstaerke = led)
+      dplyr::select(Wellenlaenge, equ) %>% 
+      dplyr::rename(Bestrahlungsstaerke = 2)
     
     Spectrum <- 
       shiny::reactiveValues(Spectrum = test.spectrum, 
                      Name = "Test", 
                      Destination = lang$ui(69))
     
-    analysisServer("analysis",
+    Analysis <- 
+      analysisServer("analysis",
                    lang_setting = lang_setting,
                    Spectrum = Spectrum)
     
     output$Data_ok <- shiny::renderPrint({
       {
-        print(Spectrum$maxE)
-        print(Spectrum$Name)
-        print(Spectrum$Destination)
-        print(Spectrum$radiometric)
+        # print(Spectrum$maxE)
+        # print(Spectrum$Name)
+        # print(Spectrum$Destination)
+        # print(Spectrum$photometric$table)
+        # print(Spectrum$general)
+        # print(Analysis$Plot)
+        # print(Analysis$Settings)
+        print(Analysis$table_Age$internal)
+        # print(Spectrum$CRI)
+        # print(Spectrum$cS)
+        # print(Spectrum$melanopic$plot)
+        # Spectrum$photometric$plot
         }
     })
     }
