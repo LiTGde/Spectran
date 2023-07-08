@@ -2,10 +2,7 @@
 # UI ----------------------------------------------------------------------
 
 import_csv_settingsUI <-
-  function(id,
-           lang_setting = get(
-             "lang_setting", envir = rlang::caller_env(n = 1)
-             )) {
+  function(id) {
     htmltools::tagList(
       htmltools::h4(lang$ui(36)),
       shiny::splitLayout(
@@ -83,9 +80,7 @@ import_csv_settingsUI <-
 # Server ------------------------------------------------------------------
 
 import_csv_settingsServer <- 
-  function(id, lang_setting = get(
-    "lang_setting", envir = rlang::caller_env(n=1)
-    ),
+  function(id,
            dat0) {
     stopifnot(shiny::is.reactive(dat0))
     

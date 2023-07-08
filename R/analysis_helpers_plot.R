@@ -3,9 +3,7 @@
 Plot_hull <- function(Spectrum, 
                       Spectrum_Name,
                       maxE,
-                      lang_setting = get("lang_setting", 
-                                         envir = rlang::caller_env(n = 1)
-                                         ), size_font = 15) {
+                      size_font = 15) {
   #Plotdata comes from outside the function
   ggplot2::ggplot(data = Spectrum,
                   ggplot2::aes(
@@ -36,11 +34,10 @@ Plot_Main <- function(
     Sensitivity_Spectrum = NULL,
     subtitle, 
     alpha = 1,
-    lang_setting, 
     size_font = 15
     ) {
   #Base plot
-  Plot_hull(Spectrum, Spectrum_Name, maxE, lang_setting, size_font) +
+  Plot_hull(Spectrum, Spectrum_Name, maxE, size_font) +
     ggplot2::labs(subtitle = subtitle) +
     
     #adding a ridgeline with a path
@@ -125,7 +122,7 @@ Plot_Main <- function(
 # }
 
 #Plotfunction for the R-Testcolors
-Plot_Ra <- function(CRI_table, size_font = 15, lang_setting){
+Plot_Ra <- function(CRI_table, size_font = 15){
   ggplot2::ggplot(data = CRI_table, 
                   ggplot2::aes(x=Testfarbe, y = CRI, fill = Testfarbe))+
     ggplot2::geom_bar(stat = "identity", col = "black")+
@@ -139,7 +136,7 @@ Plot_Ra <- function(CRI_table, size_font = 15, lang_setting){
 }
 
 #Plotfunction for the Spectral Irradiances
-Plot_Compare <- function(Sensitivity_Overview, size_font = 15, lang_setting) {
+Plot_Compare <- function(Sensitivity_Overview, size_font = 15) {
   #Setup
   ggplot2::ggplot(
     data = Sensitivity_Overview, 
@@ -172,7 +169,6 @@ Plot_Combi <- function(Spectrum,
                        Sensitivity_Overview,
                        subtitle = NULL,
                        alpha = 1,
-                       lang_setting, 
                        size_font = 15,
                        Second_plot,
                        Name = NULL,
@@ -184,14 +180,12 @@ Plot_Combi <- function(Spectrum,
             Sensitivity_Spectrum = Sensitivity_Spectrum,
             subtitle = subtitle,
             alpha = alpha,
-            lang_setting = lang_setting,
             size_font = size_font)
     
     if(Second_plot == TRUE & !is.null(Name)) {
       p1 +
       Plot_Compare(Sensitivity_Overview = Sensitivity_Overview, 
-              size_font = size_font, 
-              lang_setting = lang_setting) +
+              size_font = size_font) +
         gghighlight::gghighlight(
           label_key = Abbr,
           Names == Name,
@@ -202,68 +196,383 @@ Plot_Combi <- function(Spectrum,
     else if(Second_plot == TRUE) {
       p1 +
       Plot_Ra(CRI_table = CRI,
-              size_font = size_font,
-              lang_setting = lang_setting) +
+              size_font = size_font) +
         patchwork::plot_layout(widths = c(2,1))
     }
   else p1
   
 }
 
-plot_allgemein <- function(name, Beschreibung, Bedingung, Kuerzel3, Bedingung2, col, size_font = 15, Titel = NULL, Bedingung3 = FALSE, Bedingung4 = TRUE) {
-  Typ2 <- Rezeptorkurven[[name]]
-  p1 <- Plot_01(size_font) +
-    labs(subtitle = Beschreibung)+
-    {if(Bedingung4){
-      geom_bar(stat = "identity", aes(col = Wellenlaenge, fill = Wellenlaenge, y = Bestrahlungsstaerke*1000), alpha = 0.03, lwd = 1)}}+
-    geom_ridgeline_gradient(aes(y = 0, height =Bestrahlungsstaerke*1000*Typ2, fill = Wellenlaenge))+
-    geom_path(lwd = 0.75, lty = 5) +
-    geom_path(aes(y = Bestrahlungsstaerke*1000*Typ2), lwd = 1)+
-    {if(Bedingung){
-      geom_path(data = Rezeptorkurven2 %>% filter(Typ %in% name),
-                aes(x=Wellenlaenge, y= rel_Empfindlichkeit*max_E(), group = Typ), col = col, lwd = 0.75)}}+
-    {if(Bedingung){
-      geom_label_repel(data = Bewertung() %>% filter(Bezeichnung %in% name),
-                       aes(x=Peak, y= max_E(), label = Bezeichnung), col = col,
-                       min.segment.length = 0,ylim = c(max_E(), max_E()*1.17), parse = TRUE, size = 4/15*size_font)}}
+#Plot to show age dependency of the pupil
+Plot_age_pup <- function(Age,
+                         size_font = 15){
+  #calculate the coefficient(s)
+  k_pup <- k_pup_fun(Age)
+
+  #draw the plot
+  p1 <- 
+    #draw the function
+    ggplot2::ggplot(data = tibble::tibble(Age = 0:100),
+                    ggplot2::aes(x=Age))+
+    ggplot2::geom_function(fun = k_pup_fun, lwd = 1, xlim = c(0, 200)) +
+    
+    #plotsettings
+    ggplot2::labs(title = lang$server(92))+
+    cowplot::theme_cowplot(font_size = size_font, font_family = "sans") +
+    ggplot2::ylab(label = lang$server(93)) +
+    ggplot2::scale_y_continuous(
+      labels = scales::percent_format(scale = 100)) +
+    ggplot2::scale_x_continuous(breaks=c(0, 25, 32, 50, 75, 100)) +
+    ggplot2::xlab(label = lang$ui(116)) +
+    ggplot2::coord_cartesian(xlim = c(0, 100), ylim = c(0, 1.43)) +
+    
+    #plot annotations
+    ggplot2::annotate(
+      "point", x= 32, y = 1, col = "grey60", size = 5) +
+    ggplot2::annotate(
+      "segment", x= 32, xend = 32, 
+      y = -1, yend = 1, col = "grey60", lty = 5) +
+    ggplot2::annotate(
+      "segment", x= -5, xend = 32, 
+      y = 1, yend = 1, col = "grey60", lty = 5) +
+    ggplot2::annotate(
+      "point", x= Age, y = k_pup_fun(Age), col = "red", size = 5) +
+    ggplot2::annotate(
+      "segment", x= Age, xend = Age,
+      y = -1, yend = k_pup, col = "red", lty = 5) +
+    ggplot2::annotate(
+      "segment", x= -5, xend = Age, 
+      y = k_pup, yend = k_pup, col = "red", lty = 5) +
+    ggplot2::annotate(
+      "label", x= 0, y = k_pup, col = "red",
+      label = paste0(round(k_pup*100,0),"%"), size = 4/15*size_font) +
+    ggplot2::annotate(
+      "label", x= Age, y = 0, col = "red", 
+      label = Age, size = 4/15 * size_font)
+  
+  p1 + patchwork::plot_layout(ncol = 1, nrow= 1)
+}
 
 
-  if(Bedingung2) {
-    p1 +
-      Titel +
-      plot_vergleich(size_font)+
-      gghighlight::gghighlight(
-        Kürzel == Kuerzel3,
-        unhighlighted_params = list(alpha = 0.2, fill = NULL))+
-      plot_layout(widths = c(2,1))}
+#Age-dependent basis plot
+Plot_age_basis <- function(Spectrum, 
+                           Spectrum_Name,
+                           maxE,
+                           plot_multiplier,
+                           subtitle,
+                           size_font = 15) {
+  #Plotdata comes from outside the function
+  ggplot2::ggplot(data = Spectrum,
+                  ggplot2::aes(
+                    x = Wellenlaenge, 
+                    y = Bestrahlungsstaerke * 1000
+                    )
+                  ) +
+    #general settings for the labs
+    ggplot2::labs(x = lang$server(100), title = Spectrum_Name) +
+    ggplot2::labs(subtitle = subtitle) +
+    ggplot2::ylab(
+      bquote(.(lang$server(40)) ~  ~ mW / (m ^ { 2 } * '*' * nm))) +
+    #settings for the scales
+    ggplot2::scale_fill_gradientn(colors = ColorP$regenbogen,
+                                  guide = "none") +
+    ggplot2::scale_x_continuous(breaks = c(400, 500, 600, 700, 780)) +
+    ggplot2::scale_y_continuous(
+      expand = ggplot2::expansion(mult = c(0, .1))) +
+    ggplot2::coord_cartesian(
+      xlim = c(380, 780),
+      ylim = c(0, maxE*1.1*plot_multiplier)) +
+  #settings for the theme
+    cowplot::theme_cowplot(font_size = size_font, font_family = "sans") +
+    ggplot2::theme(
+      legend.position = c(0.955, 0.07),
+      legend.key.width=grid::unit(1.25,"cm"),
+      legend.text.align = 0,
+      legend.justification = c(1,0),
+      legend.background = ggplot2::element_rect(fill = "#FFFFFFDD"))
 
-  else if(Bedingung3){
-    p1 +
-      Titel +
-      plot_testfarben(size_font)+
-      plot_layout(widths = c(2,1))}
+}
+  
+#Adding rigdes with alpha
+Ridges_alpha <- function(plot, y, alpha, alpha_mod) {
 
-  else p1 + Titel
+    if (alpha != 0) {
+      plot <- plot +
+        ggridges::geom_ridgeline_gradient(
+          ggplot2::aes(
+          y = 0,
+          height = {{ y }} * 1000,
+          fill = Wellenlaenge
+        ),
+        col = NA) +
+        ggridges::geom_ridgeline(
+          ggplot2::aes(y = 0,
+                       height = {{ y }} * 1000),
+          fill = "white",
+          alpha = alpha + alpha_mod,
+          col = NA
+        )
+    }
+  
+  plot 
+
+}
+#Adding Outlines
+Outlines_alpha <- function(plot, y, lty, size) {
+
+  plot <- 
+    plot + ggplot2::geom_path(
+        ggplot2::aes(y= {{ y }} *1000, lty = lty, lwd = size))
+  
+  plot 
 
 }
 
-# 
-# Bewertung_Plots <- function(name, ...) {
-#   output[[paste0("Uebersichtsplot_", name)]] <- renderPlot({
-#     req(data(), Plotbreite_temp())
-#     plot_allgemein(name, ...)
-#   },height = 350, width = reactive(Plotbreite_temp()))
-#   outputOptions(output, paste0("Uebersichtsplot_", name), suspendWhenHidden = FALSE)}
+# Age dependent Summary plot
+Plot_age_tot <- function(..., 
+                         maxE,
+                         Spectrum,
+                         Age,
+                         alpha, 
+                         Spectrum_mel_wtd,
+                         Alter_mel,
+                         size_font = 15){
 
+  k_pup <- k_pup_fun(Age)
+  Tau_rel <- Tau_rel_fun(Age)
+
+  p1 <- Plot_age_basis(Spectrum, maxE, ..., size_font)
+  #adding the various ridgelines
+  p1 <- Ridges_alpha(p1, Bestrahlungsstaerke, alpha, 0.1)
+  p1 <- Ridges_alpha(p1, Spectrum_mel_wtd, alpha, -0.1)
+  p1 <- Ridges_alpha(p1, Spectrum_mel_wtd*Tau_rel, alpha, -0.3)
+  p1 <- Ridges_alpha(p1, Spectrum_mel_wtd*Tau_rel*k_pup, 1, -1)
+
+  #adding the various outlines
+  p1 <- Outlines_alpha(p1, Bestrahlungsstaerke, "1", "1")
+  p1 <- Outlines_alpha(p1, Spectrum_mel_wtd, "2", "1")
+  p1 <- Outlines_alpha(p1, Spectrum_mel_wtd*Tau_rel, "3", "1")
+  p1 <- Outlines_alpha(p1, Spectrum_mel_wtd*Tau_rel*k_pup, "4", "2")
+
+  #adding the legend
+  p1 <- p1 +
+    ggplot2::scale_linetype_manual(
+    name = lang$server(82),
+    values = c(
+      "1" = 3,
+      "2" = 4,
+      "3" = 2,
+      "4" = 1
+    ),
+    labels = c(
+      lang$server(83),
+      lang$server(84),
+      paste0(lang$server(85), Age, lang$server(86)),
+      paste0(lang$server(94), Age, lang$server(86))
+    )
+  )+
+    ggplot2::scale_linewidth_manual(
+      values = c(0.75, 1.2),
+      guide = NULL
+    )+
+    ggplot2::guides(
+      linetype=ggplot2::guide_legend(
+        override.aes = list(linewidth=c(0.75, 0.75, 0.75, 1.2))
+      ))
+      
+  #adding the sensitivity Spectrum
+  if(Alter_mel){
+    p1 <- p1 +
+      ggplot2::geom_path(
+        data = Specs$AS_long %>% dplyr::filter(Type %in% "Melanopsin"),
+        ggplot2::aes(x = Wellenlaenge,
+                     y = rel_Sens * Tau_rel * maxE * k_pup),
+        col = Specs$Plot$Col[[1]],
+        lwd = 0.75
+      ) +
+      ggrepel::geom_label_repel(
+        data = Specs$Plot %>% dplyr::filter(Names %in% "Melanopsin"),
+        ggplot2::aes(
+          x = Peak,
+          y = maxE * k_pup * Tau_rel[[111]],
+          label = Names
+        ),
+        col = Specs$Plot$Col[[1]],
+        min.segment.length = 0,
+        ylim = c(maxE, maxE * 1.17),
+        alpha = 0.85,
+        parse = TRUE,
+        size = 4 / 15 * size_font
+      )
+    }
+  p1 + patchwork::plot_layout(ncol = 1, nrow= 1)
+}
+
+# Age dependent Tranmission plot (main plot)
+Plot_age_trans_p1 <- function(..., 
+                         maxE,
+                         Spectrum,
+                         Age,
+                         alpha, 
+                         Spectrum_mel_wtd,
+                         Alter_mel,
+                         Alter_rel,
+                         age_scale,
+                         plot_multiplier,
+                         size_font = 15){
+  Tau_rel <- Tau_rel_fun(Age)
+
+  p1 <- Plot_age_basis(Spectrum, 
+                       maxE, 
+                       plot_multiplier, 
+                       ..., 
+                       size_font)
+  #adding the various ridgelines
+  p1 <- Ridges_alpha(p1, Bestrahlungsstaerke, alpha, 0.1)
+  p1 <- Ridges_alpha(p1, Spectrum_mel_wtd, alpha, -0.1)
+  p1 <- Ridges_alpha(p1, Spectrum_mel_wtd*Tau_rel, 1, -1)
+
+  #adding the various outlines
+  p1 <- Outlines_alpha(p1, Bestrahlungsstaerke, "1", "1")
+  p1 <- Outlines_alpha(p1, Spectrum_mel_wtd, "2", "1")
+  p1 <- Outlines_alpha(p1, Spectrum_mel_wtd*Tau_rel, "3", "2")
+
+  #adding the legend
+  p1 <- p1 +
+    ggplot2::scale_linetype_manual(
+    name = lang$server(82),
+    values = c(
+      "1" = 3,
+      "2" = 4,
+      "3" = 1
+    ),
+    labels = c(
+      lang$server(83),
+      lang$server(84),
+      paste0(lang$server(85), Age, lang$server(86)),
+      paste0(lang$server(94), Age, lang$server(86))
+    )
+  ) +
+    ggplot2::scale_linewidth_manual(
+      values = c(0.75, 1.2),
+      guide = NULL
+    )+
+    ggplot2::guides(
+      linetype=ggplot2::guide_legend(
+        override.aes = list(linewidth=c(0.75, 0.75, 1.2))
+      ))
+      
+  #adding the sensitivity Spectrum
+  if(Alter_mel){
+    p1 <- p1 +
+      ggplot2::geom_path(
+        data = Specs$AS_long %>% dplyr::filter(Type %in% "Melanopsin"),
+        ggplot2::aes(x = Wellenlaenge,
+                     y = rel_Sens * Tau_rel * maxE),
+        col = Specs$Plot$Col[[1]],
+        lwd = 0.75
+      ) +
+      ggrepel::geom_label_repel(
+        data = Specs$Plot %>% dplyr::filter(Names %in% "Melanopsin"),
+        ggplot2::aes(
+          x = Peak,
+          y = maxE * Tau_rel[[111]],
+          label = Names
+        ),
+        col = Specs$Plot$Col[[1]],
+        min.segment.length = 0,
+        ylim = c(maxE, maxE * 1.17),
+        alpha = 0.85,
+        parse = TRUE,
+        size = 4 / 15 * size_font
+      )
+  }
+  #conditionally adding a relative transmission spectrum
+  if (Alter_rel) {
+    p1 <- p1 +
+      ggplot2::geom_hline(
+        data = age_scale,
+        ggplot2::aes(yintercept = y),
+        lty = 2, lwd = 0.5, col = "#ff000020"
+      )+
+    ggplot2::geom_path(
+      ggplot2::aes(y = Tau_rel * maxE),
+              col = "red",
+              lwd = 0.75) +
+    ggplot2::geom_label(
+        data = age_scale,
+        ggplot2::aes(x = x, y = y, label = label),
+        hjust = 0,
+        col = "red",
+        size = 4  /  15  *  size_font
+      ) +
+    ggplot2::annotate(
+        "text",
+        y = maxE  *  0.575  *  plot_multiplier,
+        x  =  364,
+        label = lang$server(87),
+        vjust = 1,
+        col = "red",
+        size = 5  /  15  *  size_font,
+        angle = 90
+      )
+  }
+  
+  p1 + patchwork::plot_layout(ncol = 1, nrow= 1)
+}
+
+#part 2 of the tranmsission plot
+Plot_age_trans_p2 <- function(Age, 
+                              Alter_mel, 
+                              size_font = 15) {
+  Tau <- Tau32 %>% dplyr::mutate(Tau = prerecep_filter(Wellenlaenge, Age))
+  #Plot
+  p1 <-
+    ggplot2::ggplot(
+      data = Tau, 
+      ggplot2::aes(Wellenlaenge, y = Tau)
+      )+
+    ggplot2::geom_path(
+      ggplot2::aes(y=Tau32), lty = 5)+
+    ggplot2::geom_path()+
+    #Styling
+    ggplot2::labs(x = lang$server(100))+
+    ggplot2::ylab(bquote(.(lang$server(99))~paste(tau)[paste(lambda)]))+
+    ggplot2::scale_y_continuous(labels = scales::percent_format(scale = 100))+
+    ggplot2::coord_cartesian(ylim = c(0, 1))+
+    cowplot::theme_cowplot(font_size = 8/15*size_font)+
+    ggplot2::theme(
+      legend.position = "none", 
+      plot.background = ggplot2::element_rect(fill = "#FFFFFF90"))+
+    if(Alter_mel){
+      ggplot2::geom_density(
+        stat = "identity", 
+        data = Specs$AS_long %>% dplyr::filter(Type %in% "Melanopsin"),
+        ggplot2::aes(x=Wellenlaenge, y= rel_Sens), 
+        fill = Specs$Plot$Col[[1]], alpha = 0.3, col = NA, lwd = 0.75)}
+  p1
+}
+
+#Combine the plots
+Plot_age_trans <- function(..., 
+                           Alter_inset, 
+                           Age, 
+                           Alter_mel, 
+                           size_font = 15) {
+  Plot_age_trans_p1(..., 
+                    size_font = size_font, 
+                    Age = Age, 
+                    Alter_mel = Alter_mel) +
+    {if(Alter_inset) {
+      patchwork::inset_element(
+        Plot_age_trans_p2(Age, Alter_mel, size_font), 
+        left = 0.75, bottom = 0.65, right = 0.98, top = 0.98, align_to = "full")
+    }
+  else patchwork::plot_layout(ncol = 1, nrow= 1)}
+}
 
 # #Nimmt das Plot-Resizing wieder vor, sobald sich die Fensterbreite ändert
 # observeEvent(input$dimension, {obs$resume()})
-
-#     #Spektraldaten
-#     Spectral_data <- reactive({
-#       req(data())
-#       colorSpec(data = data()$Bestrahlungsstaerke, wavelength = data()$Wellenlaenge, specnames = spec_name())
-#     })
 
 #     #Container für die Breite der Ausgabeplots
 #     Plotbreite_temp <- reactiveVal(value = 500)

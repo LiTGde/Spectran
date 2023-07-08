@@ -5,7 +5,6 @@
 
 import_verifierServer <-
   function(id,
-           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            Spectrum = NULL
            ) {
 
@@ -26,6 +25,7 @@ import_verifierServer <-
                 "OK", 
                 lang$server(28), 
                 type = "success",
+                # timer = 10000,
                 showConfirmButton = if(Spectrum$Destination == lang$ui(94)) {
                   TRUE
                 }

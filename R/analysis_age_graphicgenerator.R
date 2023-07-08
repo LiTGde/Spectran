@@ -5,8 +5,6 @@
 
 analysis_age_graphicgeneratorServer <- 
   function(id, 
-           lang_setting = get("lang_setting", 
-                              envir = rlang::caller_env(n = 1)),
            Analysis,
            Alter_mel,
            Hintergrund,
@@ -24,7 +22,7 @@ analysis_age_graphicgeneratorServer <-
         shiny::req(Analysis$Settings$general)
          age_scale <-
            tibble::tibble(
-             x = 375,
+             x = 380,
              y = Analysis$Settings$general$Emax[[1]] *
                c(0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2),
              label = 
@@ -32,59 +30,61 @@ analysis_age_graphicgeneratorServer <-
            )
          
          Analysis$plot_Age$age_scale <- age_scale
-         
       })
-      # 
-      # output$Alters_plot <- renderPlot({
-      #   req(data(), Plotbreite_temp())
-      #   plot_alter_trans_shiny()
-      # },height = 450, width = reactive(Plotbreite_temp()))
-      # outputOptions(output, "Alters_plot", suspendWhenHidden = FALSE)
-      # 
-      # #Tabelle mit dem Korrektufaktor für die Transmissionsgradänderung im Alter
-      # 
-      # 
-      # output$Alters_plot2 <- renderPlot({
-      #   req(data(), Plotbreite_temp())
-      #   plot_alter_pup() + plot_layout(ncol = 1, nrow= 1)
-      # },height = 350, width = reactive(Plotbreite_temp()))
-      # outputOptions(output, "Alters_plot2", suspendWhenHidden = FALSE)
-      # 
-      # 
-      # 
-      # 
-      # output$Alters_plot3 <- renderPlot({
-      #   req(data(),Plotbreite_temp())
-      #   plot_alter_ges() + plot_layout(ncol = 1, nrow= 1)
-      #   
-      # },height = 450, width = reactive(Plotbreite_temp()))
-      # outputOptions(output, "Alters_plot3", suspendWhenHidden = FALSE)
-      # 
-      # 
-       
-       
-       
+      
       # Collect Plotsettings
+      
       # Pupil
-      # shiny::observe({
-      #   shiny::req(Analysis$Settings$Spectrum)
-      # 
-      #   Plotdata <- list(
-      #     Spectrum = Analysis$Settings$Spectrum,
-      #     Spectrum_Name = Analysis$Settings$Spectrum_Name,
-      #     maxE = Analysis$Settings$general$Emax[[1]],
-      #     Sensitivity = ifelse(Sensitivity(), Name, NA),
-      #     Sensitivity_Spectrum = Analysis$Settings$general$Ewtd[[index]],
-      #     Sensitivity_Overview = Analysis$Settings$general,
-      #     subtitle = Specs$Alpha$descriptions[[lang_setting]][[index]],
-      #     alpha = ifelse(Hintergrund(), 0.85, 0),
-      #     lang_setting = lang_setting,
-      #     Second_plot = Vergleich(),
-      #     Name = Name
-      #   )
-      #   Analysis[[ns_plot(feed)]]$args <- Plotdata
-      #   Analysis[[ns_plot(feed)]]$fun <- "Plot_Combi"
-      # })
+      shiny::observe({
+        shiny::req(Analysis$Settings$Spectrum)
+
+        Plotdata <- list(
+          Age = Alter())
+        Analysis[[ns_plot("Pupil")]]$args <- Plotdata
+        Analysis[[ns_plot("Pupil")]]$fun <- "Plot_age_pup"
+      })
+      
+      # Transmission
+      shiny::observe({
+        shiny::req(Analysis$Settings$Spectrum)
+
+        Plotdata <- list(
+          Spectrum = Analysis$Settings$Spectrum,
+          Spectrum_Name = Analysis$Settings$Spectrum_Name,
+          maxE = Analysis$Settings$general$Emax[[1]],
+          plot_multiplier = plot_multiplier(),
+          subtitle = paste0(lang$server(95), Alter(), lang$server(96)),
+          Age = Alter(),
+          Spectrum_mel_wtd = Analysis$Settings$general$Ewtd[[1]],
+          Alter_mel = Alter_mel(),
+          age_scale = Analysis$plot_Age$age_scale,
+          Alter_inset = Alter_inset(),
+          Alter_rel = Alter_rel(),
+          alpha = ifelse(Hintergrund(), 0.85, 0)
+        )
+        
+        Analysis[[ns_plot("Transmission")]]$args <- Plotdata
+        Analysis[[ns_plot("Transmission")]]$fun <- "Plot_age_trans"
+      })
+      
+      # Summary
+      shiny::observe({
+        shiny::req(Analysis$Settings$Spectrum)
+
+        Plotdata <- list(
+          Spectrum = Analysis$Settings$Spectrum,
+          Spectrum_Name = Analysis$Settings$Spectrum_Name,
+          maxE = Analysis$Settings$general$Emax[[1]],
+          plot_multiplier = plot_multiplier(),
+          subtitle = paste0(lang$server(95), Alter(), lang$server(96)),
+          Age = Alter(),
+          Spectrum_mel_wtd = Analysis$Settings$general$Ewtd[[1]],
+          Alter_mel = Alter_mel(),
+          alpha = ifelse(Hintergrund(), 0.85, 0)
+        )
+        Analysis[[ns_plot("Summary")]]$args <- Plotdata
+        Analysis[[ns_plot("Summary")]]$fun <- "Plot_age_tot"
+      })
       
       #Create a table for all the pupil output
       shiny::observe({
@@ -142,7 +142,6 @@ analysis_age_graphicgeneratorServer <-
                Spectrum_Name = Analysis$Settings$Spectrum_Name,
                subtitle = lang$server(91),
                Breite = 100,
-               lang_setting = lang_setting,
                slice = 2)
 
         Analysis[[ns_table("Pupil")]]$fun <- "table_age"
@@ -157,7 +156,6 @@ analysis_age_graphicgeneratorServer <-
                Spectrum_Name = Analysis$Settings$Spectrum_Name,
                subtitle = lang$server(90),
                Breite = 100,
-               lang_setting = lang_setting,
                slice = 3)
 
         Analysis[[ns_table("Transmission")]]$fun <- "table_age"
@@ -172,7 +170,6 @@ analysis_age_graphicgeneratorServer <-
                Spectrum_Name = Analysis$Settings$Spectrum_Name,
                subtitle = lang$server(98),
                Breite = 100,
-               lang_setting = lang_setting,
                slice = 1:5)
 
         Analysis[[ns_table("Summary")]]$fun <- "table_age"

@@ -2,12 +2,15 @@
 # UI ----------------------------------------------------------------------
 
 analysis_radioUI <- function(
-    id, lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))) {
+    id
+    ) {
   
   ns <- shiny::NS(id)
   
   htmltools::tagList(
     shiny::withMathJax(),
+    shiny::fluidRow(
+      shinydashboard::box( width = 12,
     #Inputs to the page
       shiny::checkboxGroupInput(
         ns("sensitivitaeten"),
@@ -17,27 +20,35 @@ analysis_radioUI <- function(
             paste(lang$ui(89), Specs$Vlambda)
           ),
         choiceValues = unname(Specs$Plot$Names),
-        inline = TRUE
+        inline = TRUE,
+        selected = c(Specs$Plot$Names[c(1,6)])
       ),
       #Outputs
       shiny::plotOutput(ns("plot"), height = "350px"),
       gt::gt_output(ns("table"))
-  )
+  )))
 }
 
 # Server ------------------------------------------------------------------
 
 analysis_radioServer <- 
   function(id, 
-           lang_setting = get("lang_setting", 
-                              envir = rlang::caller_env(n = 1)
-                              ),
            Analysis,
            feed
            ) {
   
   shiny::moduleServer(id, function(input, output, session) {
     
+    #checking the sensitivity box, when export demands it
+    shiny::observe({
+      shiny::updateCheckboxGroupInput(
+        session, "sensitivitaeten", selected = 
+          if(Analysis$action_spectra) unname(Specs$Plot$Names)
+        else NA
+        )
+    }) %>% shiny::bindEvent(Analysis$action_spectra, ignoreInit = TRUE)
+    
+    #creating all the plotdata settings
     shiny::observe({
       shiny::req(Analysis$Settings$Spectrum)
       
@@ -46,8 +57,7 @@ analysis_radioServer <-
         Spectrum_Name = Analysis$Settings$Spectrum_Name,
         maxE = Analysis$Settings$general$Emax[[1]],
         Sensitivity = input$sensitivitaeten,
-        subtitle = lang$server(39),
-        lang_setting = lang_setting
+        subtitle = lang$server(39)
       )
       
       Analysis[[ns_plot(feed)]]$args <- Plotdata
@@ -96,9 +106,8 @@ analysis_radioServer <-
           Spectrum_Name = Analysis$Settings$Spectrum_Name,
           subtitle = lang$server(39),
           Breite = 100,
-          cols_scientific = c(3),
-          lang_setting = lang_setting
-        )
+          cols_scientific = c(3)
+          )
         
         Analysis[[ns_table(feed)]]$fun <- "table_rad"
         

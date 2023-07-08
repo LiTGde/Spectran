@@ -5,7 +5,7 @@ run_app <- function(lang_setting = NULL) {
   if (!is.null(lang_setting)) {
     usethis::write_over(
       paste0(system.file("app", package = "Spectran"), "/app.R"), 
-      paste0("pkgload::load_all('.')\nanalysisApp('", lang_setting, "')"),
+      paste0("pkgload::load_all('.')\nSpectran('", lang_setting, "')"),
       quiet = TRUE
       )
   }

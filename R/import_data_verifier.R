@@ -3,7 +3,6 @@
 
 import_data_verifierUI <-
   function(id, 
-           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            label,
            icon,
            class) {
@@ -21,13 +20,13 @@ import_data_verifierUI <-
 
 import_data_verifierServer <-
   function(id,
-           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            Data_ok,
            dat,
            csv_settings,
            Spectrum = NULL,
            Destination = lang$ui(69),
-           Name
+           Name,
+           Raw_Spectrum
            ) {
     stopifnot(Data_ok %>% shiny::is.reactive())
     stopifnot(dat %>% shiny::is.reactive())
@@ -56,12 +55,12 @@ import_data_verifierServer <-
         }
         #Data preparation steps should the Data be ok
         else {
-            if(identical(Spectrum$Spectrum, Spectrum$Spectrum_raw) &
+            if(identical(Raw_Spectrum(), Spectrum$Spectrum_raw) &
                identical(Spectrum$Name, Name()) &
                identical(Spectrum$Destination, Destination)) {
               shinyalert::shinyalert(
                 "OK", 
-                "Spectrum is already imported", 
+                lang$server(135), 
                 type = "info"
               )
             }
@@ -72,8 +71,9 @@ import_data_verifierServer <-
           Spectrum$Spectrum_raw <- 
             dat()[, c(csv_settings()$x_y, csv_settings()$x_y2)]
           Spectrum$Destination <- Destination
-          Spectrum$Name <- Name()
+          Spectrum$Name <- Name_suffix(Spectrum$Origin, Name())
           }
+          Spectrum$Other <- list(Spectrum$Spectrum, Spectrum$Spectrum_raw)
         }
         
       }) %>% shiny::bindEvent(input$import)

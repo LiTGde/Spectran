@@ -30,7 +30,7 @@ LambdaMax <- function(Spectrum) {
 }
 
 #function that deactivates the operation of checkboxes
-checkbox_update <- function(name, test, lang_setting) {
+checkbox_update <- function(name, test) {
   #changes when no CRI can be calculated
   if(test) {
     shinyjs::disable(name)

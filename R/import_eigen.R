@@ -3,16 +3,13 @@
 
 import_eigenUI <- 
   function(
-    id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
-    ) {
+    id) {
 
     ns <- shiny::NS(id)
     
     htmltools::tagList(
       shiny::withMathJax(),
-      shiny::fluidPage(
-        htmltools::br(),
+      shiny::fluidRow(
         #Starting with an explainer box
         shinydashboard::box(
           width = 12,
@@ -75,6 +72,7 @@ import_eigenUI <-
                       width = "80%")),
           import_eigen_plotUI(ns("plot"))
           ),
+      shiny::fluidRow(
         #Import Button
         shiny::actionButton(
           ns("uebernahme"),
@@ -92,6 +90,7 @@ import_eigenUI <-
         align = "center"
         )
     )
+    )
     }
 
 # Server ------------------------------------------------------------------
@@ -99,7 +98,6 @@ import_eigenUI <-
 import_eigenServer <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     Spectrum = NULL
     ) {
   
@@ -114,7 +112,6 @@ import_eigenServer <-
     }
     
     eigen_Spectrum <- import_eigen_plotServer("plot",
-                            lang_setting = lang_setting,
                             Spectrum = Spectrum,
                             sensitivitaeten = 
                               shiny::reactive(input$sensitivitaeten),
@@ -123,7 +120,7 @@ import_eigenServer <-
     
     #Show the Scale-Value
     output$eigene_Skala <- shiny::renderUI({
-      shiny::req(input$is_illu_eigen)
+      shiny::req(input$is_illu_eigen == TRUE)
       ns <- session$ns
       shiny::fluidRow(
         htmltools::div(
@@ -150,27 +147,37 @@ import_eigenServer <-
       Ev <- 
         eigen_Spectrum()$Bestrahlungsstaerke %>% 
         Calc_lux(Specs$AS_wide, Specs$Efficacy)
-
+      
+      Spectrum$Other <- 
+      
       if(input$is_illu_eigen) {
         Spectrum$Spectrum_raw <-  
           eigen_Spectrum() %>% 
-          mutate(Bestrahlungsstaerke = Bestrahlungsstaerke/Ev*input$illu_eigen)
+          dplyr::mutate(
+            Bestrahlungsstaerke = Bestrahlungsstaerke/Ev*input$illu_eigen)
       }      
-      else if (all((Spectrum$Destination) == lang$ui(94),
-                  !is.null((Spectrum$Spectrum)))) {
+      else if (
+        all(
+          !is.null(Spectrum$Spectrum)
+          )
+        ) {
         Spectrum$Spectrum_raw <-
           eigen_Spectrum() %>%
           dplyr::mutate(
             Bestrahlungsstaerke =
-            Bestrahlungsstaerke*max(Spectrum$Spectrum$Bestrahlungsstaerke)
+            Bestrahlungsstaerke*Spectrum$Emax_orig
           )
       }
       else {
-        Spectrum$Spectrum_raw <- eigen_Spectrum()/Ev*100
+        Spectrum$Spectrum_raw <- 
+          eigen_Spectrum() %>% 
+          dplyr::mutate(
+            Bestrahlungsstaerke = Bestrahlungsstaerke/Ev*100)
       }
       
+      Spectrum$Origin <- "Construction"
       Spectrum$Destination <- lang$ui(69)
-      Spectrum$Name <- input$name_id
+      Spectrum$Name <- Name_suffix(Spectrum$Origin, input$name_id)
       
     }) %>% shiny::bindEvent(input$uebernahme)
     
@@ -194,6 +201,14 @@ import_eigenServer <-
 
 import_eigenApp <- function(lang_setting = "Deutsch") {
   
+  #add a resource path to the www folder
+  shiny::addResourcePath(
+    "extr", system.file("app/www", package = "Spectran"))
+  # on.exit(shiny::removeResourcePath("extr"), add = TRUE)
+  
+  #set the language for the program
+  the$language <- lang_setting
+  
   ui <- shinydashboard::dashboardPage(
     shinydashboard::dashboardHeader(),
     shinydashboard::dashboardSidebar(),
@@ -204,7 +219,7 @@ import_eigenApp <- function(lang_setting = "Deutsch") {
       )
   server <- function(input, output, session) {
 
-    Spectrum <- import_eigenServer("eigen", lang_setting = lang_setting)
+    Spectrum <- import_eigenServer("eigen")
     output$Data_ok <- shiny::renderPrint({
       {
         print(cat("Developer Troubleshoot\n"))

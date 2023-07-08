@@ -1,0 +1,61 @@
+#Sidebar
+UI_Sidebar <- function() {
+  shinydashboard::dashboardSidebar(
+  width = 190,
+  shinydashboard::sidebarMenu(
+    id = "inTabset",
+    htmltools::br(),
+    htmltools::p(
+      htmltools::img(
+        width = "135px", src = "extr/Logo.png"),
+      align = "center"),
+    # htmltools::br(),
+    shinydashboard::menuItem(lang$ui(1),
+                             tabName = "tutorial",
+                             icon = shiny::icon("circle-info")),
+    htmltools::br(),
+    shinydashboard::menuItem("Import",
+                             tabName = "import",
+                             icon = shiny::icon("file-import")
+    ),
+    shinydashboard::menuItem(lang$ui(23),
+                             tabName = "analysis",
+                             icon = shiny::icon(
+                               "magnifying-glass-chart")
+    ),
+    shinydashboard::menuItem(
+      "Export",
+      tabName = "export",
+      icon = shiny::icon("file-export"),
+      selected = TRUE
+    ), 
+    htmltools::br(),
+    shinydashboard::menuItem(
+      lang$ui(153),
+      tabName = "validity",
+      icon = shiny::icon("file-circle-check")
+    ),
+    shinydashboard::menuItem(
+      lang$ui(158),
+      tabName = "impressum",
+      icon = shiny::icon("user", lib = "glyphicon")
+    )
+  )
+  )
+}
+
+#Header
+UI_Header <- function() {
+shinydashboard::dashboardHeader(
+  title = "Spectral Analysis",
+  titleWidth = 190,
+  htmltools::tags$li(
+    class = "dropdown",
+    htmltools::a(htmltools::HTML(
+      paste0(
+        shiny::icon("envelope"), "  Feedback")
+    ),
+    href = "mailto:spectran@litg.de")
+  )
+)
+}

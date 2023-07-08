@@ -1,0 +1,16 @@
+citHeader("To cite Spectran in publications use:")
+
+citEntry(
+  entry    = "Misc",
+  title    = "Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams",
+  author   = "Johannes Zauner",
+  journal  = "",
+  year     = 2023,
+  volume   = "",
+  number   = "",
+  pages    = "",
+  url      = "https://litg.shinyapps.io/Spectran/",
+  textVersion = paste(
+  "Zauner, J. (2023); Deutsche Lichttechnische Gesellschaft e.V.; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litg.shinyapps.io/Spectran/"
+  )
+)

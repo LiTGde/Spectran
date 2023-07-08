@@ -2,37 +2,42 @@
 # UI ----------------------------------------------------------------------
 
 analysis_alphaUI <- function(
-    id, lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))) {
+    id
+    ) {
 
   ns <- shiny::NS(id)
   
   alpha_list <- list(Name = Specs$Alpha$names,
-                     id = ns(Specs$Alpha$names),
-                     lang_setting = lang_setting)
+                     id = ns(Specs$Alpha$names))
   alpha_list <- alpha_list %>% purrr::pmap(analysis_alpha2UI)
   alpha_list[["id"]] <- ns("alpha")
   
   htmltools::tagList(
+    shiny::fluidRow(
+      shinydashboard::box( width = 12,
     #Inputs
     shiny::checkboxInput(
-      ns("Sensitivity"), label = lang$ui(95), width = "100%"),
+      ns("Sensitivity"), 
+      label = lang$ui(95), 
+      width = "100%",
+      value = TRUE),
     shiny::checkboxInput(ns("Vergleich"), label = lang$ui(100), width = "100%"),
     shiny::checkboxInput(
       ns("Hintergrund"),
       label = lang$ui(168),
-      value = FALSE,
+      value = TRUE,
       width = "100%"
     ),
     #Tabset with individual sets
     do.call(shiny::tabsetPanel, alpha_list)
+    )
+    )
   )
 }
 
 analysis_alpha2UI <- function(
     id, 
-    Name, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
-    ) {
+    Name) {
   
   ns <- shiny::NS(id)
   #Outputs
@@ -47,20 +52,22 @@ analysis_alpha2UI <- function(
 # Server ------------------------------------------------------------------
 
 analysis_alphaServer <- 
-  function(id, 
-           lang_setting = get("lang_setting", 
-                              envir = rlang::caller_env(n = 1)
-           ),
-            Analysis
+  function(id,
+           Analysis
   ) {
     
     shiny::moduleServer(id, function(input, output, session) {
+      
+      #checking the sensitivity box, when export demands it
+      shiny::observe({
+        shiny::updateCheckboxInput(
+          session, "Sensitivity", value = Analysis$action_spectra)
+      }) %>% shiny::bindEvent(Analysis$action_spectra, ignoreInit = TRUE)
       
       #create the module servers
       purrr::map(1:5, \(i) {
       analysis_alpha2Server(id = Specs$Alpha$names[[i]],
                             Analysis = Analysis,
-                            lang_setting = lang_setting,
                             feed = Specs$Alpha$names[[i]],
                             Name = Specs$Alpha$names[[i]],
                             index = i,
@@ -73,9 +80,6 @@ analysis_alphaServer <-
 
 analysis_alpha2Server <- 
   function(id, 
-           lang_setting = get("lang_setting", 
-                              envir = rlang::caller_env(n = 1)
-           ),
            Analysis,
            feed,
            Name,
@@ -98,9 +102,8 @@ analysis_alpha2Server <-
           Sensitivity = ifelse(Sensitivity(), Name, NA),
           Sensitivity_Spectrum = Analysis$Settings$general$Ewtd[[index]],
           Sensitivity_Overview = Analysis$Settings$general,
-          subtitle = Specs$Alpha$descriptions[[lang_setting]][[index]],
+          subtitle = Specs$Alpha$descriptions[[the$language]][[index]],
           alpha = ifelse(Hintergrund(), 0.85, 0),
-          lang_setting = lang_setting,
           Second_plot = Vergleich(),
           Name = Name
         )
@@ -114,13 +117,13 @@ analysis_alpha2Server <-
         do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
 
       } ,height = 350)
-      shiny::outputOptions(output, "plot", suspendWhenHidden = FALSE)
+      shiny::outputOptions(output, "plot", suspendWhenHidden = TRUE)
 
       #create an (internal) Table
       shiny::observe({
         shiny::req(Analysis$Settings$Spectrum)
         
-        adjective <- Specs$Alpha$adjectives[[lang_setting]][[index]]
+        adjective <- Specs$Alpha$adjectives[[the$language]][[index]]
         Werte <- Analysis$Settings$general %>% dplyr::filter(Names %in% Name)
 
         Analysis[[ns_table(feed)]]$internal <- tibble::tribble(
@@ -156,9 +159,8 @@ analysis_alpha2Server <-
         Analysis[[ns_table(feed)]]$output <-
           list(Table = Analysis[[ns_table(feed)]]$internal,
                Spectrum_Name = Analysis$Settings$Spectrum_Name,
-               subtitle = Specs$Alpha$descriptions[[lang_setting]][[index]],
+               subtitle = Specs$Alpha$descriptions[[the$language]][[index]],
                Breite = 100,
-               lang_setting = lang_setting,
                index = index)
         
         Analysis[[ns_table(feed)]]$fun <- "table_alph"

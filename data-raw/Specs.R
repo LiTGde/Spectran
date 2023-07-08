@@ -66,4 +66,4 @@ Specs <- list(
 names(Specs) <- 
   c("AS_wide", "AS_long", "Efficacy", "Alpha", "Vlambda", "Alpha.ico","Plot")
 
-usethis::use_data(Specs, overwrite = TRUE)
+# usethis::use_data(Specs, overwrite = TRUE)

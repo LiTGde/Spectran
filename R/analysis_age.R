@@ -2,7 +2,7 @@
 # UI ----------------------------------------------------------------------
 
 #UI for all the Settings (put in a dropdown)
-Settings_WidgetUI <- function(id, lang_setting) {
+Settings_WidgetUI <- function(id) {
   ns <- shiny::NS(id)
   htmltools::tagList(
   htmltools::h4(lang$ui(109)),
@@ -10,10 +10,11 @@ Settings_WidgetUI <- function(id, lang_setting) {
   shiny::checkboxInput(
     ns("Alter_mel"),
     label = htmltools::strong(lang$ui(110)),
-    width = "100%"
+    width = "100%",
+    value = TRUE
   ),
   shiny::checkboxInput(
-    ns("Hintergrund3"),
+    ns("Hintergrund"),
     label = lang$ui(169),
     value = TRUE,
     width = "100%"
@@ -44,7 +45,7 @@ Settings_WidgetUI <- function(id, lang_setting) {
 
 
 analysis_ageUI <- function(
-    id, lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))) {
+    id) {
 
   ns <- shiny::NS(id)
   
@@ -52,6 +53,7 @@ analysis_ageUI <- function(
   htmltools::tagList(
     #Inputs
     shiny::fluidRow(
+      shinydashboard::box( width = 12,
       #Heading and explainer
       shinydashboard::box(
         width = 12,
@@ -80,17 +82,15 @@ analysis_ageUI <- function(
         collapsible = TRUE,
         solidHeader = FALSE,
         collapsed = TRUE
-      )
-    ),
+      ),
     #Settings for Age
     shiny::fluidPage(
       align = "center",
       shiny::column(
         width = 2,
-        br(),
+        htmltools::br(),
         shinyWidgets::dropdown(
-          Settings_WidgetUI(
-            id, lang_setting = lang_setting),
+          Settings_WidgetUI(id),
           #Dropdown-Settings
           status = "danger",
           up = FALSE,
@@ -129,14 +129,12 @@ analysis_ageUI <- function(
       selected = lang$ui(118)
     ),
 
-  )
+  ))    )
 }
 
 analysis_age2UI <- function(
     id, 
-    plotheight,
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
-    ) {
+    plotheight) {
   
   ns <- shiny::NS(id)
   #Outputs
@@ -151,18 +149,32 @@ analysis_age2UI <- function(
 
 analysis_ageServer <- 
   function(id, 
-           lang_setting = get("lang_setting", 
-                              envir = rlang::caller_env(n = 1)
-           ),
            Analysis
   ) {
     
     shiny::moduleServer(id, function(input, output, session) {
       
+      #checking the sensitivity box, when export demands it
+      shiny::observe({
+        shiny::updateCheckboxInput(
+          session, "Alter_mel", value = Analysis$action_spectra)
+      }) %>% shiny::bindEvent(Analysis$action_spectra)
+      
+      #Set the Age as a global Variable
+      shiny::observe({
+        Analysis$Age <- input$Alter
+      }) %>% shiny::bindEvent(input$Alter)
+      
+      #Set a new age coming from export
+      shiny::observe({
+        if(Analysis$Age != input$Alter) {
+          shiny::updateSliderInput(session, "Alter", value = Analysis$Age)
+        }
+      }) %>% shiny::bindEvent(Analysis$Age)
+      
       # create the module server for calculation
       analysis_age_graphicgeneratorServer(
         "generator",
-        lang_setting,
         Analysis,
         shiny::reactive(input$Alter_mel),
         shiny::reactive(input$Hintergrund),
@@ -177,7 +189,6 @@ analysis_ageServer <-
                   \(i,h) {
       analysis_age2Server(
         id = i,
-        lang_setting = lang_setting,
         Analysis = Analysis,
         feed = i,
         plotheight = h
@@ -188,9 +199,6 @@ analysis_ageServer <-
 
 analysis_age2Server <- 
   function(id, 
-           lang_setting = get("lang_setting", 
-                              envir = rlang::caller_env(n = 1)
-           ),
            Analysis,
            feed,
            plotheight
@@ -204,7 +212,7 @@ analysis_age2Server <-
         do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
 
       } ,height = plotheight)
-      shiny::outputOptions(output, "plot", suspendWhenHidden = FALSE)
+      shiny::outputOptions(output, "plot", suspendWhenHidden = TRUE)
 
       # Table (Output for Radiometry)
       output$table <- gt::render_gt({

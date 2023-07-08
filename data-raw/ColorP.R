@@ -31,4 +31,4 @@ names(Color_Rendering) <- paste0("R", seq_along(Color_Rendering))
 ColorP <- list(regenbogen = regenbogen,
                Color_Rendering = Color_Rendering)
 
-usethis::use_data(ColorP, overwrite = TRUE)
+# usethis::use_data(ColorP, overwrite = TRUE)

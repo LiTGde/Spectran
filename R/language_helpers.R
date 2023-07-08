@@ -8,9 +8,9 @@ lang_sec <- rlang::expr({
     #coming from the function call
     lang_setting <- language_direct
   }
-  else if (exists("lang_setting", envir = rlang::caller_env(n=3))) {
+  else if (exists("language", envir = the)) {
     #coming globally
-    lang_setting <- get("lang_setting", envir = rlang::caller_env(n=3))
+    lang_setting <- the$language
   }
   else
     warning("No language chosen") #warning

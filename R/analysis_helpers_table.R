@@ -82,9 +82,7 @@ create_table <- function(
     Spectrum_Name,
     subtitle,
     Breite = 100, 
-    cols_scientific = NA,
-    lang_setting
-    ){
+    cols_scientific = NA){
   #data selection
   Table %>% dplyr::select(!c("Formelzeichen")) %>%
     #table generation
@@ -107,7 +105,7 @@ create_table <- function(
 }
 
 #Creates a Tablefunction for Radiometry
-table_rad <- function(..., lang_setting = lang_setting){
+table_rad <- function(...){
   create_table(...) %>%
     gt::tab_footnote(
       footnote = lang$server(44),
@@ -127,7 +125,7 @@ table_rad <- function(..., lang_setting = lang_setting){
 }
 
 #Creates a Table for Photometry
-table_phot <- function(..., lang_setting = lang_setting, CIE_grenzen){
+table_phot <- function(..., CIE_grenzen){
   create_table(...) %>%
     gt::fmt_number(columns = "Wert",
                    rows = 4:5, decimals = 0,
@@ -153,12 +151,12 @@ table_phot <- function(..., lang_setting = lang_setting, CIE_grenzen){
 }
 
 #Creates a Table for Alphaopy
-table_alph <- function(..., lang_setting = lang_setting, index = index){
+table_alph <- function(..., index = index){
   create_table(...) %>%
     gt::tab_source_note(
       source_note = gt::md(
         paste0(lang$server(72),
-               Specs$Alpha$adjectives[[lang_setting]][[index]],
+               Specs$Alpha$adjectives[[the$language]][[index]],
                lang$server(73),
                htmltools::a(
                  " CIE S026 (2018) ",
@@ -192,7 +190,7 @@ Quelle_Alter <- rlang::expr(
 )
 
 #Age table
-table_age <- function(Table, ..., slice, lang_setting){
+table_age <- function(Table, ..., slice){
   Table %>% dplyr::slice(slice) %>% 
     create_table(...) %>% 
     gt::tab_footnote(

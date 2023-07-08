@@ -3,8 +3,7 @@
 
 analysis_setupUI <- 
   function(
-    id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
+    id 
     ) {
     ns <- shiny::NS(id)
     htmltools::tagList()
@@ -15,7 +14,6 @@ analysis_setupUI <-
 analysis_setupServer <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     Spectrum,
     Analysis
     ) {
@@ -56,7 +54,7 @@ analysis_setupServer <-
         general = Table()
         )
       
-    }) %>% shiny::bindEvent(Spectrum$Spectrum)
+    }) %>% shiny::bindEvent(Spectrum$Spectrum, Spectrum$Name)
 
   })
 }
@@ -64,6 +62,9 @@ analysis_setupServer <-
 # App ---------------------------------------------------------------------
 
 analysis_setupApp <- function(lang_setting = "Deutsch") {
+  
+  #set the language for the program
+  the$language <- lang_setting
   
   ui <- shinydashboard::dashboardPage(
     shinydashboard::dashboardHeader(),
@@ -87,7 +88,6 @@ analysis_setupApp <- function(lang_setting = "Deutsch") {
                      Destination = lang$ui(69))
     
     Table <- analysis_setupServer("setup",
-                                  lang_setting = lang_setting,
                                   Spectrum = Spectrum)
     
     output$Data_ok <- shiny::renderPrint({

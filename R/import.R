@@ -2,13 +2,12 @@
 # UI ----------------------------------------------------------------------
 
 importUI <- function(
-    id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
-    ) {
+    id) {
   htmltools::tagList(
     shiny::withMathJax(),
     htmltools::h3("Import"),
-    shiny::tabsetPanel(id = shiny::NS(id, "inTabset"),
+    shiny::tabsetPanel(
+                            id = shiny::NS(id, "inTabset"),
                 shiny::tabPanel(
                          title = lang$ui(69),
                          import_dataUI(shiny::NS(id, "fileimport"))),
@@ -26,9 +25,6 @@ importUI <- function(
 
 importServer <- 
   function(id, 
-           lang_setting = get(
-             "lang_setting", envir = rlang::caller_env(n = 1)
-             ),
            Spectrum = NULL
            ) {
   
@@ -42,17 +38,13 @@ importServer <-
           )
     }
     
+      import_verifierServer("verify_import",
+                            Spectrum = Spectrum)
       import_dataServer("fileimport", 
-                        lang_setting = lang_setting,
                         Spectrum = Spectrum)
       import_examplesServer("examples", 
-                            lang_setting = lang_setting,
                             Spectrum = Spectrum)
       import_eigenServer("eigen", 
-                            lang_setting = lang_setting,
-                            Spectrum = Spectrum)
-      import_verifierServer("verify_import",
-                            lang_setting = lang_setting,
                             Spectrum = Spectrum)
 
       #Update the Navbar when a Spectrum is imported
@@ -63,11 +55,15 @@ importServer <-
         selected = Spectrum$Destination)
     }) %>% shiny::bindEvent(Spectrum$Spectrum, Spectrum$Destination)
 
+    #remove notifications
+      notification_remover(shiny::reactive(input$inTabset))
+      
+    #set a notification on Name changes
       shiny::observe({
-      c("is_sufficient", "is_integer", "is_numeric", "belowz", "success") %>% 
-        purrr::map(removeNotification)
-    }) %>% shiny::bindEvent(input$inTabset)
-    
+        shiny::showNotification( type = "message",
+          htmltools::tagList("Name: ", htmltools::strong(Spectrum$Name)))
+      }) %>% shiny::bindEvent(Spectrum$Name)
+      
     #Return value
     Spectrum
   })
@@ -76,6 +72,14 @@ importServer <-
 # App ---------------------------------------------------------------------
 
 importApp <- function(lang_setting = "Deutsch") {
+  
+  #add a resource path to the www folder
+  shiny::addResourcePath(
+    "extr", system.file("app/www", package = "Spectran"))
+  # on.exit(shiny::removeResourcePath("extr"), add = TRUE)
+  
+  #set the language for the program
+  the$language <- lang_setting
   
   ui <- shinydashboard::dashboardPage(
     shinydashboard::dashboardHeader(),

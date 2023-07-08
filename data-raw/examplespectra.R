@@ -34,7 +34,7 @@ examplespectra_descriptor <-
         x %>% 
           mutate(download = list(setNames(Identifier, Button_Name)))})
 
-usethis::use_data(examplespectra_descriptor, overwrite = TRUE)
+# usethis::use_data(examplespectra_descriptor, overwrite = TRUE)
 
 # Spectra -----------------------------------------------------------------
 
@@ -99,4 +99,4 @@ CIE_data <-
 examplespectra <- 
   list(Measurement_data, CIE_data) %>% setNames(c("Measurement", "CIE"))
 
-usethis::use_data(examplespectra, overwrite = TRUE)
+# usethis::use_data(examplespectra, overwrite = TRUE)

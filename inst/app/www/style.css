@@ -1,0 +1,85 @@
+.skin-yellow .main-sidebar {
+    background-color: darkgrey;
+    position: fixed;
+}
+
+.content-wrapper {
+    background-color: #F0F0F0;
+}
+
+
+.skin-yellow .sidebar-menu>li.active>a, .skin-yellow .sidebar-menu>li:hover>a {
+    color: black;
+    background: #F0F0F0;
+    border-left: 5px solid #F8E350
+}
+
+.skin-yellow .sidebar a {
+    color: black;
+}
+
+.h1 {
+    font-size: 70px;
+}
+
+.skin-yellow .main-header .navbar {
+    background-color: #F7F3CD;
+}
+
+.skin-yellow .main-header .navbar .sidebar-toggle:hover {
+    background-color: #F8E350
+}
+
+.skin-yellow .main-header .navbar .sidebar-toggle {
+    background-color: #F8E350
+    position: fixed;
+}
+
+.skin-yellow .main-header .logo {
+    background-color: #F8E350;
+    color: black;
+    border-bottom: 0 solid transparent;
+    padding-right: 0;
+    padding-left: 0;
+    position : fixed;
+}
+
+.skin-yellow .main-header .logo:hover {
+    background-color: #F8E350;
+}
+
+.skin-yellow .main-header .navbar .sidebar-toggle {
+    color: black;
+}
+
+.skin-yellow .main-header .navbar .nav>li>a {
+    color: black;
+}
+
+.nav-tabs-custom>.nav-tabs>li.active {
+    border-top-color: #F8E350;
+}
+
+a {
+    color: #e08e0b;
+}
+
+.shiny-notification-message {
+    color: black;
+    background-color: #F7F3CD;
+    border: 1px solid #F8E350;
+}
+
+.box {
+    position: relative;
+    border-radius: 3px;
+    background: #fff;
+    border-top: 0px solid #fff;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+}
+
+.background-rect {
+    background-color: #F8E350;
+}

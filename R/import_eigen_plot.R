@@ -3,9 +3,7 @@
 
 import_eigen_plotUI <- 
   function(
-    id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
-    ) {
+    id) {
 
     ns <- shiny::NS(id)
     
@@ -47,7 +45,6 @@ import_eigen_plotUI <-
 import_eigen_plotServer <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     Spectrum = NULL,
     sensitivitaeten,
     default,
@@ -84,10 +81,17 @@ import_eigen_plotServer <-
       eigen_Spektrum$Spec_raw <- Spectrum$Spectrum
       
       eigen_Spektrum$Spec_raw <- eigen_Spektrum$Spec_raw %>% 
-        dplyr::mutate(Bestrahlungsstaerke =
-                 Bestrahlungsstaerke/(max(Bestrahlungsstaerke)),
-               keeprows = TRUE) %>% 
+        dplyr::mutate(
+          Bestrahlungsstaerke =
+            Bestrahlungsstaerke/(max(Bestrahlungsstaerke)),
+               keeprows = TRUE)
+      
+      eigen_Spektrum$original <- eigen_Spektrum$Spec_raw
+      
+      eigen_Spektrum$Spec_raw <- eigen_Spektrum$Spec_raw %>% 
         rbind(Spec_raw)
+      
+      Spectrum$Emax_orig <- max(Spectrum$Spectrum[[2]])
       }
     }) %>% shiny::bindEvent(Spectrum$Destination, Spectrum$Spectrum)
     
@@ -146,11 +150,11 @@ import_eigen_plotServer <-
         ggplot2::geom_point(size = 2)+
         
         #Conditional dashed curve for imported spectra that get adjusted
-        {if(all((Spectrum$Destination) == lang$ui(94),
+        {if(all(
                 !is.null((Spectrum$Spectrum)))) {
         ggplot2::geom_line(
-          data = Spectrum$Spectrum, 
-          ggplot2::aes(y=Bestrahlungsstaerke/(max(Bestrahlungsstaerke))), 
+          data = eigen_Spektrum$original,
+          ggplot2::aes(y=Bestrahlungsstaerke), 
           lty = 5)
         }}+
         
@@ -240,7 +244,8 @@ import_eigen_plotServer <-
           dplyr::mutate(Bestrahlungsstaerke =
                    Bestrahlungsstaerke/(max(Bestrahlungsstaerke)))
       }
-
+      else eigen_Spektrum$Spec_raw <- eigen_Spektrum$original
+      
     }) %>% shiny::bindEvent(default())
     
     #Return Value

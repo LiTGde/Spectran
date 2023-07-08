@@ -3,11 +3,11 @@
 
 analysisUI <- 
   function(
-    id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
+    id
     ) {
     ns <- shiny::NS(id)
     htmltools::tagList(
+      # shiny::withMathJax(),
       #heading
       htmltools::h3(lang$ui(23)),
       #tabs with ui
@@ -24,8 +24,7 @@ analysisUI <-
         shiny::tabPanel(id = "alter",
                  title = lang$ui(122),
                  analysis_ageUI(ns("age"))),
-        selected = lang$ui(122)
-        # selected = lang$ui(119)
+        selected = lang$ui(119)
       ),
       #continue to export
       shiny::fluidRow(
@@ -47,38 +46,30 @@ analysisUI <-
 analysisServer <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     Spectrum = NULL
     ) {
   
   shiny::moduleServer(id, function(input, output, session) {
 
-    Analysis <- shiny::reactiveValues(Tables = tibble::tibble(),
-                                      Plots = tibble::tibble(),
-                                      Settings = tibble::tibble())
+    Analysis <- shiny::reactiveValues()
     
     analysis_setupServer("setup",
-                         lang_setting = lang_setting,
                          Spectrum = Spectrum,
                          Analysis = Analysis)
     
-    # analysis_radioServer("radio",
-    #                      lang_setting = lang_setting,
-    #                      Analysis = Analysis,
-    #                      feed = "Radiometry")
-    # 
-    # analysis_photoServer("photo",
-    #                      lang_setting = lang_setting,
-    #                      Analysis = Analysis,
-    #                      feed = "V(lambda)",
-    #                      Name = Specs$Plot$Names[[6]])
+    analysis_radioServer("radio",
+                         Analysis = Analysis,
+                         feed = lang$server(39))
 
-    # analysis_alphaServer("alpha",
-    #                      lang_setting = lang_setting,
-    #                      Analysis = Analysis)
-    
+    analysis_photoServer("photo",
+                         Analysis = Analysis,
+                         feed = "V(lambda)",
+                         Name = Specs$Plot$Names[[6]])
+
+    analysis_alphaServer("alpha",
+                         Analysis = Analysis)
+
     analysis_ageServer("age",
-                         lang_setting = lang_setting,
                          Analysis = Analysis)
     
     #Return value
@@ -94,6 +85,9 @@ analysisApp <- function(lang_setting = "Deutsch") {
   
   # tell shiny to log all reactivity
   reactlog_enable()
+  
+  #set the language for the program
+  the$language <- lang_setting
   
   ui <- shinydashboard::dashboardPage(
     shinydashboard::dashboardHeader(),
@@ -113,11 +107,11 @@ analysisApp <- function(lang_setting = "Deutsch") {
     Spectrum <- 
       shiny::reactiveValues(Spectrum = test.spectrum, 
                      Name = "Test", 
+                     Origin = "Import",
                      Destination = lang$ui(69))
     
     Analysis <- 
       analysisServer("analysis",
-                   lang_setting = lang_setting,
                    Spectrum = Spectrum)
     
     output$Data_ok <- shiny::renderPrint({
@@ -129,7 +123,8 @@ analysisApp <- function(lang_setting = "Deutsch") {
         # print(Spectrum$general)
         # print(Analysis$Plot)
         # print(Analysis$Settings)
-        print(Analysis$table_Age$internal)
+        # print(Analysis$table_Age$internal)
+        print(Analysis[[ns_plot("Summary")]]$args)
         # print(Spectrum$CRI)
         # print(Spectrum$cS)
         # print(Spectrum$melanopic$plot)

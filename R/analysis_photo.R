@@ -2,23 +2,27 @@
 # UI ----------------------------------------------------------------------
 
 analysis_photoUI <- function(
-    id, lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))) {
+    id
+    ) {
   
   ns <- shiny::NS(id)
   
   htmltools::tagList(
     shiny::withMathJax(),
     shinyjs::useShinyjs(),
+    shiny::fluidRow(
+      shinydashboard::box( width = 12,
     #Inputs
     shiny::checkboxInput(
       ns("Sensitivity"), 
       label = paste0(lang$ui(96), " ", Specs$Vlambda, lang$ui(97)), 
-      width = "100%"
+      width = "100%",
+      value = TRUE
     ),
     shiny::checkboxInput(
       ns("Hintergrund"),
       label = lang$ui(168),
-      value = FALSE,
+      value = TRUE,
       width = "100%"
     ),
     shiny::checkboxInput(
@@ -29,23 +33,20 @@ analysis_photoUI <- function(
     ),
     shiny::checkboxInput(
       ns("Testfarben"),
-      label = tags$p(lang$ui(99), id=ns("r_label")),
+      label = htmltools::tags$p(lang$ui(99), id=ns("r_label")),
       value = FALSE,
       width = "100%"
     ),
     #Outputs
     shiny::plotOutput(ns("plot"), height = "350px"),
     gt::gt_output(ns("table"))
-  )
+  )))
 }
 
 # Server ------------------------------------------------------------------
 
 analysis_photoServer <- 
   function(id, 
-           lang_setting = get("lang_setting", 
-                              envir = rlang::caller_env(n = 1)
-           ),
            Analysis,
            feed,
            Name
@@ -53,16 +54,21 @@ analysis_photoServer <-
     
     shiny::moduleServer(id, function(input, output, session) {
       
+      #checking the sensitivity box, when export demands it
+      shiny::observe({
+          shiny::updateCheckboxInput(
+            session, "Sensitivity", value = Analysis$action_spectra)
+      }) %>% shiny::bindEvent(Analysis$action_spectra)
+      
       #Warning message, if no color-rendering index can be shown
       shiny::observe({
-        shiny::req(Analysis$Settings$Spectrum,
+        shiny::req(Analysis$Settings,
                    cS$cS)
         
         input$CIE_grenzen
         input$Testfarben
         checkbox_update("Testfarben",
-                        sum(cS$CRI == 0),
-                        lang_setting)
+                        sum(cS$CRI == 0))
       })
       
       #package is needed for the S3 object to work properly
@@ -95,7 +101,6 @@ analysis_photoServer <-
           Sensitivity_Spectrum = Analysis$Settings$general$Ewtd[[6]],
           subtitle = lang$server(53),
           alpha = ifelse(input$Hintergrund, 0.85, 0),
-          lang_setting = lang_setting,
           Second_plot = input$Testfarben,
           CRI = cS$CRI
         )
@@ -112,7 +117,7 @@ analysis_photoServer <-
         do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
 
       } ,height = 350)
-      shiny::outputOptions(output, "plot", suspendWhenHidden = FALSE)
+      shiny::outputOptions(output, "plot", suspendWhenHidden = TRUE)
       
       #create an (internal) Table
       shiny::observe({
@@ -164,7 +169,6 @@ analysis_photoServer <-
             Spectrum_Name = Analysis$Settings$Spectrum_Name,
             subtitle = lang$server(63),
             Breite = 100,
-            lang_setting = lang_setting,
             CIE_grenzen = input$CIE_grenzen
           )
         
@@ -175,7 +179,9 @@ analysis_photoServer <-
       # Table (Output for Radiometry)
       output$table <- gt::render_gt({
         shiny::req(Analysis[[ns_table(feed)]]$output)
-        do.call(Analysis[[ns_table(feed)]]$fun, Analysis[[ns_table(feed)]]$output)
+        
+        do.call(Analysis[[ns_table(feed)]]$fun, 
+                Analysis[[ns_table(feed)]]$output)
         })
       shiny::outputOptions(output, "table", suspendWhenHidden = FALSE)
 

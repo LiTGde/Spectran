@@ -3,9 +3,7 @@
 
 import_examplesUI <- 
   function(
-    id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))
-    ) {
+    id) {
     ns <- shiny::NS(id)
     
     CCT_Daylight <- list(
@@ -17,21 +15,28 @@ import_examplesUI <-
           value = 6500,
           min = 4000,
           max = 25000,
-          width = "100%"
+          width = "100%",
+          step = 1000
         )
       ),
-      " K"))
+      " K",
+      htmltools::p("created by ", 
+                   htmltools::a("colorSpec", 
+                                target = "_blank",
+                                href = URL_colorSpec)
+                   ))
+      )
 
     examplespectraUI <- purrr::map(examplespectra_descriptor, \(x) { x %>% 
       dplyr::transmute(id = ns(Name),
              title = Beschreibung,
              left = list(list("video", URL)),
-             mid = list(list("image", Name)),
+             mid = list(list("plot", Name)),
              right = list(list("download", download)))})
         
     htmltools::tagList(
       shinyFeedback::useShinyFeedback(),
-      shiny::fluidPage(
+      shiny::fluidRow(
         shinydashboard::box(
           width = 12,
           htmltools::p(
@@ -81,16 +86,16 @@ import_examplesUI <-
           ns("norm"),
           title = lang$ui(71),
           left = c("", CCT_Daylight),
-          mid = c("image", "norm"),
+          mid = c("plot", "norm"),
           right = list("download", c(norm = "Download/Import"))
         ),
 
         #Boxes for all other spectra
         purrr::pmap(
-          examplespectraUI[[lang_setting]],
-          import_examples_boxUI,
-          lang_setting = lang_setting)
-      )
+          examplespectraUI[[the$language]],
+          import_examples_boxUI)
+
+    )
     )
   }
 
@@ -99,7 +104,6 @@ import_examplesUI <-
 import_examplesServer <- 
   function(
     id, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     Spectrum = NULL
     ) {
   
@@ -115,12 +119,11 @@ import_examplesServer <-
     #Server logic for all spectra except the adjustable Daylight
     #Illuminant
     purrr::pmap(list(
-      id = examplespectra_descriptor[[lang_setting]]$Name,
+      id = examplespectra_descriptor[[the$language]]$Name,
       examplespectra_descriptor =
-        DF2list(examplespectra_descriptor[[lang_setting]])
+        DF2list(examplespectra_descriptor[[the$language]])
     ),
     import_examples_boxServer,
-    lang_setting = lang_setting,
     illu_eigen = shiny::reactive(input$illu_eigen),
     down_import = shiny::reactive(input$down_import),
     examplespectra = examplespectra,
@@ -128,7 +131,7 @@ import_examplesServer <-
     )
     
     # #Adjusting the names of the spectra
-    # names(Spectrum) <- examplespectra_descriptor[[lang_setting]]$Name
+    # names(Spectrum) <- examplespectra_descriptor[[the$language]]$Name
     
     #Server logic for the adjustable Daylight Illuminant
     import_examples_boxServer(
@@ -136,7 +139,6 @@ import_examplesServer <-
       Spectrum = Spectrum,
       examplespectra_descriptor = tibble::tibble(
         download = list(list("norm") %>% stats::setNames(lang$ui(71)))),
-      lang_setting = lang_setting,
       illu_eigen = shiny::reactive(input$illu_eigen),
       down_import = shiny::reactive(input$down_import),
       daylight_CCT = shiny::reactive(input$CCT_norm) #only necessary for the
@@ -160,6 +162,14 @@ import_examplesServer <-
 # App ---------------------------------------------------------------------
 
 import_examplesApp <- function(lang_setting = "Deutsch") {
+  
+  #add a resource path to the www folder
+  shiny::addResourcePath(
+    "extr", system.file("app/www", package = "Spectran"))
+  # on.exit(shiny::removeResourcePath("extr"), add = TRUE)
+  
+  #set the language for the program
+  the$language <- lang_setting
   
   ui <- shinydashboard::dashboardPage(
     shinydashboard::dashboardHeader(),

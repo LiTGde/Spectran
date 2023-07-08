@@ -2,11 +2,7 @@
 # UI ----------------------------------------------------------------------
 
 import_visual_checkUI <-
-  function(id, 
-           lang_setting = get(
-             "lang_setting", envir = rlang::caller_env(n = 1)
-             )
-           ) {
+  function(id) {
     htmltools::tagList(
       shiny::uiOutput(shiny::NS(id,"inputuebersicht"))
     )
@@ -16,7 +12,6 @@ import_visual_checkUI <-
 
 import_visual_checkServer <-
   function(id,
-           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            dat,
            csv_settings
            ) {

@@ -55,3 +55,28 @@ inverse_lookup <- function(object) {
 
 #Funktion die Prüft, ob der Wert auf der linken Seite "Null" ist - falls ja, nimmt er den Wert auf der rechten Seite, sonst links
 `%||%` <- function(x, y) if (is.null(x)) y else x
+
+
+#remove notifications, when a tab changes
+notification_remover <- function(tabset) {
+shiny::observe({
+  c("is_sufficient", "is_integer", "is_numeric", "belowz", "success") %>% 
+    purrr::map(removeNotification)
+  
+  shinyalert::closeAlert()
+  
+}) %>% shiny::bindEvent(tabset())
+}
+
+#Change the Spectrum Name, if it is changed
+Name_suffix <- function(Origin, Name) {
+
+  if(Origin != "Construction") {
+    Name
+  }
+  else if (stringr::str_detect(Name, paste0("[(]", lang$ui(177), "[)]"))) {
+    Name
+  }
+  else paste0(Name, " (", lang$ui(177), ")")
+  
+}

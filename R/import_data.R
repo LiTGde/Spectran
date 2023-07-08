@@ -2,10 +2,10 @@
 # UI ----------------------------------------------------------------------
 
 import_dataUI <- function(
-    id, lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1))) {
+    id) {
   htmltools::tagList(
     shinyFeedback::useShinyFeedback(),
-    htmltools::br(),
+    shiny::fluidRow(
     shinydashboard::box(
       #Introductory Text:
       #paragraph 1:
@@ -49,7 +49,9 @@ import_dataUI <- function(
                           shiny::NS(id,"jgtm"), 
                           htmltools::HTML(
                      paste0(
-                       htmltools::img(width = "100%", src = lang$ui(59), 
+                       htmltools::img(
+                         width = "100%", src = paste0("extr/", lang$ui(59)
+                                                      ), 
                        align = "center")
                        )
                      ),
@@ -63,7 +65,7 @@ import_dataUI <- function(
                #Parameter settings for the CSV-import:
                shinyWidgets::dropdown(
                  import_csv_settingsUI(
-                   shiny::NS(id, "import"), lang_setting = lang_setting),
+                   shiny::NS(id, "import")),
                  #Dropdown-Settings
                  status = "danger",
                  up = TRUE,
@@ -102,13 +104,13 @@ import_dataUI <- function(
       align = "center"
     )
   )
+  )
 }
 
 # Server ------------------------------------------------------------------
 
 import_dataServer <- 
   function(id, 
-           lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
            Spectrum = NULL
            ) {
   
@@ -127,12 +129,14 @@ import_dataServer <-
     
     #Choosing the example spectrum:
     shiny::observe({
-      importfile("www/Beispiel.csv")
+      importfile(paste0(resourcePaths()[["extr"]], "/Beispiel.csv"))
+      Spectrum$Origin <- "File"
     }) %>% shiny::bindEvent(input$jgtm)
     
     #Uploading a file:
     shiny::observe({
       importfile(input$in_file$datapath)
+      Spectrum$Origin <- "File"
     }) %>% shiny::bindEvent(input$in_file$datapath)
     
     #Setting a default name for the spectrum:
@@ -144,6 +148,12 @@ import_dataServer <-
         session, "name_id", value = split_filename(input$in_file$name)
       )
     }) %>% shiny::bindEvent(input$in_file$datapath)
+    
+    shiny::observe({
+      shiny::updateTextInput(
+        session, "name_id", value = lang$ui(61)
+      )
+    }) %>% shiny::bindEvent(input$jgtm)
     
     #Import Data from a file:
     dat0 <- shiny::reactive({
@@ -163,6 +173,7 @@ import_dataServer <-
     
     #Make adjustments to the Import when coming from a file:
     shiny::observe({
+      input$jgtm
       dat({
         shiny::req(
         is.data.frame(dat0()), cancelOutput = TRUE
@@ -194,12 +205,11 @@ import_dataServer <-
     
     #Functions to set the csv-settings
     csv_settings <- 
-      import_csv_settingsServer("import", lang_setting = lang_setting, dat0)
+      import_csv_settingsServer("import", dat0)
     
     #Preliminary visual representation of the import data
     import_visual_checkServer(
       "visual",
-      lang_setting = lang_setting,
       dat,
       csv_settings
       )
@@ -207,31 +217,31 @@ import_dataServer <-
     #Checks on the data when importing the file
     Data_ok <- import_data_checkServer(
       "check", 
-      lang_setting = lang_setting, 
       dat, 
       dat0,
       importfile,
       csv_settings
       )
-
+    
+    
     #Checks on the data when transfering the File for further analysis
     import_data_verifierServer("importbutn",
-                          lang_setting = lang_setting,
-                          Data_ok = shiny::reactive(Data_ok$x),
-                          dat = dat,
-                          Spectrum = Spectrum,
-                          csv_settings = csv_settings,
-                          Name = shiny::reactive(input$name_id))
-    
-    #Checks on the data when transfering the File to adjustments
-    import_data_verifierServer("adjustbutn",
-                          lang_setting = lang_setting,
                           Data_ok = shiny::reactive(Data_ok$x),
                           dat = dat,
                           Spectrum = Spectrum,
                           csv_settings = csv_settings,
                           Name = shiny::reactive(input$name_id),
-                          Destination = lang$ui(94))
+                          Raw_Spectrum = shiny::reactive(Spectrum$Spectrum_raw))
+    
+    #Checks on the data when transfering the File to adjustments
+    import_data_verifierServer("adjustbutn",
+                          Data_ok = shiny::reactive(Data_ok$x),
+                          dat = dat,
+                          Spectrum = Spectrum,
+                          csv_settings = csv_settings,
+                          Name = shiny::reactive(input$name_id),
+                          Destination = lang$ui(94),
+                          Raw_Spectrum = shiny::reactive(Spectrum$Spectrum_raw))
     
     #Set the name of the Spectrum depending on the global Name
     shiny::observe({
@@ -244,6 +254,14 @@ import_dataServer <-
 # App ---------------------------------------------------------------------
 
 import_dataApp <- function(lang_setting = "Deutsch") {
+  
+  #add a resource path to the www folder
+  shiny::addResourcePath(
+    "extr", system.file("app/www", package = "Spectran"))
+  # on.exit(shiny::removeResourcePath("extr"), add = TRUE)
+  
+  #set the language for the program
+  the$language <- lang_setting
   
   ui <- shiny::fluidPage(
        import_dataUI("import"),

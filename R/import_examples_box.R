@@ -6,7 +6,6 @@ box_filling <-
   function(
     id, 
     filling, 
-    lang_setting = get("lang_setting", envir = rlang::caller_env(n = 1)),
     title = NULL) {
     ns <- shiny::NS(id)
     #Give an empty frame if it is NULL or filling[[2]] is NA
@@ -19,7 +18,7 @@ box_filling <-
                   width = "100%", 
                   src = 
                     paste0(
-                      "Examples/", lang_setting, "/", filling[[2]], ".png"
+                      "Examples/", the$language, "/", filling[[2]], ".png"
                       ), 
                   align = "center"
                   ),
@@ -36,6 +35,8 @@ box_filling <-
               download = {
                 shiny::uiOutput(ns("download"))
                 },
+              #if a plot is to be put in, the spectrum should be shown
+              plot = shiny::plotOutput(ns("plot"), height = "150px"),
               #if nothing fits, then filling[[2]] is just put in - it needs to
               #be a list around tagList, if there is more than one element
               filling[[2]]
@@ -45,9 +46,6 @@ box_filling <-
 
 import_examples_boxUI <-
   function(id, 
-           lang_setting = get(
-             "lang_setting", envir = rlang::caller_env(n = 1)
-             ),
            title = "",
            left = NULL,
            mid = NULL,
@@ -84,9 +82,6 @@ import_examples_boxUI <-
 
 import_examples_boxServer <-
   function(id,
-           lang_setting = get(
-             "lang_setting", envir = rlang::caller_env(n = 1)
-             ),
            Spectrum = NULL,
            examplespectra = NULL,
            examplespectra_descriptor = NULL,
@@ -117,7 +112,7 @@ import_examples_boxServer <-
       selector <- function(func) {
         output$download <- shiny::renderUI({
           ns <- session$ns
-          if(length(filling[[2]]) <= 3) {
+          if(length(filling[[2]]) <= 1) {
             purrr::pmap(
               list(
                 paste0(
@@ -145,7 +140,7 @@ import_examples_boxServer <-
           }
       })
       }
-
+      
       #are CIE spectra used?
       CIE <-
         ifelse(
@@ -154,9 +149,6 @@ import_examples_boxServer <-
       
       #Apply the correct function for generating the buttons
       shiny::observe({
-        # switch(down_import(),
-        #      Import = selector(actionButton),
-        #      Download = selector(downloadButton))
         switch(shiny::NS(down_import(), CIE),
              'Download-Measurement' = selector(downloadButton),
              Download = selector(downloadButton),
@@ -177,6 +169,43 @@ import_examples_boxServer <-
         names(Data) <- c(lang$server(31), lang$server(32))
         Data
       }
+
+      #Plotoutput in the middle
+      output$plot <- shiny::renderPlot({
+        
+      if(id == "norm") {
+        shiny::req(daylight_CCT() %>% dplyr::between(4000, 25000))
+           data <- daylight_spectrum()
+       }
+      else {
+        data <-  {if(length(filling[[2]]) <= 1) {
+          filling[[2]][[1]]
+        }
+        else shiny::req(input$choose_from_many)
+        }  %>% dataset_creator()
+      }
+       data <- data %>% stats::setNames(nm = c("x","y")) %>% 
+         dplyr::filter(x %>% dplyr::between(380,780))
+       
+        shiny::req(data)
+        
+        ggplot2::ggplot(
+          data = data,
+          ggplot2::aes(x= x))+
+          ggridges::geom_ridgeline_gradient(
+            ggplot2::aes(
+            y = 0,
+            height = y,
+            fill = x
+          ), col = NA)+
+          ggplot2::scale_fill_gradientn(
+            colors = ColorP$regenbogen, guide = "none")+
+          cowplot::theme_cowplot()+
+          ggplot2::scale_x_continuous(breaks = c(400, 500, 600, 700, 780)) +
+          ggplot2::scale_y_continuous(
+            expand = ggplot2::expansion(mult = c(0, .1)))+
+          ggplot2::labs(x=NULL, y=NULL)
+      })
 
       #Function that creates a shinyAlert when trying to Download a CIE Spectrum
       CIE_download <- function(name){
@@ -224,6 +253,7 @@ import_examples_boxServer <-
                          ": ", Button_Name)
                 }
                 Spectrum$Destination <- lang$ui(69)
+                Spectrum$Origin <- "Example"
               }
             }) %>% shiny::bindEvent(input[[name]], ignoreInit = TRUE)
             #All Download
@@ -258,6 +288,7 @@ import_examples_boxServer <-
             dplyr::pull(Button_Name) %>% 
             {paste0(examplespectra_descriptor$Beschreibung, ": ", .)}
           Spectrum$Destination <- lang$ui(69)
+          Spectrum$Origin <- "Example"
           }
         }) %>% shiny::bindEvent(input[["save_from_many"]])
         
@@ -314,12 +345,13 @@ import_examples_boxServer <-
             Spectrum$Spectrum_raw <- daylight_spectrum()
             Spectrum$Name <-  paste0(lang$ui(71), " ",daylight_CCT(), "K")
             Spectrum$Destination <- lang$ui(69)
+            Spectrum$Origin <- "Example"
           }) %>% shiny::bindEvent(input$norm, ignoreInit = TRUE)
         }
         })
       }
       #Handling when there are many Spectra (Selector)
-      else if(length(examplespectra_descriptor[["Identifier"]][[1]]) > 3) {
+      else if(length(examplespectra_descriptor[["Identifier"]][[1]]) > 1) {
         save_from_many()
       }
       #Handling when there is one button per Spectrum
