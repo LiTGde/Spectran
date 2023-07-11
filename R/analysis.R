@@ -30,7 +30,7 @@ analysisUI <-
       shiny::fluidRow(
         htmltools::br(),
         shiny::actionButton(
-          "zu_Export",
+          ns("zu_Export"),
           label = lang$ui(123),
           class = "btn-lg",
           shiny::icon("play", lib = "glyphicon")
@@ -63,7 +63,7 @@ analysisServer <-
 
     analysis_photoServer("photo",
                          Analysis = Analysis,
-                         feed = "V(lambda)",
+                         feed = lang$server(63),
                          Name = Specs$Plot$Names[[6]])
 
     analysis_alphaServer("alpha",
@@ -71,6 +71,11 @@ analysisServer <-
 
     analysis_ageServer("age",
                          Analysis = Analysis)
+    
+    #exporting the to_Export button
+    shiny::observe({
+      Analysis$to_export <- input$zu_Export
+    })
     
     #Return value
     Analysis

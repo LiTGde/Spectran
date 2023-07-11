@@ -82,7 +82,24 @@ ns_table <- function(name) {
   paste0("table_", name)
 }
 
-
+#create an alpha table
+table_alpha <- function(Analysis) {
+  tibble::tibble(
+    Groesse = 
+      c(lang$server(68), lang$server(69), lang$server(70), lang$server(71)),
+    Zeichen =
+      c("E<sub>v,&alpha;,D65</sub>", 
+        "E<sub>e,&alpha;</sub>", 
+        "a<sub>&alpha;,v</sub>", 
+        "&gamma;<sub>&alpha;,v,D65</sub>"),
+    Formelzeichen = 
+      c("E_v,a,D65", "E_e,a", "a_a", "y_a,v,D65"),
+    purrr::map_df(Specs$Plot$Names[1:5], 
+                  \(x) {Analysis[[ns_table(x)]]$internal$Wert}),
+    Einheit = 
+      c("lux", "mW/m²", "", "" )
+  )
+}
 
 # #Nimmt das Plot-Resizing wieder vor, sobald sich die Fensterbreite ändert
 # observeEvent(input$dimension, {obs$resume()})

@@ -101,8 +101,11 @@ analysis_photoServer <-
           Sensitivity_Spectrum = Analysis$Settings$general$Ewtd[[6]],
           subtitle = lang$server(53),
           alpha = ifelse(input$Hintergrund, 0.85, 0),
+          # font_size = 15,
           Second_plot = input$Testfarben,
+          Name = NULL,
           CRI = cS$CRI
+          
         )
         
         Analysis[[ns_plot(feed)]]$args <- Plotdata

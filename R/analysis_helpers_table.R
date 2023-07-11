@@ -64,7 +64,7 @@ Number_formatting_tables <- function(data, column = Wert) {
 }
 
 #Creating subtitles for tables (used for exporting)
-table_subtitle <- function(Type) {
+table_subtitle <- function(subtitle) {
   beginning <- "<b style='float:left'>"
   ending <-
     paste0(
@@ -72,7 +72,7 @@ table_subtitle <- function(Type) {
       lang$server(43) ,
       " <b>LiTG Spectran</b> (Zauner, 2023)</span>"
     )
-  title <- paste0(beginning, Type, ending)
+  title <- paste0(beginning, subtitle, ending)
   gt::html(title)
 }
 

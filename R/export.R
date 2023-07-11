@@ -71,34 +71,64 @@ exportServer <-
     #create the output files
     Export <- export_Output_SettingsServer("Export_Settings", Analysis, outputs)
     
+    #create a reactive value for Files
+    Export_files <- shiny::reactiveVal(NULL)
+    
+    # shiny::observe({
+    #   shiny::req(Export$Plot)
+    #   
+    #   Export$files <-
+    #     Export$Plot
+    # })
+    
     #Download-Button
     output$download_button <- downloadHandler(
+      
       #Filename
       filename = function() {
         paste(
-          Analysis$Settings$Spectrum_Name, "_", Sys.Date(), ".pdf", sep="")},
+          Analysis$Settings$Spectrum_Name, "_", Sys.Date(), ".zip", sep="")},
       #Content
       content = function(file) {
         
-        Plot <- do.call("plot_exp", Export$Plot)
-        ggplot2::ggsave(file, plot = Plot)
+        #Spectrum Name
+        Spectrum_Name <- Analysis$Settings$Spectrum_Name
         
         #Shinyalert with preparation message
-        # shinyalert::shinyalert(
-        #   "OK", 
-        #   text = paste0(lang$server(114)), 
-        #   type = "success", 
-        #   timer = 5000, 
-        #   closeOnClickOutside = TRUE,
-        #   showConfirmButton = FALSE
-        #   )
+        shinyalert::shinyalert(
+          title = paste0("Export: ", Spectrum_Name),
+          text = paste0(lang$server(114)),
+          type = "success",
+          timer = 5000,
+          closeOnClickOutside = TRUE,
+          showConfirmButton = FALSE
+          )
         
-        # 
+        #Create a temporary directory that will overwrite the workin directory
+        #on exit. Also reset the Export_files list.
+        owd <- setwd(tempdir())
+        on.exit({setwd(owd)})
+        Export_files(NULL)
+        Export$Tables <- NULL
+        # Table_pics(NULL)
+        
+        #Save Tables
+        purrr::map(Export$Table_prep, \(args) { 
+          if(!is.null(args)) do.call("table_download", args = c(args))
+        })
+        
+        #Export Plots
+        purrr::map(Export$Plot, \(args) {           
+          do.call("plot_download",
+                  args = c(args, 
+                           Export_files = Export_files))
+        })
+        
+        
+        
         # withProgress(message = lang$server(115), value = 0, {
-        #   owd <- setwd(tempdir())
-        #   on.exit(setwd(owd))
-        #   Plot_data$files <- NULL;
-        #   wb <- NULL
+          
+        #   
         #   if(input$export_tab | lang$ui(144) %in% input$export_typ) {
         #     withProgress(message = lang$server(116), value = 0, {
         # 
@@ -108,59 +138,60 @@ exportServer <-
         #       )
         #     })
         #   }
-        # 
+        #         
+        # Setting up all the plotfiles
+
         #   setProgress(length(Plot_data$tables)/Plot_data$n_export, detail = paste(lang$server(117), length(Plot_data$tables)))
-        #   if(lang$ui(143) %in% input$export_typ) {
-        #     pmap(
-        #       extracto_plot(1:dim(Plot_data$tabelle)[1]),
-        #       plot_download
-        #     )}
         #   setProgress( (length(Plot_data$files) + length(Plot_data$tables))/Plot_data$n_export, detail = paste(lang$server(118), length(Plot_data$files)))
         # 
-        #   if(lang$ui(144) %in% input$export_typ) {
-        #     Plot_data$files <- c(Plot_data$files, Plot_data$tables)
-        #   }
+        #add relevant table files to the list
+          # if(lang$ui(144) %in% input$export_typ) {
+        Export_files(c(Export_files(), Export$Tables))
+          # }
         # 
-        #   if(lang$ui(145) %in% input$export_typ) {
-        #     filename <- paste(spec_name(), "_", Sys.Date(), ".xlsx", sep="")
-        # 
-        #     wb <- createWorkbook(spec_name())
-        # 
-        #     col_names_export <- c(lang$server(120), lang$server(122),lang$server(123), lang$server(124))
-        # 
-        #     for(i in c(1:2, 8:11)){
-        #       excel_save(wb, name = Table_data$tabelle$name[i], Bedingung = Table_data$tabelle$plot_true[i],
-        #                  data = list(
-        #                    Table_data$rad %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    Table_data$vis %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    Table_data[[alpha_werte[1]]] %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    Table_data[[alpha_werte[2]]] %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    Table_data[[alpha_werte[3]]] %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    Table_data[[alpha_werte[4]]] %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    Table_data[[alpha_werte[5]]] %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    Alpha_downloads(),
-        #                    tau_alter$Tabelle %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    tau_alter$Tabelle %>% slice(2) %>% select(!Zeichen)%>% {rbind(col_names_export,.)},
-        #                    tau_alter$Tabelle%>% slice(3) %>% select(!Zeichen)%>% {rbind(col_names_export,.)}
-        #                  )[i])
-        #     }
-        #     saveWorkbook(wb, filename, overwrite = TRUE)
-        #     Plot_data$files <- c(Plot_data$files, filename)
-        #   }
         #   setProgress(value = 1, detail = paste(lang$server(119), length(Plot_data$files)))
-        # 
-        #   if(lang$ui(146) %in% input$export_typ) {
-        #     filename <- paste(spec_name(), "_", Sys.Date(), ".csv", sep="")
-        #     temp_data <- spectrum$data
-        #     names(temp_data) <- c(lang$server(31), lang$server(32))
-        #     write_csv(temp_data, filename)
-        #     Plot_data$files <- c(Plot_data$files, filename)
-        #   }
-        # 
-        #   file.rename(from = Plot_data$files, to = renaming(Plot_data$files))
-        # 
-        # 
-          # utils::zip(file, renaming(Plot_data$files))
+        
+            #Export Excel
+            wb <- NULL
+            if(!purrr::every(Export$Xlsx, is.null)) {
+              #Filename
+              filename <- paste(Spectrum_Name, "_", Sys.Date(), ".xlsx", sep="")
+              
+              #create a new workbook
+              wb <- openxlsx::createWorkbook(Spectrum_Name)
+              
+              #add worksheets
+              excel_sheet(wb, Export$Xlsx[[1]], "Radiometrie")
+              
+              #save the workbook in a temporary file and write the filenames to list
+              openxlsx::saveWorkbook(wb, filename, overwrite = TRUE)
+              Export_files(c(Export_files(), filename))
+            }
+            
+            
+        # export a csv file 
+          if(!is.null(Export$CSV)) {
+            filename <- 
+              paste(Spectrum_Name, 
+                    "_", 
+                    Sys.Date(), 
+                    ".csv", 
+                    sep=""
+                    )
+            readr::write_csv(Export$CSV, filename)
+            Export_files(c(Export_files(), filename))
+          }
+        
+        # give the files a sequential numbering
+          file.rename(from = Export_files(), 
+                      to = renaming(Export_files(),
+                                    Spectrum_Name)
+                      )
+          
+        # create the zip file for download
+          utils::zip(file, renaming(Export_files(),
+                                    Spectrum_Name)
+                     )
         # })
 
       }
@@ -198,6 +229,7 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
                                        rel = "stylesheet", type="text/css", 
                                        href="extr/style.css"),
                                      shiny::verbatimTextOutput("Data_ok"),
+                                     gt::gt_output("alpha_table"),
                                      shinydashboard::tabItems(
                                        #add a tab for the introduction
                                        shinydashboard::tabItem(
@@ -278,10 +310,27 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
     }) %>% shiny::bindEvent(Spectrum$Spectrum, Spectrum$Destination,
                             Spectrum$Name)
     
+    #Update the Navbar when hitting the Export-Button in Analysis
+    shiny::observe({
+        shiny::updateNavbarPage(
+          session,
+          inputId = "inTabset",
+          selected = "export")
+    }) %>% shiny::bindEvent(Analysis$to_export)
+    
+    # output$alpha_table <- gt::render_gt(
+    #   Table_alpha(
+    #     Analysis,
+    #     show = Specs$Alpha$names
+    #     )
+    #   )
+    
     output$Data_ok <- shiny::renderPrint({
       #     print("Developer Troubleshoot\n")
       # p990rint(list.files(path = "extr/"))
-      print(Export$Plot)
+      # print(Export$CSV)
+      # print(Analysis$table_Radiometrie$internal)
+      print(Export$Table_prep)
       #     print(Spectrum$Other)
       #     print(Spectrum$Spectrum %>% utils::head())
       #     print(Spectrum$Spectrum %>% utils::tail())

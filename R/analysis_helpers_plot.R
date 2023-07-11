@@ -1,9 +1,9 @@
 #Plot-Hull for all spectral plots
 
-Plot_hull <- function(Spectrum, 
+Plot_hull <- function(Spectrum,
                       Spectrum_Name,
                       maxE,
-                      size_font = 15) {
+                      font_size = 15) {
   #Plotdata comes from outside the function
   ggplot2::ggplot(data = Spectrum,
                   ggplot2::aes(
@@ -20,7 +20,7 @@ Plot_hull <- function(Spectrum,
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, .1))) +
     ggplot2::coord_cartesian(ylim = c(0, maxE * 1.10)) +
     #settings for the theme
-    cowplot::theme_cowplot(font_size = size_font, font_family = "sans") +
+    cowplot::theme_cowplot(font_size = font_size, font_family = "sans") +
     ggplot2::theme(legend.position = "none")
 }
 
@@ -34,10 +34,10 @@ Plot_Main <- function(
     Sensitivity_Spectrum = NULL,
     subtitle, 
     alpha = 1,
-    size_font = 15
+    font_size = 15
     ) {
   #Base plot
-  Plot_hull(Spectrum, Spectrum_Name, maxE, size_font) +
+  Plot_hull(Spectrum, Spectrum_Name, maxE, font_size) +
     ggplot2::labs(subtitle = subtitle) +
     
     #adding a ridgeline with a path
@@ -65,7 +65,8 @@ Plot_Main <- function(
         }
       }  +
         
-    ggplot2::geom_path(lwd = 1.2, lty = (if(alpha == 1) 1 else 2)) +
+    ggplot2::geom_path(lwd = (if(alpha == 1) 1.2 else 0.5),
+                       lty = (if(alpha == 1) 1 else 2)) +
     
     #adding a second ridgeline if a spectral weighing function is added
       {
@@ -109,7 +110,7 @@ Plot_Main <- function(
           ylim = c(maxE, maxE * 1.17),
           alpha = 0.7,
           parse = TRUE,
-          size = 4 / 15 * size_font
+          size = 4 / 15 * font_size
         )
       }
     }
@@ -122,21 +123,25 @@ Plot_Main <- function(
 # }
 
 #Plotfunction for the R-Testcolors
-Plot_Ra <- function(CRI_table, size_font = 15){
+Plot_Ra <- function(CRI_table, font_size = 15, maxE = NULL){
   ggplot2::ggplot(data = CRI_table, 
                   ggplot2::aes(x=Testfarbe, y = CRI, fill = Testfarbe))+
     ggplot2::geom_bar(stat = "identity", col = "black")+
     ggplot2::geom_text(ggplot2::aes(label = round(CRI,0), y= CRI-1), 
-                       hjust = 1, size = size_font/3)+
+                       hjust = 1, size = font_size/3)+
     ggplot2::labs(x = lang$server(51), y = lang$server(52))+
-    cowplot::theme_cowplot(font_size = size_font, font_family = "sans")+
+    cowplot::theme_cowplot(font_size = font_size, font_family = "sans")+
     ggplot2::scale_fill_manual(values = rev(ColorP$Color_Rendering), 
                                guide = "none")+
     ggplot2::coord_flip(ylim = c(0,100))
 }
 
 #Plotfunction for the Spectral Irradiances
-Plot_Compare <- function(Sensitivity_Overview, size_font = 15) {
+Plot_Compare <- function(Sensitivity_Overview, 
+                         font_size = 15,
+                         Spectrum_Name = NULL,
+                         maxE = NULL,
+                         subtitle = NULL) {
   #Setup
   ggplot2::ggplot(
     data = Sensitivity_Overview, 
@@ -146,7 +151,7 @@ Plot_Compare <- function(Sensitivity_Overview, size_font = 15) {
       fill = Names))+
     #Settings
     ggplot2::labs(x = lang$server(49))+
-    cowplot::theme_cowplot(font_size = size_font, font_family = "sans")+
+    cowplot::theme_cowplot(font_size = font_size, font_family = "sans")+
     ggplot2::ylab(
       bquote(.(lang$server(130))~.(lang$server(40))~~mW/(m^{2}*'*'*nm))
       )+
@@ -166,10 +171,10 @@ Plot_Combi <- function(Spectrum,
                        maxE,
                        Sensitivity, 
                        Sensitivity_Spectrum,
-                       Sensitivity_Overview,
+                       Sensitivity_Overview = NULL,
                        subtitle = NULL,
                        alpha = 1,
-                       size_font = 15,
+                       font_size = 15,
                        Second_plot,
                        Name = NULL,
                        CRI = NULL) {
@@ -180,12 +185,12 @@ Plot_Combi <- function(Spectrum,
             Sensitivity_Spectrum = Sensitivity_Spectrum,
             subtitle = subtitle,
             alpha = alpha,
-            size_font = size_font)
+            font_size = font_size)
     
     if(Second_plot == TRUE & !is.null(Name)) {
       p1 +
       Plot_Compare(Sensitivity_Overview = Sensitivity_Overview, 
-              size_font = size_font) +
+              font_size = font_size) +
         gghighlight::gghighlight(
           label_key = Abbr,
           Names == Name,
@@ -196,7 +201,7 @@ Plot_Combi <- function(Spectrum,
     else if(Second_plot == TRUE) {
       p1 +
       Plot_Ra(CRI_table = CRI,
-              size_font = size_font) +
+              font_size = font_size) +
         patchwork::plot_layout(widths = c(2,1))
     }
   else p1
@@ -205,7 +210,9 @@ Plot_Combi <- function(Spectrum,
 
 #Plot to show age dependency of the pupil
 Plot_age_pup <- function(Age,
-                         size_font = 15){
+                         font_size = 15,
+                         Spectrum_Name = "filler",
+                         subtitle = NULL){
   #calculate the coefficient(s)
   k_pup <- k_pup_fun(Age)
 
@@ -217,8 +224,8 @@ Plot_age_pup <- function(Age,
     ggplot2::geom_function(fun = k_pup_fun, lwd = 1, xlim = c(0, 200)) +
     
     #plotsettings
-    ggplot2::labs(title = lang$server(92))+
-    cowplot::theme_cowplot(font_size = size_font, font_family = "sans") +
+    ggplot2::labs(title = if(!is.null(Spectrum_Name)) lang$server(92))+
+    cowplot::theme_cowplot(font_size = font_size, font_family = "sans") +
     ggplot2::ylab(label = lang$server(93)) +
     ggplot2::scale_y_continuous(
       labels = scales::percent_format(scale = 100)) +
@@ -245,22 +252,24 @@ Plot_age_pup <- function(Age,
       y = k_pup, yend = k_pup, col = "red", lty = 5) +
     ggplot2::annotate(
       "label", x= 0, y = k_pup, col = "red",
-      label = paste0(round(k_pup*100,0),"%"), size = 4/15*size_font) +
+      label = paste0(round(k_pup*100,0),"%"), size = 4/15*font_size) +
     ggplot2::annotate(
       "label", x= Age, y = 0, col = "red", 
-      label = Age, size = 4/15 * size_font)
+      label = Age, size = 4/15 * font_size)
   
-  p1 + patchwork::plot_layout(ncol = 1, nrow= 1)
+  p1
 }
 
 
 #Age-dependent basis plot
-Plot_age_basis <- function(Spectrum, 
-                           Spectrum_Name,
-                           maxE,
-                           plot_multiplier,
-                           subtitle,
-                           size_font = 15) {
+Plot_age_basis <- function(
+    font_size = 15,
+    Spectrum, 
+    Spectrum_Name,
+    maxE,
+    plot_multiplier,
+    subtitle
+    ) {
   #Plotdata comes from outside the function
   ggplot2::ggplot(data = Spectrum,
                   ggplot2::aes(
@@ -283,7 +292,7 @@ Plot_age_basis <- function(Spectrum,
       xlim = c(380, 780),
       ylim = c(0, maxE*1.1*plot_multiplier)) +
   #settings for the theme
-    cowplot::theme_cowplot(font_size = size_font, font_family = "sans") +
+    cowplot::theme_cowplot(font_size, font_family = "sans") +
     ggplot2::theme(
       legend.position = c(0.955, 0.07),
       legend.key.width=grid::unit(1.25,"cm"),
@@ -330,18 +339,26 @@ Outlines_alpha <- function(plot, y, lty, size) {
 
 # Age dependent Summary plot
 Plot_age_tot <- function(..., 
+                         Spectrum_Name,
+                         plot_multiplier,
+                         subtitle,
                          maxE,
                          Spectrum,
                          Age,
                          alpha, 
                          Spectrum_mel_wtd,
                          Alter_mel,
-                         size_font = 15){
+                         font_size = 15){
 
   k_pup <- k_pup_fun(Age)
   Tau_rel <- Tau_rel_fun(Age)
 
-  p1 <- Plot_age_basis(Spectrum, maxE, ..., size_font)
+  p1 <- Plot_age_basis(Spectrum = Spectrum, 
+                       Spectrum_Name = Spectrum_Name,
+                       maxE = maxE, 
+                       plot_multiplier = plot_multiplier,
+                       font_size = font_size,
+                       subtitle = subtitle)
   #adding the various ridgelines
   p1 <- Ridges_alpha(p1, Bestrahlungsstaerke, alpha, 0.1)
   p1 <- Ridges_alpha(p1, Spectrum_mel_wtd, alpha, -0.1)
@@ -372,12 +389,12 @@ Plot_age_tot <- function(...,
     )
   )+
     ggplot2::scale_linewidth_manual(
-      values = c(0.75, 1.2),
+      values = c(0.5, 1.2),
       guide = NULL
     )+
     ggplot2::guides(
       linetype=ggplot2::guide_legend(
-        override.aes = list(linewidth=c(0.75, 0.75, 0.75, 1.2))
+        override.aes = list(linewidth=c(0.5, 0.5, 0.5, 1.2))
       ))
       
   #adding the sensitivity Spectrum
@@ -402,16 +419,18 @@ Plot_age_tot <- function(...,
         ylim = c(maxE, maxE * 1.17),
         alpha = 0.85,
         parse = TRUE,
-        size = 4 / 15 * size_font
+        size = 4 / 15 * font_size
       )
     }
-  p1 + patchwork::plot_layout(ncol = 1, nrow= 1)
+  p1
 }
 
 # Age dependent Tranmission plot (main plot)
 Plot_age_trans_p1 <- function(..., 
                          maxE,
                          Spectrum,
+                         Spectrum_Name,
+                         subtitle,
                          Age,
                          alpha, 
                          Spectrum_mel_wtd,
@@ -419,14 +438,16 @@ Plot_age_trans_p1 <- function(...,
                          Alter_rel,
                          age_scale,
                          plot_multiplier,
-                         size_font = 15){
+                         font_size = 15){
   Tau_rel <- Tau_rel_fun(Age)
 
-  p1 <- Plot_age_basis(Spectrum, 
-                       maxE, 
-                       plot_multiplier, 
-                       ..., 
-                       size_font)
+  p1 <- Plot_age_basis(Spectrum = Spectrum, 
+                       Spectrum_Name = Spectrum_Name,
+                       maxE = maxE, 
+                       plot_multiplier = plot_multiplier,
+                       font_size = font_size,
+                       subtitle = subtitle
+                       )
   #adding the various ridgelines
   p1 <- Ridges_alpha(p1, Bestrahlungsstaerke, alpha, 0.1)
   p1 <- Ridges_alpha(p1, Spectrum_mel_wtd, alpha, -0.1)
@@ -454,12 +475,12 @@ Plot_age_trans_p1 <- function(...,
     )
   ) +
     ggplot2::scale_linewidth_manual(
-      values = c(0.75, 1.2),
+      values = c(0.5, 1.2),
       guide = NULL
     )+
     ggplot2::guides(
       linetype=ggplot2::guide_legend(
-        override.aes = list(linewidth=c(0.75, 0.75, 1.2))
+        override.aes = list(linewidth=c(0.5, 0.5, 1.2))
       ))
       
   #adding the sensitivity Spectrum
@@ -484,7 +505,7 @@ Plot_age_trans_p1 <- function(...,
         ylim = c(maxE, maxE * 1.17),
         alpha = 0.85,
         parse = TRUE,
-        size = 4 / 15 * size_font
+        size = 4 / 15 * font_size
       )
   }
   #conditionally adding a relative transmission spectrum
@@ -504,7 +525,7 @@ Plot_age_trans_p1 <- function(...,
         ggplot2::aes(x = x, y = y, label = label),
         hjust = 0,
         col = "red",
-        size = 4  /  15  *  size_font
+        size = 4  /  15  *  font_size
       ) +
     ggplot2::annotate(
         "text",
@@ -513,18 +534,18 @@ Plot_age_trans_p1 <- function(...,
         label = lang$server(87),
         vjust = 1,
         col = "red",
-        size = 5  /  15  *  size_font,
+        size = 5  /  15  *  font_size,
         angle = 90
       )
   }
   
-  p1 + patchwork::plot_layout(ncol = 1, nrow= 1)
+  p1
 }
 
 #part 2 of the tranmsission plot
 Plot_age_trans_p2 <- function(Age, 
                               Alter_mel, 
-                              size_font = 15) {
+                              font_size = 15) {
   Tau <- Tau32 %>% dplyr::mutate(Tau = prerecep_filter(Wellenlaenge, Age))
   #Plot
   p1 <-
@@ -540,7 +561,7 @@ Plot_age_trans_p2 <- function(Age,
     ggplot2::ylab(bquote(.(lang$server(99))~paste(tau)[paste(lambda)]))+
     ggplot2::scale_y_continuous(labels = scales::percent_format(scale = 100))+
     ggplot2::coord_cartesian(ylim = c(0, 1))+
-    cowplot::theme_cowplot(font_size = 8/15*size_font)+
+    cowplot::theme_cowplot(font_size = 8/15*font_size)+
     ggplot2::theme(
       legend.position = "none", 
       plot.background = ggplot2::element_rect(fill = "#FFFFFF90"))+
@@ -558,17 +579,38 @@ Plot_age_trans <- function(...,
                            Alter_inset, 
                            Age, 
                            Alter_mel, 
-                           size_font = 15) {
-  Plot_age_trans_p1(..., 
-                    size_font = size_font, 
-                    Age = Age, 
-                    Alter_mel = Alter_mel) +
-    {if(Alter_inset) {
-      patchwork::inset_element(
-        Plot_age_trans_p2(Age, Alter_mel, size_font), 
-        left = 0.75, bottom = 0.65, right = 0.98, top = 0.98, align_to = "full")
-    }
-  else patchwork::plot_layout(ncol = 1, nrow= 1)}
+                           font_size = 15,
+                           subtitle,
+                           Spectrum_Name) {
+
+     # ggplot2::labs(subtitle = NULL, title = NULL)) +
+     patchwork::wrap_plots(
+       Plot_age_trans_p1(..., 
+                          font_size = font_size, 
+                          Age = Age, 
+                          Alter_mel = Alter_mel,
+                          subtitle = subtitle,
+                          Spectrum_Name = Spectrum_Name),
+       {
+         if(Alter_inset) {
+           patchwork::inset_element(
+             Plot_age_trans_p2(Age, Alter_mel, font_size), 
+             left = 0.75, 
+             bottom = 0.65, 
+             right = 0.98, 
+             top = 0.98, 
+             align_to = "full") 
+           # ggplot2::theme(plot.margin = ggplot2::margin())
+         }
+       }
+     ) +
+  patchwork::plot_annotation(
+    theme = ggplot2::theme(
+      plot.margin = ggplot2::margin(0,0,0,0)
+      ),
+    # title = Spectrum_Name,
+    # subtitle = subtitle
+    )
 }
 
 # #Nimmt das Plot-Resizing wieder vor, sobald sich die Fensterbreite ändert

@@ -92,17 +92,25 @@ export_define_OutputServer <-
       
       shiny::observe({
         output_size$exp[[lang$server(39)]] <- sum(input$export_rad)
-        output_size$exp[["V(lambda)"]] = sum(input$export_vis)
+        output_size$exp[[lang$server(63)]] = sum(input$export_vis)
         output_size$exp$Melanopsin = sum(input$export_alpha %in% "Melanopsin")
         output_size$exp$Erythropsin = sum(input$export_alpha %in% "Erythropsin")
         output_size$exp$Chloropsin = sum(input$export_alpha %in% "Chloropsin")
         output_size$exp$Cyanopsin = sum(input$export_alpha %in% "Cyanopsin")
         output_size$exp$Rhodopsin = sum(input$export_alpha %in% "Rhodopsin")
-        output_size$exp$Alpha_comp = sum(input$export_vergl)
-        output_size$exp$Pupil = sum(input$export_alter %in% lang$ui(117))
-        output_size$exp$Summary = sum(input$export_alter %in% lang$ui(118))
-        output_size$exp$Transmission = 
+        output_size$exp[[lang$server(126)]] = 
+          (sum(length(input$export_alpha)) >= 1)
+        output_size$exp[[lang$server(129)]] = 
+          sum(input$export_vergl)
+        output_size$exp[[lang$server(127)]] = 
+          sum(input$export_alter %in% lang$ui(117))
+        output_size$exp[[lang$server(125)]] = 
+          sum(lang$ui(118) %in% input$export_alter | 
+                sum(length(input$export_alter)) == 2)
+        output_size$exp[[lang$server(128)]] = 
           sum(input$export_alter %in% "Transmission")
+
+        
       })
         
       output_size

@@ -40,8 +40,8 @@ analysis_age_graphicgeneratorServer <-
 
         Plotdata <- list(
           Age = Alter())
-        Analysis[[ns_plot("Pupil")]]$args <- Plotdata
-        Analysis[[ns_plot("Pupil")]]$fun <- "Plot_age_pup"
+        Analysis[[ns_plot(lang$server(127))]]$args <- Plotdata
+        Analysis[[ns_plot(lang$server(127))]]$fun <- "Plot_age_pup"
       })
       
       # Transmission
@@ -63,8 +63,8 @@ analysis_age_graphicgeneratorServer <-
           alpha = ifelse(Hintergrund(), 0.85, 0)
         )
         
-        Analysis[[ns_plot("Transmission")]]$args <- Plotdata
-        Analysis[[ns_plot("Transmission")]]$fun <- "Plot_age_trans"
+        Analysis[[ns_plot(lang$server(128))]]$args <- Plotdata
+        Analysis[[ns_plot(lang$server(128))]]$fun <- "Plot_age_trans"
       })
       
       # Summary
@@ -82,8 +82,8 @@ analysis_age_graphicgeneratorServer <-
           Alter_mel = Alter_mel(),
           alpha = ifelse(Hintergrund(), 0.85, 0)
         )
-        Analysis[[ns_plot("Summary")]]$args <- Plotdata
-        Analysis[[ns_plot("Summary")]]$fun <- "Plot_age_tot"
+        Analysis[[ns_plot(lang$server(125))]]$args <- Plotdata
+        Analysis[[ns_plot(lang$server(125))]]$fun <- "Plot_age_tot"
       })
       
       #Create a table for all the pupil output
@@ -137,42 +137,42 @@ analysis_age_graphicgeneratorServer <-
       shiny::observe({
         shiny::req(Analysis$table_Age$internal)
 
-        Analysis[[ns_table("Pupil")]]$output <-
+        Analysis[[ns_table(lang$server(127))]]$output <-
           list(Table = Analysis$table_Age$internal,
                Spectrum_Name = Analysis$Settings$Spectrum_Name,
-               subtitle = lang$server(91),
+               subtitle = lang$server(90),
                Breite = 100,
                slice = 2)
 
-        Analysis[[ns_table("Pupil")]]$fun <- "table_age"
+        Analysis[[ns_table(lang$server(127))]]$fun <- "table_age"
       })
       
       # create the Settings for the output Table Transmission
       shiny::observe({
         shiny::req(Analysis$table_Age$internal)
 
-        Analysis[[ns_table("Transmission")]]$output <-
+        Analysis[[ns_table(lang$server(128))]]$output <-
           list(Table = Analysis$table_Age$internal,
                Spectrum_Name = Analysis$Settings$Spectrum_Name,
-               subtitle = lang$server(90),
+               subtitle = lang$server(91),
                Breite = 100,
                slice = 3)
 
-        Analysis[[ns_table("Transmission")]]$fun <- "table_age"
+        Analysis[[ns_table(lang$server(128))]]$fun <- "table_age"
       })
       
       #create the Settings for the output Table Summary
       shiny::observe({
         shiny::req(Analysis$table_Age$internal)
 
-        Analysis[[ns_table("Summary")]]$output <-
+        Analysis[[ns_table(lang$server(125))]]$output <-
           list(Table = Analysis$table_Age$internal,
                Spectrum_Name = Analysis$Settings$Spectrum_Name,
                subtitle = lang$server(98),
                Breite = 100,
                slice = 1:5)
 
-        Analysis[[ns_table("Summary")]]$fun <- "table_age"
+        Analysis[[ns_table(lang$server(125))]]$fun <- "table_age"
       })
       
     })

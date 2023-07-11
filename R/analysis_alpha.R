@@ -75,6 +75,15 @@ analysis_alphaServer <-
                             Vergleich = shiny::reactive(input$Vergleich),
                             Hintergrund = shiny::reactive(input$Hintergrund))
       })
+      
+      #create an alpha table
+      shiny::observe({
+        shiny::req(Analysis$Settings$Spectrum)
+        Analysis[[ns_table("alpha")]]$internal <- table_alpha(Analysis)
+        
+      })
+      
+      
     })
   }
 

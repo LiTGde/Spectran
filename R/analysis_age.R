@@ -118,13 +118,13 @@ analysis_ageUI <- function(
     #Tabsets with the age plots
     shiny::tabsetPanel(
       shiny::tabPanel( title = "Transmission",
-        analysis_age2UI(id = ns("Transmission"), "450px")
+        analysis_age2UI(id = ns(lang$server(128)), "450px")
       ),
       shiny::tabPanel( title = lang$ui(117),
-                       analysis_age2UI(id = ns("Pupil"), "350px")
+                       analysis_age2UI(id = ns(lang$server(127)), "350px")
       ),
       shiny::tabPanel( title = lang$ui(118),
-                       analysis_age2UI(id = ns("Summary"), "450px")
+                       analysis_age2UI(id = ns(lang$server(125)), "450px")
       ),
       selected = lang$ui(118)
     ),
@@ -185,7 +185,8 @@ analysis_ageServer <-
           )
       
       #create the module servers for outputs
-      purrr::map2(c("Transmission", "Pupil", "Summary"), c(450, 350, 450), 
+      purrr::map2(c(lang$server(128), lang$server(127), lang$server(125)), 
+                  c(450, 350, 450), 
                   \(i,h) {
       analysis_age2Server(
         id = i,

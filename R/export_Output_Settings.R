@@ -70,60 +70,116 @@ export_Output_SettingsServer <-
         )
       })
       
+      #uncheck table for graphics, if no graphics are exported
+      shiny::observe({
+        if(!lang$ui(143) %in% input$export_typ) {
+        shiny::updateCheckboxInput(session, "export_tab", value = FALSE)
+        }
+      }) %>% shiny::bindEvent(input$export_typ, input$export_tab)
+      
       # Set a factor for the plotheight, if gets combined with a table
-      Plot_multiplikator <- 0.8
+      Plot_multiplikator <- 0.80
       
       #create an export table
-      Export <- shiny::reactiveValues(Plot = NULL)
+      Export <- shiny::reactiveValues(Plot = list())
       
+      #create the table_settings
       shiny::observe({
-        req(Analysis)
-        num <- outputs$exp %>% unlist() %>% sum()
-        # req(num !=0)
+        shiny::req(Analysis)
         
-        feed <- if(num != 0) Filter(\(x) {x == 1}, outputs$exp) %>% names()
-        
-        Export$Plot <- if(num !=0) {
-          if(feed != "Alpha_comp") {
-            # Export[[feed]] <-
-            c(
-              Analysis[[ns_plot(feed)]]$args,
-              f = rlang::sym(Analysis[[ns_plot(feed)]]$fun),
-              numConv = numConv(),
-              export_tab = input$export_tab,
-              feed = feed,
-              plot_height = input$plot_height,
-              Plot_multiplikator = Plot_multiplikator,
-              font_size = input$font_size)
+        Export$Table_prep <- outputs$exp %>% purrr::imap(
+          \(val, feed) {
+            if(input$export_tab | lang$ui(144) %in% input$export_typ) {
+              #standard tables
+              table_exp_args(
+                plot_width = input$plot_width,
+                plot_height = input$plot_height,
+                export_tab = input$export_tab,
+                export_typ = input$export_typ,
+                val = val,
+                feed = feed,
+                Analysis = Analysis,
+                Export = Export,
+                Age = outputs$exp[9:11],
+                Alpha = outputs$exp[3:7]
+                )
+            } 
           }
-          else {
-            c(list(
-              Sensitivity_Overview = Analysis$Settings$general),
-              f = rlang::sym("Plot_Compare"),
+        )
+      })
+      
+      #create the Plot-settings
+      shiny::observe({
+        shiny::req(Analysis, 
+                   outputs$exp)
+
+        Export$Plot <- outputs$exp %>% purrr::imap(
+          \(val, feed) {
+            if(lang$ui(143) %in% input$export_typ) {
+            plot_exp_args(
               numConv = numConv(),
               export_tab = input$export_tab,
               feed = feed,
               plot_height = input$plot_height,
+              plot_width = input$plot_width,
               Plot_multiplikator = Plot_multiplikator,
               font_size = input$font_size,
-              addon = 
-                \() {ggplot2::ggtitle(
-                  label = Analysis$Settings$Spectrum_Name,
-                  subtitle = lang$server(50))}
+              Analysis = Analysis,
+              val = val,
+              Spectrum_Name = Analysis$Settings$Spectrum_Name,
+              Export = Export
             )
+            }
           }
-        }
+        )
       })
+        
+        #create a Excel File of the data
+        shiny::observe({
+          shiny::req(Analysis)
+          
+          Export$Xlsx <- outputs$exp %>% purrr::imap(
+            \(val, feed) {
+              if(lang$ui(145) %in% input$export_typ &
+                 feed != lang$server(126)) {
+                tables <- dplyr::case_match (
+                  feed,
+                  c(lang$server(127), 
+                    lang$server(125),
+                    lang$server(128)) ~ "Age",
+                  .default = feed,
+                  .ptype = "list"
+                )
+                table <- table_export_prep(tables, val, Analysis)
+                if(feed == lang$server(127) & !is.null(table)) {
+                  table %>% dplyr::slice(3)
+                }
+                else if (feed == lang$server(128) & !is.null(table)) {
+                  table %>% dplyr::slice(4)
+                }
+                else table
+              } 
+            }
+          )
+          })
+        
+        #create a csv of the data
+        shiny::observe({
+          shiny::req(Analysis)
+          Export$CSV <- {
+          if(lang$ui(146) %in% input$export_typ) {
+            temp_data <- Analysis$Settings$Spectrum
+            names(temp_data) <- c(lang$server(31), lang$server(32))
+             temp_data
+          } 
+          }
+        })
       
       #Return value
       Export
       
     })
   }
-
-# test <- list(a = 0, b = 0, c = 0)
-# erg <- Filter(\(x) {x == 1}, test)
-# sum(unlist(test))
 # 
 # 
 # #Radiometrischer Plot mit/ohne Tabellen
@@ -630,9 +686,6 @@ export_Output_SettingsServer <-
 #     writeData(wb, sheet = name, data2)
 #   }}
 # 
-# renaming <- function(data = Plot_data$files) {
-#   str_replace(data, pattern = spec_name(), paste0(spec_name(), "_", 01:length(data)))
-# }
 # 
 # Alpha_downloads <- reactive({
 #   
