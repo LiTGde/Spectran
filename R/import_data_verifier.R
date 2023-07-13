@@ -73,7 +73,7 @@ import_data_verifierServer <-
           Spectrum$Destination <- Destination
           Spectrum$Name <- Name_suffix(Spectrum$Origin, Name())
           }
-          Spectrum$Other <- list(Spectrum$Spectrum, Spectrum$Spectrum_raw)
+          # Spectrum$Other <- list(Spectrum$Spectrum, Spectrum$Spectrum_raw)
         }
         
       }) %>% shiny::bindEvent(input$import)

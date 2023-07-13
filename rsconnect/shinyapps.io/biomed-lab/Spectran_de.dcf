@@ -1,0 +1,13 @@
+name: Spectran_de
+title: Spectran_de
+username:
+account: biomed-lab
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9440008
+bundleId: 7444514
+url: https://biomed-lab.shinyapps.io/Spectran_de/
+when: 1689087229.07353
+lastSyncTime: 1689087229.07354
+asMultiple: FALSE
+asStatic: FALSE

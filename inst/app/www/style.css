@@ -5,8 +5,12 @@
 
 .content-wrapper {
     background-color: #F0F0F0;
+    overflow-y: hidden;
 }
 
+.wrapper {
+    overflow-y: hidden; * Show vertical scrollbar *
+}
 
 .skin-yellow .sidebar-menu>li.active>a, .skin-yellow .sidebar-menu>li:hover>a {
     color: black;
@@ -83,3 +87,15 @@ a {
 .background-rect {
     background-color: #F8E350;
 }
+
+body {
+    overflow-y: scroll; * Show vertical scrollbar *
+}
+  
+.sweet-overlay {
+    overflow-y: scroll;
+}
+
+body.stop-scrolling{
+    overflow: scroll;
+}  

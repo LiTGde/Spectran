@@ -82,6 +82,7 @@ import_verifierServer <-
         Spectrum$Illu <-         
           Spectrum$Spectrum$Bestrahlungsstaerke %>% 
           Calc_lux(Specs$AS_wide, Specs$Efficacy)
+        Spectrum$Analysis <- Spectrum$Analysis + 1
       })
     })
   }

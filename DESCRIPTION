@@ -13,6 +13,7 @@ Depends:
     R (>= 2.10)
 LazyData: true
 Imports: 
+    chromote,
     colorSpec,
     cowplot,
     dplyr,
@@ -26,7 +27,9 @@ Imports:
     htmltools,
     magrittr,
     openxlsx,
+    pagedown,
     patchwork,
+    pkgload,
     png,
     purrr,
     readr,
@@ -38,6 +41,7 @@ Imports:
     shinyFeedback,
     shinyjs,
     shinyWidgets,
+    spacesXYZ,
     spsComps,
     stats,
     stringr,
@@ -45,4 +49,6 @@ Imports:
     tidyr,
     tidyselect,
     utils,
+    waiter,
+    webshot2,
     withr

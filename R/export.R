@@ -57,29 +57,58 @@ exportServer <-
   function(
     id, 
     Analysis,
-    Spectrum
+    Spectrum,
+    Tabactive
   ) {
   
   shiny::moduleServer(id, function(input, output, session) {
     
     #what plots should be exported
-    outputs <- export_define_OutputServer("Outputs")
+    outputs <- export_define_OutputServer("Outputs", Tabactive)
     
     #manage general settings
-    export_general_settingsServer("Analysis_Settings", Analysis, Spectrum)
+    export_general_settingsServer("Analysis_Settings", Analysis, Spectrum,
+                                  Tabactive)
     
     #create the output files
-    Export <- export_Output_SettingsServer("Export_Settings", Analysis, outputs)
+    Export <- export_Output_SettingsServer("Export_Settings", Analysis, outputs,
+                                           Tabactive)
     
     #create a reactive value for Files
     Export_files <- shiny::reactiveVal(NULL)
     
-    # shiny::observe({
-    #   shiny::req(Export$Plot)
-    #   
-    #   Export$files <-
-    #     Export$Plot
-    # })
+    #Download-Button: enable/disable
+    shiny::observe({
+      shiny::req(Tabactive() == "export", 
+                 outputs$exp)
+      #produce the total number of download files and set the button
+      #accordingly
+        #Tables
+        Export$n_tables <- purrr::reduce(Export$Download_tables, `+`, .init = 0)
+      
+        #Plots
+        Export$n_plots <-  purrr::map(Export$Plot, \(x) {!is.null(x)}) %>% 
+        purrr::reduce(`+`, .init = 0) 
+        
+        #Excel
+        Export$n_excel <-  (purrr::map(Export$Xlsx, \(x) {!is.null(x)}) %>% 
+           purrr::reduce(`+`, .init = 0)) != 0
+      
+        #CSV Export
+        Export$n_csv <-  !is.null(Export$CSV)
+        
+        #sum
+        Export$n_total <- 
+          Export$n_plots + Export$n_excel + Export$n_csv + Export$n_tables
+        
+      #update the downloadbutton
+      down_button_update(
+        "download_button",
+        "download",
+        htmltools::strong(paste0(" ", lang$server(109)," (n=%s)")),
+        n = Export$n_total
+        )
+    })
     
     #Download-Button
     output$download_button <- downloadHandler(
@@ -91,18 +120,11 @@ exportServer <-
       #Content
       content = function(file) {
         
+        #package is needed for the table export to work properly
+        # withr::local_package("chromote")
+        
         #Spectrum Name
         Spectrum_Name <- Analysis$Settings$Spectrum_Name
-        
-        #Shinyalert with preparation message
-        shinyalert::shinyalert(
-          title = paste0("Export: ", Spectrum_Name),
-          text = paste0(lang$server(114)),
-          type = "success",
-          timer = 5000,
-          closeOnClickOutside = TRUE,
-          showConfirmButton = FALSE
-          )
         
         #Create a temporary directory that will overwrite the workin directory
         #on exit. Also reset the Export_files list.
@@ -110,13 +132,26 @@ exportServer <-
         on.exit({setwd(owd)})
         Export_files(NULL)
         Export$Tables <- NULL
-        # Table_pics(NULL)
+        Export$Table_pics <- NULL
+        
+        #set up a general progress bar
+        shiny::withProgress(message = lang$server(115), value = 0, {
         
         #Save Tables
-        purrr::map(Export$Table_prep, \(args) { 
-          if(!is.null(args)) do.call("table_download", args = c(args))
-        })
+          #set up a table progress bar
+          shiny::withProgress(message = lang$server(116), value = 0, {
+            purrr::map(Export$Table_prep, \(args) {
+              if (!is.null(args))
+                do.call("table_download", args = c(args))
+            })
+          })
         
+          #setting the progress
+          shiny::setProgress(
+            length(Export$Tables)/Export$n_total, 
+            detail = paste(lang$server(117), length(Export$n_tables))
+            )
+          
         #Export Plots
         purrr::map(Export$Plot, \(args) {           
           do.call("plot_download",
@@ -124,51 +159,34 @@ exportServer <-
                            Export_files = Export_files))
         })
         
-        
-        
-        # withProgress(message = lang$server(115), value = 0, {
-          
-        #   
-        #   if(input$export_tab | lang$ui(144) %in% input$export_typ) {
-        #     withProgress(message = lang$server(116), value = 0, {
-        # 
-        #       pmap(
-        #         extracto_table(1:dim(Table_data$tabelle)[1]),
-        #         tabelle_download
-        #       )
-        #     })
-        #   }
-        #         
-        # Setting up all the plotfiles
+        #setting the progress
+        shiny::setProgress(
+          (Export$n_tables + Export$n_plots)/Export$n_total,
+          detail = paste(lang$server(118), length(Export_files())))
 
-        #   setProgress(length(Plot_data$tables)/Plot_data$n_export, detail = paste(lang$server(117), length(Plot_data$tables)))
-        #   setProgress( (length(Plot_data$files) + length(Plot_data$tables))/Plot_data$n_export, detail = paste(lang$server(118), length(Plot_data$files)))
-        # 
         #add relevant table files to the list
-          # if(lang$ui(144) %in% input$export_typ) {
         Export_files(c(Export_files(), Export$Tables))
-          # }
-        # 
-        #   setProgress(value = 1, detail = paste(lang$server(119), length(Plot_data$files)))
+
         
-            #Export Excel
-            wb <- NULL
-            if(!purrr::every(Export$Xlsx, is.null)) {
-              #Filename
-              filename <- paste(Spectrum_Name, "_", Sys.Date(), ".xlsx", sep="")
-              
-              #create a new workbook
-              wb <- openxlsx::createWorkbook(Spectrum_Name)
-              
-              #add worksheets
-              excel_sheet(wb, Export$Xlsx[[1]], "Radiometrie")
-              
-              #save the workbook in a temporary file and write the filenames to list
-              openxlsx::saveWorkbook(wb, filename, overwrite = TRUE)
-              Export_files(c(Export_files(), filename))
-            }
-            
-            
+        #Export Excel
+        
+        if (!purrr::every(Export$Xlsx, is.null)) {
+          #Filename
+          filename <-
+            paste(Spectrum_Name, "_", Sys.Date(), ".xlsx", sep = "")
+          
+          #create a new workbook
+          wb <- openxlsx::createWorkbook(Spectrum_Name)
+          
+          #add worksheets
+          purrr::imap(Export$Xlsx, excel_sheet, wb = wb)
+          # excel_sheet(wb, Export$Xlsx[[1]], "Radiometrie")
+          
+          #save the workbook in a temporary file and write the filenames to list
+          openxlsx::saveWorkbook(wb, filename, overwrite = TRUE)
+          Export_files(c(Export_files(), filename))
+        }
+        
         # export a csv file 
           if(!is.null(Export$CSV)) {
             filename <- 
@@ -182,6 +200,12 @@ exportServer <-
             Export_files(c(Export_files(), filename))
           }
         
+            #set a final progress
+            shiny::setProgress(value = 1,
+                               detail = paste(
+                                 lang$server(119), length(Export$n_total))
+                               )
+            
         # give the files a sequential numbering
           file.rename(from = Export_files(), 
                       to = renaming(Export_files(),
@@ -192,10 +216,15 @@ exportServer <-
           utils::zip(file, renaming(Export_files(),
                                     Spectrum_Name)
                      )
-        # })
-
-      }
-    )
+        }
+        )
+        
+        shinyalert::shinyalert(paste0("Download: ", Spectrum_Name), 
+                   text = paste0(lang$server(114)), 
+                   type = "success", 
+                   timer = 5000, 
+                   closeOnClickOutside = TRUE)
+      })
     
     #Return Value
     Export
@@ -214,14 +243,60 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
   
   #set the language for the program
   the$language <- lang_setting
-  
+
   #UI
   ui <-
     shinydashboard::dashboardPage( skin = "yellow",
                                    #Header
                                    UI_Header(),
                                    #Sidebar
-                                   UI_Sidebar(),
+                                   shinydashboard::dashboardSidebar(
+                                     width = 190,
+                                     shinydashboard::sidebarMenu(
+                                       id = "inTabset",
+                                       htmltools::br(),
+                                       htmltools::p(
+                                         htmltools::img(
+                                           width = "135px", 
+                                           src = "extr/Logo.png"),
+                                         align = "center"),
+                                       # htmltools::br(),
+                                       shinydashboard::menuItem(
+                                         lang$ui(1),
+                                         tabName = "tutorial",
+                                         icon = shiny::icon("circle-info")),
+                                       htmltools::br(),
+                                       shinydashboard::menuItem(
+                                         "Import",
+                                         tabName = "import",
+                                         icon = shiny::icon("file-import")
+                                       ),
+                                       shinydashboard::menuItem(
+                                         lang$ui(23),
+                                         tabName = "analysis",
+                                         icon = shiny::icon(
+                                           "magnifying-glass-chart")
+                                       ),
+                                       shinydashboard::menuItem(
+                                         "Export",
+                                         tabName = "export",
+                                         icon = shiny::icon("file-export"),
+                                         selected = TRUE
+                                       ), 
+                                       htmltools::br(),
+                                       shinydashboard::menuItem(
+                                         lang$ui(153),
+                                         tabName = "validity",
+                                         icon = shiny::icon("file-circle-check")
+                                       ),
+                                       shinydashboard::menuItem(
+                                         lang$ui(158),
+                                         tabName = "impressum",
+                                         icon = shiny::icon(
+                                           "user", lib = "glyphicon")
+                                       )
+                                     )
+                                   ),
                                    #Body
                                    shinydashboard::dashboardBody(
                                      #Add a link to the css resource
@@ -255,7 +330,10 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
                                        shinydashboard::tabItem(
                                          tabName = "impressum",
                                          impressumUI("impressum"))
-                                     )
+                                     ),
+                                     shiny::fluidPage(
+                                       htmltools::p(shiny::plotOutput(
+                                         "Plotbreite", height = "1px")))
                                    )
     )
   
@@ -281,7 +359,8 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
     
     #Analysis
     Analysis <- analysisServer("analysis",
-                               Spectrum = Spectrum)
+                               Spectrum = Spectrum,
+                               Tabactive = shiny::reactive(input$inTabset))
     
     #Export
     Export <- exportServer("export", Analysis, Spectrum)
@@ -317,21 +396,23 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
           inputId = "inTabset",
           selected = "export")
     }) %>% shiny::bindEvent(Analysis$to_export)
+
     
-    # output$alpha_table <- gt::render_gt(
-    #   Table_alpha(
-    #     Analysis,
-    #     show = Specs$Alpha$names
-    #     )
-    #   )
+    output$Plotbreite <- shiny::renderPlot({
+    }, bg = "white")
+    
     
     output$Data_ok <- shiny::renderPrint({
       #     print("Developer Troubleshoot\n")
       # p990rint(list.files(path = "extr/"))
       # print(Export$CSV)
       # print(Analysis$table_Radiometrie$internal)
-      print(Export$Table_prep)
-      #     print(Spectrum$Other)
+      # print(Export$Download_n)
+      # print(Export$Download_tables)
+      # print(Export$Table)
+      # print(Export$Xlsx)
+      # print(Export$Plot)
+      # print(Spectrum$Origin)
       #     print(Spectrum$Spectrum %>% utils::head())
       #     print(Spectrum$Spectrum %>% utils::tail())
     })

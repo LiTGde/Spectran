@@ -1,7 +1,7 @@
 #Sidebar
 UI_Sidebar <- function() {
   shinydashboard::dashboardSidebar(
-  width = 190,
+  width = 150,
   shinydashboard::sidebarMenu(
     id = "inTabset",
     htmltools::br(),
@@ -18,17 +18,8 @@ UI_Sidebar <- function() {
                              tabName = "import",
                              icon = shiny::icon("file-import")
     ),
-    shinydashboard::menuItem(lang$ui(23),
-                             tabName = "analysis",
-                             icon = shiny::icon(
-                               "magnifying-glass-chart")
-    ),
-    shinydashboard::menuItem(
-      "Export",
-      tabName = "export",
-      icon = shiny::icon("file-export"),
-      selected = TRUE
-    ), 
+    shinydashboard::menuItemOutput("analysis"),
+    shinydashboard::menuItemOutput("export"), 
     htmltools::br(),
     shinydashboard::menuItem(
       lang$ui(153),
@@ -47,8 +38,8 @@ UI_Sidebar <- function() {
 #Header
 UI_Header <- function() {
 shinydashboard::dashboardHeader(
-  title = "Spectral Analysis",
-  titleWidth = 190,
+  title = "Spectran",
+  titleWidth = 150,
   htmltools::tags$li(
     class = "dropdown",
     htmltools::a(htmltools::HTML(

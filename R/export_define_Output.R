@@ -34,7 +34,8 @@ export_define_OutputUI <-
 
 export_define_OutputServer <- 
   function(
-    id) {
+    id,
+    Tabactive) {
     
     shiny::moduleServer(id, function(input, output, session) {
 
@@ -47,10 +48,10 @@ export_define_OutputServer <-
           input$export_rad,
           input$export_vis,
           input$export_vergl,
-          length(input$export_alpha) == length(Specs$Alpha$names),
-          length(input$export_alter) == 3
+          length(input$export_alpha),
+          length(input$export_alter)
         )
-        if(test != 4) {
+        if(test != 10) {
           
         #for single checkboxes
         c("export_rad", "export_vis", "export_vergl") %>% 
@@ -77,6 +78,7 @@ export_define_OutputServer <-
     
       #if even one is deselected, the all button should uncheck
       shiny::observe({
+        shiny::req(Tabactive() == "export")
         test <- all(
           input$export_rad,
           input$export_vis,
@@ -91,6 +93,7 @@ export_define_OutputServer <-
       output_size <- shiny::reactiveValues()
       
       shiny::observe({
+        shiny::req(Tabactive() == "export")
         output_size$exp[[lang$server(39)]] <- sum(input$export_rad)
         output_size$exp[[lang$server(63)]] = sum(input$export_vis)
         output_size$exp$Melanopsin = sum(input$export_alpha %in% "Melanopsin")

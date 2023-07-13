@@ -46,7 +46,8 @@ analysisUI <-
 analysisServer <- 
   function(
     id, 
-    Spectrum = NULL
+    Spectrum = NULL,
+    Tabactive = NULL
     ) {
   
   shiny::moduleServer(id, function(input, output, session) {
@@ -64,13 +65,16 @@ analysisServer <-
     analysis_photoServer("photo",
                          Analysis = Analysis,
                          feed = lang$server(63),
-                         Name = Specs$Plot$Names[[6]])
+                         Name = Specs$Plot$Names[[6]],
+                         Tabactive = Tabactive)
 
     analysis_alphaServer("alpha",
-                         Analysis = Analysis)
+                         Analysis = Analysis,
+                         Tabactive = Tabactive)
 
     analysis_ageServer("age",
-                         Analysis = Analysis)
+                         Analysis = Analysis,
+                       Tabactive = Tabactive)
     
     #exporting the to_Export button
     shiny::observe({
@@ -85,11 +89,6 @@ analysisServer <-
 # App ---------------------------------------------------------------------
 
 analysisApp <- function(lang_setting = "Deutsch") {
-  
-  library(reactlog)
-  
-  # tell shiny to log all reactivity
-  reactlog_enable()
   
   #set the language for the program
   the$language <- lang_setting

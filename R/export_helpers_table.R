@@ -1,3 +1,8 @@
+table_exp <- function(f, ..., subtitle) {
+  p1 <- f(..., subtitle = table_subtitle(subtitle))
+  p1
+}
+
 #create a table with all the alpha values
 Table_alpha <- function(
     Spectrum_Name,

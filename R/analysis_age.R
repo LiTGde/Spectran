@@ -149,7 +149,8 @@ analysis_age2UI <- function(
 
 analysis_ageServer <- 
   function(id, 
-           Analysis
+           Analysis,
+           Tabactive
   ) {
     
     shiny::moduleServer(id, function(input, output, session) {
@@ -192,7 +193,8 @@ analysis_ageServer <-
         id = i,
         Analysis = Analysis,
         feed = i,
-        plotheight = h
+        plotheight = h,
+        Tabactive = Tabactive
       )
       })
     })
@@ -202,7 +204,8 @@ analysis_age2Server <-
   function(id, 
            Analysis,
            feed,
-           plotheight
+           plotheight,
+           Tabactive
   ) {
     
     shiny::moduleServer(id, function(input, output, session) {
@@ -212,9 +215,17 @@ analysis_age2Server <-
         shiny::req(Analysis[[ns_plot(feed)]])
         do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
 
-      } ,height = plotheight)
-      shiny::outputOptions(output, "plot", suspendWhenHidden = TRUE)
-
+      } ,height = plotheight,
+      width = \() {session$clientData$output_Plotbreite_width}
+      )
+      shiny::observe({
+        shiny::outputOptions(
+          output, 
+          "plot", 
+          suspendWhenHidden = if(Tabactive() == "analysis") FALSE else TRUE
+        )
+      })
+      
       # Table (Output for Radiometry)
       output$table <- gt::render_gt({
         shiny::req(Analysis[[ns_table(feed)]])

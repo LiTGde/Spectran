@@ -1,7 +1,11 @@
 #Footnotes for plots
 
 footnote <- function(font_size) {
-  foottext <- paste0(lang$server(43),"**LiTG Spectran** (Zauner, 2023)")
+  
+  foottext <- paste0(lang$server(43),
+                     "**LiTG Spectran**"
+                     # " (Zauner, 2023)"
+                     )
   list(
     # ggplot2::labs(caption = foottext),
     patchwork::plot_annotation(caption = foottext,
@@ -109,8 +113,16 @@ plot_download <- function(...,
     
     #append the plot filename to the list of filenames
     Export_files(c(Export_files(), filename))
+
+  # set a progress update
+  shiny::setProgress(
+    length(Export_files()) / Export$n_total,
+     detail = paste0(
+       length(Export_files()), " / ",
+       Export$n_total,
+       lang$server(107))
+     )
   }
-  # setProgress((length(Plot_data$files)+ length(Plot_data$tables))/Plot_data$n_export, detail = paste(length(Plot_data$files), lang$server(106), length(Plot_data$files), lang$server(107)))
 }
 
 #rename the output files with a sequence
@@ -132,10 +144,8 @@ col_names_export <- function() {
 #write to an excel sheet
 excel_sheet <- function(wb, data, name){
   if(!is.null(data)){
-    data2 <- data
-    names(data2) <- 
-      openxlsx::addWorksheet(wb, name)
-    openxlsx::writeData(wb, sheet = name, data2)
+    openxlsx::addWorksheet(wb, name)
+    openxlsx::writeData(wb, sheet = name, data)
   }}
 
 #select a table and prepare it for export in an excel worksheet
@@ -146,10 +156,11 @@ table_export_prep <-
     Analysis
   ) {
     if(val == 1) {
-      if(feed != lang$server(129) & feed != lang$server(126)) {
+      if(feed != lang$server(129) & 
+         !feed %in% Specs$Alpha$names) {
         Analysis[[ns_table(feed)]]$internal %>% 
-          dplyr::select(!Zeichen) %>% 
-          {rbind(col_names_export(), . )}
+          dplyr::select(!Zeichen)
+          # {rbind(col_names_export(), . )}
       }
       else NULL
     }
@@ -175,7 +186,7 @@ table_exp_args <- function(..., Analysis, val, feed, Alpha) {
       args <- list(
         f = rlang::sym("Table_alpha"),
         ...,
-        Table = Analysis[[ns_table("alpha")]]$internal,
+        Table = Analysis[[ns_table(lang$server(126))]]$internal,
         Alpha = Alpha,
         feed = feed,
         subtitle = lang$server(110)
@@ -230,7 +241,12 @@ table_download <- function(...,
             Age[[lang$server(128)]] == 1) & lang$ui(144) %in% export_typ){
       Export$Tables <- c(Export$Tables, filename)}
     }
-    # incProgress(1/sum(Table_data$tabelle[[6]]), detail = paste(lang$server(112), length(Plot_data$tables), lang$server(113)))
+    #increase the progress
+    shiny::setProgress(
+      length(Export$Table_pics)/max(Export$n_plots,Export$n_tables), 
+      detail = paste(length(Export$Tables), " / ", 
+                     Export$n_tables, 
+                     lang$server(113)))
   }
 }
 
@@ -238,3 +254,35 @@ table_download <- function(...,
 plot_height_recalc <- function(plot_height, png) {
 plot_height*0.9+(dim(png)[1]+40)/240
 }
+
+#enable/disable the downloadbutton depending on downloads
+down_button_update <- 
+  function(
+    name, 
+    icon, 
+    Bezeichnung, 
+    n
+  ) {
+    if(n == 0) {
+      shinyjs::disable(name)
+      shinyjs::html(name,
+                    sprintf(
+                      paste0(
+                        "<i class='fa fa-circle-exclamation'></i>",
+                        lang$server(108)
+                      )
+                    )
+      )
+    }
+    else {
+      shinyjs::enable(name)
+      shinyjs::html(name,
+                    sprintf(
+                      paste0(
+                        "<i class='fa fa-", icon, "'></i> ", Bezeichnung
+                      ),
+                      n
+                    )
+      )
+    }
+  }

@@ -70,7 +70,12 @@ table_subtitle <- function(subtitle) {
     paste0(
       "</b><span style='float:right'> ",
       lang$server(43) ,
-      " <b>LiTG Spectran</b> (Zauner, 2023)</span>"
+      " <b>LiTG Spectran</b>",
+      # htmltools::img(
+      #   width = "17px",
+      #   src = paste0(shiny::resourcePaths()[["extr"]], "/Logo.png")),
+      # " (Zauner, 2023)",
+      "</span>"
     )
   title <- paste0(beginning, subtitle, ending)
   gt::html(title)

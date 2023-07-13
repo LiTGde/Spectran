@@ -11,7 +11,8 @@ impressumUI <- function(
   
   ns <- shiny::NS(id)
   #List all the used packages
-  packages <- .packages() %>% sort()
+  packages <- utils::packageDescription("Spectran")$Imports %>% 
+    stringr::str_split_1(pattern = ",\\n")
   
   htmltools::tagList(
     htmltools::h3(lang$ui(158)),
@@ -25,7 +26,7 @@ impressumUI <- function(
       lang$ui(163), htmltools::br(),
       htmltools::strong("Johannes Zauner"), htmltools::br(), htmltools::br(),
       lang$ui(171), htmltools::br(),
-      htmltools::strong("Meike Barfuß, Nils Haferkemper, Sylvia Hubalek")), 
+      htmltools::strong("Meike Barfu\u00df, Nils Haferkemper, Sylvia Hubalek")), 
       htmltools::br(),
       #Details on the LiTG
       htmltools::strong(lang$ui(172)), htmltools::br(),

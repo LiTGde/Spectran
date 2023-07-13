@@ -51,7 +51,8 @@ analysis_setupServer <-
       Analysis$Settings <- list(
         Spectrum = Spectrum$Spectrum %>% tibble::as_tibble(),
         Spectrum_Name = Spectrum$Name,
-        general = Table()
+        general = Table(),
+        Origin = Spectrum$Origin
         )
       
     }) %>% shiny::bindEvent(Spectrum$Spectrum, Spectrum$Name)

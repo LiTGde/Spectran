@@ -197,11 +197,14 @@ import_dataServer <-
     
     #Make adjustments to the Import when coming from other sources
     shiny::observe({
-      if(Spectrum$Destination == lang$ui(69)) {
+      shiny::req(dat())
+      if(Spectrum$Destination == lang$ui(69) &
+         !identical(Spectrum$Spectrum[[2]], dat()[[2]])
+         ) {
       dat(Spectrum$Spectrum)
       # importfile(Spectrum$Name)
       }
-    }) %>% shiny::bindEvent(Spectrum$Spectrum)
+    }) %>% shiny::bindEvent(Spectrum$Spectrum, ignoreInit = TRUE)
     
     #Functions to set the csv-settings
     csv_settings <- 

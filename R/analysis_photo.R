@@ -49,10 +49,15 @@ analysis_photoServer <-
   function(id, 
            Analysis,
            feed,
-           Name
+           Name,
+           Tabactive
   ) {
     
     shiny::moduleServer(id, function(input, output, session) {
+      
+      shiny::observe({
+        Analysis$Tabactive <- Tabactive()
+      })
       
       #checking the sensitivity box, when export demands it
       shiny::observe({
@@ -119,8 +124,14 @@ analysis_photoServer <-
         
         do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
 
-      } ,height = 350)
-      shiny::outputOptions(output, "plot", suspendWhenHidden = TRUE)
+      } ,height = 350,
+      width = \() {session$clientData$output_Plotbreite_width}
+      )
+        shiny::outputOptions(
+          output, 
+          "plot", 
+          suspendWhenHidden =  FALSE
+          )
       
       #create an (internal) Table
       shiny::observe({
@@ -140,7 +151,7 @@ analysis_photoServer <-
           #photometric irradiance
           lang$server(55),"E<sub>e,v</sub>", "E_e,v",
           Analysis$Settings$general$E[Analysis$Settings$general$Names == Name]*
-            1000, "mW/m²",
+            1000, "mW/m\u00b2",
           #photometric to complete visual irradiance
           lang$server(56),"E<sub>e,v</sub>/E<sub>e</sub>", "E_e,v/E_e",
           Analysis$Settings$general$E[Analysis$Settings$general$Names == Name]*

@@ -70,8 +70,13 @@ analysis_radioServer <-
 
       do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
 
-      } ,height = 350)
-    shiny::outputOptions(output, "plot", suspendWhenHidden = FALSE)
+      } ,
+      height = 350,
+      width = \() {session$clientData$output_Plotbreite_width}
+      )
+    shiny::outputOptions(output, 
+                         "plot", 
+                         suspendWhenHidden = FALSE)
 
     
     #create an (internal) Table
@@ -84,7 +89,7 @@ analysis_radioServer <-
       ~Wert, ~Einheit,
       #Irradiance
       lang$server(40), "E<sub>e</sub>", "E_e",
-      sum(Analysis$Settings$Spectrum[[2]]), "mW/m\u00b2",
+      sum(Analysis$Settings$Spectrum[[2]])*1000, "mW/m\u00b2",
       #peak wavelength
       lang$server(41), "&lambda;<sub>Emax</sub>", "lambda_Emax",
       LambdaMax(Analysis$Settings$Spectrum), "nm",

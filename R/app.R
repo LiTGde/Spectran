@@ -17,10 +17,16 @@ Spectran <- function(lang_setting = "Deutsch", ...) {
     
     #set the language for the program
     the$language <- lang_setting
+
+    #create an Environment that holds the plotwidths of users
+    theuser <- new.env(parent = emptyenv())
+    theuser$Plotbreite_temp <- 200
+    
     
     #UI
     ui <-
-        shinydashboard::dashboardPage( skin = "yellow",
+        shinydashboard::dashboardPage( 
+            skin = "yellow",
         #Header
         UI_Header(),
         #Sidebar
@@ -30,7 +36,6 @@ Spectran <- function(lang_setting = "Deutsch", ...) {
             #Add a link to the css resource
             htmltools::tags$link(
                 rel = "stylesheet", type="text/css", href="extr/style.css"),
-            # verbatimTextOutput("Data_ok"),
             shinydashboard::tabItems(
                 #add a tab for the introduction
                 shinydashboard::tabItem(tabName = "tutorial",
@@ -50,12 +55,24 @@ Spectran <- function(lang_setting = "Deutsch", ...) {
                 #add a tab for the impressum
                 shinydashboard::tabItem(tabName = "impressum",
                          impressumUI("impressum"))
-            )
+            ),
+            shiny::fluidPage(
+            (shiny::plotOutput("Plotbreite", height = "1px"))),
+            waiter::useWaiter(),
+            # waiter::waiterOnBusy(html = waiter::spin_solar(),
+            #                      color = "#2874A625", fadeout = 100),
+            waiter::autoWaiter(html = waiter::spin_solar(),
+                               color = "#2874A625", fadeout = 100),
+            waiter::waiterPreloader(
+                html = waiter::spin_solar(), color = "#2874A625", fadeout = 500)
             )
         )
     
     #Server
     server <- function(input, output, session) {
+        
+        #allow reconnect
+        session$allowReconnect(TRUE)
         
         #Introduction
         zu_Import <- introductionServer("intro")
@@ -65,7 +82,17 @@ Spectran <- function(lang_setting = "Deutsch", ...) {
         
         #Analysis
         Analysis <- analysisServer("analysis",
-                       Spectrum = Spectrum)
+                       Spectrum = Spectrum,
+                       Tabactive = shiny::reactive(input$inTabset))
+        
+        #Export
+        Export <- exportServer("export", Analysis, Spectrum,
+                               Tabactive = shiny::reactive(input$inTabset))
+        
+        output$Plotbreite <- shiny::renderPlot({
+        }, 
+        bg = "transparent")
+        # bg = "white")
         
         # Delete Notifications between tab changes
         notification_remover(shiny::reactive(input$inTabset))
@@ -78,27 +105,72 @@ Spectran <- function(lang_setting = "Deutsch", ...) {
             zu_Import(), ignoreInit = TRUE
         )
         
-        #Update the Navbar when a Spectrum is imported
+        #Enable/Disable the Analysis and Import Menus, when not ready
+        output$analysis <- shinydashboard::renderMenu({
+            if(!is.null(Analysis$Settings$Spectrum)) {
+            shinydashboard::menuItem(
+            lang$ui(23),
+            tabName = "analysis",
+            icon = shiny::icon(
+                "magnifying-glass-chart")
+            )
+            }
+            else {
+                shinydashboard::menuItem(
+                    htmltools::HTML(
+                        paste0("<span style='color:grey;'>",
+                            lang$ui(23),
+                            "</span>")),
+                    tabName = "import",
+                    icon = shiny::icon(
+                        "lock")
+                )
+            }
+        })
+        output$export <- shinydashboard::renderMenu({
+            if(!is.null(Analysis$Settings$Spectrum)) {
+            shinydashboard::menuItem(
+            "Export",
+            tabName = "export",
+            icon = shiny::icon("file-export")
+            )
+            }
+            else {
+                shinydashboard::menuItem(
+                    htmltools::HTML(
+                        paste0("<span style='color:grey;'>",
+                               "Export",
+                               "</span>")),
+                    tabName = "import",
+                    icon = shiny::icon(
+                        "lock")
+                )
+            }
+        })
+        
+        #Update the Navbar when hitting the Export-Button in Analysis
         shiny::observe({
-            shiny::req(Spectrum$Spectrum, Spectrum$Destination)
-            if(Spectrum$Destination == lang$ui(69)) {
             shiny::updateNavbarPage(
                 session,
                 inputId = "inTabset",
-                selected = "analysis")
-            }
-        }) %>% shiny::bindEvent(Spectrum$Spectrum, 
-                                Spectrum$Destination,
-                                Spectrum$Name)
+                selected = "export")
+        }) %>% shiny::bindEvent(Analysis$to_export)
         
-        output$Data_ok <- shiny::renderPrint({
-        #     print("Developer Troubleshoot\n")
-            # p990rint(list.files(path = "extr/"))
-            print(Spectrum$Other)
-        #     print(Spectrum$Other)
-        #     print(Spectrum$Spectrum %>% utils::head())
-        #     print(Spectrum$Spectrum %>% utils::tail())
-        })
+        
+        #Update the Navbar when a Spectrum is imported
+        shiny::observe({
+            shiny::req(Spectrum$Spectrum, Spectrum$Destination)
+            if(Spectrum$Destination == lang$ui(69) &
+               input$inTabset == "import") {
+                shiny::updateNavbarPage(
+                    session,
+                    inputId = "inTabset",
+                    selected = "analysis")
+            }
+        }) %>% shiny::bindEvent(Spectrum$Analysis, Analysis$Settings$Spectrum)
+        
+        #close the waiting screen
+        # waiter::waiter_hide()
         
     }
     shiny::shinyApp(ui, server, ...)

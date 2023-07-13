@@ -288,7 +288,8 @@ import_examples_boxServer <-
             dplyr::pull(Button_Name) %>% 
             {paste0(examplespectra_descriptor$Beschreibung, ": ", .)}
           Spectrum$Destination <- lang$ui(69)
-          Spectrum$Origin <- "Example"
+          Spectrum$Origin <- if(examplespectra_descriptor$embargo) "CIE"
+            else "Example"
           }
         }) %>% shiny::bindEvent(input[["save_from_many"]])
         

@@ -97,23 +97,6 @@ table_alpha <- function(Analysis) {
     purrr::map_df(Specs$Plot$Names[1:5], 
                   \(x) {Analysis[[ns_table(x)]]$internal$Wert}),
     Einheit = 
-      c("lux", "mW/m²", "", "" )
+      c("lux", "mW/m\u00b2", "", "" )
   )
 }
-
-# #Nimmt das Plot-Resizing wieder vor, sobald sich die Fensterbreite ändert
-# observeEvent(input$dimension, {obs$resume()})
-
-#     #Spektraldaten
-#     Spectral_data <- reactive({
-#       req(data())
-#       colorSpec(data = data()$Bestrahlungsstaerke, wavelength = data()$Wellenlaenge, specnames = spec_name())
-#     })
-
-#     #Container für die Breite der Ausgabeplots
-#     Plotbreite_temp <- reactiveVal(value = 500)
-# 
-#     obs <- observe({
-#       Plotbreite_temp(session$clientData$output_Plotbreite_width)
-#     }) %>% bindEvent(session$clientData$output_Plotbreite_width)
-#     # 

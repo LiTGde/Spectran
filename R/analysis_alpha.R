@@ -53,7 +53,8 @@ analysis_alpha2UI <- function(
 
 analysis_alphaServer <- 
   function(id,
-           Analysis
+           Analysis,
+           Tabactive
   ) {
     
     shiny::moduleServer(id, function(input, output, session) {
@@ -73,13 +74,14 @@ analysis_alphaServer <-
                             index = i,
                             Sensitivity = shiny::reactive(input$Sensitivity),
                             Vergleich = shiny::reactive(input$Vergleich),
-                            Hintergrund = shiny::reactive(input$Hintergrund))
+                            Hintergrund = shiny::reactive(input$Hintergrund),
+                            Tabactive)
       })
       
       #create an alpha table
       shiny::observe({
         shiny::req(Analysis$Settings$Spectrum)
-        Analysis[[ns_table("alpha")]]$internal <- table_alpha(Analysis)
+        Analysis[[ns_table(lang$server(126))]]$internal <- table_alpha(Analysis)
         
       })
       
@@ -95,7 +97,8 @@ analysis_alpha2Server <-
            index,
            Sensitivity,
            Vergleich,
-           Hintergrund
+           Hintergrund,
+           Tabactive
   ) {
     
     shiny::moduleServer(id, function(input, output, session) {
@@ -125,8 +128,16 @@ analysis_alpha2Server <-
         shiny::req(Analysis[[ns_plot(feed)]])
         do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
 
-      } ,height = 350)
-      shiny::outputOptions(output, "plot", suspendWhenHidden = TRUE)
+      } ,height = 350,
+      width = \() {session$clientData$output_Plotbreite_width}
+      )
+      shiny::observe({
+        shiny::outputOptions(
+          output, 
+          "plot", 
+          suspendWhenHidden = if(Tabactive() == "analysis") FALSE else TRUE
+        )
+      })
 
       #create an (internal) Table
       shiny::observe({
@@ -146,7 +157,7 @@ analysis_alpha2Server <-
           #alphaopic irradiance
           paste0(adjective, lang$server(65)),
           paste0("E<sub>e,", Werte$Abbr, "</sub>"),
-          paste0("E_e,",Werte$Abbr), Werte$E[1]*1000, "mW/m²",
+          paste0("E_e,",Werte$Abbr), Werte$E[1]*1000, "mW/m\u00b2",
           # #alphaopic action factor
           paste0(adjective, lang$server(66)),
           paste0("a<sub>", Werte$Abbr,",v</sub>"),

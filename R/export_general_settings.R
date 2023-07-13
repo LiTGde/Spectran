@@ -56,7 +56,8 @@ export_general_settingsServer <-
   function(
     id, 
     Analysis,
-    Spectrum
+    Spectrum,
+    Tabactive
   ) {
     
     shiny::moduleServer(id, function(input, output, session) {
