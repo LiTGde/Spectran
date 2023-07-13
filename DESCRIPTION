@@ -52,3 +52,5 @@ Imports:
     waiter,
     webshot2,
     withr
+Suggests: 
+    rsconnect
