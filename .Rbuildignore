@@ -5,3 +5,4 @@
 ^data-raw$
 app.R
 ^LICENSE\.md$
+rsconnect

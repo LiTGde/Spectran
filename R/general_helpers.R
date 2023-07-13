@@ -6,9 +6,11 @@ image_gallery <- function() {
   #create the image path
   image_path <- paste0("extr/img/",the$language, "/", images)
   #remove the file extension
-  images <- stringr::str_remove(images, ".png")
+  images <- stringr::str_remove(images, "[.]png$")
   #remove the numbering from image_names
   images <- stringr::str_remove(images, "[:digit:][:digit:]_")
+  #remove any underscores from image_names
+  images <- stringr::str_replace(images, "_", " ")
 
   names <- list(images = images,
                 image_path = image_path)
