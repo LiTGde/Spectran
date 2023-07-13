@@ -122,7 +122,7 @@ import_examples_boxServer <-
                 class = "butt"
               ),
               func
-            ) %>% purrr::map(p)
+            ) %>% purrr::map(shiny::p)
           }
           else {
             htmltools::tagList(
@@ -150,9 +150,9 @@ import_examples_boxServer <-
       #Apply the correct function for generating the buttons
       shiny::observe({
         switch(shiny::NS(down_import(), CIE),
-             'Download-Measurement' = selector(downloadButton),
-             Download = selector(downloadButton),
-             selector(actionButton))
+             'Download-Measurement' = selector(shiny::downloadButton),
+             Download = selector(shiny::downloadButton),
+             selector(shiny::actionButton))
         })
  
             
@@ -332,7 +332,7 @@ import_examples_boxServer <-
         })
         
         #Download for Daylight:
-        observe({
+        shiny::observe({
         if(down_import() == "Download") {
         output$norm <- shiny::downloadHandler(
           filename = daylight_name,

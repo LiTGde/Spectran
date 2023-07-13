@@ -22,7 +22,7 @@ analysis_setupServer <-
     
     #Create a Table that already contains some base information
     Table <- shiny::reactive({
-      req(Spectrum$Spectrum,
+      shiny::req(Spectrum$Spectrum,
           Spectrum$Destination == lang$ui(69))
       #general settings
       temp <- Specs$Plot
@@ -47,7 +47,7 @@ analysis_setupServer <-
     
     #What is the maximum irradiance. This is used as a scaling-factor
     shiny::observe({
-      req(Spectrum$Spectrum)
+      shiny::req(Spectrum$Spectrum)
       Analysis$Settings <- list(
         Spectrum = Spectrum$Spectrum %>% tibble::as_tibble(),
         Spectrum_Name = Spectrum$Name,

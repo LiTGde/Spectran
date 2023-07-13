@@ -22,7 +22,7 @@ import_structure_notifier <- function(requirement,
     }
     else {
       if (!is.null(remove_id) & is.character(remove_id)) {
-        purrr::map(remove_id, removeNotification)
+        purrr::map(remove_id, shiny::removeNotification)
       }
       shiny::showNotification(text_else,
                        type = "error",
@@ -61,7 +61,7 @@ inverse_lookup <- function(object) {
 notification_remover <- function(tabset) {
 shiny::observe({
   c("is_sufficient", "is_integer", "is_numeric", "belowz", "success") %>% 
-    purrr::map(removeNotification)
+    purrr::map(shiny::removeNotification)
   
   shinyalert::closeAlert()
   

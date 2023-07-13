@@ -38,7 +38,7 @@ import_data_checkServer <-
           text_if = htmltools::p(lang$server(9), lang$server(11)),
           text_else =
             htmltools::p(
-              lang$server(9),strong(lang$server(10)), lang$server(11)
+              lang$server(9),htmltools::strong(lang$server(10)), lang$server(11)
               ),
           id = "is_integer"
         )
@@ -51,7 +51,9 @@ import_data_checkServer <-
           text_if = htmltools::p(lang$server(12), lang$server(13)),
           text_else =
             htmltools::p(
-              lang$server(12), strong(lang$server(10)), lang$server(13)
+              lang$server(12), 
+              htmltools::strong(lang$server(10)), 
+              lang$server(13)
               ),
           id = "is_numeric"
         )

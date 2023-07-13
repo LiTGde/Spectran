@@ -129,7 +129,7 @@ import_dataServer <-
     
     #Choosing the example spectrum:
     shiny::observe({
-      importfile(paste0(resourcePaths()[["extr"]], "/Beispiel.csv"))
+      importfile(paste0(shiny::resourcePaths()[["extr"]], "/Beispiel.csv"))
       Spectrum$Origin <- "File"
     }) %>% shiny::bindEvent(input$jgtm)
     

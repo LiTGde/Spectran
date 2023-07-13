@@ -70,7 +70,7 @@ export_general_settingsServer <-
       #change the name, when pressing the button
       shiny::observe({
         Spectrum$Name <- Name_suffix(Spectrum$Origin, input$export_Name)
-      }) %>% bindEvent(input$export_Name_but)
+      }) %>% shiny::bindEvent(input$export_Name_but)
       
       #put any new name into the field
       shiny::observe({
@@ -98,7 +98,7 @@ export_general_settingsServer <-
           Analysis$Age <- input$export_alter_wert
         }
         
-      }) %>% bindEvent(input$export_alter_but)
+      }) %>% shiny::bindEvent(input$export_alter_but)
       
       #put any new age into the field
       shiny::observe({

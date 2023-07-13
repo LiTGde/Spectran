@@ -61,7 +61,7 @@ export_Output_SettingsServer <-
       
       #Check wether a CIE spectrum is to be downloaded
       shiny::observe({
-        req(Analysis$Settings$Origin,
+        shiny::req(Analysis$Settings$Origin,
             Tabactive() == "export")
         if(
           Analysis$Settings$Origin == "CIE" &

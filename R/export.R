@@ -111,7 +111,7 @@ exportServer <-
     })
     
     #Download-Button
-    output$download_button <- downloadHandler(
+    output$download_button <- shiny::downloadHandler(
       
       #Filename
       filename = function() {
