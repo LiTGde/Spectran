@@ -2,8 +2,9 @@
 % Please edit documentation in R/Spectran-package.R
 \docType{package}
 \name{Spectran-package}
-\alias{Spectran}
 \alias{Spectran-package}
+\alias{_PACKAGE}
+\alias{testduplicate-package}
 \title{Spectran: Visual and Non-Visual Spectral Analysis of Light}
 \description{
 What the package does (one paragraph).

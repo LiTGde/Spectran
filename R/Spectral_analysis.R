@@ -1,14 +1,14 @@
 
-#' Title
+
+#' Spectran
 #'
-#' @param lang_setting 
-#' @param ... 
+#' @param lang_setting A language for the application. Currently **Deutsch** for German and **English** (default) are implemented.
+#' @param ... Any other settings that get passed to shinyApp
 #'
-#' @return
+#' @return Open a viewer with the shiny app
 #' @export
 #'
-#' @examples
-Spectran <- function(lang_setting = "Deutsch", ...) {
+Spectran <- function(lang_setting = "English", ...) {
     
     #add a resource path to the www folder
     shiny::addResourcePath(
