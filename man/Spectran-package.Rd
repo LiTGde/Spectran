@@ -7,7 +7,7 @@
 \alias{testduplicate-package}
 \title{Spectran: Visual and Non-Visual Spectral Analysis of Light}
 \description{
-What the package does (one paragraph).
+LiTG Spectran is a tool to analyse light spectra for visual and non-visual (so-called melanopic) needs, wrapped up in a Shiny App. Spectran allows for the import of spectra in various csv forms but also provides a wide range of example spectra and even the creation of own spectral distributions. The goal of the app is to provide easy access and a visual overview of the spectral calculations underlying common parameters. It is thus ideal for educational purposes or the creation of presentation ready graphs in lighting research and application.
 }
 \author{
 \strong{Maintainer}: Johannes Zauner \email{spectran@litg.de} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})

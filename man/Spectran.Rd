@@ -4,10 +4,12 @@
 \alias{Spectran}
 \title{Spectran}
 \usage{
-Spectran(lang_setting = "English", ...)
+Spectran(lang_setting = "English", lang_link = FALSE, ...)
 }
 \arguments{
-\item{lang_setting}{A language for the application. Currently \strong{Deutsch} for German and \strong{English} (default) are implemented.}
+\item{lang_setting}{A language for the application. Currently \strong{Deutsch} for German and \strong{English} (default) are implemented. Expects a \emph{character}.}
+
+\item{lang_link}{Only relevant for the App deployed on \emph{Shinyapps.io}. Handles whether a link to the German/English Version of the App is present in the header. Expects a \emph{logical} (default FALSE)}
 
 \item{...}{Any other settings that get passed to shinyApp}
 }

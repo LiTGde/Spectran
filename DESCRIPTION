@@ -4,7 +4,14 @@ Version: 0.9.0.0
 Authors@R: 
     person("Johannes", "Zauner", , "spectran@litg.de", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: LiTG Spectran is a tool to analyse light spectra for visual and
+    non-visual (so-called melanopic) needs, wrapped up in a Shiny App. Spectran 
+    allows for the import of spectra in various csv forms but also provides a 
+    wide range of example spectra and even the creation of own spectral 
+    distributions. The goal of the app is to provide easy access and a visual
+    overview of the spectral calculations underlying common parameters. It is
+    thus ideal for educational purposes or the creation of presentation ready
+    graphs in lighting research and application.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
