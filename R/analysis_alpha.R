@@ -131,13 +131,14 @@ analysis_alpha2Server <-
       } ,height = 350,
       width = \() {session$clientData$output_Plotbreite_width}
       )
-      shiny::observe({
+      # shiny::observe({
         shiny::outputOptions(
           output, 
           "plot", 
-          suspendWhenHidden = if(Tabactive() == "analysis") FALSE else TRUE
+          suspendWhenHidden = FALSE
+          # suspendWhenHidden = if(Tabactive() == "analysis") FALSE else TRUE
         )
-      })
+      # })
 
       #create an (internal) Table
       shiny::observe({

@@ -40,6 +40,18 @@ UI_Header <- function() {
 shinydashboard::dashboardHeader(
   title = "Spectran",
   titleWidth = 150,
+  #conditional panel to change the language (only on shinyapps)
+  htmltools::tags$li(
+    class = "dropdown",
+    if(Sys.getenv('SHINY_PORT') != "")
+      {
+    htmltools::a(htmltools::HTML(
+      paste0(lang$global(12), " ",
+        shiny::icon(lang$global(13)))
+    ),
+    href = lang$global(14))}
+    ),
+  #feedback button
   htmltools::tags$li(
     class = "dropdown",
     htmltools::a(htmltools::HTML(
