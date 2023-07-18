@@ -25,8 +25,7 @@ import_data_verifierServer <-
            csv_settings,
            Spectrum = NULL,
            Destination = lang$ui(69),
-           Name,
-           Raw_Spectrum
+           Name
            ) {
     stopifnot(Data_ok %>% shiny::is.reactive())
     stopifnot(dat %>% shiny::is.reactive())
@@ -55,7 +54,8 @@ import_data_verifierServer <-
         }
         #Data preparation steps should the Data be ok
         else {
-            if(identical(Raw_Spectrum(), Spectrum$Spectrum_raw) &
+            if(identical(dat()[, c(csv_settings()$x_y, csv_settings()$x_y2)],
+                         Spectrum$Spectrum_raw) &
                identical(Spectrum$Name, Name()) &
                identical(Spectrum$Destination, Destination)) {
               shinyalert::shinyalert(

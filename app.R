@@ -1,3 +1,3 @@
 pkgload::load_all(".")
-Spectran(lang_link = TRUE)
+Spectran(lang_setting = "Deutsch", lang_link = TRUE)
 
