@@ -203,13 +203,13 @@ export_Output_SettingsServer <-
                 if(feed == lang$server(127) & 
                    !is.null(table)) {
                   if(outputs$exp[[lang$server(125)]] == 0) {
-                    table %>% dplyr::slice(3)
+                    table %>% dplyr::slice(3) %>% xlsx_col_rename()
                   }
                 }
                 else if (feed == lang$server(128) & 
                          !is.null(table)) {
                   if(outputs$exp[[lang$server(125)]] == 0) {
-                  table %>% dplyr::slice(4)
+                  table %>% dplyr::slice(4) %>% xlsx_col_rename()
                   }
                 }
                 else if (feed == lang$server(126) &
@@ -221,9 +221,9 @@ export_Output_SettingsServer <-
                     dplyr::mutate(
                       Groesse = Groesse %>% stringr::str_replace_all(
                         pattern = "&|\\;", replacement = ""))
-                  table
+                  table %>% xlsx_col_rename()
                 }
-                else table
+                else table %>% xlsx_col_rename()
               } 
             }
           )
