@@ -132,15 +132,6 @@ renaming <- function(data, Spectrum_Name) {
   )
 }
 
-#set column names for the excel export
-col_names_export <- function() {
-  c(lang$server(120), 
-    lang$server(122),
-    lang$server(123), 
-    lang$server(124)
-  )
-}
-
 #write to an excel sheet
 excel_sheet <- function(wb, data, name){
   if(!is.null(data)){
@@ -165,6 +156,21 @@ table_export_prep <-
       else NULL
     }
   }
+
+#rename columns of an excel table export
+xlsx_col_rename <- function(table){
+  if(!is.null(table)) {
+  table %>% dplyr::rename_with(.fn = \(x) {
+      dplyr::case_match(x,
+                        "Groesse" ~ lang$server(120),
+                        "Formelzeichen" ~ lang$server(122),
+                        "Wert" ~ lang$server(123),
+                        "Einheit" ~lang$server(124),
+                        .default = x)
+    }
+  )
+  }
+}
 
 #function to store a list of arguments for the plot export
 table_exp_args <- function(..., Analysis, val, feed, Alpha) {

@@ -44,7 +44,8 @@ impressumUI <- function(
       htmltools::br(),
       #Information about the software context of creation
       lang$ui(159), 
-      " ", Date, " ",
+      " ", as.character(utils::packageVersion("Spectran")), 
+      " ",
       lang$ui(160),  
       R, 
       lang$ui(161)),
@@ -65,7 +66,7 @@ impressumUI <- function(
     htmltools::p(
       lang$ui(166), 
       htmltools::br(),
-      htmltools::em("Zauner, J. (2023); Deutsche Lichttechnische Gesellschaft e.V.; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litg.shinyapps.io/Spectran/")
+      htmltools::em("Zauner, J. (2023); Deutsche Lichttechnische Gesellschaft e.V.; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litg.shinyapps.io/Spectran_en/")
     ),
     #Information about used projects
     lang$ui(167),

@@ -37,15 +37,7 @@ exportUI <-
                     export_Output_SettingsUI(ns("Export_Settings"))
                   ),
           #Download-Button
-                  shinydashboard::box( class = "background-rect",
-                    width = 12,
-                    align = "center",
-                    shiny::downloadButton(ns("download_button"), 
-                                          label = 
-                                            htmltools::strong("Downloads"),
-                                          class = "btn-lg"
-                                          )
-                  )
+          export_downloadUI(ns("download"))
           )
         )
     )
@@ -74,158 +66,9 @@ exportServer <-
     Export <- export_Output_SettingsServer("Export_Settings", Analysis, outputs,
                                            Tabactive)
     
-    #create a reactive value for Files
-    Export_files <- shiny::reactiveVal(NULL)
-    
-    #Download-Button: enable/disable
-    shiny::observe({
-      shiny::req(Tabactive() == "export", 
-                 outputs$exp)
-      #produce the total number of download files and set the button
-      #accordingly
-        #Tables
-        Export$n_tables <- purrr::reduce(Export$Download_tables, `+`, .init = 0)
-      
-        #Plots
-        Export$n_plots <-  purrr::map(Export$Plot, \(x) {!is.null(x)}) %>% 
-        purrr::reduce(`+`, .init = 0) 
-        
-        #Excel
-        Export$n_excel <-  (purrr::map(Export$Xlsx, \(x) {!is.null(x)}) %>% 
-           purrr::reduce(`+`, .init = 0)) != 0
-      
-        #CSV Export
-        Export$n_csv <-  !is.null(Export$CSV)
-        
-        #sum
-        Export$n_total <- 
-          Export$n_plots + Export$n_excel + Export$n_csv + Export$n_tables
-        
-      #update the downloadbutton
-      down_button_update(
-        "download_button",
-        "download",
-        htmltools::strong(paste0(" ", lang$server(109)," (n=%s)")),
-        n = Export$n_total
-        )
-    })
-    
-    #Download-Button
-    output$download_button <- shiny::downloadHandler(
-      
-      #Filename
-      filename = function() {
-        paste(
-          Analysis$Settings$Spectrum_Name, "_", Sys.Date(), ".zip", sep="")},
-      #Content
-      content = function(file) {
-        
-        #package is needed for the table export to work properly
-        # withr::local_package("chromote")
-        
-        #Spectrum Name
-        Spectrum_Name <- Analysis$Settings$Spectrum_Name
-        
-        #Create a temporary directory that will overwrite the workin directory
-        #on exit. Also reset the Export_files list.
-        owd <- setwd(tempdir())
-        on.exit({setwd(owd)})
-        Export_files(NULL)
-        Export$Tables <- NULL
-        Export$Table_pics <- NULL
-        
-        #set up a general progress bar
-        shiny::withProgress(message = lang$server(115), value = 0, {
-        
-        #Save Tables
-          #set up a table progress bar
-          shiny::withProgress(message = lang$server(116), value = 0, {
-            purrr::map(Export$Table_prep, \(args) {
-              if (!is.null(args))
-                do.call("table_download", args = c(args))
-            })
-          })
-        
-          #setting the progress
-          shiny::setProgress(
-            length(Export$Tables)/Export$n_total, 
-            detail = paste(lang$server(117), length(Export$n_tables))
-            )
-          
-        #Export Plots
-        purrr::map(Export$Plot, \(args) {           
-          do.call("plot_download",
-                  args = c(args, 
-                           Export_files = Export_files))
-        })
-        
-        #setting the progress
-        shiny::setProgress(
-          (Export$n_tables + Export$n_plots)/Export$n_total,
-          detail = paste(lang$server(118), length(Export_files())))
+    #Handle the download
+    export_downloadServer("download", Analysis, Export, Tabactive, outputs)
 
-        #add relevant table files to the list
-        Export_files(c(Export_files(), Export$Tables))
-
-        
-        #Export Excel
-        
-        if (!purrr::every(Export$Xlsx, is.null)) {
-          #Filename
-          filename <-
-            paste(Spectrum_Name, "_", Sys.Date(), ".xlsx", sep = "")
-          
-          #create a new workbook
-          wb <- openxlsx::createWorkbook(Spectrum_Name)
-          
-          #add worksheets
-          purrr::imap(Export$Xlsx, excel_sheet, wb = wb)
-          # excel_sheet(wb, Export$Xlsx[[1]], "Radiometrie")
-          
-          #save the workbook in a temporary file and write the filenames to list
-          openxlsx::saveWorkbook(wb, filename, overwrite = TRUE)
-          Export_files(c(Export_files(), filename))
-        }
-        
-        # export a csv file 
-          if(!is.null(Export$CSV)) {
-            filename <- 
-              paste(Spectrum_Name, 
-                    "_", 
-                    Sys.Date(), 
-                    ".csv", 
-                    sep=""
-                    )
-            readr::write_csv(Export$CSV, filename)
-            Export_files(c(Export_files(), filename))
-          }
-        
-            #set a final progress
-            shiny::setProgress(value = 1,
-                               detail = paste(
-                                 lang$server(119), length(Export$n_total))
-                               )
-            
-        # give the files a sequential numbering
-          file.rename(from = Export_files(), 
-                      to = renaming(Export_files(),
-                                    Spectrum_Name)
-                      )
-          
-        # create the zip file for download
-          utils::zip(file, renaming(Export_files(),
-                                    Spectrum_Name)
-                     )
-        }
-        )
-        
-        shinyalert::shinyalert(paste0("Download: ", Spectrum_Name), 
-                   text = paste0(lang$server(114)), 
-                   type = "success", 
-                   timer = 5000, 
-                   closeOnClickOutside = TRUE)
-      })
-    
     #Return Value
     Export
     
@@ -248,7 +91,7 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
   ui <-
     shinydashboard::dashboardPage( skin = "yellow",
                                    #Header
-                                   UI_Header(),
+                                   UI_Header(lang_link = FALSE),
                                    #Sidebar
                                    shinydashboard::dashboardSidebar(
                                      width = 190,
@@ -363,7 +206,8 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
                                Tabactive = shiny::reactive(input$inTabset))
     
     #Export
-    Export <- exportServer("export", Analysis, Spectrum)
+    Export <- exportServer("export", Analysis, Spectrum,
+                           Tabactive = shiny::reactive(input$inTabset))
     
     # Delete Notifications between tab changes
     notification_remover(shiny::reactive(input$inTabset))

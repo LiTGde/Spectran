@@ -1,3 +1,9 @@
+.shiny-notification-message {
+    color: black;
+    background-color: #74B72E50;
+    border: 1px solid #74B72E;
+}
+
 .skin-yellow .main-sidebar {
     background-color: darkgrey;
     position: fixed;
@@ -66,12 +72,6 @@
 
 a {
     color: #e08e0b;
-}
-
-.shiny-notification-message {
-    color: black;
-    background-color: #F7F3CD;
-    border: 1px solid #F8E350;
 }
 
 .box {

@@ -17,7 +17,7 @@ import_dataUI <- function(
         lang$ui(48),
         htmltools::a(.noWS = "outside", 
           lang$ui(49), 
-          href = "Beispiel.csv", 
+          href = paste0("extr/Beispiel.csv"), 
           target="_blank"),
         lang$ui(50),
         htmltools::em(.noWS = "outside", lang$ui(51)),
@@ -175,11 +175,14 @@ import_dataServer <-
     shiny::observe({
       input$jgtm
       dat({
+        temp <- dat0()
+        temp
         shiny::req(
         is.data.frame(dat0()), cancelOutput = TRUE
-      )
-      temp <- dat0()
-      if(dplyr::between(csv_settings()$x_y2, 1, ncol(temp))){
+        )
+      if(
+        dplyr::between(csv_settings()$x_y2, 1, ncol(temp))
+        ){
         if(shiny::isTruthy(
           is.numeric(temp[[csv_settings()$x_y2]]) &
           csv_settings()$multiplikator > 0)){
@@ -197,9 +200,9 @@ import_dataServer <-
     
     #Make adjustments to the Import when coming from other sources
     shiny::observe({
-      shiny::req(dat())
+      # shiny::req(dat())
       if(Spectrum$Destination == lang$ui(69) &
-         !identical(Spectrum$Spectrum[[2]], dat()[[2]])
+         Spectrum$Origin != "File"
          ) {
       dat(Spectrum$Spectrum)
       # importfile(Spectrum$Name)
@@ -214,7 +217,9 @@ import_dataServer <-
     import_visual_checkServer(
       "visual",
       dat,
-      csv_settings
+      csv_settings,
+      importfile,
+      dat0
       )
     
     #Checks on the data when importing the file
@@ -227,14 +232,15 @@ import_dataServer <-
       )
     
     
+    
     #Checks on the data when transfering the File for further analysis
     import_data_verifierServer("importbutn",
                           Data_ok = shiny::reactive(Data_ok$x),
                           dat = dat,
                           Spectrum = Spectrum,
                           csv_settings = csv_settings,
-                          Name = shiny::reactive(input$name_id),
-                          Raw_Spectrum = shiny::reactive(Spectrum$Spectrum_raw))
+                          Name = shiny::reactive(input$name_id)
+                          )
     
     #Checks on the data when transfering the File to adjustments
     import_data_verifierServer("adjustbutn",
@@ -243,14 +249,15 @@ import_dataServer <-
                           Spectrum = Spectrum,
                           csv_settings = csv_settings,
                           Name = shiny::reactive(input$name_id),
-                          Destination = lang$ui(94),
-                          Raw_Spectrum = shiny::reactive(Spectrum$Spectrum_raw))
+                          Destination = lang$ui(94)
+                          )
     
     #Set the name of the Spectrum depending on the global Name
     shiny::observe({
       shiny::updateTextInput(session, "name_id", value = Spectrum$Name)
     })
     
+    shiny::reactive(dat())
   })
 }
 
@@ -272,10 +279,10 @@ import_dataApp <- function(lang_setting = "Deutsch") {
       )
   server <- function(input, output, session) {
 
-    import_dataServer("import")
+    import <- import_dataServer("import")
     output$Data_ok <- shiny::renderPrint({
       {
-        print(Spectrum$Name)
+        print(import())
         print(Spectrum$Destination)
         Spectrum$Spectrum_raw %>% utils::head()
       }

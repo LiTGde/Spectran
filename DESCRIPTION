@@ -1,6 +1,6 @@
 Package: Spectran
 Title: Visual and Non-Visual Spectral Analysis of Light
-Version: 0.9.0.0
+Version: 0.9.1
 Authors@R: 
     person("Johannes", "Zauner", , "spectran@litg.de", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))

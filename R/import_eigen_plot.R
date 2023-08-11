@@ -71,14 +71,17 @@ import_eigen_plotServer <-
                        Bestrahlungsstaerke = 0,
                        keeprows = rep(TRUE, 4))
     
-    eigen_Spektrum <- shiny::reactiveValues(Spec_raw = Spec_raw)
+    eigen_Spektrum <- shiny::reactiveValues(Spec_raw = Spec_raw,
+                                            original = Spec_raw)
     
     #Import a spectrum for adjustment
     shiny::observe({
+      
       if(all((Spectrum$Destination) == lang$ui(94),
              !is.null((Spectrum$Spectrum)))) {
         
       eigen_Spektrum$Spec_raw <- Spectrum$Spectrum
+      
       
       eigen_Spektrum$Spec_raw <- eigen_Spektrum$Spec_raw %>% 
         dplyr::mutate(
@@ -240,7 +243,7 @@ import_eigen_plotServer <-
         eigen_Spektrum$Spec_raw <- Spec_raw
         }
       else if (Spectrum$Destination == lang$ui(94)) {
-        eigen_Spektrum$Spec_raw <- Spectrum$Spectrum %>% 
+        eigen_Spektrum$Spec_raw <- Spectrum$Spectrum %>%
           dplyr::mutate(Bestrahlungsstaerke =
                    Bestrahlungsstaerke/(max(Bestrahlungsstaerke)))
       }
