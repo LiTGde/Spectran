@@ -78,7 +78,7 @@ import_visual_checkServer <-
       
       # UI generation for the overview
       output$inputuebersicht <- shiny::renderUI({
-        req(importfile())
+        shiny::req(importfile())
         shiny::validate(
           shiny::need(dat0(), lang$server(19))
         )

@@ -5,9 +5,9 @@ account: litg
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9440810
-bundleId: 7470219
+bundleId: 7474537
 url: https://litg.shinyapps.io/Spectran_en/
-when: 1689681693.11315
-lastSyncTime: 1689681693.11316
+when: 1689767799.32001
+lastSyncTime: 1689767799.32003
 asMultiple: FALSE
 asStatic: FALSE

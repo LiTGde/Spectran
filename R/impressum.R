@@ -44,7 +44,7 @@ impressumUI <- function(
       htmltools::br(),
       #Information about the software context of creation
       lang$ui(159), 
-      " ", as.character(packageVersion("Spectran")), 
+      " ", as.character(utils::packageVersion("Spectran")), 
       " ",
       lang$ui(160),  
       R, 
