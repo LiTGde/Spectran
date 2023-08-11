@@ -7,3 +7,4 @@ app.R
 ^LICENSE\.md$
 rsconnect
 ^README\.Rmd$
+^\.github$
