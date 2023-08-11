@@ -57,8 +57,7 @@ Spectran <- function(lang_setting = "English",
                          validityUI("validity")),
                 #add a tab for the impressum
                 shinydashboard::tabItem(tabName = "impressum",
-                         htmltools::p("Test"))
-                         # impressumUI("impressum"))
+                         impressumUI("impressum"))
             ),
             shiny::fluidPage(
             (shiny::plotOutput("Plotbreite", height = "1px"))),

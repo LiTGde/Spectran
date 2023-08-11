@@ -68,19 +68,6 @@ impressumUI <- function(
       htmltools::br(),
       htmltools::em("Zauner, J. (2023); Deutsche Lichttechnische Gesellschaft e.V.; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litg.shinyapps.io/Spectran_en/")
     )
-    #Information about used projects
-    # lang$ui(167),
-    # purrr::map(
-    #   packages, function(x) {
-    #   htmltools::div(
-    #     htmltools::em(
-    #       paste0(
-    #         x, "(", utils::packageVersion(x), ")")
-    #       ), 
-    #     htmltools::br()
-    #     )
-    #     }
-    #   )
   )
 }
 
