@@ -15,10 +15,18 @@ Spectran allows for the import of spectra in various csv forms but also
 provides a wide range of example spectra and even the creation of own
 spectral distributions. The goal of the app is to provide easy access
 and a visual overview of the spectral calculations underlying common
-parameters. It isthus ideal for educational purposes or the creation of
+parameters. It is thus ideal for educational purposes or the creation of
 presentation ready graphs in lighting research and application.
 
 ## Installation
+
+You can install the latest release version of Spectran from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("LiTGde/Spectran@*release")
+```
 
 You can install the development version of Spectran from
 [GitHub](https://github.com/) with:

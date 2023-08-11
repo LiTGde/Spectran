@@ -9,7 +9,7 @@ Description: LiTG Spectran is a tool to analyse light spectra for visual and
     allows for the import of spectra in various csv forms but also provides a 
     wide range of example spectra and even the creation of own spectral 
     distributions. The goal of the app is to provide easy access and a visual
-    overview of the spectral calculations underlying common parameters. It is
+    overview of the spectral calculations underlying common parameters. It is 
     thus ideal for educational purposes or the creation of presentation ready
     graphs in lighting research and application.
 License: MIT + file LICENSE
