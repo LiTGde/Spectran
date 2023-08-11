@@ -54,7 +54,7 @@ impressumUI <- function(
       lang$ui(176), 
       htmltools::a(.noWS = "outside", 
                    " Github", 
-                   href = "https://www.github.com",
+                   href = "https://github.com/LiTGde/Spectran",
                    target = "_blank"),
       htmltools::br(),
       lang$ui(164), 
