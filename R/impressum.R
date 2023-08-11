@@ -11,8 +11,8 @@ impressumUI <- function(
   
   ns <- shiny::NS(id)
   #List all the used packages
-  packages <- utils::packageDescription("Spectran")$Imports %>% 
-    stringr::str_split_1(pattern = ",\\n")
+  # packages <- utils::packageDescription("Spectran")$Imports %>% 
+  #   stringr::str_split_1(pattern = ",\\n")
   
   htmltools::tagList(
     htmltools::h3(lang$ui(158)),
