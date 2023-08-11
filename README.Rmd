@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/LiTGde/Spectran/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/LiTGde/Spectran/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 LiTG Spectran is a tool to analyse light spectra for visual and non-visual (so-called melanopic) needs, wrapped up in a Shiny App. Spectran allows for the import of spectra in various csv forms but also provides a wide range of example spectra and even the creation of own spectral distributions. The goal of the app is to provide easy access and a visual overview of the spectral calculations underlying common parameters. It isthus ideal for educational purposes or the creation of presentation ready graphs in lighting research and application.
@@ -46,3 +47,17 @@ You can also use the German version:
 `Spectran(lang_setting = "Deutsch")`
 
 or go to it´s example on [shinyapps.io](https://litg.shinyapps.io/Spectran_de/).
+
+## Example Screenshots
+
+![UI for Melanopic Analysis](inst/app/www/img/English/06_Nonvisual_Analysis.png)
+
+![UI for Analysis of Age-dependent changes](inst/app/www/img/English/07_Age-dependent_Analysis.png)
+
+![Export Table for Alpha-opic Quantities](inst/app/www/img/English/10_Table_Export.png)
+
+![Export File for Photometric Quantities](inst/app/www/img/English/09_Graph_Export.png)
+
+![UI for File Import](inst/app/www/img/English/01_Import_UI.png)
+
+![UI for Example Spectra Import](inst/app/www/img/English/02_Example_Spectra.png)

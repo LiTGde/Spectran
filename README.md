@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/LiTGde/Spectran/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/LiTGde/Spectran/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 LiTG Spectran is a tool to analyse light spectra for visual and
@@ -44,3 +45,45 @@ You can also use the German version:
 
 or go to it´s example on
 [shinyapps.io](https://litg.shinyapps.io/Spectran_de/).
+
+## Example Screenshots
+
+<figure>
+<img src="inst/app/www/img/English/06_Nonvisual_Analysis.png"
+alt="UI for Melanopic Analysis" />
+<figcaption aria-hidden="true">UI for Melanopic Analysis</figcaption>
+</figure>
+
+<figure>
+<img src="inst/app/www/img/English/07_Age-dependent_Analysis.png"
+alt="UI for Analysis of Age-dependent changes" />
+<figcaption aria-hidden="true">UI for Analysis of Age-dependent
+changes</figcaption>
+</figure>
+
+<figure>
+<img src="inst/app/www/img/English/10_Table_Export.png"
+alt="Export Table for Alpha-opic Quantities" />
+<figcaption aria-hidden="true">Export Table for Alpha-opic
+Quantities</figcaption>
+</figure>
+
+<figure>
+<img src="inst/app/www/img/English/09_Graph_Export.png"
+alt="Export File for Photometric Quantities" />
+<figcaption aria-hidden="true">Export File for Photometric
+Quantities</figcaption>
+</figure>
+
+<figure>
+<img src="inst/app/www/img/English/01_Import_UI.png"
+alt="UI for File Import" />
+<figcaption aria-hidden="true">UI for File Import</figcaption>
+</figure>
+
+<figure>
+<img src="inst/app/www/img/English/02_Example_Spectra.png"
+alt="UI for Example Spectra Import" />
+<figcaption aria-hidden="true">UI for Example Spectra
+Import</figcaption>
+</figure>
