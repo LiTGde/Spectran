@@ -2,7 +2,7 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles: {}
-last_built: 2023-08-16T11:25Z
+last_built: 2023-08-16T14:35Z
 urls:
   reference: https://litgde.github.io/Spectran/reference
   article: https://litgde.github.io/Spectran/articles
