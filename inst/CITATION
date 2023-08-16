@@ -9,8 +9,8 @@ citEntry(
   volume   = "",
   number   = "",
   pages    = "",
-  url      = "https://litg.shinyapps.io/Spectran/",
+  url      = "https://litgde.github.io/Spectran/",
   textVersion = paste(
-  "Zauner, J. (2023); Deutsche Lichttechnische Gesellschaft e.V.; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litg.shinyapps.io/Spectran/"
+  "Zauner, J. (2023); Deutsche Lichttechnische Gesellschaft e.V.; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litgde.github.io/Spectran/"
   )
 )

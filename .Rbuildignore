@@ -8,3 +8,6 @@ app.R
 rsconnect
 ^README\.Rmd$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

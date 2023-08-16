@@ -61,5 +61,6 @@ Imports:
     withr
 Suggests: 
     rsconnect
-URL: https://github.com/LiTGde/Spectran
+URL: https://github.com/LiTGde/Spectran,
+    https://litgde.github.io/Spectran/
 BugReports: https://github.com/LiTGde/Spectran/issues
