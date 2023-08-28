@@ -9,14 +9,16 @@
 
 <!-- badges: end -->
 
-LiTG Spectran is a tool to analyse light spectra for visual and
-non-visual (so-called melanopic) needs, wrapped up in a Shiny App.
-Spectran allows for the import of spectra in various csv forms but also
-provides a wide range of example spectra and even the creation of own
-spectral distributions. The goal of the app is to provide easy access
-and a visual overview of the spectral calculations underlying common
-parameters. It is thus ideal for educational purposes or the creation of
-presentation ready graphs in lighting research and application.
+Spectran, developed by the German Technical Lighting Society (LiTG), is
+a Shiny App designed to analyze light spectra for both visual and
+non-visual (also known as melanopic) needs. The app supports the import
+of spectral data in CSV or text formats and also offers an extensive
+library of example spectra. Users can even create their own spectral
+distributions within the app. The primary aim of Spectran is to offer
+easy access to and a visual representation of the calculations that
+underlie commonly used parameters. As such, it serves as an ideal tool
+for educational purposes and for generating presentation-ready graphs in
+lighting research and application.
 
 ## Installation
 
@@ -58,8 +60,9 @@ or go to it´s example on
 
 <figure>
 <img src="man/figures/English/06_Nonvisual_Analysis.png"
-alt="UI for Melanopic Analysis" />
-<figcaption aria-hidden="true">UI for Melanopic Analysis</figcaption>
+alt="User Interface (UI) for Melanopic Analysis" />
+<figcaption aria-hidden="true">User Interface (UI) for Melanopic
+Analysis</figcaption>
 </figure>
 
 <figure>

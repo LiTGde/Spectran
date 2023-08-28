@@ -1,6 +1,6 @@
 
 
-#' Spectran
+#' Unlock the Spectrum: Easy, Educational, and Engaging Analysis of Light Spectra
 #'
 #' @param lang_setting A language for the application. Currently **Deutsch** for German and **English** (default) are implemented. Expects a *character*.
 #' @param lang_link Only relevant for the App deployed on *Shinyapps.io*. Handles whether a link to the German/English Version of the App is present in the header. Expects a *logical* (default FALSE)

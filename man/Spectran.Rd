@@ -2,7 +2,7 @@
 % Please edit documentation in R/Spectral_analysis.R
 \name{Spectran}
 \alias{Spectran}
-\title{Spectran}
+\title{Unlock the Spectrum: Easy, Educational, and Engaging Analysis of Light Spectra}
 \usage{
 Spectran(lang_setting = "English", lang_link = FALSE, ...)
 }
@@ -17,5 +17,5 @@ Spectran(lang_setting = "English", lang_link = FALSE, ...)
 Open a viewer with the shiny app
 }
 \description{
-Spectran
+Unlock the Spectrum: Easy, Educational, and Engaging Analysis of Light Spectra
 }
