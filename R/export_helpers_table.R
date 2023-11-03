@@ -22,7 +22,7 @@ Table_alpha <- function(
     gt::gt(rowname_col = "Groesse") %>% 
     gt::opt_align_table_header(align = "left") %>%
     gt::tab_header(title = htmltools::strong(Spectrum_Name),
-                   subtitle = subtitle) %>% 
+                   subtitle = gt::md(subtitle)) %>% 
     #formatting
     {Reduce(Number_formatting_tables, Specs$Alpha$names, init = .)} %>% 
     {Reduce(\(data, x) {
@@ -50,11 +50,7 @@ Table_alpha <- function(
           " CIE S026 (2018) ",
           href = URL_CIE,
           target="_blank"),
-        lang$server(74),
-        htmltools::a(
-          " DIN/TS 5031-100:2021-11.",
-          href = URL_DIN,
-          target="_blank")
+        lang$server(74)
         )
         )
       )

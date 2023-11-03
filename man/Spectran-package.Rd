@@ -21,7 +21,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Johannes Zauner \email{spectran@litg.de} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Johannes Zauner \email{spectran@litg.de} (\href{https://orcid.org/0000-0003-2171-4566}{ORCID})
 
 }
 \keyword{internal}

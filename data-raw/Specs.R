@@ -15,9 +15,9 @@ Action_Spectra_long <-
 
 Efficacy <-
   c(melanopic = 1 / 0.0013262,
-    erytrhopic = 1 / 0.0016289,
-    chloropic = 1 / 0.0014558,
-    cyanopic = 1 / 0.0008173,
+    `L-cone-opic` = 1 / 0.0016289,
+    `M-cone-opic` = 1 / 0.0014558,
+    `S-cone-opic` = 1 / 0.0008173,
     rhodopic = 1 / 0.0014497,
     photopic = 683.0015478)
 
@@ -26,9 +26,9 @@ Alpha <- list()
 
 Alpha$names <-
   c("Melanopsin",
-    "Erythropsin",
-    "Chloropsin",
-    "Cyanopsin",
+    "L-cone-opsin",
+    "M-cone-opsin",
+    "S-cone-opsin",
     "Rhodopsin")
 
 Alpha$adjectives <- 
@@ -37,7 +37,7 @@ Alpha$adjectives <-
 
 Alpha$descriptions <- map(setNames(nm =c("Deutsch", "English")), \(x) {unlist(map(6:10, lang$global, language_direct = x))}) %>% list2DF()
 
-Alpha$abb <- c("M", "E", "Ch", "Cy", "R")
+Alpha$abb <- c("mel ", "", "", "", "")
 
 #Saving Plot colors and peaks for the plot
 Plot <- tibble(Peak = 1:6)

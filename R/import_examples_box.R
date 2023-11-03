@@ -199,7 +199,7 @@ import_examples_boxServer <-
             fill = x
           ), col = NA)+
           ggplot2::scale_fill_gradientn(
-            colors = ColorP$regenbogen, guide = "none")+
+            colors = ColorP[[the$palette]], guide = "none")+
           cowplot::theme_cowplot()+
           ggplot2::scale_x_continuous(breaks = c(400, 500, 600, 700, 780)) +
           ggplot2::scale_y_continuous(

@@ -12,7 +12,7 @@ import_dataUI <- function(
       htmltools::p(
         lang$ui(47),
         (htmltools::HTML(paste0(
-          "(W/m", htmltools::tags$sup("2"), "*nm)"
+          "<b>(W/m", htmltools::tags$sup("2"), "*nm)</b>"
         ))),
         lang$ui(48),
         htmltools::a(.noWS = "outside", 

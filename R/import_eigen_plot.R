@@ -146,7 +146,7 @@ import_eigen_plotServer <-
             y = 0, height =Bestrahlungsstaerke, fill = Wellenlaenge)
           )+
         ggplot2::scale_fill_gradientn(
-          colors = ColorP$regenbogen, guide = "none"
+          colors = ColorP[[the$palette]], guide = "none"
           )+
         
         #Points over the gradient

@@ -15,7 +15,7 @@ Plot_hull <- function(Spectrum,
     ggplot2::labs(x = lang$server(100), title = Spectrum_Name) +
     ggplot2::ylab(bquote(.(lang$server(40)) ~  ~ mW / (m ^ { 2 } * '*' * nm))) +
     #settings for the scales
-    ggplot2::scale_fill_gradientn(colors = ColorP$regenbogen, guide = "none") +
+    ggplot2::scale_fill_gradientn(colors = ColorP[[the$palette]], guide = "none") +
     ggplot2::scale_x_continuous(breaks = c(400, 500, 600, 700, 780)) +
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, .1))) +
     ggplot2::coord_cartesian(ylim = c(0, maxE * 1.10)) +
@@ -128,7 +128,7 @@ Plot_Ra <- function(CRI_table, font_size = 15, maxE = NULL){
   ggplot2::ggplot(data = CRI_table, 
                   ggplot2::aes(x=Testfarbe, y = CRI, fill = Testfarbe))+
     ggplot2::geom_bar(stat = "identity", col = "black")+
-    ggplot2::geom_text(ggplot2::aes(label = round(CRI,0), y= CRI-1), 
+    ggplot2::geom_text(ggplot2::aes(label = round(CRI,0), y= ifelse(CRI <= 18, 18, CRI-1)), 
                        hjust = 1, size = font_size/3)+
     ggplot2::labs(x = lang$server(51), y = lang$server(52))+
     cowplot::theme_cowplot(font_size = font_size, font_family = "sans")+
@@ -284,7 +284,7 @@ Plot_age_basis <- function(
     ggplot2::ylab(
       bquote(.(lang$server(40)) ~  ~ mW / (m ^ { 2 } * '*' * nm))) +
     #settings for the scales
-    ggplot2::scale_fill_gradientn(colors = ColorP$regenbogen,
+    ggplot2::scale_fill_gradientn(colors = ColorP[[the$palette]],
                                   guide = "none") +
     ggplot2::scale_x_continuous(breaks = c(400, 500, 600, 700, 780)) +
     ggplot2::scale_y_continuous(
