@@ -94,7 +94,7 @@ create_table <- function(
     gt::gt(rowname_col = "Groesse") %>% 
     gt::opt_align_table_header(align = "left") %>%
     gt::tab_header(title = htmltools::strong(Spectrum_Name),
-                   subtitle = subtitle) %>% 
+                   subtitle = gt::md(subtitle)) %>% 
     #formatting
     Number_formatting_tables() %>% 
     gt::fmt(

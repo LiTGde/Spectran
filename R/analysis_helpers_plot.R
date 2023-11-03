@@ -21,7 +21,8 @@ Plot_hull <- function(Spectrum,
     ggplot2::coord_cartesian(ylim = c(0, maxE * 1.10)) +
     #settings for the theme
     cowplot::theme_cowplot(font_size = font_size, font_family = "sans") +
-    ggplot2::theme(legend.position = "none")
+    ggplot2::theme(legend.position = "none", 
+                   plot.subtitle = ggtext::element_textbox_simple())
 }
 
 #Plot function for the main plots

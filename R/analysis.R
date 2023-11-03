@@ -114,9 +114,10 @@ analysisApp <- function(lang_setting = "Deutsch") {
                      Origin = "Import",
                      Destination = lang$ui(69))
     
-    Analysis <- 
+    Analysis <-
       analysisServer("analysis",
-                   Spectrum = Spectrum)
+                   Spectrum = Spectrum,
+                   Tabactive = shiny::reactive("analysis"))
     
     output$Data_ok <- shiny::renderPrint({
       {
