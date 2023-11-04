@@ -7,7 +7,7 @@
 Spectran(
   lang_setting = "English",
   lang_link = FALSE,
-  color_palette = "Lang",
+  color_palette = "Lang_bright",
   ...
 )
 }
@@ -16,7 +16,7 @@ Spectran(
 
 \item{lang_link}{Only relevant for the App deployed on \emph{Shinyapps.io}. Handles whether a link to the German/English Version of the App is present in the header. Expects a \emph{logical} (default FALSE)}
 
-\item{color_palette}{A color palette for the application. Currently \verb{**Lang**} (default) and \verb{**Rainbow**} are implemented. Expects a \verb{*character*}. \verb{**Lang**} is apparently more accurate, but \verb{**Rainbow**} is more vibrant, if slightly off.}
+\item{color_palette}{A color palette for the application. Currently \verb{**Lang**} (default), \verb{**Lang_bright**} and \verb{**Rainbow**} are implemented. Expects a \verb{*character*}. \verb{**Lang**} is supposedly more accurate, but \verb{**Rainbow**} is more vibrant, if slightly off in terms of coloring.}
 
 \item{...}{Any other settings that get passed to shinyApp}
 }

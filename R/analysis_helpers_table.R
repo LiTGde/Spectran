@@ -5,17 +5,33 @@ URL_DIN <- 'https://www.beuth.de/de/vornorm/din-ts-5031-100/343737176'
 
 #Formats the Number-data in the tables
 Number_formatting_tables <- function(data, column = Wert) {
+  column <- rlang::ensym(column) %>% rlang::as_string()
+  
   data %>%
     gt::fmt_number(
-      columns = ({{ column }}),
-      rows = {{ column }} >= 100,
+      columns = .data[[column]],
+      rows = .data[[column]] >= 100,
       decimals = 0,
       sep_mark = " ",
       dec_mark = ","
     ) %>%
     gt::fmt_number(
-      columns = ({{ column }}),
-      rows = {{ column }} < 100,
+      columns = .data[[column]],
+      rows = .data[[column]] < 100 & .data[[column]] >= 10,
+      decimals = 1,
+      sep_mark = " ",
+      dec_mark = ","
+      ) %>% 
+    gt::fmt_number(
+      columns = (.data[[column]]),
+      rows = .data[[column]] < 10 & .data[[column]] >= 1,
+      decimals = 2,
+      sep_mark = " ",
+      dec_mark = ","
+      ) %>%
+    gt::fmt_number(
+      columns = (.data[[column]]),
+      rows = .data[[column]] < 1,
       n_sigfig = 3,
       sep_mark = " ",
       dec_mark = ","

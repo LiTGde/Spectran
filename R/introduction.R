@@ -95,9 +95,9 @@ introductionUI <- function(
                           htmltools::p(lang$ui(28))),
           shiny::column(width = 7,
                         spsComps::gallery(
-                          images$images[5:7], 
-                          images$image_path[5:7], 
-                          images$image_path[5:7], 
+                          images$images[4:6], 
+                          images$image_path[4:6], 
+                          images$image_path[4:6], 
                           title = NULL, 
                           enlarge = TRUE, 
                           enlarge_method = "modal")
@@ -115,9 +115,9 @@ introductionUI <- function(
                           htmltools::p(lang$ui(32))),
             shiny::column(width = 7,
                           spsComps::gallery(
-                            images$images[8:10], 
-                            images$image_path[8:10], 
-                            images$image_path[8:10], 
+                            images$images[7:9], 
+                            images$image_path[7:9], 
+                            images$image_path[7:9], 
                             title = NULL, 
                             enlarge = TRUE, 
                             enlarge_method = "modal")

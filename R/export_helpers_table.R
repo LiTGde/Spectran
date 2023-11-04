@@ -15,7 +15,7 @@ Table_alpha <- function(
   show <- Filter(\(x) {x}, Alpha) %>% unlist() %>% names()
   # Spectrum_Name <- Analysis$Settings$Spectrum_Name
   #data selection
-  table <- 
+  table <-
   Table %>% 
     dplyr::select(!c("Formelzeichen")) %>%
     #table generation
@@ -24,7 +24,7 @@ Table_alpha <- function(
     gt::tab_header(title = htmltools::strong(Spectrum_Name),
                    subtitle = gt::md(subtitle)) %>% 
     #formatting
-    {Reduce(Number_formatting_tables, Specs$Alpha$names, init = .)} %>% 
+    {Reduce(Number_formatting_tables, Specs$Alpha$names, init = .)} %>%
     {Reduce(\(data, x) {
       data %>% gt::tab_style(
                 style = gt::cell_text(color = Specs$Plot$Col[[x]]),

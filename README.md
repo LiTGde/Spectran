@@ -59,28 +59,28 @@ or go to it´s example on
 ## Example Screenshots
 
 <figure>
-<img src="man/figures/English/06_Nonvisual_Analysis.png"
+<img src="man/figures/English/05_Nonvisual_Analysis.png"
 alt="User Interface (UI) for Melanopic Analysis" />
 <figcaption aria-hidden="true">User Interface (UI) for Melanopic
 Analysis</figcaption>
 </figure>
 
 <figure>
-<img src="man/figures/English/07_Age-dependent_Analysis.png"
+<img src="man/figures/English/06_Age-dependent_Analysis.png"
 alt="UI for Analysis of Age-dependent changes" />
 <figcaption aria-hidden="true">UI for Analysis of Age-dependent
 changes</figcaption>
 </figure>
 
 <figure>
-<img src="man/figures/English/10_Table_Export.png"
+<img src="man/figures/English/09_Table_Export.png"
 alt="Export Table for Alpha-opic Quantities" />
 <figcaption aria-hidden="true">Export Table for Alpha-opic
 Quantities</figcaption>
 </figure>
 
 <figure>
-<img src="man/figures/English/09_Graph_Export.png"
+<img src="man/figures/English/08_Graph_Export.png"
 alt="Export File for Photometric Quantities" />
 <figcaption aria-hidden="true">Export File for Photometric
 Quantities</figcaption>

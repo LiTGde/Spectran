@@ -26,7 +26,7 @@ export_Output_SettingsUI <-
           ns("plot_width"),
           label = lang$ui(149),
           min = 1,
-          value = 6
+          value = 6.5
         ),
         shiny::numericInput(
           ns("plot_height"),

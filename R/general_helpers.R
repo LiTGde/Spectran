@@ -1,16 +1,11 @@
 #function to find images and set paths
 image_gallery <- function() {
   #find the images
-  images <- list.files(paste0(system.file("app/www/img", package = "Spectran"), 
-                              '/', the$language))
+  images <- list.files(system.file("app/www/img", package = "Spectran"))
   #create the image path
-  image_path <- paste0("extr/img/",the$language, "/", images)
-  #remove the file extension
-  images <- stringr::str_remove(images, "[.]png$")
-  #remove the numbering from image_names
-  images <- stringr::str_remove(images, "[:digit:][:digit:]_")
-  #remove any underscores from image_names
-  images <- stringr::str_replace(images, "_", " ")
+  image_path <- paste0("extr/img/", images)
+  #fetch the image names
+  images <- 180:188 %>% purrr::map_vec(lang$ui)
 
   names <- list(images = images,
                 image_path = image_path)
