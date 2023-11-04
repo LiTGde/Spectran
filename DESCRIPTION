@@ -60,6 +60,8 @@ Imports:
     webshot2,
     withr
 Suggests: 
+    here,
+    magick,
     rmarkdown,
     rsconnect
 URL: https://github.com/LiTGde/Spectran,

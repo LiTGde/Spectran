@@ -26,7 +26,13 @@ The following code chunks prepare the tables shown below. The first chunk loads 
 
 #Setup code, data import, initial data selection to get to one comparison file
 #read all libraries
-library(tidyverse)
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(tibble)
+library(readr)
+library(stringr)
+library(tidyr)
 library(readxl)
 library(magick)
 library(gt)
