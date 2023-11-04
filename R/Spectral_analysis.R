@@ -4,7 +4,7 @@
 #'
 #' @param lang_setting A language for the application. Currently **Deutsch** for German and **English** (default) are implemented. Expects a *character*.
 #' @param lang_link Only relevant for the App deployed on *Shinyapps.io*. Handles whether a link to the German/English Version of the App is present in the header. Expects a *logical* (default FALSE)
-#' @param color_palette A color palette for the application. Currently `**Lang**` (default), `**Lang_bright**` and `**Rainbow**` are implemented. Expects a `*character*`. `**Lang**` is supposedly more accurate, but `**Rainbow**` is more vibrant, if slightly off in terms of coloring.
+#' @param color_palette A color palette for the application. Currently `**Lang**` (default), `**Lang_bright**`, `**Dan_Bruton**`, and `**Rainbow**` are implemented. Expects a `*character*`. In terms of `color accuracy`, the decending order is likely `**Dan_Bruton**`, `**Lang**`, `**Lang_bright**`, and `**Rainbow**`. However, all of them are wrong in the sense, that monochromatic light can not well be recreated with RGB colors.
 #' @param ... Any other settings that get passed to shinyApp
 #'
 #' @return Open a viewer with the shiny app
