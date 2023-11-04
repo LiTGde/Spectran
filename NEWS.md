@@ -1,3 +1,5 @@
+# Spectran 1.0.0
+
 * removed the reference to `OPN4` on the melanopic evaluation #15
 
 * removed the term `quanta` for the more well known term `photons` #13
