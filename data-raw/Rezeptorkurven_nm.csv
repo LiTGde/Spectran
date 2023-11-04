@@ -1,4 +1,4 @@
-Wellenlaenge,Melanopsin,Erythropsin,Chloropsin,Cyanopsin,Rhodopsin,V(lambda)
+Wellenlaenge,Melanopsin,L-cone-opsin,M-cone-opsin,S-cone-opsin,Rhodopsin,V(lambda)
 380,9.18165E-04,0.00000E+00,0.00000E+00,0.00000E+00,5.89E-04,3.90E-05
 381,1.04557E-03,0.00000E+00,0.00000E+00,0.00000E+00,6.65E-04,4.28E-05
 382,1.17858E-03,0.00000E+00,0.00000E+00,0.00000E+00,7.52E-04,4.69E-05

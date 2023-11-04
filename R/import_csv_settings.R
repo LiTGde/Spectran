@@ -59,6 +59,15 @@ import_csv_settingsUI <-
             label = htmltools::strong(lang$ui(43)),
             value = TRUE
           ),
+          #Scaling of the data
+          shiny::selectInput(
+            shiny::NS(id, "scaling"),
+            label = lang$ui(178),
+            choices = c("(W/m\u00b2*nm)" = "a", 
+                        "(mW/m\u00b2*nm)" = "b",
+                        lang$server(139)),
+            selected = "none"
+          ),
           #Possible Multiplicator for Irradiance
           shiny::numericInput(
             shiny::NS(id, "multiplikator"),
@@ -97,6 +106,27 @@ import_csv_settingsServer <-
         shiny::updateCheckboxInput(session, "header", value = TRUE)
     }) %>% shiny::bindEvent(input$Standardeinstellungen)
     
+    #Change the Multiplicator based on setting
+      shiny::observeEvent(input$scaling, {
+        if(input$scaling == "a") {
+          shiny::updateNumericInput(session, "multiplikator", value = 1)
+        } else if(input$scaling == "b") {
+          shiny::updateNumericInput(session, "multiplikator", value = 1000)
+        }
+      })
+      
+    #Change the scaling based on the multiplicator
+      shiny::observeEvent(input$multiplikator, {
+        if(input$multiplikator == 1) {
+          shiny::updateSelectInput(session, "scaling", selected = "a")
+        } else if(input$multiplikator == 1000) {
+          shiny::updateSelectInput(session, "scaling", selected = "b")
+        } else {
+          shiny::updateSelectInput(session, "scaling", 
+                                   selected = lang$server(139))
+        }
+      })
+      
     #Warning messages, if column selections are not ok
       shiny::observeEvent(input$x_y, {
       shinyFeedback::feedbackDanger("x_y",
@@ -114,6 +144,8 @@ import_csv_settingsServer <-
                                     paste0(lang$server(5), ncol(dat0())))
     })
     
+    
+      
     #Warning messages, if multiplier not ok
       shiny::observeEvent(input$multiplikator, {
       shinyFeedback::feedbackDanger("multiplikator",

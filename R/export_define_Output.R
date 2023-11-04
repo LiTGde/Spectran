@@ -96,11 +96,16 @@ export_define_OutputServer <-
         shiny::req(Tabactive() == "export")
         output_size$exp[[lang$server(39)]] <- sum(input$export_rad)
         output_size$exp[[lang$server(63)]] = sum(input$export_vis)
-        output_size$exp$Melanopsin = sum(input$export_alpha %in% "Melanopsin")
-        output_size$exp$Erythropsin = sum(input$export_alpha %in% "Erythropsin")
-        output_size$exp$Chloropsin = sum(input$export_alpha %in% "Chloropsin")
-        output_size$exp$Cyanopsin = sum(input$export_alpha %in% "Cyanopsin")
-        output_size$exp$Rhodopsin = sum(input$export_alpha %in% "Rhodopsin")
+        output_size$exp[[Specs$Alpha$names[1]]] = 
+          sum(input$export_alpha %in% Specs$Alpha$names[1])
+        output_size$exp[[Specs$Alpha$names[2]]] = 
+          sum(input$export_alpha %in% Specs$Alpha$names[2])
+        output_size$exp[[Specs$Alpha$names[3]]] = 
+          sum(input$export_alpha %in% Specs$Alpha$names[3])
+        output_size$exp[[Specs$Alpha$names[4]]] = 
+          sum(input$export_alpha %in% Specs$Alpha$names[4])
+        output_size$exp[[Specs$Alpha$names[5]]] = 
+          sum(input$export_alpha %in% Specs$Alpha$names[5])
         output_size$exp[[lang$server(126)]] = 
           (sum(length(input$export_alpha)) >= 1)
         output_size$exp[[lang$server(129)]] = 

@@ -97,7 +97,7 @@ analysis_radioServer <-
       lang$server(42), "N<sub>P</sub>", "N_P",
       sum(
         PD(Analysis$Settings$Spectrum[[1]],
-           Analysis$Settings$Spectrum[[2]])), "quanta/(cm\u00b2*s)"
+           Analysis$Settings$Spectrum[[2]])), "photons/(cm\u00b2*s)"
     )
     })
       

@@ -4,6 +4,7 @@
 #'
 #' @param lang_setting A language for the application. Currently **Deutsch** for German and **English** (default) are implemented. Expects a *character*.
 #' @param lang_link Only relevant for the App deployed on *Shinyapps.io*. Handles whether a link to the German/English Version of the App is present in the header. Expects a *logical* (default FALSE)
+#' @param color_palette A color palette for the application. Currently `**Lang**` (default), `**Lang_bright**` and `**Rainbow**` are implemented. Expects a `*character*`. `**Lang**` is supposedly more accurate, but `**Rainbow**` is more vibrant, if slightly off in terms of coloring.
 #' @param ... Any other settings that get passed to shinyApp
 #'
 #' @return Open a viewer with the shiny app
@@ -11,6 +12,7 @@
 #'
 Spectran <- function(lang_setting = "English", 
                      lang_link = FALSE,
+                     color_palette = "Lang_bright",
                      ...) {
     
     #add a resource path to the www folder
@@ -18,8 +20,9 @@ Spectran <- function(lang_setting = "English",
         "extr", system.file("app/www", package = "Spectran"))
     # on.exit(shiny::removeResourcePath("extr"), add = TRUE)
     
-    #set the language for the program
+    #set the language and color palette for the program
     the$language <- lang_setting
+    the$palette <- color_palette
 
     #create an Environment that holds the plotwidths of users
     theuser <- new.env(parent = emptyenv())

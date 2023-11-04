@@ -1,0 +1,99 @@
+---
+title: "Underlying values"
+date: 2023-11-03
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+<details><summary> Setup </summary>
+```{r setup}
+library(Spectran)
+library(gt)
+library(dplyr)
+library(purrr)
+library(tidyr)
+
+table_fun <- function(data) {   
+  data %>% gt() %>% 
+  tab_style(
+    style = cell_borders(
+      sides = c("left", "right"),
+      color = "grey"),
+    locations = list(
+      cells_body(
+      columns = everything()
+      ),
+      cells_column_labels()
+    )
+    )
+}
+  
+```
+</details> 
+
+## Preface
+
+This document describes and summarizes the various values that are used by Spectran. Because the tables are comprehensive, it makes little sense to go through them sequentially. Instead, you can use the table of contents to jump to the section of interest.
+
+## Action Spectra
+
+The units in the following tables are nm (nanometers) for wavelength, and 1 for the action spectrum. The action spectrum is a relative measure, and therefore has no unit. The data for alpha-opic action spectra were taken from the [CIE S026 Toolbox](https://cie.co.at/publications/cie-system-metrology-optical-radiation-iprgc-influenced-responses-light-0). The 2° photopic luminous efficiency function V(λ) (between 380-780 nm) was taken from the [ISO/CIE 23539:2023](https://cie.co.at/publications/photometry-cie-system-physical-photometry-3).
+
+```{r}
+Specs$AS_wide %>% rename(Wavelength = Wellenlaenge) %>% table_fun()
+```
+
+## Efficacy of luminous radiation
+
+The values for alpha-opic quantities were taken from the [CIE S026 Toolbox](https://cie.co.at/publications/cie-system-metrology-optical-radiation-iprgc-influenced-responses-light-0). The 2° photopic luminous efficiency function V(λ) (between 380-780 nm) was taken from the [ISO/CIE 23539:2023](https://cie.co.at/publications/photometry-cie-system-physical-photometry-3).
+<details><summary> Efficacy </summary>
+```{r}
+Efficacy <- Specs$Efficacy %>% 
+  as_tibble() %>% 
+  pivot_longer(cols = everything(), values_to = "inverse Efficacy") %>% 
+  mutate(Efficacy = 1/`inverse Efficacy`*1000) %>% table_fun() %>% 
+  tab_footnote(footnote = "lm/W",locations = cells_column_labels(
+    columns = "inverse Efficacy")) %>% 
+  tab_footnote(footnote = "mW/lm",locations = cells_column_labels(
+    columns = "Efficacy")) %>% 
+  tab_options(footnotes.multiline = FALSE) %>% 
+  fmt_number(drop_trailing_zeros = TRUE, decimals = 7, sep_mark = " ")
+```
+</details> 
+
+```{r}
+Efficacy
+```
+
+
+## Colors
+
+For plotting and table creation, Peak wavelengths, colors, an abbreviations were used. These can be found in the following table.
+
+```{r}
+Specs$Plot %>% table_fun() %>%   tab_footnote(footnote = "Wavelength (nm)",locations = cells_column_labels(
+    columns = "Peak")) %>% 
+  data_color(columns = Col, fn = \(x) Specs$Plot$Col)
+```
+
+The following table shows the colors that are used in the plot for color rendering.
+
+```{r}
+ColorP$Color_Rendering %>% tibble(Reference = names(.), Color = .) %>% 
+  table_fun() %>% data_color(columns = Color, fn = \(x) ColorP$Color_Rendering)
+  
+```
+Finally, the last table shows the colors used to create the spectrum in all plots.
+
+```{r}
+ColorP$Rainbow %>% 
+  tibble(`Wavelength (nm)` = names(.), Lang = ColorP$Lang, Rainbow = .) %>% 
+  table_fun() %>% data_color(columns = Rainbow, fn = \(x) ColorP$Rainbow) %>% 
+  data_color(columns = Lang, fn = \(x) ColorP$Lang)
+```
+

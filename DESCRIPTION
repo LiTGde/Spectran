@@ -1,9 +1,9 @@
 Package: Spectran
 Title: Visual and Non-Visual Spectral Analysis of Light
-Version: 0.9.2.9000
+Version: 1.0.0
 Authors@R: 
     person("Johannes", "Zauner", , "spectran@litg.de", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "0000-0003-2171-4566"))
 Description: LiTG Spectran is a tool to analyse light spectra for visual and
     non-visual (so-called melanopic) needs, wrapped up in a Shiny App. Spectran 
     allows for the import of spectra in various csv forms but also provides a 
@@ -60,6 +60,10 @@ Imports:
     webshot2,
     withr
 Suggests: 
+    here,
+    magick,
+    readxl,
+    rmarkdown,
     rsconnect
 URL: https://github.com/LiTGde/Spectran,
     https://litgde.github.io/Spectran/

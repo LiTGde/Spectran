@@ -57,13 +57,13 @@ or go to it´s example on [shinyapps.io](https://litg.shinyapps.io/Spectran_de/)
 
 ## Example Screenshots
 
-![User Interface (UI) for Melanopic Analysis](man/figures/English/06_Nonvisual_Analysis.png)
+![User Interface (UI) for Melanopic Analysis](man/figures/English/05_Nonvisual_Analysis.png)
 
-![UI for Analysis of Age-dependent changes](man/figures/English/07_Age-dependent_Analysis.png)
+![UI for Analysis of Age-dependent changes](man/figures/English/06_Age-dependent_Analysis.png)
 
-![Export Table for Alpha-opic Quantities](man/figures/English/10_Table_Export.png)
+![Export Table for Alpha-opic Quantities](man/figures/English/09_Table_Export.png)
 
-![Export File for Photometric Quantities](man/figures/English/09_Graph_Export.png)
+![Export File for Photometric Quantities](man/figures/English/08_Graph_Export.png)
 
 ![UI for File Import](man/figures/English/01_Import_UI.png)
 

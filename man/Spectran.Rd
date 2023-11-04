@@ -4,12 +4,19 @@
 \alias{Spectran}
 \title{Unlock the Spectrum: Easy, Educational, and Engaging Analysis of Light Spectra}
 \usage{
-Spectran(lang_setting = "English", lang_link = FALSE, ...)
+Spectran(
+  lang_setting = "English",
+  lang_link = FALSE,
+  color_palette = "Lang_bright",
+  ...
+)
 }
 \arguments{
 \item{lang_setting}{A language for the application. Currently \strong{Deutsch} for German and \strong{English} (default) are implemented. Expects a \emph{character}.}
 
 \item{lang_link}{Only relevant for the App deployed on \emph{Shinyapps.io}. Handles whether a link to the German/English Version of the App is present in the header. Expects a \emph{logical} (default FALSE)}
+
+\item{color_palette}{A color palette for the application. Currently \verb{**Lang**} (default), \verb{**Lang_bright**} and \verb{**Rainbow**} are implemented. Expects a \verb{*character*}. \verb{**Lang**} is supposedly more accurate, but \verb{**Rainbow**} is more vibrant, if slightly off in terms of coloring.}
 
 \item{...}{Any other settings that get passed to shinyApp}
 }

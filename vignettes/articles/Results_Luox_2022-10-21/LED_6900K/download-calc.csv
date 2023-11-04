@@ -1,0 +1,36 @@
+﻿Condition,Bestrahlungsstaerke (W/m^2)
+Illuminance (lx),100.00029295894714
+CIE 1931 xy chromaticity [x],0.3014928074705774
+CIE 1931 xy chromaticity [y],0.3102614253336725
+CIE 1964 x₁₀y₁₀ chromaticity [x₁₀],0.30429594999008414
+CIE 1964 x₁₀y₁₀ chromaticity [y₁₀],0.3125557223389987
+S-cone-opic irradiance (mW ⋅ m⁻²),93.9980497514245
+M-cone-opic irradiance (mW ⋅ m⁻²),145.3260260161585
+L-cone-opic irradiance (mW ⋅ m⁻²),161.92369498717835
+Rhodopic irradiance (mW ⋅ m⁻²),144.97164995448748
+Melanopic irradiance (mW ⋅ m⁻²),131.44002208159736
+S-cone-opic EDI (lx),115.01191816134707
+M-cone-opic EDI (lx),99.82373731079552
+L-cone-opic EDI (lx),99.40630057630547
+Rhodopic EDI (lx),100.0008914573426
+Melanopic EDI (lx),99.1092707873376
+S-cone-opic ELR,0.9399777437653435
+M-cone-opic ELR,1.4532560027181
+L-cone-opic ELR,1.6192322061861604
+Rhodopic ELR,1.4497122524831232
+Melanopic ELR,1.3143963701742063
+"CCT (K) - Ohno, 2013",7419.024986320142
+"CCT (K) - Robertson, 1968",7418.6800428789265
+Colour Fidelity Index [Rf],90.25594465805716
+Colour Rendering Index [Ra],93.875
+CIE 1960 UCS [u],0.19704924494719678
+CIE 1976 UCS [u prime],0.19704924494719678
+CIE 1960 UCS [v],0.30417033881085653
+CIE 1976 UCS [v prime],0.4562555082162848
+Duv,-0.00064593958541
+"TM30 - CCT (K) - Ohno, 2013",7419.327089296595
+TM30 - Duv,-0.0006468427189221027
+TM30 - Colour Fidelity Index [Rf],90.2556088721206
+TM30 - Gamut Index (Rg),101.57752323318357
+"TM30 - Rcs, h1",-0.03143751737590397
+"TM30 - Rf, h1",91.7923813907469

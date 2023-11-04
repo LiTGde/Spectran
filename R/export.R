@@ -255,7 +255,7 @@ exportApp <- function(lang_setting = "Deutsch", ...) {
       # print(Export$Download_tables)
       # print(Export$Table)
       # print(Export$Xlsx)
-      # print(Export$Plot)
+      print(Export$Plot)
       # print(Spectrum$Origin)
       #     print(Spectrum$Spectrum %>% utils::head())
       #     print(Spectrum$Spectrum %>% utils::tail())

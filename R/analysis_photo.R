@@ -154,15 +154,15 @@ analysis_photoServer <-
             1000, "mW/m\u00b2",
           #photometric to complete visual irradiance
           lang$server(56),"E<sub>e,v</sub>/E<sub>e</sub>", "E_e,v/E_e",
-          Analysis$Settings$general$E[Analysis$Settings$general$Names == Name]*
-            1000/sum(Analysis$Settings$Spectrum[[2]]),
+          Analysis$Settings$general$E[Analysis$Settings$general$Names == Name]/
+            sum(Analysis$Settings$Spectrum[[2]]),
           "",
           #CCT
           lang$server(57),"CCT", "CCT",
           colorSpec::computeCCT(cS$cS, strict = input$CIE_grenzen),
           "K",
           # CRI
-          lang$server(52),"R<sub>a</sub>", "R_a", CRI_val, ""
+          lang$server(52),lang$server(137), lang$server(138), CRI_val, ""
         )
 
         #fill in the CRI values from R1 to R14
