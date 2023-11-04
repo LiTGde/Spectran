@@ -63,33 +63,28 @@
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p><code>ColorP</code> A list containing 3 elements, each a named vector of colors</p><dl><dt>regenbogen</dt>
-<dd><p>401 colors along the spectrum that make a nice, yet nonaccurate representation of the visible spectrum. Created by the <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::rainbow()</a></code> function.</p></dd>
-
-<dt>Lang</dt>
+    <p><code>ColorP</code> A list containing 5 elements, each a named vector of colors</p><dl><dt>Lang</dt>
 <dd><p>401 colors along the spectrum that make a nice, yet nonaccurate representation of the visible spectrum. Created from a picture provided by <code>Dieter Lang</code>.</p></dd>
+
+<dt>Lang_bright</dt>
+<dd><p>same as <code>Lang</code> but with a slightly brightened version of the picture. Strikes a nice balance between "accuracy" and "nice colors". Is the default when starting <code><a href="Spectran.html">Spectran()</a></code></p></dd>
+
+<dt>Dan_Bruton</dt>
+<dd><p>401 colors along the spectrum that were made with the <code><a href="https://rdrr.io/pkg/cooltools/man/wavelength2col.html" class="external-link">cooltools::wavelength2col()</a></code> function and are based on Fortran Code by Dan_Bruton. Probably most accurate, but black at both spectral ends, which does not represent the colors themselves but also human sensitivity to them.</p></dd>
+
+<dt>Rainbow</dt>
+<dd><p>401 colors along the spectrum that make a vibrant and pleasing, yet nonaccurate representation of the visible spectrum. Created by the <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::rainbow()</a></code> function.</p></dd>
 
 <dt>Color_Rendering</dt>
 <dd><p>14 colors that represent the reference colors used to determine the color rendering index.</p></dd>
-
-<dt>Alpha</dt>
-<dd><p>A list. <code>names</code> contains the names of the 5 human receptor types. <code>adjectives</code> contains these names in their adjective form for every languages included in Spectran. <code>descriptions</code> contains the descriptions used for tables and plotting. <code>abb</code> contains the abbreviations (if any) used for the equivalent daylight illuminance for that receptor type.</p></dd>
-
-<dt>Vlambda</dt>
-<dd><p>A character scalar containing the properly escaped version of V(lambda), used e.g. in Plots</p></dd>
-
-<dt>Alpha.ico</dt>
-<dd><p>A character scalar containing the properly escaped version of the sign <code>alpha</code>, used e.g. in Plots</p></dd>
-
-<dt>Plot</dt>
-<dd><p>A table of Peak Wavelength (nm) values, Names, Abbreviations, and colors for the 5 human receptor types and V(lambda) from 1924. This table is mainly used for plotting.</p></dd>
-
 
 
 </dl></div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
     <p><code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::rainbow()</a></code></p>
+<p><code><a href="https://rdrr.io/pkg/cooltools/man/wavelength2col.html" class="external-link">cooltools::wavelength2col()</a></code></p>
+<p><a href="https://github.com/LiTGde/Spectran/issues/14" class="external-link">https://github.com/LiTGde/Spectran/issues/14</a></p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
