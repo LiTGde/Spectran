@@ -62,6 +62,7 @@ Imports:
 Suggests: 
     here,
     magick,
+    readxl,
     rmarkdown,
     rsconnect
 URL: https://github.com/LiTGde/Spectran,
