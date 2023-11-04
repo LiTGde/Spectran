@@ -22,7 +22,7 @@
 
 * outsourced the validation page and added one about the used values.
 
-* added two new color palettes for the spectral Plots. They can be chosen when starting Spectran #14
+* added three new color palettes for the spectral Plots. They can be chosen when starting Spectran #14
 
 # Spectran 0.9.2.9000
 

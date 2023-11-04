@@ -92,8 +92,15 @@ Finally, the last table shows the colors used to create the spectrum in all plot
 
 ```{r}
 ColorP$Rainbow %>% 
-  tibble(`Wavelength (nm)` = names(.), Lang = ColorP$Lang, Rainbow = .) %>% 
-  table_fun() %>% data_color(columns = Rainbow, fn = \(x) ColorP$Rainbow) %>% 
-  data_color(columns = Lang, fn = \(x) ColorP$Lang)
+  tibble(`Wavelength (nm)` = names(.), 
+         Lang = ColorP$Lang,
+         Lang_bright = ColorP$Lang_bright,
+         Dan_Bruton = ColorP$Dan_Bruton,
+         Rainbow = .) %>% 
+  table_fun() %>% 
+  data_color(columns = Rainbow, fn = \(x) ColorP$Rainbow) %>% 
+  data_color(columns = Lang, fn = \(x) ColorP$Lang) %>% 
+  data_color(columns = Lang_bright, fn = \(x) ColorP$Lang_bright) %>% 
+  data_color(columns = Dan_Bruton, fn = \(x) ColorP$Dan_Bruton)
 ```
 

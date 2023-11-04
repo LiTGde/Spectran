@@ -25,18 +25,19 @@
 #'
 #' Contains named vectors of Hex color codes for Spectran's color pallets.
 #'
-#' @format `ColorP` A list containing 3 elements, each a named vector of colors
+#' @format `ColorP` A list containing 5 elements, each a named vector of colors
 #' \describe{
-#'   \item{regenbogen}{401 colors along the spectrum that make a nice, yet nonaccurate representation of the visible spectrum. Created by the [grDevices::rainbow()] function.}
 #'   \item{Lang}{401 colors along the spectrum that make a nice, yet nonaccurate representation of the visible spectrum. Created from a picture provided by `Dieter Lang`.}
+#'   \item{Lang_bright}{same as `Lang` but with a slightly brightened version of the picture. Strikes a nice balance between "accuracy" and "nice colors". Is the default when starting [Spectran()]}
+#'   \item{Dan_Bruton}{401 colors along the spectrum that were made with the [cooltools::wavelength2col()] function and are based on Fortran Code by Dan_Bruton. Probably most accurate, but black at both spectral ends, which does not represent the colors themselves but also human sensitivity to them.}
+#'   \item{Rainbow}{401 colors along the spectrum that make a vibrant and pleasing, yet nonaccurate representation of the visible spectrum. Created by the [grDevices::rainbow()] function.}
 #'   \item{Color_Rendering}{14 colors that represent the reference colors used to determine the color rendering index.}
-#'   \item{Alpha}{A list. `names` contains the names of the 5 human receptor types. `adjectives` contains these names in their adjective form for every languages included in Spectran. `descriptions` contains the descriptions used for tables and plotting. `abb` contains the abbreviations (if any) used for the equivalent daylight illuminance for that receptor type.}
-#'   \item{Vlambda}{A character scalar containing the properly escaped version of V(lambda), used e.g. in Plots}
-#'   \item{Alpha.ico}{A character scalar containing the properly escaped version of the sign `alpha`, used e.g. in Plots}
-#'   \item{Plot}{A table of Peak Wavelength (nm) values, Names, Abbreviations, and colors for the 5 human receptor types and V(lambda) from 1924. This table is mainly used for plotting.}
-#'
 #' }
 #' @source [grDevices::rainbow()]
+#' 
+#' [cooltools::wavelength2col()]
+#' 
+#' <https://github.com/LiTGde/Spectran/issues/14>
 "ColorP"
 
 #' Example spectra used by Spectran

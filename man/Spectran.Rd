@@ -16,7 +16,7 @@ Spectran(
 
 \item{lang_link}{Only relevant for the App deployed on \emph{Shinyapps.io}. Handles whether a link to the German/English Version of the App is present in the header. Expects a \emph{logical} (default FALSE)}
 
-\item{color_palette}{A color palette for the application. Currently \verb{**Lang**} (default), \verb{**Lang_bright**} and \verb{**Rainbow**} are implemented. Expects a \verb{*character*}. \verb{**Lang**} is supposedly more accurate, but \verb{**Rainbow**} is more vibrant, if slightly off in terms of coloring.}
+\item{color_palette}{A color palette for the application. Currently \verb{**Lang**} (default), \verb{**Lang_bright**}, \verb{**Dan_Bruton**}, and \verb{**Rainbow**} are implemented. Expects a \verb{*character*}. In terms of \verb{color accuracy}, the decending order is likely \verb{**Dan_Bruton**}, \verb{**Lang**}, \verb{**Lang_bright**}, and \verb{**Rainbow**}. However, all of them are wrong in the sense, that monochromatic light can not well be recreated with RGB colors.}
 
 \item{...}{Any other settings that get passed to shinyApp}
 }
