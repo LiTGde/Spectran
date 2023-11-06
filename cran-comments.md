@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* changed the erroneous `testduplicates-packae` from the documentation of `Spectran-package.R` to `Spectran-package`.
+* changed the erroneous `testduplicates-packae` from the documentation of `Spectran-package.R` to the correct `Spectran-package`.
 
 ## R CMD check results
 
