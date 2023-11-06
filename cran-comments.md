@@ -1,3 +1,8 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* changed the erroneous `testduplicates-packae` from the documentation of `Spectran-package.R` to `Spectran-package`.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 2 notes
