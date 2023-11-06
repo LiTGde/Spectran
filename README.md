@@ -9,8 +9,8 @@
 
 <!-- badges: end -->
 
-Spectran, developed by the German Technical Lighting Society (LiTG), is
-a Shiny App designed to analyze light spectra for both visual and
+`Spectran`, developed by the German Technical Lighting Society (LiTG),
+is a Shiny App designed to analyze light spectra for both visual and
 non-visual (also known as melanopic) needs. The app supports the import
 of spectral data in CSV or text formats and also offers an extensive
 library of example spectra. Users can even create their own spectral
