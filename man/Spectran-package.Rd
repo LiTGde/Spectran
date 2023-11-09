@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Analyse light spectra for visual and non-visual (often called melanopic) needs, wrapped up in a Shiny App. 'Spectran' allows for the import of spectra in various CSV forms but also provides a wide range of example spectra and even the creation of own spectral power distributions. The goal of the app is to provide easy access and a visual overview of the spectral calculations underlying common parameters used in the field. It is thus ideal for educational purposes or the creation of presentation ready graphs in lighting research and application.
+Analyse light spectra for visual and non-visual (often called melanopic) needs, wrapped up in a Shiny App. 'Spectran' allows for the import of spectra in various CSV forms but also provides a wide range of example spectra and even the creation of own spectral power distributions. The goal of the app is to provide easy access and a visual overview of the spectral calculations underlying common parameters used in the field. It is thus ideal for educational purposes or the creation of presentation ready graphs in lighting research and application. 'Spectran' uses equations and action spectra described in CIE S026 (2018) \doi{10.25039/S026.2018}, DIN/TS 5031-100 (2021) \doi{10.31030/3287213}, and ISO/CIE 23539 (2023) \doi{10.25039/IS0.CIE.23539.2023}.
 }
 \seealso{
 Useful links:

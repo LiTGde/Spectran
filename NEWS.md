@@ -1,7 +1,3 @@
-# Spectran 1.0.2
-
-# Spectran 1.0.1
-
 * small changes to prepare the package for CRAN submission
 
 # Spectran 1.0.0

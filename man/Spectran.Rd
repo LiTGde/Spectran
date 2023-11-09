@@ -7,7 +7,7 @@
 Spectran(
   lang_setting = "English",
   lang_link = FALSE,
-  color_palette = "Lang_bright",
+  color_palette = "Lang",
   ...
 )
 }
