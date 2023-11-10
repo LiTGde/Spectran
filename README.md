@@ -6,11 +6,12 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/LiTGde/Spectran/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/LiTGde/Spectran/actions/workflows/R-CMD-check.yaml)
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/Spectran)](https://CRAN.R-project.org/package=Spectran)
 <!-- badges: end -->
 
-Spectran, developed by the German Technical Lighting Society (LiTG), is
-a Shiny App designed to analyze light spectra for both visual and
+`Spectran`, developed by the German Technical Lighting Society (LiTG),
+is a Shiny App designed to analyze light spectra for both visual and
 non-visual (also known as melanopic) needs. The app supports the import
 of spectral data in CSV or text formats and also offers an extensive
 library of example spectra. Users can even create their own spectral

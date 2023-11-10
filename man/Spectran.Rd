@@ -7,7 +7,7 @@
 Spectran(
   lang_setting = "English",
   lang_link = FALSE,
-  color_palette = "Lang_bright",
+  color_palette = "Lang",
   ...
 )
 }
@@ -16,7 +16,7 @@ Spectran(
 
 \item{lang_link}{Only relevant for the App deployed on \emph{Shinyapps.io}. Handles whether a link to the German/English Version of the App is present in the header. Expects a \emph{logical} (default FALSE)}
 
-\item{color_palette}{A color palette for the application. Currently \verb{**Lang**} (default), \verb{**Lang_bright**}, \verb{**Dan_Bruton**}, and \verb{**Rainbow**} are implemented. Expects a \verb{*character*}. In terms of \verb{color accuracy}, the decending order is likely \verb{**Dan_Bruton**}, \verb{**Lang**}, \verb{**Lang_bright**}, and \verb{**Rainbow**}. However, all of them are wrong in the sense, that monochromatic light can not well be recreated with RGB colors.}
+\item{color_palette}{A color palette for the application. Currently \verb{**Lang**} (default), \verb{**Lang_bright**}, \verb{**Dan_Bruton**}, and \verb{**Rainbow**} are implemented. Expects a \verb{*character*}. In terms of \verb{color accuracy}, the decending order is likely \verb{**Dan_Bruton**}, \verb{**Lang**}, \verb{**Lang_bright**}, and \verb{**Rainbow**}. However, all of them are wrong in the sense, that monochromatic light can not well be recreated with RGB colors. Look at the documentation for \link{ColorP} for more information about these palettes.}
 
 \item{...}{Any other settings that get passed to shinyApp}
 }
@@ -25,4 +25,17 @@ Open a viewer with the shiny app
 }
 \description{
 Unlock the Spectrum: Easy, Educational, and Engaging Analysis of Light Spectra
+}
+\examples{
+if(interactive()) {
+Spectran()}
+
+#try another language
+if(interactive()) {
+Spectran(lang_setting = "Deutsch")}
+
+#or try another color palette
+if(interactive()) {
+Spectran(color_palette = "Dan_Bruton")}
+
 }

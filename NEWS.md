@@ -1,3 +1,7 @@
+# Spectran 1.0.3
+
+* small changes to prepare the package for CRAN submission
+
 # Spectran 1.0.0
 
 * removed the reference to `OPN4` on the melanopic evaluation #15
