@@ -9,7 +9,7 @@
 \describe{
 \item{Lang}{401 colors along the spectrum that make a nice, yet nonaccurate representation of the visible spectrum. Created from a picture provided by \verb{Dieter Lang}.}
 \item{Lang_bright}{same as \code{Lang} but with a slightly brightened version of the picture. Strikes a nice balance between "accuracy" and "nice colors". Is the default when starting \code{\link[=Spectran]{Spectran()}}}
-\item{Dan_Bruton}{401 colors along the spectrum that were made with the \code{\link[cooltools:wavelength2col]{cooltools::wavelength2col()}} function and are based on Fortran Code by Dan_Bruton. Probably most accurate, but black at both spectral ends, which does not represent the colors themselves but also human sensitivity to them.}
+\item{Dan_Bruton}{401 colors along the spectrum that were made with the \code{cooltools::wavelength2col()} function and are based on Fortran Code by Dan_Bruton. Probably most accurate, but black at both spectral ends, which does not represent the colors themselves but also human sensitivity to them.}
 \item{Rainbow}{401 colors along the spectrum that make a vibrant and pleasing, yet nonaccurate representation of the visible spectrum. Created by the \code{\link[grDevices:palettes]{grDevices::rainbow()}} function.}
 \item{Color_Rendering}{14 colors that represent the reference colors used to determine the color rendering index.}
 }
@@ -17,7 +17,7 @@
 \source{
 \code{\link[grDevices:palettes]{grDevices::rainbow()}}
 
-\code{\link[cooltools:wavelength2col]{cooltools::wavelength2col()}}
+\href{https://github.com/obreschkow/cooltools}{cooltools}
 
 \url{https://github.com/LiTGde/Spectran/issues/14}
 }
