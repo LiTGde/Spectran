@@ -1,4 +1,8 @@
-# Spectran (development version)
+# Spectran 1.0.4
+
+# Spectran
+
+*changed CITATION to reflect the name change of the LiTG
 
 # Spectran 1.0.3
 
