@@ -7,11 +7,11 @@ bibentry(
   journal  = "",
   year     = 2023,
   volume   = "",
-  note     = "a publication from LiTG e.V. (Deutsche Lichttechnische Gesellschaft e.V.)",
+  note     = "a publication from LiTG (German Society for Lighting Design and Lighting Technology (LiTG))",
   number   = "",
   pages    = "",
   url      = "https://litgde.github.io/Spectran/",
   textVersion = paste(
-  "Zauner, J. (2023); Deutsche Lichttechnische Gesellschaft e.V.; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litgde.github.io/Spectran/"
+  "Zauner, J. (2023); German Society for Lighting Design and Lighting Technology ; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litgde.github.io/Spectran/"
   )
 )

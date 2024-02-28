@@ -1,6 +1,6 @@
-# Spectran 1.0.4
-
 # Spectran
+
+# Spectran 1.0.4
 
 *changed CITATION to reflect the name change of the LiTG
 
