@@ -1,5 +1,6 @@
 ## code to prepare `ColorP` dataset goes here
-library(cooltools)
+# library(cooltools)
+#cooltools is no longer on cran
 
 #Color palette
 Rainbow <- c(rev(rainbow(150, start = 0.4, end = 0.77)),
@@ -12,9 +13,9 @@ names(Rainbow) <- seq_along(Rainbow) +379
 #Lang Colors
 Lang <- read.csv("data-raw/Lang_colors.csv")
 Lang <- Lang %>% tibble::deframe()
-Lang_bright <- read.csv("data-raw/Lang_bright_colors.csv")
-Lang_bright <- Lang_bright %>% tibble::deframe()
-Dan_Bruton <- wavelength2col(380:780)
+Lang_bright <- read.csv("data-raw/Lang_bright_colors.csv") %>% tibble::deframe()
+Dan_Bruton <- read.csv("data-raw/Dan_Bruton.csv") %>% tibble::deframe()
+# Dan_Bruton <- wavelength2col(380:780) <- removed due to cooltools no longer being on cran
 
 #Color Rendering
 Color_Rendering <- c(

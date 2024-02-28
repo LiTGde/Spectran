@@ -64,7 +64,6 @@ Imports:
     webshot2,
     withr
 Suggests: 
-    cooltools,
     here,
     magick,
     pkgload,
