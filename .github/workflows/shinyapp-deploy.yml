@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install system dependencies
-      run: sudo apt-get update && sudo apt-get install -y libssl-dev libxml2-dev libmagick++-dev
+      run: sudo apt-get update && sudo apt-get install -y libssl-dev libxml2-dev libmagick++-dev libharfbuzz-dev libfribidi-dev
     - name: Install dependencies
       run: R -e 'renv::restore()'
     - name: Deploy English App
