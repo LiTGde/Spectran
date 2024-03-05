@@ -1,3 +1,5 @@
+library(dplyr)
+
 files <- list.files(path = "data-raw", pattern = "[.]R$", full.names = TRUE)
 
 files <- files[!stringr::str_detect(files, "internal_data")]

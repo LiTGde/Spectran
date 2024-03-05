@@ -14,3 +14,4 @@ rsconnect
 ^vignettes/articles$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+_shiny_config.yml
