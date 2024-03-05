@@ -5,10 +5,9 @@ account: litg
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9440810
-bundleId: 7889107
+bundleId: 8335946
 url: https://litg.shinyapps.io/Spectran_en/
-when: 1699107287.35994
-lastSyncTime: 1699107287.35996
+when: 1709667681.47537
+lastSyncTime: 1709667681.47538
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: vignettes
