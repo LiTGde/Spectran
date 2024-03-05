@@ -66,7 +66,7 @@ impressumUI <- function(
     htmltools::p(
       lang$ui(166), 
       htmltools::br(),
-      htmltools::em("Zauner, J. (2023); German Society for Lighting Design and Lighting Technology (LiTG): Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litg.shinyapps.io/Spectran_en/")
+      htmltools::em("Zauner, J. (2023); German Society for Lighting Technology and Lighting Design (LiTG): Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litg.shinyapps.io/Spectran_en/")
     )
   )
 }
