@@ -11,6 +11,8 @@ jobs:
     container: rocker/shiny:latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install system dependencies
+      run: sudo apt-get update && sudo apt-get install -y libssl-dev
     - name: Install dependencies
       run: R -e 'install.packages("rsconnect", repos="http://cran.rstudio.com/")'
     - name: Deploy English App
