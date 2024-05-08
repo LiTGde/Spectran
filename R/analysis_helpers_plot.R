@@ -76,7 +76,7 @@ Plot_Main <- function(
             ggplot2::aes(y = 0,
                          height = Sensitivity_Spectrum * 1000,
                          fill = Wellenlaenge),
-            size = 1.2
+            lwd = 1.2
           )
         }
       }  +
