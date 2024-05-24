@@ -4,6 +4,8 @@
 
 *changed CITATION to reflect the name change of the LiTG
 
+*fixed an incorrect unit in the alpha-opic comparison plot
+
 # Spectran 1.0.3
 
 * small changes to prepare the package for CRAN submission

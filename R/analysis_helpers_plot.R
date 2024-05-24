@@ -76,7 +76,7 @@ Plot_Main <- function(
             ggplot2::aes(y = 0,
                          height = Sensitivity_Spectrum * 1000,
                          fill = Wellenlaenge),
-            size = 1.2
+            lwd = 1.2
           )
         }
       }  +
@@ -154,7 +154,7 @@ Plot_Compare <- function(Sensitivity_Overview,
     ggplot2::labs(x = lang$server(49))+
     cowplot::theme_cowplot(font_size = font_size, font_family = "sans")+
     ggplot2::ylab(
-      bquote(.(lang$server(130))~.(lang$server(40))~~mW/(m^{2}*'*'*nm))
+      bquote(.(lang$server(130))~.(lang$server(40))~~mW/(m^{2}))
       )+
     ggplot2::scale_x_discrete(labels = scales::parse_format())+
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, .1)))+
