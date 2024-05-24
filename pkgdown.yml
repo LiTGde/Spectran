@@ -1,10 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   Validation: Validation.html
   Values: Values.html
-last_built: 2024-03-05T20:17Z
+last_built: 2024-05-24T08:53Z
 urls:
   reference: https://litgde.github.io/Spectran/reference
   article: https://litgde.github.io/Spectran/articles
