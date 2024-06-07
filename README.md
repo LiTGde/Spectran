@@ -8,6 +8,7 @@
 [![R-CMD-check](https://github.com/LiTGde/Spectran/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/LiTGde/Spectran/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/Spectran)](https://CRAN.R-project.org/package=Spectran)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11518043.svg)](https://doi.org/10.5281/zenodo.11518043)
 <!-- badges: end -->
 
 `Spectran`, developed by the German Society for Lighting Technology and
