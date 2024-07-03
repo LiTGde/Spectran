@@ -1,4 +1,4 @@
-# Spectran
+# Spectran 1.0.6
 
 * Update to CRAN
 
