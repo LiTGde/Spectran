@@ -66,11 +66,8 @@ impressumUI <- function(
     htmltools::p(
       lang$ui(166), 
       htmltools::br(),htmltools::br(),
-      htmltools::strong("Software: "), htmltools::br(),
-      htmltools::em("Zauner, J. (2023); German Society for Lighting Technology and Lighting Design (LiTG): Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams [Software]. Available from https://litg.shinyapps.io/Spectran_en/"),
-      htmltools::br(), htmltools::br(),
       htmltools::strong("Source Code: "), htmltools::br(),
-      htmltools::em("Zauner, J. (2023); German Society for Lighting Technology and Lighting Design (LiTG): Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams [Source Code]. Available from https://github.com/LiTGde/Spectran/. doi: 10.5281/zenodo.11518043"),
+      htmltools::em("Zauner, J. (2024); German Society for Lighting Technology and Lighting Design; Spectran: Visual and Non-Visual Spectral Analysis with an Emphasis on Education and Presentation-Ready Diagrams. Available on https://litgde.github.io/Spectran/. doi: 10.5281/zenodo.11518043. RRID: SCR_025407"),
     )
   )
 }

@@ -15,6 +15,7 @@ Useful links:
 \itemize{
   \item \url{https://github.com/LiTGde/Spectran}
   \item \url{https://litgde.github.io/Spectran/}
+  \item \doi{10.5281/zenodo.11518043}
   \item Report bugs at \url{https://github.com/LiTGde/Spectran/issues}
 }
 

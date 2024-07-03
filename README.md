@@ -25,8 +25,7 @@ presentation-ready graphs in lighting research and application.
 ## Installation
 
 You can install the stable release version of Spectran from
-[CRAN](https://cran.r-project.org/web/packages/Spectran/index.html)
-with:
+[CRAN](https://CRAN.R-project.org/package=Spectran) with:
 
 ``` r
 install.packages("Spectran")
