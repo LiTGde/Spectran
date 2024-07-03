@@ -1,4 +1,7 @@
 # Spectran
+
+* Update to CRAN
+
 # Spectran 1.0.5
 
 *changes in Citation to reflect backup in Zenodo.org and DOI

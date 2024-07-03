@@ -18,7 +18,7 @@
 #'   S026](<https://cie.co.at/publications/cie-system-metrology-optical-radiation-iprgc-influenced-responses-light-0>)
 #'
 #'   [DIN/TS
-#'   5031-100](<https://www.beuth.de/de/vornorm/din-ts-5031-100/343737176>)
+#'   5031-100](<https://www.dinmedia.de/de/vornorm/din-ts-5031-100/343737176>)
 "Specs"
 
 #' Hex Color pallets for Spectran

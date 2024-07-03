@@ -73,6 +73,6 @@ Suggests:
     rmarkdown,
     rsconnect
 URL: https://github.com/LiTGde/Spectran,
-    https://litgde.github.io/Spectran/
+    https://litgde.github.io/Spectran/,
     https://doi.org/10.5281/zenodo.11518043
 BugReports: https://github.com/LiTGde/Spectran/issues

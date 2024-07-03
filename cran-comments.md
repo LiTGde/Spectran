@@ -1,3 +1,35 @@
+## Submission (Version 1.0.6)
+
+This is an update to the package. I have addressed the following issues:
+
+* removed the dependency from package `cooltools`
+
+There are no new notes, warnings, or errors.
+
+## R CMD check results
+
+0 errors | 0 warnings | 1 notes
+
+* Imports includes 35 non-default packages.
+  Importing from so many packages makes the package vulnerable to any of
+  them becoming unavailable.  Move as many as possible to Suggests and
+  use conditionally.
+  
+## check_win_devel
+  
+* Found the following (possibly) invalid URLs:
+  URL: https://litg.shinyapps.io/Spectran_de/
+    From: README.md
+    Status: 202
+    Message: Accepted
+  URL: https://litg.shinyapps.io/Spectran_en/
+    From: README.md
+    Status: 202
+    Message: Accepted
+  
+  Both URLs are valid and working.
+
+
 ## Resubmission #2 (Version 1.0.3)
 
 This is a resubmission. In this version I have made changes as per your request from 6 November 2023:
