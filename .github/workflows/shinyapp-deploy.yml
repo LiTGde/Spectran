@@ -25,11 +25,11 @@ jobs:
         SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
         SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
         CONFIG_ENV: default
-      run: R -e 'Sys.setenv(CONFIG_ENV = Sys.getenv("CONFIG_ENV")); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_en")'
+      run: R -e 'Sys.setenv(CONFIG_ENV = "default"); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_en")'
     - name: Deploy German App
       env:
         SHINYAPPS_ACCOUNT: litg
         SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
         SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
         CONFIG_ENV: deutsch
-      run: R -e 'Sys.setenv(CONFIG_ENV = Sys.getenv("CONFIG_ENV")); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_de")'
+      run: R -e 'Sys.setenv(CONFIG_ENV = "deutsch"); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_de")'
