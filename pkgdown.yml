@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   articles/Validation: Validation.html
   articles/Values: Values.html
-last_built: 2024-09-25T15:25Z
+last_built: 2024-09-25T16:43Z
 urls:
   reference: https://litgde.github.io/Spectran/reference
   article: https://litgde.github.io/Spectran/articles
