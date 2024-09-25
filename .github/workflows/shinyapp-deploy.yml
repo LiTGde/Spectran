@@ -18,11 +18,11 @@ jobs:
     - name: Install system dependencies
       run: sudo apt-get update && sudo apt-get install -y libssl-dev libxml2-dev libmagick++-dev libharfbuzz-dev libfribidi-dev
     - name: Install dependencies
-      run: R -e 'renv::restore()'
+    - uses: r-lib/actions/setup-r-dependencies@v2
     - name: Deploy English App
       env:
         SHINYAPPS_ACCOUNT: litg
         SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
         SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
-        CONFIG_ENV: Deutsch
+        CONFIG_ENV: default
       run: R -e 'rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_dev", forceUpdate = TRUE)'
