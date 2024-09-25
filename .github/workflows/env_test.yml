@@ -16,8 +16,8 @@ jobs:
     - name: Get German environment
       env:
         CONFIG_ENV: deutsch
-      run: R -e 'Sys.setenv(CONFIG_ENV = CONFIG_ENV); Sys.getenv("CONFIG_ENV")'
+      run: R -e 'Sys.getenv("CONFIG_ENV")'
     - name: Get English environment
       env:
         CONFIG_ENV: default
-      run: R -e 'Sys.setenv(CONFIG_ENV = CONFIG_ENV); Sys.getenv("CONFIG_ENV")'
+      run: R -e 'Sys.getenv("CONFIG_ENV")'
