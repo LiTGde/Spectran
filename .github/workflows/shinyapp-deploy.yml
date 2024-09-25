@@ -15,10 +15,9 @@ jobs:
     container: rocker/shiny:latest
     steps:
     - uses: actions/checkout@v2
+    - uses: r-lib/actions/setup-r-dependencies@v2
     - name: Install system dependencies
       run: sudo apt-get update && sudo apt-get install -y libssl-dev libxml2-dev libmagick++-dev libharfbuzz-dev libfribidi-dev
-    - name: Install dependencies
-    - uses: r-lib/actions/setup-r-dependencies@v2
     - name: Deploy English App
       env:
         SHINYAPPS_ACCOUNT: litg
