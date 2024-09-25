@@ -25,4 +25,5 @@ jobs:
         SHINYAPPS_ACCOUNT: litg
         SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
         SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
-      run: R -e 'Sys.setenv(CONFIG_ENV = "default"); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_dev", forceUpdate = TRUE)'
+        CONFIG_ENV: default
+      run: R -e 'Sys.setenv(CONFIG_ENV = Sys.getenv("CONFIG_ENV")); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_dev", forceUpdate = TRUE)'
