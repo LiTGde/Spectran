@@ -1,51 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://litgde.github.io/Spectran/404.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/articles/Validation.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/articles/Values.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/index.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/reference/ColorP.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/reference/Specs.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/reference/Spectran-package.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/reference/Spectran.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/reference/examplespectra.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/reference/examplespectra_descriptor.html</loc>
-  </url>
-  <url>
-    <loc>https://litgde.github.io/Spectran/reference/index.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://litgde.github.io/Spectran/404.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/LICENSE-text.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/LICENSE.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/articles/Validation.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/articles/Values.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/articles/index.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/authors.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/index.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/news/index.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/reference/ColorP.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/reference/Specs.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/reference/Spectran-package.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/reference/Spectran.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/reference/examplespectra.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/reference/examplespectra_descriptor.html</loc></url>
+<url><loc>https://litgde.github.io/Spectran/reference/index.html</loc></url>
 </urlset>
+
