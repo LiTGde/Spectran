@@ -15,15 +15,19 @@ jobs:
     container: rocker/shiny:latest
     steps:
     - uses: actions/checkout@v2
-    - uses: r-lib/actions/setup-r-dependencies@v2
-      with:
-        cache-version: 2
     - name: Install system dependencies
       run: sudo apt-get update && sudo apt-get install -y libssl-dev libxml2-dev libmagick++-dev libharfbuzz-dev libfribidi-dev
+    - name: Install packages
+      run: R -e 'renv::restore()'
     - name: Deploy English App
       env:
         SHINYAPPS_ACCOUNT: litg
         SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
         SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
-        CONFIG_ENV: default
-      run: R -e 'Sys.setenv(CONFIG_ENV = Sys.getenv("CONFIG_ENV")); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_dev", forceUpdate = TRUE)'
+      run: R -e 'writeLines("language = English", ".Renviron"); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_en", forceUpdate = TRUE)'
+    - name: Deploy German App
+      env:
+        SHINYAPPS_ACCOUNT: litg
+        SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
+        SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
+      run: R -e 'writeLines("language = Deutsch", ".Renviron"); rsconnect::setAccountInfo(name=Sys.getenv("SHINYAPPS_ACCOUNT"), token=Sys.getenv("SHINYAPPS_TOKEN"), secret=Sys.getenv("SHINYAPPS_SECRET")); rsconnect::deployApp(appName="Spectran_de", forceUpdate = TRUE)'
