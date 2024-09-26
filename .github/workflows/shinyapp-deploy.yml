@@ -13,7 +13,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[automated]') && !contains(github.event.head_commit.message, '[no-deploy]')"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/litgde/spectran:sha256-ae699241d58208d2a3a20a94f67297143a60556ad4db04f9fa4ad5685bdd5014
+      image: ghcr.io/litgde/spectran:main
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.github_token }}
