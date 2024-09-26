@@ -12,13 +12,13 @@ jobs:
     # allow skipping deployment for commits containing '[automated]' or '[no-deploy]' in the commit message
     if: "!contains(github.event.head_commit.message, '[automated]') && !contains(github.event.head_commit.message, '[no-deploy]')"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/litgde/spectran:main
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+    container: rocker/shiny:latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install system dependencies
+      run: sudo apt-get update && sudo apt-get install -y libssl-dev libxml2-dev libmagick++-dev libharfbuzz-dev libfribidi-dev
+    - name: Install packages
+      run: R -e 'renv::restore()'
     - name: Deploy English App
       env:
         SHINYAPPS_ACCOUNT: litg
