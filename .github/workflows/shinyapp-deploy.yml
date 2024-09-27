@@ -19,6 +19,8 @@ jobs:
         password: ${{ secrets.github_token }}
     steps:
     - uses: actions/checkout@v2
+    - name: check files and dirs
+      run: R -e 'list.files("."); list.files("/__w/Spectran"); list.dirs(path = "/__w/Spectran")'
     - name: Install packages
       run: R -e 'install.packages("R.utils"); R.utils::copyDirectory(from = "../renv", to = "renv"); renv::restore()'
     - name: Deploy English App
