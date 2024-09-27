@@ -19,10 +19,8 @@ jobs:
         password: ${{ secrets.github_token }}
     steps:
     - uses: actions/checkout@v2
-    - name: check files and dirs
-      run: R -e 'list.files("renv"); list.files("/")'
     - name: Install packages
-      run: R -e 'install.packages("R.utils"); R.utils::copyDirectory(from = "../renv", to = "renv"); renv::restore()'
+      run: R -e 'renv::restore()'
     - name: Deploy English App
       env:
         SHINYAPPS_ACCOUNT: litg
