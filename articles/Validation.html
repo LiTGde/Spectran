@@ -6,16 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Validation • Spectran</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Validation">
 </head>
 <body>
@@ -128,9 +127,9 @@ Setup
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/magick/" class="external-link">magick</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Linking to ImageMagick 6.9.11.60</span></span>
-<span><span class="co">#&gt; Enabled features: fontconfig, freetype, fftw, heic, lcms, pango, webp, x11</span></span>
-<span><span class="co">#&gt; Disabled features: cairo, ghostscript, raw, rsvg</span></span>
+<span><span class="co">#&gt; Linking to ImageMagick 6.9.12.98</span></span>
+<span><span class="co">#&gt; Enabled features: fontconfig, freetype, fftw, heic, lcms, pango, raw, webp, x11</span></span>
+<span><span class="co">#&gt; Disabled features: cairo, ghostscript, rsvg</span></span>
 <span><span class="co">#&gt; Using 4 threads</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com" class="external-link">gt</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
@@ -1141,7 +1140,7 @@ Creating the gt Table
   height: 0px !important;
 }
 </style>
-<table class="table gt_table" style="table-layout: fixed;; width: 0px" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="table gt_table" style="table-layout:fixed;width:0px;" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width:80px;">
 <col style="width:150px;">
@@ -1165,28 +1164,28 @@ Creating the gt Table
 <td colspan="16" class="gt_heading gt_title gt_font_normal gt_bottom_border" style><span class="gt_from_md"><strong>Validation Results: Relative Differences</strong></span></td>
     </tr>
 <tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="a::stub"></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Picture">Picture</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Illuminance &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">Illuminance <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;S-cone-opic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">S-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;M-cone-opic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">M-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;L-cone-opic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">L-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Rhodopic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">Rhodopic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Melanopic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">Melanopic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;S-cone-opic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">S-cone-opic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;M-cone-opic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">M-cone-opic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;L-cone-opic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">L-cone-opic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Rhodopic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">Rhodopic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Melanopic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">Melanopic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">Irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;CCT &lt;br&gt;(K) - Robertson, 1968&lt;/span&gt;"><span class="gt_from_md">CCT <br>(K) - Robertson, 1968</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Colour Rendering Index [Ra]&lt;/span&gt;"><span class="gt_from_md">Colour Rendering Index [Ra]</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Illuminance-(lx)"><span class="gt_from_md">Illuminance <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">S-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">M-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">L-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">Rhodopic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">Melanopic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.S-cone-opic-EDI-(lx)"><span class="gt_from_md">S-cone-opic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.M-cone-opic-EDI-(lx)"><span class="gt_from_md">M-cone-opic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.L-cone-opic-EDI-(lx)"><span class="gt_from_md">L-cone-opic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Rhodopic-EDI-(lx)"><span class="gt_from_md">Rhodopic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Melanopic-EDI-(lx)"><span class="gt_from_md">Melanopic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">Irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.CCT-(K)---Robertson,-1968"><span class="gt_from_md">CCT <br>(K) - Robertson, 1968</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Colour-Rendering-Index-[Ra]"><span class="gt_from_md">Colour Rendering Index [Ra]</span></th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr>
 <th id="stub_1_1" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">EE_Spektrum</span></th>
-<td headers="stub_1_1 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FEE_Spektrum%2FEE_Spektrum_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_1 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/EE_Spektrum/EE_Spektrum_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_1 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
@@ -1319,7 +1318,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_2" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Fluoreszenz_NW</span></th>
-<td headers="stub_1_2 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FFluoreszenz_NW%2FFluoreszenz_NW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_2 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Fluoreszenz_NW/Fluoreszenz_NW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_2 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
@@ -1455,7 +1454,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_3" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Fluoreszenz_WW</span></th>
-<td headers="stub_1_3 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FFluoreszenz_WW%2FFluoreszenz_WW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_3 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Fluoreszenz_WW/Fluoreszenz_WW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_3 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.90 × 10<sup style="font-size: 65%;">−6</sup>
@@ -1592,7 +1591,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_4" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Halogen</span></th>
-<td headers="stub_1_4 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FHalogen%2FHalogen_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_4 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Halogen/Halogen_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_4 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
@@ -1725,7 +1724,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_5" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_2200K</span></th>
-<td headers="stub_1_5 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FLED_2200K%2FLED_2200K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_5 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_2200K/LED_2200K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_5 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.71 × 10<sup style="font-size: 65%;">−6</sup>
@@ -1863,7 +1862,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_6" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_4000K_1</span></th>
-<td headers="stub_1_6 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FLED_4000K_1%2FLED_4000K_1_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_6 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_4000K_1/LED_4000K_1_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_6 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.92 × 10<sup style="font-size: 65%;">−6</sup>
@@ -2001,7 +2000,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_7" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_4000K_2</span></th>
-<td headers="stub_1_7 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FLED_4000K_2%2FLED_4000K_2_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_7 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_4000K_2/LED_4000K_2_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_7 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
@@ -2138,7 +2137,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_8" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_6900K</span></th>
-<td headers="stub_1_8 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FLED_6900K%2FLED_6900K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_8 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_6900K/LED_6900K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_8 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.92 × 10<sup style="font-size: 65%;">−6</sup>
@@ -2276,7 +2275,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_9" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Nordhimmel</span></th>
-<td headers="stub_1_9 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FNordhimmel%2FNordhimmel_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_9 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Nordhimmel/Nordhimmel_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_9 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
@@ -2411,7 +2410,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_10" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Norm_TL_6500K</span></th>
-<td headers="stub_1_10 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FNorm_TL_6500K%2FNorm_TL_6500K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_10 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Norm_TL_6500K/Norm_TL_6500K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_10 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
@@ -2568,23 +2567,23 @@ Creating the gt Table
 <span><span class="va">tt_text</span> <span class="op">&lt;-</span> <span class="st">"All Results"</span></span></code></pre></div>
 </details><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">comparison_table</span><span class="op">(</span><span class="va">tt_text</span>, <span class="va">fn_text</span>, condition <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<div id="tjzzwjubgq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tjzzwjubgq table {
+<div id="netdcbyohi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#netdcbyohi table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tjzzwjubgq thead, #tjzzwjubgq tbody, #tjzzwjubgq tfoot, #tjzzwjubgq tr, #tjzzwjubgq td, #tjzzwjubgq th {
+#netdcbyohi thead, #netdcbyohi tbody, #netdcbyohi tfoot, #netdcbyohi tr, #netdcbyohi td, #netdcbyohi th {
   border-style: none;
 }
 
-#tjzzwjubgq p {
+#netdcbyohi p {
   margin: 0;
   padding: 0;
 }
 
-#tjzzwjubgq .gt_table {
+#netdcbyohi .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2610,12 +2609,12 @@ Creating the gt Table
   border-left-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_caption {
+#netdcbyohi .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tjzzwjubgq .gt_title {
+#netdcbyohi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2627,7 +2626,7 @@ Creating the gt Table
   border-bottom-width: 0;
 }
 
-#tjzzwjubgq .gt_subtitle {
+#netdcbyohi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2639,7 +2638,7 @@ Creating the gt Table
   border-top-width: 0;
 }
 
-#tjzzwjubgq .gt_heading {
+#netdcbyohi .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -2651,13 +2650,13 @@ Creating the gt Table
   border-right-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_bottom_border {
+#netdcbyohi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_col_headings {
+#netdcbyohi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2672,7 +2671,7 @@ Creating the gt Table
   border-right-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_col_heading {
+#netdcbyohi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2692,7 +2691,7 @@ Creating the gt Table
   overflow-x: hidden;
 }
 
-#tjzzwjubgq .gt_column_spanner_outer {
+#netdcbyohi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2704,15 +2703,15 @@ Creating the gt Table
   padding-right: 4px;
 }
 
-#tjzzwjubgq .gt_column_spanner_outer:first-child {
+#netdcbyohi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tjzzwjubgq .gt_column_spanner_outer:last-child {
+#netdcbyohi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tjzzwjubgq .gt_column_spanner {
+#netdcbyohi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2724,11 +2723,11 @@ Creating the gt Table
   width: 100%;
 }
 
-#tjzzwjubgq .gt_spanner_row {
+#netdcbyohi .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tjzzwjubgq .gt_group_heading {
+#netdcbyohi .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2754,7 +2753,7 @@ Creating the gt Table
   text-align: left;
 }
 
-#tjzzwjubgq .gt_empty_group_heading {
+#netdcbyohi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2769,15 +2768,15 @@ Creating the gt Table
   vertical-align: middle;
 }
 
-#tjzzwjubgq .gt_from_md > :first-child {
+#netdcbyohi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tjzzwjubgq .gt_from_md > :last-child {
+#netdcbyohi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tjzzwjubgq .gt_row {
+#netdcbyohi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2796,7 +2795,7 @@ Creating the gt Table
   overflow-x: hidden;
 }
 
-#tjzzwjubgq .gt_stub {
+#netdcbyohi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2809,7 +2808,7 @@ Creating the gt Table
   padding-right: 5px;
 }
 
-#tjzzwjubgq .gt_stub_row_group {
+#netdcbyohi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2823,15 +2822,15 @@ Creating the gt Table
   vertical-align: top;
 }
 
-#tjzzwjubgq .gt_row_group_first td {
+#netdcbyohi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tjzzwjubgq .gt_row_group_first th {
+#netdcbyohi .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tjzzwjubgq .gt_summary_row {
+#netdcbyohi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2841,16 +2840,16 @@ Creating the gt Table
   padding-right: 5px;
 }
 
-#tjzzwjubgq .gt_first_summary_row {
+#netdcbyohi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_first_summary_row.thick {
+#netdcbyohi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tjzzwjubgq .gt_last_summary_row {
+#netdcbyohi .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2860,7 +2859,7 @@ Creating the gt Table
   border-bottom-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_grand_summary_row {
+#netdcbyohi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2870,7 +2869,7 @@ Creating the gt Table
   padding-right: 5px;
 }
 
-#tjzzwjubgq .gt_first_grand_summary_row {
+#netdcbyohi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2880,7 +2879,7 @@ Creating the gt Table
   border-top-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_last_grand_summary_row_top {
+#netdcbyohi .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2890,11 +2889,11 @@ Creating the gt Table
   border-bottom-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_striped {
+#netdcbyohi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tjzzwjubgq .gt_table_body {
+#netdcbyohi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2903,7 +2902,7 @@ Creating the gt Table
   border-bottom-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_footnotes {
+#netdcbyohi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2917,7 +2916,7 @@ Creating the gt Table
   border-right-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_footnote {
+#netdcbyohi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2926,7 +2925,7 @@ Creating the gt Table
   padding-right: 5px;
 }
 
-#tjzzwjubgq .gt_sourcenotes {
+#netdcbyohi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2940,7 +2939,7 @@ Creating the gt Table
   border-right-color: #D3D3D3;
 }
 
-#tjzzwjubgq .gt_sourcenote {
+#netdcbyohi .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2948,76 +2947,76 @@ Creating the gt Table
   padding-right: 5px;
 }
 
-#tjzzwjubgq .gt_left {
+#netdcbyohi .gt_left {
   text-align: left;
 }
 
-#tjzzwjubgq .gt_center {
+#netdcbyohi .gt_center {
   text-align: center;
 }
 
-#tjzzwjubgq .gt_right {
+#netdcbyohi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tjzzwjubgq .gt_font_normal {
+#netdcbyohi .gt_font_normal {
   font-weight: normal;
 }
 
-#tjzzwjubgq .gt_font_bold {
+#netdcbyohi .gt_font_bold {
   font-weight: bold;
 }
 
-#tjzzwjubgq .gt_font_italic {
+#netdcbyohi .gt_font_italic {
   font-style: italic;
 }
 
-#tjzzwjubgq .gt_super {
+#netdcbyohi .gt_super {
   font-size: 65%;
 }
 
-#tjzzwjubgq .gt_footnote_marks {
+#netdcbyohi .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tjzzwjubgq .gt_asterisk {
+#netdcbyohi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tjzzwjubgq .gt_indent_1 {
+#netdcbyohi .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tjzzwjubgq .gt_indent_2 {
+#netdcbyohi .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tjzzwjubgq .gt_indent_3 {
+#netdcbyohi .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tjzzwjubgq .gt_indent_4 {
+#netdcbyohi .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tjzzwjubgq .gt_indent_5 {
+#netdcbyohi .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tjzzwjubgq .katex-display {
+#netdcbyohi .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tjzzwjubgq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#netdcbyohi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
-<table class="table gt_table" style="table-layout: fixed;; width: 0px" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="table gt_table" style="table-layout:fixed;width:0px;" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <colgroup>
 <col style="width:80px;">
 <col style="width:150px;">
@@ -3041,28 +3040,28 @@ Creating the gt Table
 <td colspan="16" class="gt_heading gt_title gt_font_normal gt_bottom_border" style><span class="gt_from_md"><strong>Validation Results: All Results</strong></span></td>
     </tr>
 <tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="a::stub"></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Picture">Picture</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Illuminance &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">Illuminance <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;S-cone-opic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">S-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;M-cone-opic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">M-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;L-cone-opic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">L-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Rhodopic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">Rhodopic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Melanopic irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">Melanopic irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;S-cone-opic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">S-cone-opic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;M-cone-opic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">M-cone-opic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;L-cone-opic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">L-cone-opic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Rhodopic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">Rhodopic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Melanopic EDI &lt;br&gt;(lx)&lt;/span&gt;"><span class="gt_from_md">Melanopic EDI <br>(lx)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Irradiance &lt;br&gt;(mW ⋅ m⁻²)&lt;/span&gt;"><span class="gt_from_md">Irradiance <br>(mW ⋅ m⁻²)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;CCT &lt;br&gt;(K) - Robertson, 1968&lt;/span&gt;"><span class="gt_from_md">CCT <br>(K) - Robertson, 1968</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;span class='gt_from_md'&gt;Colour Rendering Index [Ra]&lt;/span&gt;"><span class="gt_from_md">Colour Rendering Index [Ra]</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Illuminance-(lx)"><span class="gt_from_md">Illuminance <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">S-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">M-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">L-cone-opic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">Rhodopic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">Melanopic irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.S-cone-opic-EDI-(lx)"><span class="gt_from_md">S-cone-opic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.M-cone-opic-EDI-(lx)"><span class="gt_from_md">M-cone-opic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.L-cone-opic-EDI-(lx)"><span class="gt_from_md">L-cone-opic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Rhodopic-EDI-(lx)"><span class="gt_from_md">Rhodopic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Melanopic-EDI-(lx)"><span class="gt_from_md">Melanopic EDI <br>(lx)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Irradiance-(mW-⋅-m⁻²)"><span class="gt_from_md">Irradiance <br>(mW ⋅ m⁻²)</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.CCT-(K)---Robertson,-1968"><span class="gt_from_md">CCT <br>(K) - Robertson, 1968</span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Results_shiny.Colour-Rendering-Index-[Ra]"><span class="gt_from_md">Colour Rendering Index [Ra]</span></th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr>
 <th id="stub_1_1" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">EE_Spektrum</span></th>
-<td headers="stub_1_1 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FEE_Spektrum%2FEE_Spektrum_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_1 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/EE_Spektrum/EE_Spektrum_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_1 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3126,7 +3125,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_2" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Fluoreszenz_NW</span></th>
-<td headers="stub_1_2 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FFluoreszenz_NW%2FFluoreszenz_NW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_2 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Fluoreszenz_NW/Fluoreszenz_NW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_2 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3189,7 +3188,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_3" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Fluoreszenz_WW</span></th>
-<td headers="stub_1_3 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FFluoreszenz_WW%2FFluoreszenz_WW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_3 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Fluoreszenz_WW/Fluoreszenz_WW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_3 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3252,7 +3251,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_4" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Halogen</span></th>
-<td headers="stub_1_4 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FHalogen%2FHalogen_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_4 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Halogen/Halogen_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_4 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3315,7 +3314,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_5" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_2200K</span></th>
-<td headers="stub_1_5 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FLED_2200K%2FLED_2200K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_5 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_2200K/LED_2200K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_5 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3378,7 +3377,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_6" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_4000K_1</span></th>
-<td headers="stub_1_6 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FLED_4000K_1%2FLED_4000K_1_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_6 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_4000K_1/LED_4000K_1_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_6 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3441,7 +3440,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_7" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_4000K_2</span></th>
-<td headers="stub_1_7 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FLED_4000K_2%2FLED_4000K_2_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_7 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_4000K_2/LED_4000K_2_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_7 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3505,7 +3504,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_8" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_6900K</span></th>
-<td headers="stub_1_8 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FLED_6900K%2FLED_6900K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_8 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_6900K/LED_6900K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_8 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3568,7 +3567,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_9" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Nordhimmel</span></th>
-<td headers="stub_1_9 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FNordhimmel%2FNordhimmel_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_9 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Nordhimmel/Nordhimmel_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_9 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3631,7 +3630,7 @@ toolbox:</div>
 </tr>
 <tr>
 <th id="stub_1_10" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Norm_TL_6500K</span></th>
-<td headers="stub_1_10 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp%2FNorm_TL_6500K%2FNorm_TL_6500K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
+<td headers="stub_1_10 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Norm_TL_6500K/Norm_TL_6500K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
 <td headers="stub_1_10 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
@@ -3936,7 +3935,7 @@ similar functionality.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
