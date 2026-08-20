@@ -7,19 +7,25 @@ files <- files[!stringr::str_detect(files, "internal_data")]
 purrr::map(files, source)
 
 usethis::use_data(
-                  language,
-                  ColorP, 
-                  examplespectra, 
-                  examplespectra_descriptor, 
-                  Specs,
-                  internal = TRUE,
-                  overwrite = TRUE)
+  language,
+  ColorP,
+  examplespectra,
+  examplespectra_descriptor,
+  Specs,
+  transmission_catalogue_curves,
+  transmission_catalogue_provenance,
+  transmission_catalogue_records,
+  internal = TRUE,
+  overwrite = TRUE
+)
 
-usethis::use_data(ColorP, 
-                  examplespectra, 
-                  examplespectra_descriptor, 
-                  Specs,
-                  # internal = TRUE,
-                  overwrite = TRUE)
+usethis::use_data(
+  ColorP,
+  examplespectra,
+  examplespectra_descriptor,
+  Specs,
+  # internal = TRUE,
+  overwrite = TRUE
+)
 
 rm(list = ls())

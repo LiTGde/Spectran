@@ -15,7 +15,7 @@
 }
 
 .wrapper {
-    overflow-y: hidden; * Show vertical scrollbar *
+    overflow-y: hidden;
 }
 
 .skin-yellow .sidebar-menu>li.active>a, .skin-yellow .sidebar-menu>li:hover>a {
@@ -41,8 +41,7 @@
 }
 
 .skin-yellow .main-header .navbar .sidebar-toggle {
-    background-color: #F8E350
-    position: fixed;
+    background-color: #F8E350;
 }
 
 .skin-yellow .main-header .logo {
@@ -51,7 +50,7 @@
     border-bottom: 0 solid transparent;
     padding-right: 0;
     padding-left: 0;
-    position : fixed;
+    position: fixed;
 }
 
 .skin-yellow .main-header .logo:hover {
@@ -60,6 +59,33 @@
 
 .skin-yellow .main-header .navbar .sidebar-toggle {
     color: black;
+}
+
+/* Keep the desktop navigation toggle inside the yellow sidebar header. */
+@media (min-width: 768px) {
+    .skin-yellow .main-header .logo {
+        box-sizing: border-box;
+        padding-right: 40px;
+    }
+
+    .skin-yellow .main-header .navbar .sidebar-toggle {
+        position: fixed;
+        top: 0;
+        left: 110px;
+        z-index: 1040;
+        box-sizing: border-box;
+        width: 40px;
+        height: 50px;
+        padding-right: 0;
+        padding-left: 0;
+        text-align: center;
+        background-color: #F8E350;
+    }
+
+    .skin-yellow .main-header .navbar .sidebar-toggle:hover,
+    .skin-yellow .main-header .navbar .sidebar-toggle:focus {
+        background-color: #F8E350;
+    }
 }
 
 .skin-yellow .main-header .navbar .nav>li>a {
@@ -89,7 +115,444 @@ a {
 }
 
 body {
-    overflow-y: scroll; * Show vertical scrollbar *
+    overflow-y: scroll;
+}
+
+.spectran-import-page,
+.spectran-import-page .row,
+.spectran-import-page [class*="col-"] {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.spectran-import-page {
+    width: 100%;
+    overflow-x: clip;
+}
+
+.spectran-import-page img,
+.spectran-import-page svg,
+.spectran-import-page canvas,
+.spectran-import-page video {
+    max-width: 100%;
+    height: auto;
+}
+
+.spectran-import-page .dropdown-menu {
+    max-width: calc(100vw - 50px);
+    overflow-x: auto;
+}
+
+.spectran-import-page .sw-dropdown-content {
+    width: min(600px, calc(100vw - 50px)) !important;
+    max-width: calc(100vw - 50px);
+    overflow-x: auto;
+}
+
+.spectran-import-page table,
+.spectran-import-page .gt_table {
+    max-width: 100%;
+}
+
+.spectran-import-page .gt_output,
+.spectran-import-page .shiny-html-output:has(> table) {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.spectran-review-build {
+    margin: 12px 15px 0;
+    padding: 8px 10px;
+    border-left: 4px solid #8d7d00;
+    background: #fffbea;
+    color: #262000;
+}
+
+/* Transmission is an optional workflow, visually separated from Export. */
+.sidebar-menu > li#transmission {
+    margin-top: 20px;
+    position: relative;
+}
+
+.sidebar-menu > li#transmission::before {
+    content: "";
+    position: absolute;
+    top: -11px;
+    left: 18px;
+    width: 70px;
+    border-top: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+/* Let the document own vertical scrolling. */
+.spectran-transmission-module,
+.spectran-transmission-module .transmission-tabs,
+.spectran-transmission-module .transmission-tabs > .tabbable,
+.spectran-transmission-module .transmission-tabs > .tabbable > .tab-content,
+.spectran-transmission-module .transmission-tabs > .tabbable > .tab-content > .tab-pane {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+}
+
+.spectran-transmission-module .transmission-tabs > .tabbable > .nav-tabs > li.active {
+    border-top: 0 !important;
+}
+
+.spectran-transmission-module .transmission-tabs > .tabbable > .nav-tabs > li.active > a {
+    background: #fff !important;
+}
+
+.spectran-transmission-module .transmission-readiness {
+    margin: 18px 0 12px !important;
+}
+
+.spectran-transmission-module .transmission-normalization-complete {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 12px 0;
+    padding: 14px 16px;
+    border: 1px solid #84b987;
+    border-left: 5px solid #2e7d32;
+    border-radius: 3px;
+    background: #f1f8f1;
+    color: #1f5d23;
+}
+
+.spectran-transmission-module .transmission-normalization-complete .fa {
+    margin-top: 2px;
+    font-size: 1.35em;
+}
+
+.spectran-transmission-module .transmission-normalization-complete p {
+    margin: 4px 0 0;
+    color: #333;
+}
+
+.spectran-transmission-module .transmission-guided-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    clear: both;
+    margin-top: 20px;
+    padding: 14px 4px 2px;
+    border-top: 1px solid #d5dce2;
+}
+
+.spectran-transmission-module .transmission-guided-navigation .btn {
+    white-space: normal;
+}
+
+.spectran-transmission-module .transmission-preview-details,
+.spectran-transmission-module .transmission-csv-settings {
+    border: 1px solid #d4d4d4 !important;
+    border-radius: 3px;
+    padding: 0 !important;
+    background: #fff;
+}
+
+.spectran-transmission-module .transmission-preview-details > summary,
+.spectran-transmission-module .transmission-csv-settings > summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 11px;
+    color: #333 !important;
+    background: #f5f5f5;
+    list-style: none;
+}
+
+.spectran-transmission-module .transmission-preview-details > summary::-webkit-details-marker,
+.spectran-transmission-module .transmission-csv-settings > summary::-webkit-details-marker {
+    display: none;
+}
+
+.spectran-transmission-module .transmission-preview-details > summary::before,
+.spectran-transmission-module .transmission-csv-settings > summary::before {
+    content: "\25B6";
+    display: inline-block;
+    color: #555;
+    font-size: 0.8em;
+    transition: transform 0.12s ease-in-out;
+}
+
+.spectran-transmission-module .transmission-preview-details[open] > summary::before,
+.spectran-transmission-module .transmission-csv-settings[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.spectran-transmission-module .transmission-preview-details-body,
+.spectran-transmission-module .transmission-csv-settings > div {
+    padding: 0 11px 11px;
+}
+
+.spectran-transmission-module .transmission-analysis-package {
+    margin-top: 0;
+    padding: 0 0 8px;
+    border: 0;
+    border-radius: 0;
+    background: #f4f8fb;
+}
+
+.spectran-transmission-module .transmission-frozen-result-banner {
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    border: 1px solid #8aa9c2;
+    border-left: 5px solid #2e6f9e;
+    border-radius: 3px;
+    background: #eef6fb;
+    color: #234b68;
+}
+
+.spectran-transmission-module .transmission-frozen-result-banner p {
+    margin: 4px 0 0;
+    color: #333;
+}
+
+.spectran-transmission-module .transmission-result-options {
+    margin: 0 !important;
+    padding: 10px 12px 8px !important;
+    border: 0 !important;
+    background: #f4f8fb !important;
+}
+
+.spectran-transmission-module .transmission-result-options .form-group {
+    margin-right: 12px !important;
+}
+
+.spectran-transmission-module .transmission-preview-details .gt_table {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.spectran-transmission-module .transmission-analysis-package > .tabbable {
+    margin: 0 8px;
+    background: transparent;
+}
+
+.spectran-transmission-module .transmission-analysis-package > .tabbable > .nav-tabs {
+    margin: 0;
+    border-bottom: 1px solid #aeb8c0;
+    background: transparent;
+}
+
+.spectran-transmission-module .transmission-analysis-package > .tabbable > .tab-content {
+    padding-top: 0;
+    background: transparent;
+}
+
+.spectran-transmission-module .transmission-analysis-package .transmission-gt-scroll {
+    padding: 0;
+}
+
+.spectran-transmission-module .transmission-history-controls .btn-primary {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-height: 46px;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.spectran-transmission-module .transmission-export-settings,
+.spectran-transmission-module .transmission-export-bundle {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-top: 1px solid #c7c7c7;
+    background: #fff;
+}
+
+.spectran-transmission-module .transmission-export-setting-grid {
+    display: block;
+}
+
+.spectran-transmission-module .transmission-export-setting-row {
+    display: grid;
+    gap: 8px 16px;
+    align-items: start;
+}
+
+.spectran-transmission-module .transmission-export-setting-row-primary,
+.spectran-transmission-module .transmission-export-setting-row-secondary {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+}
+
+.spectran-transmission-module .transmission-export-setting-row-secondary {
+    margin-top: 2px;
+}
+
+.spectran-transmission-module .transmission-export-setting-row-secondary .control-label {
+    display: flex;
+    align-items: flex-end;
+    min-height: 40px;
+}
+
+.spectran-transmission-module .transmission-export-setting-row .form-group {
+    min-width: 0;
+    margin-bottom: 8px;
+}
+
+.spectran-transmission-module .transmission-export-bundle .shiny-options-group {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px 20px;
+}
+
+.spectran-transmission-module .transmission-export-bundle > .shiny-input-checkboxgroup {
+    width: 100%;
+    max-width: none;
+}
+
+.spectran-transmission-module .transmission-export-bundle .checkbox {
+    min-width: 0;
+    margin: 0;
+}
+
+.spectran-transmission-module .transmission-export-count {
+    margin: 10px 0 8px;
+    font-weight: 700;
+}
+
+.spectran-transmission-module .transmission-export-bundle-status {
+    margin: 8px 0;
+    padding: 10px 12px;
+    border-left: 4px solid #2e7d32;
+    background: #f1f8f1;
+    color: #1f5e24;
+    font-weight: 600;
+}
+
+.spectran-transmission-module .transmission-export-scale-error {
+    margin-top: -5px;
+    color: #a32121;
+    font-weight: 600;
+}
+
+.spectran-transmission-module .transmission-export-primary,
+.spectran-transmission-module .transmission-export-primary.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 13px 18px;
+    border-color: #8d7d00;
+    background: #f8e350;
+    color: #111;
+    text-align: center;
+    font-weight: 700;
+}
+
+.spectran-transmission-module .transmission-export-primary:hover,
+.spectran-transmission-module .transmission-export-primary:focus {
+    border-color: #6f6200;
+    background: #f5dc24;
+    color: #111;
+}
+
+.spectran-transmission-module .transmission-export-primary.disabled {
+    border-color: #b8b8b8;
+    background: #e8e8e8;
+    color: #666;
+}
+
+.spectran-transmission-module .transmission-export-quick {
+    margin-top: 16px;
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.spectran-transmission-module .transmission-export-quick > summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    list-style: none;
+    cursor: pointer;
+    background: #f5f5f5;
+    font-weight: 700;
+}
+
+.spectran-transmission-module .transmission-export-quick > summary::-webkit-details-marker {
+    display: none;
+}
+
+.spectran-transmission-module .transmission-export-quick > summary::before {
+    content: "\25B6";
+    font-size: 0.8em;
+    color: #555;
+    transition: transform 0.12s ease-in-out;
+}
+
+.spectran-transmission-module .transmission-export-quick[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.spectran-transmission-module .transmission-export-groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    padding: 12px;
+}
+
+.spectran-transmission-module .transmission-export-group {
+    min-width: 0;
+    padding: 0 12px;
+    border-right: 1px solid #ddd;
+}
+
+.spectran-transmission-module .transmission-export-group:last-child {
+    border-right: 0;
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+    .spectran-transmission-module .transmission-export-bundle .shiny-options-group {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .spectran-transmission-module .transmission-guided-navigation {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .spectran-transmission-module .transmission-guided-navigation .btn {
+        width: 100%;
+    }
+
+    .spectran-transmission-module .transmission-export-groups {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .spectran-transmission-module .transmission-export-group {
+        padding: 10px 0;
+        border-right: 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .spectran-transmission-module .transmission-export-group:last-child {
+        border-bottom: 0;
+    }
+
+    .spectran-transmission-module .transmission-export-setting-row,
+    .spectran-transmission-module .transmission-export-bundle .shiny-options-group {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .spectran-transmission-module .transmission-export-setting-row-secondary .control-label {
+        min-height: 0;
+    }
+}
+
+@media (max-width: 479px) {
+    .spectran-transmission-module .transmission-history-controls .btn-primary {
+        width: 100%;
+    }
 }
   
 .sweet-overlay {
@@ -98,4 +561,4 @@ body {
 
 body.stop-scrolling{
     overflow: scroll;
-}  
+}
