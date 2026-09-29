@@ -34,6 +34,42 @@ transmission_text <- function(key, ..., language_direct = NULL) {
   if (!is.character(key) || length(key) != 1L || is.na(key)) {
     stop("`key` must be one text value.", call. = FALSE)
   }
+  if (
+    key %in%
+      c(
+        "export_heading",
+        "aria_archived_results",
+        "aria_archived_absolute_table",
+        "alt_archived_spectral_comparison",
+        "template_download",
+        "import_unlocks_transmission",
+        "balance_heading",
+        "balance_intro",
+        "aria_balance_table",
+        "aria_archived_balance_table",
+        "export_bundle_balance_png",
+        "export_bundle_balance_csv",
+        "download_balance_table_png",
+        "download_balance_table_csv",
+        "promote_button",
+        "aria_history_table",
+        "alt_spectral_comparison",
+        "alt_construction",
+        "workflow_label",
+        "promote_intro",
+        "menu",
+        "tab_spectrum",
+        "choose_heading",
+        "choose_intro",
+        "source_label",
+        "csv_label",
+        "csv_value",
+        "csv_tooltip",
+        "show_transmittance_panel",
+        "apply_intro"
+      )
+  )
+    return(material_text(key, language_direct))
   semantic_name <- paste0("transmission.", key)
   row <- match(semantic_name, language$ui$Name)
   if (is.na(row)) {
@@ -76,6 +112,15 @@ transmission_metric_labels <- function(
   vapply(
     seq_along(metric_id),
     function(index) {
+      if (metric_id[[index]] == "melanopic_der_effective")
+        return(material_text("effective_der", language_direct))
+      if (startsWith(metric_id[[index]], "rho_")) {
+        key <- paste0("metric_", sub("^rho_", "tau_", metric_id[[index]]))
+        return(material_labeler("reflection")(
+          key,
+          language_direct = language_direct
+        ))
+      }
       key <- paste0("metric_", metric_id[[index]])
       semantic_name <- paste0("transmission.", key)
       if (!semantic_name %in% language$ui$Name) {
@@ -93,16 +138,43 @@ transmission_metric_labels <- function(
 #' changes their visible UI presentation.
 #'
 #' @param messages Character vector of diagnostics.
+#' @param mode Material interaction used for physical terminology.
 #'
 #' @return Localized messages in the same order.
 #' @noRd
-transmission_localize_diagnostics <- function(messages) {
-  if (
-    length(messages) == 0L ||
-      !identical(transmission_language_setting(), "Deutsch")
-  ) {
-    return(messages)
-  }
+transmission_localize_diagnostics <- function(messages, mode = "transmission") {
+  if (length(messages) == 0L) return(messages)
+  transmission_text <- material_labeler(mode)
+  messages <- vapply(
+    messages,
+    function(message) {
+      lower_pattern <- paste0(
+        "^Choose how to complete the lower tail \\((.*)\\): ",
+        "opaque at 0%, transparent at 100%, or carry the first supplied ",
+        "value backward\\.$"
+      )
+      upper_pattern <- paste0(
+        "^Choose how to complete the upper tail \\((.*)\\): ",
+        "opaque at 0%, transparent at 100%, or carry the last supplied ",
+        "value forward\\.$"
+      )
+      if (grepl(lower_pattern, message))
+        return(transmission_text(
+          "require_lower_tail",
+          sub(lower_pattern, "\\1", message)
+        ))
+      if (grepl(upper_pattern, message))
+        return(transmission_text(
+          "require_upper_tail",
+          sub(upper_pattern, "\\1", message)
+        ))
+      message
+    },
+    character(1),
+    USE.NAMES = FALSE
+  )
+  if (!identical(transmission_language_setting(), "Deutsch"))
+    return(material_relabel(messages, mode))
 
   vapply(
     messages,
@@ -303,26 +375,6 @@ transmission_localize_diagnostics <- function(messages) {
           "diagnostic_external_intervals",
           intervals
         ))
-      }
-
-      lower_pattern <- paste0(
-        "^Choose how to complete the lower tail \\((.*)\\): ",
-        "opaque at 0%, transparent at 100%, or carry the first supplied ",
-        "value backward\\.$"
-      )
-      if (grepl(lower_pattern, message)) {
-        affected <- sub(lower_pattern, "\\1", message)
-        return(transmission_text("require_lower_tail", affected))
-      }
-
-      upper_pattern <- paste0(
-        "^Choose how to complete the upper tail \\((.*)\\): ",
-        "opaque at 0%, transparent at 100%, or carry the last supplied ",
-        "value forward\\.$"
-      )
-      if (grepl(upper_pattern, message)) {
-        affected <- sub(upper_pattern, "\\1", message)
-        return(transmission_text("require_upper_tail", affected))
       }
 
       gap_pattern <- paste0(

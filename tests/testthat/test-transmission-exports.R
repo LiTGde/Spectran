@@ -201,6 +201,26 @@ test_that("audit ZIP preserves uploads, metrics, history, and provenance", {
     "citations-licenses.csv",
     "manifest.csv"
   )
+  expected <- c(
+    expected,
+    paste0(
+      "history/node-",
+      rep(1:2, each = 3),
+      "-",
+      rep(
+        c(
+          "cumulative-metrics.csv",
+          "cumulative-spectra.csv",
+          "promotion-metadata.csv"
+        ),
+        2
+      )
+    ),
+    paste0(
+      "history/node-2-",
+      c("material.csv", "sources.csv", "unscaled-comparison.csv")
+    )
+  )
   expect_setequal(listing, expected)
 
   extracted <- file.path(audit_directory, "extracted")

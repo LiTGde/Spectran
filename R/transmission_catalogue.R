@@ -25,16 +25,21 @@ transmission_catalogue_record <- function(catalogue_id) {
   ) {
     stop("Select one catalogue filter.", call. = FALSE)
   }
-  record <- transmission_catalogue_records[
-    transmission_catalogue_records$catalogue_id == catalogue_id,
+  records <- dplyr::bind_rows(
+    tub_material_records,
+    transmission_catalogue_records
+  )
+  curves <- dplyr::bind_rows(tub_material_curves, transmission_catalogue_curves)
+  record <- records[
+    records$catalogue_id == catalogue_id,
     ,
     drop = FALSE
   ]
   if (nrow(record) != 1L) {
     stop("The selected catalogue filter does not exist.", call. = FALSE)
   }
-  curve <- transmission_catalogue_curves[
-    transmission_catalogue_curves$catalogue_id == catalogue_id,
+  curve <- curves[
+    curves$catalogue_id == catalogue_id,
     c("wavelength_nm", "transmittance", "source_status"),
     drop = FALSE
   ]
@@ -43,7 +48,9 @@ transmission_catalogue_record <- function(catalogue_id) {
   list(
     record = record,
     curve = tibble::as_tibble(curve),
-    provenance = transmission_catalogue_provenance[[record$catalogue[[1L]]]]
+    provenance = if (record$catalogue[[1L]] == "tub67600")
+      tub_material_provenance else
+      transmission_catalogue_provenance[[record$catalogue[[1L]]]]
   )
 }
 
@@ -113,7 +120,7 @@ filter_transmission_catalogue <- function(
 ) {
   collection <- match.arg(
     collection,
-    c("featured", "all", "facade_windows", "spitschan2019")
+    c("tub67600", "featured", "all", "facade_windows", "spitschan2019")
   )
   result <- records
   if (identical(collection, "featured")) {
@@ -188,7 +195,14 @@ transmission_catalogue_choices <- function(records, language = "English") {
   } else {
     records$category_en
   }
-  labels <- paste0(records$display_name, " (", category, ")")
+  display_name <- records$display_name
+  localized <- if (identical(language, "Deutsch")) "display_name_de" else
+    "display_name_en"
+  if (localized %in% names(records)) {
+    use <- !is.na(records[[localized]])
+    display_name[use] <- records[[localized]][use]
+  }
+  labels <- paste0(display_name, " (", category, ")")
   duplicates <- duplicated(labels) | duplicated(labels, fromLast = TRUE)
   labels[duplicates] <- paste0(
     labels[duplicates],

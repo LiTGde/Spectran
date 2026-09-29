@@ -19,6 +19,7 @@ initialize_spectran_spectrum_state <- function(Spectrum) {
     change_type = NULL,
     node_id = NULL,
     provenance = list(),
+    automatic_source = FALSE,
     committed_state = NULL,
     import_guard = NULL,
     import_attempt = 0L
@@ -130,6 +131,9 @@ activate_spectran_spectrum <- function(
   Spectrum$change_type <- change_type
   Spectrum$node_id <- node_id
   Spectrum$provenance <- provenance
+  if (change_type == "import") {
+    Spectrum$automatic_source <- isTRUE(provenance$automatic_source)
+  }
   Spectrum$Analysis <- as.integer(current_analysis) + 1L
   Spectrum$committed_state <- list(
     Spectrum = spectrum,
@@ -141,11 +145,43 @@ activate_spectran_spectrum <- function(
     revision = revision,
     change_type = change_type,
     node_id = node_id,
-    provenance = provenance
+    provenance = provenance,
+    automatic_source = Spectrum$automatic_source
   )
   Spectrum$Spectrum <- spectrum
 
   invisible(revision)
+}
+
+#' Activate daylight D65 at 100 lx only when no source exists
+#'
+#' @param Spectrum Shared `reactiveValues` object.
+#'
+#' @return Whether the automatic source was activated, invisibly.
+#' @noRd
+activate_spectran_default_daylight <- function(Spectrum) {
+  initialize_spectran_spectrum_state(Spectrum)
+  if (!is.null(shiny::isolate(Spectrum$Spectrum))) {
+    return(invisible(FALSE))
+  }
+  spectrum <- d65_visible_spectrum()
+  spectrum$Bestrahlungsstaerke <- spectrum$Bestrahlungsstaerke *
+    100 /
+    material_photopic_lux(spectrum)
+  activate_spectran_spectrum(
+    Spectrum,
+    spectrum = spectrum,
+    name = material_text("default_daylight_name"),
+    origin = "Automatic CIE D65",
+    change_type = "import",
+    node_id = "node-1",
+    provenance = list(
+      automatic_source = TRUE,
+      reference_illuminant = "CIE D65",
+      target_illuminance_lx = 100
+    )
+  )
+  invisible(TRUE)
 }
 
 #' Restore the last centrally activated state while an import awaits consent
@@ -233,7 +269,8 @@ activate_spectran_transmission_event <- function(Spectrum, event) {
     Spectrum = Spectrum,
     spectrum = event$spectrum,
     name = event$name,
-    origin = "Transmission",
+    origin = if (is.null(event$provenance$origin)) "Transmission" else
+      event$provenance$origin,
     change_type = event$change_type,
     node_id = event$node_id,
     provenance = event$provenance,

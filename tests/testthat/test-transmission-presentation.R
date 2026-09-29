@@ -32,15 +32,16 @@ test_that("gt presentation preserves immutable result data", {
   expect_identical(snapshot, original)
 
   html <- vapply(tables, gt::as_raw_html, character(1))
-  expect_match(html[[1L]], "D65-referenced filter properties", fixed = TRUE)
   expect_match(html[[1L]], "Transmittance", fixed = TRUE)
-  expect_match(html[[1L]], "τ<sub>v,D65</sub>", fixed = TRUE)
+  expect_match(html[[1L]], "Transmittance", fixed = TRUE)
+  expect_match(html[[1L]], "τ<sub>v</sub>", fixed = TRUE)
   expect_match(html[[2L]], "Light values", fixed = TRUE)
   expect_match(html[[2L]], "E<sub>e</sub>", fixed = TRUE)
-  expect_match(html[[2L]], "E<sub>v,mel,D65</sub>", fixed = TRUE)
+  expect_false(grepl("E<sub>v,mel,D65</sub>", html[[2L]], fixed = TRUE))
+  expect_match(html[[3L]], "E<sub>v,mel,D65</sub>", fixed = TRUE)
   expect_match(
     html[[3L]],
-    "Action factors and daylight efficacy ratios",
+    "Alpha-opic EDI and DER before and after the material",
     fixed = TRUE
   )
   expect_match(html[[3L]], "Change", fixed = TRUE)
@@ -160,6 +161,53 @@ test_that("history gt table identifies the active branch", {
   expect_match(html, "Session history tree", fixed = TRUE)
   expect_match(html, "Neutral branch", fixed = TRUE)
   expect_match(html, "#FFF8BE", fixed = TRUE)
+})
+
+test_that("history row actions identify short nodes and disable unavailable actions", {
+  snapshot <- transmission_presentation_snapshot()
+  root <- new_transmission_active_spectrum(
+    snapshot$incident_spectrum,
+    snapshot$incident_name,
+    "Test source",
+    1L,
+    "import",
+    "node-1"
+  )
+  history <- transmission_history_promote(
+    new_transmission_history(root),
+    snapshot,
+    "Neutral branch"
+  )$history
+  table <- transmission_history_gt(
+    history,
+    ns = shiny::NS("history"),
+    selected_node = "node-1"
+  )
+  expect_false("sequence" %in% names(table[["_data"]]))
+  expect_identical(
+    table[["_data"]]$created_by,
+    c(material_text("history_source"), material_text("transmission"))
+  )
+  html <- gt::as_raw_html(table)
+  expect_match(html, '>N1</span>', fixed = TRUE)
+  expect_match(html, '>N2</span>', fixed = TRUE)
+  expect_match(html, 'data-input="history-node_action"', fixed = TRUE)
+  buttons <- regmatches(
+    html,
+    gregexpr("(?s)<button[^>]*>.*?</button>", html, perl = TRUE)
+  )[[1L]]
+  expect_length(buttons, 4L)
+  expect_identical(
+    grepl("\\sdisabled(=|\\s|>)", buttons, perl = TRUE),
+    c(TRUE, FALSE, FALSE, TRUE)
+  )
+  expect_match(buttons[[1L]], 'data-action="show"', fixed = TRUE)
+  expect_match(buttons[[2L]], 'data-action="restore"', fixed = TRUE)
+  expect_false(grepl(
+    'onclick',
+    gt::as_raw_html(transmission_history_gt(history)),
+    fixed = TRUE
+  ))
 })
 
 test_that("result plot optionally adds an integrated transmittance panel", {
@@ -391,6 +439,129 @@ test_that("response-curve selections retain stable identifiers", {
     unname(transmission_response_curve_labels()[["photopic"]]),
     "V(λ)"
   )
+})
+
+test_that("export headers reserve their measured height outside both panels", {
+  grDevices::pdf(NULL)
+  withr::defer(grDevices::dev.off())
+  old_language <- the$language
+  withr::defer(the$language <- old_language)
+  the$language <- "Deutsch"
+  snapshot <- transmission_presentation_snapshot()
+  snapshot$incident_name <- "Halogen-/Glühlampenlicht: Halogen"
+  snapshot$metadata$filter_name <- "S1 · Backstein, gelb (TUB: beige)"
+  original <- snapshot
+  for (width in c(8, 9))
+    for (panel in c(FALSE, TRUE)) {
+      font_size <- if (width == 8) 11 else 15
+      plot <- transmission_result_export_plot(
+        snapshot,
+        width = width,
+        font_size = font_size,
+        show_transmittance_panel = panel
+      )
+      grobs <- patchwork::patchworkGrob(plot)
+      title_row <- grobs$layout[grobs$layout$name == "title", ]
+      subtitle_row <- grobs$layout[grobs$layout$name == "subtitle", ]
+      expect_lt(title_row$b, subtitle_row$t)
+      title <- grobs$grobs[[match("title", grobs$layout$name)]]
+      expect_lte(grid::convertWidth(grid::grobWidth(title), "in", TRUE), width)
+      reserved <- grid::convertHeight(
+        sum(grobs$heights[title_row$t:title_row$b]),
+        "pt",
+        TRUE
+      )
+      expect_gte(
+        reserved,
+        grid::convertHeight(grid::grobHeight(title), "pt", TRUE)
+      )
+      # A longer source name must reserve extra space, including in a nested
+      # two-panel export. This caught the original fixed-height overlap.
+      longer <- snapshot
+      longer$incident_name <- paste(
+        rep(snapshot$incident_name, 4L),
+        collapse = " / "
+      )
+      longer_grobs <- patchwork::patchworkGrob(transmission_result_export_plot(
+        longer,
+        width = width,
+        font_size = font_size,
+        show_transmittance_panel = panel
+      ))
+      longer_title <- longer_grobs$grobs[[match(
+        "title",
+        longer_grobs$layout$name
+      )]]
+      expect_gt(
+        grid::convertHeight(grid::grobHeight(longer_title), "pt", TRUE),
+        reserved
+      )
+      expect_identical(snapshot, original)
+    }
+  snapshot$metadata$filter_name <- "Glass <B> & A_1 [test]*"
+  escaped <- transmission_result_export_plot(
+    snapshot,
+    width = 9
+  )$patches$annotation$title
+  expect_match(
+    escaped,
+    "&lt;B&gt; &amp; A&#95;1 &#91;test&#93;&#42;",
+    fixed = TRUE
+  )
+})
+
+test_that("compact German export axis labels fit below the panel tags", {
+  old_language <- the$language
+  withr::defer(the$language <- old_language)
+  the$language <- "Deutsch"
+  path <- tempfile(fileext = ".png")
+  grDevices::png(path, width = 8, height = 4, units = "in", res = 300)
+  withr::defer({
+    grDevices::dev.off()
+    unlink(path)
+  })
+  snapshot <- transmission_presentation_snapshot()
+  snapshot$incident_name <- paste(
+    "Warmweißes Halogenlicht nach Backstein gelb für den Export",
+    "mit ausführlicher Quellenbezeichnung"
+  )
+  snapshot$metadata$filter_name <- "G11 · 3-Scheiben-SSV (SCG1-Ar-FG-Ar-TIG1)"
+  plot <- transmission_result_export_plot(
+    snapshot,
+    width = 8,
+    font_size = 11,
+    show_transmittance_panel = TRUE
+  ) +
+    transmission_plot_footnote(font_size = 11)
+  grid::grid.draw(patchwork::patchworkGrob(plot))
+  grid::grid.force()
+  viewports <- grid::grid.ls(
+    viewports = TRUE,
+    grobs = FALSE,
+    print = FALSE
+  )$name
+  grobs <- grid::grid.ls(print = FALSE)$name
+  axis_viewports <- viewports[grepl("^ylab-l-[12]\\.", viewports)]
+  axis_titles <- grobs[grepl("^axis.title.y.left", grobs)]
+  expect_length(axis_viewports, 2L)
+  expect_length(axis_titles, 2L)
+  for (i in seq_along(axis_titles)) {
+    grid::seekViewport(axis_viewports[[i]])
+    text <- grid::grid.get(axis_titles[[i]], global = TRUE)$children[[1L]]
+    # Measure actual text on the export device: the full single-line German
+    # label used to extend beyond its panel and into tag A's area.
+    expect_lte(
+      grid::convertHeight(grid::grobHeight(text), "pt", TRUE),
+      grid::convertHeight(grid::unit(1, "npc"), "pt", TRUE)
+    )
+    if (i == 1L) {
+      expect_identical(
+        gsub("\n", " ", text$label, fixed = TRUE),
+        transmission_text("plot_spectral_irradiance")
+      )
+    }
+    grid::upViewport(0)
+  }
 })
 
 test_that("plot downloads write nonempty watermarked PNGs", {

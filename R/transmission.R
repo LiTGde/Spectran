@@ -4,7 +4,8 @@
 #'
 #' @return A named list of input labels, accessible trigger labels, and content.
 #' @noRd
-transmission_tooltip_specs <- function() {
+transmission_tooltip_specs <- function(mode = "transmission") {
+  transmission_text <- material_labeler(mode)
   list(
     filter_file = list(
       label = transmission_text("csv_label"),
@@ -236,8 +237,10 @@ transmission_source_inputs_ui <- function(
   csv_labels,
   default_source,
   heading = TRUE,
-  csv_settings_open = TRUE
+  csv_settings_open = TRUE,
+  mode = "transmission"
 ) {
+  transmission_text <- material_labeler(mode)
   htmltools::tagList(
     if (isTRUE(heading)) htmltools::h3(transmission_text("choose_heading")),
     htmltools::p(
@@ -260,6 +263,7 @@ transmission_source_inputs_ui <- function(
         ns("catalogue_collection"),
         label = transmission_text("catalogue_collection"),
         choices = c(
+          stats::setNames("tub67600", material_text("tub")),
           stats::setNames("featured", transmission_text("catalogue_featured")),
           stats::setNames("all", transmission_text("catalogue_all")),
           stats::setNames(
@@ -271,7 +275,7 @@ transmission_source_inputs_ui <- function(
             transmission_text("catalogue_spitschan")
           )
         ),
-        selected = "featured"
+        selected = "tub67600"
       ),
       shiny::selectInput(
         ns("catalogue_category"),
@@ -326,7 +330,28 @@ transmission_source_inputs_ui <- function(
 #'
 #' @return Shiny UI tags.
 #' @noRd
-transmission_metadata_inputs_ui <- function(ns, heading = TRUE) {
+transmission_metadata_inputs_ui <- function(
+  ns,
+  heading = TRUE,
+  mode = "transmission",
+  defaults = list()
+) {
+  transmission_text <- material_labeler(mode)
+  default_value <- function(key, fallback)
+    if (is.null(defaults[[key]])) fallback else defaults[[key]]
+  transmission_field_label <- function(ns, input_id) {
+    spec <- transmission_tooltip_specs(mode)[[input_id]]
+    htmltools::tags$label(
+      spec$label,
+      `for` = ns(input_id),
+      transmission_info_tooltip(
+        ns,
+        paste0(input_id, "_info"),
+        spec$trigger_label,
+        spec$content
+      )
+    )
+  }
   htmltools::tagList(
     if (isTRUE(heading))
       htmltools::h3(transmission_text("measurement_heading")),
@@ -340,7 +365,7 @@ transmission_metadata_inputs_ui <- function(ns, heading = TRUE) {
     shiny::textInput(
       ns("filter_name"),
       label = NULL,
-      value = "Uploaded filter"
+      value = default_value("filter_name", "Uploaded material")
     ),
     transmission_field_label(ns, "scale"),
     shiny::selectInput(
@@ -351,7 +376,7 @@ transmission_metadata_inputs_ui <- function(ns, heading = TRUE) {
         stats::setNames("fraction", transmission_text("scale_fraction")),
         stats::setNames("percent", transmission_text("scale_percent"))
       ),
-      selected = "fraction"
+      selected = default_value("scale", "fraction")
     ),
     transmission_field_label(ns, "transmittance_type"),
     shiny::selectInput(
@@ -363,7 +388,7 @@ transmission_metadata_inputs_ui <- function(ns, heading = TRUE) {
         stats::setNames("internal", transmission_text("type_internal")),
         stats::setNames("unknown", transmission_text("type_unknown"))
       ),
-      selected = "total"
+      selected = default_value("transmittance_type", "total")
     ),
     shiny::uiOutput(ns("type_acknowledgement")),
     transmission_field_label(ns, "scattering"),
@@ -375,20 +400,20 @@ transmission_metadata_inputs_ui <- function(ns, heading = TRUE) {
         stats::setNames("yes", transmission_text("yes")),
         stats::setNames("unknown", transmission_text("type_unknown"))
       ),
-      selected = "no"
+      selected = default_value("scattering", "no")
     ),
     transmission_field_label(ns, "measurement_geometry"),
     shiny::textInput(
       ns("measurement_geometry"),
       label = NULL,
-      value = "",
+      value = default_value("measurement_geometry", ""),
       placeholder = transmission_text("geometry_placeholder")
     ),
     transmission_field_label(ns, "measurement_angle"),
     shiny::textInput(
       ns("measurement_angle"),
       label = NULL,
-      value = "",
+      value = default_value("measurement_angle", ""),
       placeholder = transmission_text("angle_placeholder")
     ),
     shiny::uiOutput(ns("scattering_acknowledgement"))
@@ -489,7 +514,11 @@ transmission_input_tab_ui <- function(
 #'
 #' @return A ggplot object with a fixed physical transmittance domain.
 #' @noRd
-transmission_construction_plot <- function(preparation = NULL) {
+transmission_construction_plot <- function(
+  preparation = NULL,
+  mode = "transmission"
+) {
+  transmission_text <- material_labeler(mode)
   status_colours <- c(
     supplied = "#1b1b1b",
     interpolated = "#0072b2",
@@ -1182,6 +1211,17 @@ transmissionUI <- function(
       )
     )),
     shinyjs::useShinyjs(),
+    shiny::radioButtons(
+      ns("material_mode"),
+      material_text("mode"),
+      choices = stats::setNames(
+        c("transmission", "reflection"),
+        c(material_text("transmission"), material_text("reflection"))
+      ),
+      selected = "transmission",
+      inline = TRUE
+    ),
+    shiny::uiOutput(ns("material_model")),
     if (identical(layout, "review")) {
       htmltools::tagList(
         shiny::uiOutput(ns("readiness")),
@@ -1189,7 +1229,7 @@ transmissionUI <- function(
           shiny::column(
             width = 12,
             class = "col-lg-5 transmission-form-column",
-            htmltools::h3("Transmission spectrum"),
+            htmltools::h3(material_text("tab_spectrum")),
             transmission_source_inputs_ui(
               ns,
               csv_labels,
@@ -1197,7 +1237,7 @@ transmissionUI <- function(
               heading = FALSE
             ),
             htmltools::hr(),
-            transmission_metadata_inputs_ui(ns, heading = FALSE),
+            shiny::uiOutput(ns("material_details")),
             transmission_normalization_inputs_ui(ns, heading = FALSE)
           ),
           shiny::column(
@@ -1239,7 +1279,7 @@ transmissionUI <- function(
               value = "measurement",
               transmission_input_tab_ui(
                 ns,
-                transmission_metadata_inputs_ui(ns, heading = TRUE),
+                shiny::uiOutput(ns("material_details")),
                 context = "measurement",
                 footer = shiny::uiOutput(ns("navigation_measurement"))
               )
@@ -1265,11 +1305,19 @@ transmissionUI <- function(
               )
             ),
             shiny::tabPanel(
+              title = material_text("tab_promotion"),
+              value = "promotion",
+              htmltools::tags$div(
+                class = "transmission-tab-pane transmission-promotion-tab",
+                transmissionHistoryControlsUI(ns("history")),
+                shiny::uiOutput(ns("navigation_promotion"))
+              )
+            ),
+            shiny::tabPanel(
               title = transmission_text("tab_history"),
               value = "history",
               htmltools::tags$div(
                 class = "transmission-tab-pane transmission-history-tab",
-                transmissionHistoryControlsUI(ns("history")),
                 transmissionHistoryDetailsUI(ns("history")),
                 shiny::uiOutput(ns("navigation_history"))
               )
@@ -1311,14 +1359,18 @@ transmission_has_parseable_curve <- function(preparation) {
 #' @param upload Parsed upload record with optional `error`.
 #' @param preparation Transmission preparation or `NULL`.
 #' @param metadata_requirements Localized metadata requirements.
+#' @param mode Material interaction used for physical terminology.
 #'
 #' @return A named list for Spectrum, Details, and Normalization.
 #' @noRd
 transmission_requirement_groups <- function(
   upload,
   preparation,
-  metadata_requirements = character()
+  metadata_requirements = character(),
+  mode = "transmission"
 ) {
+  localize <- function(messages)
+    transmission_localize_diagnostics(messages, mode)
   groups <- list(
     spectrum = character(),
     measurement = character(),
@@ -1327,7 +1379,7 @@ transmission_requirement_groups <- function(
 
   upload_error <- if (is.list(upload)) upload$error else NULL
   if (!is.null(upload_error) && length(upload_error) > 0L) {
-    groups$spectrum <- transmission_localize_diagnostics(upload_error)
+    groups$spectrum <- localize(upload_error)
   } else if (is.null(preparation)) {
     groups$spectrum <- transmission_text("require_source")
   } else {
@@ -1341,13 +1393,13 @@ transmission_requirement_groups <- function(
       errors,
       fixed = FALSE
     )
-    groups$spectrum <- transmission_localize_diagnostics(
+    groups$spectrum <- localize(
       errors[!details_error]
     )
-    groups$measurement <- transmission_localize_diagnostics(
+    groups$measurement <- localize(
       errors[details_error]
     )
-    groups$normalization <- transmission_localize_diagnostics(
+    groups$normalization <- localize(
       preparation$diagnostics$requirements %||% character()
     )
   }
@@ -1451,6 +1503,11 @@ transmissionServer <- function(
   history_enabled <- !is.null(active_state)
 
   shiny::moduleServer(id, function(input, output, session) {
+    current_mode <- shiny::reactive(material_mode(mode = input$material_mode))
+    transmission_text <- function(...)
+      material_labeler(shiny::isolate(current_mode()))(...)
+    localize_diagnostics <- function(messages)
+      transmission_localize_diagnostics(messages, current_mode())
     if (is.null(incident_spectrum)) {
       incident_spectrum <- shiny::reactive(NULL)
     }
@@ -1504,7 +1561,9 @@ transmissionServer <- function(
     reset_filter_decisions <- function(
       suggested_name,
       scale = "fraction",
-      transmittance_type = "total"
+      transmittance_type = "total",
+      scattering = "no",
+      measurement_geometry = ""
     ) {
       source_revision(source_revision() + 1L)
       shiny::updateTextInput(
@@ -1519,8 +1578,12 @@ transmissionServer <- function(
         selected = transmittance_type
       )
       shiny::updateCheckboxInput(session, "type_ack", value = FALSE)
-      shiny::updateSelectInput(session, "scattering", selected = "no")
-      shiny::updateTextInput(session, "measurement_geometry", value = "")
+      shiny::updateSelectInput(session, "scattering", selected = scattering)
+      shiny::updateTextInput(
+        session,
+        "measurement_geometry",
+        value = if (is.na(measurement_geometry)) "" else measurement_geometry
+      )
       shiny::updateTextInput(session, "measurement_angle", value = "")
       shiny::updateCheckboxInput(session, "scattering_ack", value = FALSE)
       shiny::updateSelectInput(session, "lower_tail", selected = "")
@@ -1532,15 +1595,96 @@ transmissionServer <- function(
       curve_decision_key$large_gap_ack <- NULL
     }
 
-    catalogue_records <- transmission_catalogue_records_data()
+    output$material_model <- shiny::renderUI(htmltools::tags$p(material_text(paste0(
+      current_mode(),
+      "_model"
+    ))))
+    catalogue_defaults <- shiny::reactive({
+      if (current_input_source() != "catalogue") return(list())
+      selected <- selected_catalogue()
+      if (is.null(selected)) return(list())
+      record <- selected$record
+      list(
+        filter_name = transmission_catalogue_localized_value(
+          record,
+          "display_name"
+        ),
+        scale = record$scale[[1L]],
+        transmittance_type = record$transmittance_type[[1L]],
+        scattering = if (
+          is.null(record$scattering) || is.na(record$scattering[[1L]])
+        )
+          "no" else record$scattering[[1L]],
+        measurement_geometry = transmission_catalogue_localized_value(
+          record,
+          "measurement_geometry"
+        )
+      )
+    })
+    output$material_details <- shiny::renderUI({
+      defaults <- catalogue_defaults()
+      if (current_input_source() == "upload") {
+        # Rebuild labels for a mode change without replacing the upload's
+        # decisions. Edits themselves must not rebuild the focused controls.
+        defaults <- shiny::isolate(list(
+          filter_name = current_decision(
+            "filter_name",
+            suggested_upload_name()
+          ),
+          scale = current_decision("scale", "fraction"),
+          transmittance_type = current_decision("transmittance_type", "total"),
+          scattering = current_decision("scattering", "no"),
+          measurement_geometry = current_decision("measurement_geometry", ""),
+          measurement_angle = current_decision("measurement_angle", "")
+        ))
+      }
+      transmission_metadata_inputs_ui(
+        session$ns,
+        mode = current_mode(),
+        defaults = defaults
+      )
+    })
+    shiny::outputOptions(output, "material_details", suspendWhenHidden = FALSE)
+    shiny::observe({
+      choices <- c(
+        stats::setNames("tub67600", material_text("tub")),
+        stats::setNames(
+          "all",
+          material_labeler(current_mode())("catalogue_all")
+        )
+      )
+      if (current_mode() == "transmission")
+        choices <- c(
+          choices,
+          stats::setNames("featured", transmission_text("catalogue_featured")),
+          stats::setNames(
+            "facade_windows",
+            transmission_text("catalogue_facade")
+          ),
+          stats::setNames(
+            "spitschan2019",
+            transmission_text("catalogue_spitschan")
+          )
+        )
+      shiny::updateSelectInput(
+        session,
+        "catalogue_collection",
+        choices = choices,
+        selected = "tub67600"
+      )
+      shiny::updateSelectInput(session, "catalogue_category", selected = "all")
+      shiny::updateSelectizeInput(session, "catalogue_filter", selected = "")
+    }) |>
+      shiny::bindEvent(current_mode(), ignoreInit = TRUE)
+    catalogue_records <- shiny::reactive(material_catalogue_records_data(current_mode()))
 
     collection_records <- shiny::reactive({
       collection <- input$catalogue_collection
       if (is.null(collection) || !nzchar(collection)) {
-        collection <- "featured"
+        collection <- "tub67600"
       }
       filter_transmission_catalogue(
-        records = catalogue_records,
+        records = catalogue_records(),
         collection = collection
       )
     })
@@ -1583,14 +1727,14 @@ transmissionServer <- function(
     filtered_catalogue_records <- shiny::reactive({
       collection <- input$catalogue_collection
       if (is.null(collection) || !nzchar(collection)) {
-        collection <- "featured"
+        collection <- "tub67600"
       }
       category <- input$catalogue_category
       if (is.null(category) || !nzchar(category)) {
         category <- "all"
       }
       filter_transmission_catalogue(
-        records = catalogue_records,
+        records = catalogue_records(),
         collection = collection,
         category = category
       )
@@ -1625,7 +1769,11 @@ transmissionServer <- function(
         return(NULL)
       }
       tryCatch(
-        transmission_catalogue_record(selected),
+        {
+          record <- transmission_catalogue_record(selected)
+          if (!selected %in% catalogue_records()$catalogue_id) return(NULL)
+          record
+        },
         error = function(error) NULL
       )
     })
@@ -1681,7 +1829,10 @@ transmissionServer <- function(
       htmltools::tags$aside(
         class = "transmission-catalogue-info",
         `aria-label` = transmission_text("aria_catalogue_information"),
-        htmltools::tags$strong(record$display_name),
+        htmltools::tags$strong(transmission_catalogue_localized_value(
+          record,
+          "display_name"
+        )),
         htmltools::tags$p(transmission_text(
           "catalogue_coverage",
           category,
@@ -1828,9 +1979,11 @@ transmissionServer <- function(
         }
         record <- selected$record
         reset_filter_decisions(
-          suggested_name = record$display_name,
+          suggested_name = catalogue_defaults()$filter_name,
           scale = record$scale,
-          transmittance_type = record$transmittance_type
+          transmittance_type = record$transmittance_type,
+          scattering = catalogue_defaults()$scattering,
+          measurement_geometry = catalogue_defaults()$measurement_geometry
         )
         invisible(NULL)
       },
@@ -1847,9 +2000,11 @@ transmissionServer <- function(
           if (!is.null(selected)) {
             record <- selected$record
             reset_filter_decisions(
-              suggested_name = record$display_name,
+              suggested_name = catalogue_defaults()$filter_name,
               scale = record$scale,
-              transmittance_type = record$transmittance_type
+              transmittance_type = record$transmittance_type,
+              scattering = catalogue_defaults()$scattering,
+              measurement_geometry = catalogue_defaults()$measurement_geometry
             )
           }
         } else if (identical(current_input_source(), "upload")) {
@@ -1863,6 +2018,22 @@ transmissionServer <- function(
     record_decision_revision <- function(name) {
       decision_revision[[name]] <- source_revision()
     }
+
+    shiny::observeEvent(
+      current_mode(),
+      {
+        # Qualification describes the selected interaction. Preserve the
+        # measurement details but require consent to its new interpretation.
+        transmittance_type_epoch(transmittance_type_epoch() + 1L)
+        type_ack_epoch(NULL)
+        decision_revision[["type_ack"]] <- NULL
+        decision_revision[["scattering_ack"]] <- NULL
+        shiny::updateCheckboxInput(session, "type_ack", value = FALSE)
+        shiny::updateCheckboxInput(session, "scattering_ack", value = FALSE)
+      },
+      ignoreInit = TRUE,
+      priority = 30
+    )
 
     shiny::observeEvent(
       input$filter_name,
@@ -1949,7 +2120,9 @@ transmissionServer <- function(
       if (identical(decision_revision[[name]], source_revision())) {
         input[[name]]
       } else {
-        default
+        catalogue_default <- catalogue_defaults()[[name]]
+        if (!is.null(catalogue_default) && !is.na(catalogue_default))
+          catalogue_default else default
       }
     }
 
@@ -2019,6 +2192,8 @@ transmissionServer <- function(
             source_file = catalogue_record$source_file,
             source_record = catalogue_record$source_record,
             source_reference = catalogue_record$source_reference,
+            catalogue_record = as.list(catalogue_record),
+            catalogue_provenance = selected$provenance,
             transformation = catalogue_record$transformation,
             source_tail_treatment = catalogue_record$source_tail_treatment
           )
@@ -2117,8 +2292,7 @@ transmissionServer <- function(
       htmltools::tags$p(
         class = "text-muted",
         role = "status",
-        "File received. Parsing and validation results are listed in the ",
-        "readiness panel above."
+        material_text("file_transport_status")
       )
     })
 
@@ -2235,11 +2409,13 @@ transmissionServer <- function(
         )
       }
       list(
+        material_mode = current_mode(),
+        receiver_assumption = material_assumption(current_mode()),
         filter_name = current_decision("filter_name", ""),
         scale = current_decision("scale", "fraction"),
         transmittance_type = current_decision("transmittance_type", "total"),
         filter_model_scope = "passive_non_fluorescent",
-        filter_model_limitation = transmission_passive_filter_limitation(),
+        filter_model_limitation = transmission_text("type_tooltip"),
         qualified_type_acknowledged = qualified_type_acknowledged(),
         scattering = current_decision("scattering", "no"),
         measurement_geometry = trimws(current_decision(
@@ -2347,7 +2523,7 @@ transmissionServer <- function(
       if (!is.null(upload$error)) {
         return(list(
           ready = FALSE,
-          errors = transmission_localize_diagnostics(upload$error),
+          errors = localize_diagnostics(upload$error),
           requirements = metadata_requirements(),
           warnings = character()
         ))
@@ -2367,14 +2543,14 @@ transmissionServer <- function(
       list(
         ready = isTRUE(current$diagnostics$ready) &&
           length(metadata_requirements()) == 0L,
-        errors = transmission_localize_diagnostics(
+        errors = localize_diagnostics(
           current$diagnostics$errors
         ),
-        requirements = transmission_localize_diagnostics(unique(c(
+        requirements = localize_diagnostics(unique(c(
           current$diagnostics$requirements,
           metadata_requirements()
         ))),
-        warnings = transmission_localize_diagnostics(
+        warnings = localize_diagnostics(
           current$diagnostics$warnings
         )
       )
@@ -2404,6 +2580,7 @@ transmissionServer <- function(
     })
 
     output$coverage_controls <- shiny::renderUI({
+      transmission_text <- material_labeler(current_mode())
       current <- preparation()
       if (is.null(current) || is.null(current$normalized)) {
         return(NULL)
@@ -2645,6 +2822,10 @@ transmissionServer <- function(
             session$ns(preview_id("construction_plot")),
             height = "340px"
           ),
+          if (current_mode() == "reflection")
+            material_colour_preview_ui(
+              if (isTRUE(current$diagnostics$ready)) current$completed
+            ),
           htmltools::tags$details(
             class = "transmission-preview-details",
             htmltools::tags$summary(transmission_text("preview_details")),
@@ -2699,7 +2880,7 @@ transmissionServer <- function(
       output[[preview_id("construction_plot")]] <- shiny::renderPlot(
         {
           current <- preparation()
-          transmission_construction_plot(current)
+          transmission_construction_plot(current, current_mode())
         },
         alt = transmission_text("alt_construction_plot")
       )
@@ -2727,7 +2908,10 @@ transmissionServer <- function(
       output[[preview_id("input_preview")]] <- shiny::renderUI({
         current <- preparation()
         shiny::req(current, current$normalized)
-        transmission_gt_html(transmission_input_preview_gt(current))
+        transmission_gt_html(transmission_input_preview_gt(
+          current,
+          current_mode()
+        ))
       })
 
       output[[preview_id("status_summary_caption")]] <- shiny::renderUI({
@@ -2755,7 +2939,7 @@ transmissionServer <- function(
         content = function(file) {
           current <- preparation()
           shiny::req(current, current$normalized)
-          plot <- transmission_construction_plot(current) +
+          plot <- transmission_construction_plot(current, current_mode()) +
             transmission_plot_footnote(font_size = 13)
           ggplot2::ggsave(
             filename = file,
@@ -2780,11 +2964,16 @@ transmissionServer <- function(
 
     output$download_template <- shiny::downloadHandler(
       filename = function() {
-        "Spectran-100-percent-flat-transmittance-template.csv"
+        if (current_mode() == "reflection")
+          "Spectran-100-percent-flat-reflectance-template.csv" else
+          "Spectran-100-percent-flat-transmittance-template.csv"
       },
       content = function(file) {
+        template <- transmission_template_data()
+        if (current_mode() == "reflection")
+          names(template)[[2L]] <- "reflectance_fraction"
         utils::write.csv(
-          transmission_template_data(),
+          template,
           file = file,
           row.names = FALSE
         )
@@ -2795,6 +2984,7 @@ transmissionServer <- function(
       list(
         preparation = preparation(),
         metadata = list(
+          material_mode = current_mode(),
           transmittance_type = current_decision(
             "transmittance_type",
             "total"
@@ -2847,7 +3037,8 @@ transmissionServer <- function(
       transmission_requirement_groups(
         upload = uploaded_data(),
         preparation = preparation(),
-        metadata_requirements = metadata_requirements()
+        metadata_requirements = metadata_requirements(),
+        mode = current_mode()
       )
     })
 
@@ -3121,6 +3312,22 @@ transmissionServer <- function(
       if (!navigation_activation_allowed("results_forward", trigger)) {
         return(invisible(NULL))
       }
+      go_to_section("promotion")
+    }
+
+    activate_promotion_back <- function(trigger = c("click", "keyboard")) {
+      trigger <- match.arg(trigger)
+      if (!navigation_activation_allowed("promotion_back", trigger)) {
+        return(invisible(NULL))
+      }
+      go_to_section("results")
+    }
+
+    activate_promotion_forward <- function(trigger = c("click", "keyboard")) {
+      trigger <- match.arg(trigger)
+      if (!navigation_activation_allowed("promotion_forward", trigger)) {
+        return(invisible(NULL))
+      }
       go_to_section("history")
     }
 
@@ -3129,7 +3336,7 @@ transmissionServer <- function(
       if (!navigation_activation_allowed("history_back", trigger)) {
         return(invisible(NULL))
       }
-      go_to_section("results")
+      go_to_section("promotion")
     }
 
     activate_history_forward <- function(
@@ -3222,9 +3429,17 @@ transmissionServer <- function(
         } else {
           "results_forward"
         },
-        forward_label = transmission_text("continue_history")
+        forward_label = transmission_text("continue_promotion")
       )
       ui
+    })
+    output$navigation_promotion <- shiny::renderUI({
+      transmission_guided_navigation(
+        session$ns,
+        back_id = "promotion_back",
+        forward_id = "promotion_forward",
+        forward_label = transmission_text("continue_history")
+      )
     })
     output$navigation_history <- shiny::renderUI({
       ui <- transmission_guided_navigation(
@@ -3264,6 +3479,12 @@ transmissionServer <- function(
     shiny::observeEvent(input$results_forward, {
       activate_results_forward("click")
     })
+    shiny::observeEvent(input$promotion_back, {
+      activate_promotion_back("click")
+    })
+    shiny::observeEvent(input$promotion_forward, {
+      activate_promotion_forward("click")
+    })
     shiny::observeEvent(input$history_back, {
       activate_history_back("click")
     })
@@ -3295,6 +3516,7 @@ transmissionServer <- function(
       "measurement",
       "normalization",
       "results",
+      "promotion",
       "history",
       "export"
     )

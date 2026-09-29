@@ -86,6 +86,7 @@ Spectran <- function(
           #add the optional transmission-filter tab after export
           shinydashboard::tabItem(
             tabName = "transmission",
+            shiny::uiOutput("material_source_notice"),
             transmissionUI(
               "transmission",
               default_source = "catalogue",
@@ -131,15 +132,49 @@ Spectran <- function(
     Spectrum <- shiny::reactiveValues()
     initialize_spectran_spectrum_state(Spectrum)
 
-    #Transmission filters
-    Transmission <- transmissionServer(
-      "transmission",
-      incident_spectrum = shiny::reactive(Spectrum$Spectrum),
-      incident_name = shiny::reactive(Spectrum$Name),
-      active_state = shiny::reactive(
-        spectran_transmission_active_state(Spectrum)
-      )
+    # Register the material workflow only when it is first opened. The proxy
+    # reactives keep import guards and activation observers connected before
+    # that point, then follow the same module for the rest of this session.
+    transmission_module <- shiny::reactiveVal(NULL)
+    Transmission <- list(
+      history = shiny::reactive({
+        module <- transmission_module()
+        if (!is.null(module)) module$history()
+      }),
+      promotion_event = shiny::reactive({
+        module <- transmission_module()
+        if (!is.null(module)) module$promotion_event()
+      }),
+      restore_event = shiny::reactive({
+        module <- transmission_module()
+        if (!is.null(module)) module$restore_event()
+      })
     )
+    shiny::observe({
+      if (identical(input$inTabset, "transmission")) {
+        activate_spectran_default_daylight(Spectrum)
+        if (is.null(transmission_module())) {
+          transmission_module(transmissionServer(
+            "transmission",
+            incident_spectrum = shiny::reactive(Spectrum$Spectrum),
+            incident_name = shiny::reactive(Spectrum$Name),
+            active_state = shiny::reactive(
+              spectran_transmission_active_state(Spectrum)
+            )
+          ))
+        }
+      }
+    }) |>
+      shiny::bindEvent(input$inTabset)
+
+    output$material_source_notice <- shiny::renderUI({
+      if (!isTRUE(Spectrum$automatic_source)) return(NULL)
+      htmltools::tags$div(
+        class = "alert alert-info",
+        role = "status",
+        material_text("default_daylight_notice")
+      )
+    })
 
     #Import. Source changes are guarded when promoted history exists.
     Spectrum <- importServer(
@@ -219,27 +254,6 @@ Spectran <- function(
       )
 
     #Enable/disable spectrum-dependent menus when no source is active
-    output$transmission <- shinydashboard::renderMenu({
-      if (!is.null(Spectrum$Spectrum)) {
-        shinydashboard::menuItem(
-          transmission_text("menu"),
-          tabName = "transmission",
-          icon = shiny::icon("filter")
-        )
-      } else {
-        shinydashboard::menuItem(
-          htmltools::HTML(
-            paste0(
-              "<span style='color:grey;'>",
-              transmission_text("menu"),
-              "</span>"
-            )
-          ),
-          tabName = "import",
-          icon = shiny::icon("lock")
-        )
-      }
-    })
     output$analysis <- shinydashboard::renderMenu({
       if (!is.null(Analysis$Settings$Spectrum)) {
         shinydashboard::menuItem(

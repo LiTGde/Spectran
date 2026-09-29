@@ -26,7 +26,14 @@ UI_Sidebar <- function() {
       ),
       shinydashboard::menuItemOutput("analysis"),
       shinydashboard::menuItemOutput("export"),
-      shinydashboard::menuItemOutput("transmission"),
+      htmltools::tagAppendAttributes(
+        shinydashboard::menuItem(
+          transmission_text("menu"),
+          tabName = "transmission",
+          icon = shiny::icon("filter")
+        ),
+        id = "transmission"
+      ),
       htmltools::br(),
       shinydashboard::menuItem(
         lang$ui(153),

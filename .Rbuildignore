@@ -16,3 +16,8 @@ rsconnect
 ^CRAN-SUBMISSION$
 _shiny_config.yml
 manifest.json
+^README\.md$
+^man/figures/English$
+^tests/verification$
+^\.Renviron$
+(^|/)Rplots\.pdf$

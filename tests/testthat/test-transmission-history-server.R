@@ -38,8 +38,8 @@ test_that("promotion, restore, branch, and import reset cross explicit events", 
       export_html <- output[["history-export_panel"]]$html
       expect_match(export_html, "Result plot (PNG)", fixed = TRUE)
       expect_match(export_html, "Transmittance spectrum (PNG)", fixed = TRUE)
-      expect_match(export_html, "D65 table (PNG)", fixed = TRUE)
-      expect_match(export_html, "D65 properties CSV", fixed = TRUE)
+      expect_match(export_html, "Transmittance comparison (PNG)", fixed = TRUE)
+      expect_match(export_html, "Transmittance comparison (CSV)", fixed = TRUE)
       expect_match(export_html, "Graph settings", fixed = TRUE)
       expect_match(export_html, "Build export bundle", fixed = TRUE)
       expect_match(export_html, "Plot plus table (PNG)", fixed = TRUE)
@@ -154,9 +154,39 @@ test_that("promotion, restore, branch, and import reset cross explicit events", 
       active(transmission_active_spectrum_from_event(second_event, 3L))
       session$flushReact()
 
+      frozen <- returned$applied_snapshot()
+      sequence_before_show <- returned$history_action_sequence()
       session$setInputs(
-        `history-restore_node` = "node-1",
-        `history-restore` = 1
+        `history-node_action` = list(node = "node-2", action = "show")
+      )
+      session$flushReact()
+      expect_identical(returned$history()$active_node_id, "node-3")
+      expect_identical(returned$archive_node_id(), "node-2")
+      expect_identical(returned$history_action_sequence(), sequence_before_show)
+      expect_identical(returned$applied_snapshot(), frozen)
+      expect_identical(
+        returned$archived_snapshot(),
+        returned$history()$nodes[["node-2"]]$applied_snapshot
+      )
+      expect_match(output[["history-selected_node"]]$html, "N2", fixed = TRUE)
+      for (action in list(
+        list(node = "node-2", action = "show"),
+        list(node = "node-3", action = "restore"),
+        list(node = "missing", action = "restore"),
+        list(node = c("node-1", "node-2"), action = "show"),
+        list(node = "node-1", action = "unknown")
+      )) {
+        session$setInputs(`history-node_action` = action)
+        session$flushReact()
+        expect_identical(
+          returned$history_action_sequence(),
+          sequence_before_show
+        )
+        expect_identical(returned$history()$active_node_id, "node-3")
+        expect_identical(returned$archive_node_id(), "node-2")
+      }
+      session$setInputs(
+        `history-node_action` = list(node = "node-1", action = "restore")
       )
       session$flushReact()
       restore_event <- returned$restore_event()
@@ -164,10 +194,13 @@ test_that("promotion, restore, branch, and import reset cross explicit events", 
       expect_identical(restore_event$change_type, "restore")
       expect_identical(restore_event$node_id, "node-1")
       expect_length(returned$history()$nodes, 3L)
-      expect_identical(returned$archive_node_id(), "node-3")
-      expect_s3_class(
-        returned$archived_snapshot(),
-        "transmission_applied_snapshot"
+      expect_identical(returned$archive_node_id(), "node-1")
+      expect_null(returned$archived_snapshot())
+      expect_null(returned$applied_snapshot())
+      expect_match(
+        output[["history-archive_section"]]$html,
+        material_text("archive_source"),
+        fixed = TRUE
       )
       active(transmission_active_spectrum_from_event(restore_event, 4L))
       session$flushReact()
@@ -204,7 +237,7 @@ test_that("promotion, restore, branch, and import reset cross explicit events", 
       expect_true(reset_history$nodes[[1L]]$active)
       expect_null(returned$applied_snapshot())
       expect_null(returned$archived_snapshot())
-      expect_null(returned$archive_node_id())
+      expect_identical(returned$archive_node_id(), "node-1")
       expect_null(returned$promotion_event())
       expect_null(returned$restore_event())
     }
@@ -272,7 +305,7 @@ test_that("Milestone 3 UI exposes history and download contracts", {
   expect_match(rendered, "review-history-history_table", fixed = TRUE)
   expect_match(rendered, "review-history-archive_section", fixed = TRUE)
   expect_match(rendered, "review-history-export_panel", fixed = TRUE)
-  expect_match(rendered, "Export transmission results", fixed = TRUE)
+  expect_match(rendered, "Export material results", fixed = TRUE)
   expect_match(
     rendered,
     "History lasts for this Shiny session only",

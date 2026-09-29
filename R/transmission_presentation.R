@@ -524,7 +524,8 @@ transmission_gt_format_numbers <- function(
 #'
 #' @return A `gt_tbl`.
 #' @noRd
-transmission_input_preview_gt <- function(preparation) {
+transmission_input_preview_gt <- function(preparation, mode = "transmission") {
+  transmission_text <- material_labeler(mode)
   stopifnot(inherits(preparation, "transmission_preparation"))
   stopifnot(!is.null(preparation$normalized))
 
@@ -601,58 +602,152 @@ transmission_status_summary_gt <- function(preparation) {
     transmission_gt_theme(compact = TRUE)
 }
 
+#' Short display labels for nodes in a validated history
+#'
+#' @param history Valid session-local history.
+#' @param node_id Existing node identifiers.
+#' @return Character node labels such as N1.
+#' @noRd
+transmission_history_node_label <- function(history, node_id) {
+  vapply(
+    node_id,
+    function(id) {
+      paste0("N", history$nodes[[id]]$sequence_id)
+    },
+    character(1),
+    USE.NAMES = FALSE
+  )
+}
+
+#' Native row action for the session history
+#'
+#' @param ns Shiny namespace function.
+#' @param node_id Existing node identifier.
+#' @param node_label Short visible node label.
+#' @param action Either show or restore.
+#' @param unavailable Whether the action is unavailable for this node.
+#' @return A native button tag, including its disabled state.
+#' @noRd
+transmission_history_row_button <- function(
+  ns,
+  node_id,
+  node_label,
+  action,
+  unavailable
+) {
+  label <- material_text(paste0("history_", action))
+  htmltools::tags$button(
+    type = "button",
+    class = "btn btn-default btn-sm transmission-history-row-action",
+    disabled = if (unavailable) NA else NULL,
+    `aria-disabled` = if (unavailable) "true" else "false",
+    `aria-label` = paste(label, node_label),
+    title = if (unavailable)
+      material_text(
+        if (action == "show") {
+          "history_already_shown"
+        } else "history_already_active"
+      ) else NULL,
+    `data-input` = ns("node_action"),
+    `data-node` = node_id,
+    `data-action` = action,
+    onclick = paste0(
+      "Shiny.setInputValue(this.dataset.input,",
+      "{node:this.dataset.node,action:this.dataset.action},{priority:'event'});"
+    ),
+    label
+  )
+}
+
 #' Build the session history as a `gt` table
 #'
 #' @param history Valid session-local transmission history.
+#' @param ns Optional Shiny namespace. Adds interactive actions when supplied.
+#' @param selected_node Node displayed in cumulative and archived results.
 #'
 #' @return A `gt_tbl` with the active node highlighted.
 #' @noRd
-transmission_history_gt <- function(history) {
+transmission_history_gt <- function(history, ns = NULL, selected_node = NULL) {
   validate_transmission_history(history)
   records <- transmission_history_table(history)
-  table_data <- data.frame(
-    sequence = records$sequence_id,
-    node = records$node_id,
+  labels <- transmission_history_node_label(history, records$node_id)
+  table_data <- tibble::tibble(
+    node = labels,
     parent = ifelse(
       is.na(records$parent_id),
       transmission_text("history_root"),
-      records$parent_id
+      labels[match(records$parent_id, records$node_id)]
     ),
     name = records$name,
-    created_by = ifelse(
-      records$change_type == "import",
-      transmission_text("history_import"),
-      transmission_text("history_promotion")
+    created_by = vapply(
+      records$node_id,
+      function(id) {
+        snapshot <- history$nodes[[id]]$applied_snapshot
+        material_text(
+          if (is.null(snapshot)) "history_source" else material_mode(snapshot)
+        )
+      },
+      character(1),
+      USE.NAMES = FALSE
     ),
     active = ifelse(
       records$active,
       transmission_text("yes"),
       transmission_text("no")
     ),
-    active_flag = records$active,
-    check.names = FALSE
+    active_flag = records$active
   )
+  if (!is.null(ns)) {
+    table_data$actions <- vapply(
+      seq_len(nrow(records)),
+      function(i) {
+        htmltools::tagList(
+          transmission_history_row_button(
+            ns,
+            records$node_id[[i]],
+            labels[[i]],
+            "show",
+            identical(records$node_id[[i]], selected_node)
+          ),
+          " ",
+          transmission_history_row_button(
+            ns,
+            records$node_id[[i]],
+            labels[[i]],
+            "restore",
+            records$active[[i]]
+          )
+        ) |>
+          as.character()
+      },
+      character(1)
+    )
+    table_data$node <- vapply(
+      seq_len(nrow(records)),
+      function(i) {
+        as.character(htmltools::tags$span(
+          id = ns(paste0("node-label-", records$sequence_id[[i]])),
+          class = "transmission-history-node-label",
+          tabindex = "-1",
+          `aria-label` = paste(labels[[i]], records$name[[i]]),
+          labels[[i]]
+        ))
+      },
+      character(1)
+    )
+  }
 
-  table_data |>
+  table <- table_data |>
     gt::gt() |>
     gt::tab_header(title = transmission_text("history_tree")) |>
     gt::cols_label(
-      sequence = transmission_text("history_sequence"),
       node = transmission_text("history_node"),
       parent = transmission_text("history_parent"),
       name = transmission_text("history_name"),
       created_by = transmission_text("history_created_by"),
       active = transmission_text("history_active")
     ) |>
-    gt::fmt_integer(
-      columns = tidyselect::all_of("sequence"),
-      locale = transmission_gt_locale()
-    ) |>
     gt::cols_hide(columns = tidyselect::all_of("active_flag")) |>
-    gt::cols_align(
-      align = "right",
-      columns = tidyselect::all_of("sequence")
-    ) |>
     gt::cols_align(
       align = "center",
       columns = tidyselect::all_of(c("node", "parent", "active"))
@@ -665,9 +760,22 @@ transmission_history_gt <- function(history) {
       locations = gt::cells_body(rows = which(table_data$active_flag))
     ) |>
     transmission_gt_theme()
+  if (!is.null(ns)) {
+    table <- table |>
+      gt::cols_label(actions = material_text("history_actions")) |>
+      gt::text_transform(
+        locations = gt::cells_body(columns = tidyselect::all_of("node")),
+        fn = function(x) table_data$node
+      ) |>
+      gt::text_transform(
+        locations = gt::cells_body(columns = tidyselect::all_of("actions")),
+        fn = function(x) table_data$actions
+      )
+  }
+  table
 }
 
-#' Build the D65 properties `gt` table
+#' Compare material coefficients for the applied source and D65
 #'
 #' @param snapshot Immutable applied transmission snapshot.
 #'
@@ -675,23 +783,17 @@ transmission_history_gt <- function(history) {
 #' @noRd
 transmission_d65_gt <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  properties <- snapshot$d65_properties
+  transmission_text <- material_labeler(material_mode(snapshot))
+  properties <- material_coefficient_comparison(snapshot)
   table_data <- data.frame(
     property = transmission_metric_labels(
-      properties$metric_id,
+      paste0(properties$metric_id, "_d65"),
       properties$metric_label
     ),
     symbol = properties$symbol,
-    fraction = ifelse(
-      properties$defined,
-      properties$transmitted_value,
-      NA_real_
-    ),
-    percent = ifelse(
-      properties$defined,
-      properties$transmitted_value,
-      NA_real_
-    ),
+    incident_percent = properties$incident_percent,
+    d65_percent = properties$d65_percent,
+    difference_pp = properties$difference_pp,
     check.names = FALSE
   )
 
@@ -699,27 +801,52 @@ transmission_d65_gt <- function(snapshot) {
     gt::gt(rowname_col = "property") |>
     gt::tab_header(
       title = transmission_text("d65_heading"),
-      subtitle = transmission_text("gt_d65_subtitle")
+      subtitle = paste0(
+        material_text("coefficient_source"),
+        ": ",
+        snapshot$incident_name
+      )
     ) |>
     gt::cols_label(
       symbol = transmission_text("table_symbol"),
-      fraction = transmission_text("table_fraction"),
-      percent = transmission_text("table_percent")
+      incident_percent = material_text("coefficient_incident"),
+      d65_percent = "D65 (%)",
+      difference_pp = material_text("coefficient_difference")
     ) |>
     transmission_gt_format_symbols() |>
-    gt::tab_spanner(
-      label = transmission_text("gt_transmittance_spanner"),
-      columns = tidyselect::all_of(c("fraction", "percent"))
-    ) |>
-    transmission_gt_format_numbers(columns = "fraction") |>
-    gt::fmt_percent(
-      columns = tidyselect::all_of("percent"),
+    gt::fmt_number(
+      columns = tidyselect::all_of(c("incident_percent", "d65_percent")),
       decimals = 1,
       drop_trailing_zeros = FALSE,
       locale = transmission_gt_locale()
     ) |>
+    gt::fmt_number(
+      columns = "difference_pp",
+      decimals = 1,
+      force_sign = TRUE,
+      drop_trailing_zeros = FALSE,
+      locale = transmission_gt_locale()
+    ) |>
+    gt::text_transform(
+      locations = gt::cells_body(
+        columns = tidyselect::all_of("difference_pp"),
+        rows = which(
+          is.finite(table_data$difference_pp) &
+            round(table_data$difference_pp, 1) == 0
+        )
+      ),
+      fn = function(x)
+        rep(
+          if (transmission_gt_locale() == "de") "0,0" else "0.0",
+          length(x)
+        )
+    ) |>
     gt::sub_missing(
-      columns = tidyselect::all_of(c("fraction", "percent")),
+      columns = tidyselect::all_of(c(
+        "incident_percent",
+        "d65_percent",
+        "difference_pp"
+      )),
       missing_text = transmission_text("undefined")
     ) |>
     gt::cols_align(
@@ -728,9 +855,13 @@ transmission_d65_gt <- function(snapshot) {
     ) |>
     gt::cols_align(
       align = "right",
-      columns = tidyselect::all_of(c("fraction", "percent"))
+      columns = tidyselect::all_of(c(
+        "incident_percent",
+        "d65_percent",
+        "difference_pp"
+      ))
     ) |>
-    gt::tab_source_note(source_note = transmission_text("gt_d65_note")) |>
+    gt::tab_source_note(source_note = material_text("coefficient_note")) |>
     transmission_gt_theme(variant = "analysis")
 }
 
@@ -742,11 +873,8 @@ transmission_d65_gt <- function(snapshot) {
 #' @noRd
 transmission_absolute_gt <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  metrics <- snapshot$active_metrics[
-    snapshot$active_metrics$comparison_type == "retained",
-    ,
-    drop = FALSE
-  ]
+  transmission_text <- material_labeler(material_mode(snapshot))
+  metrics <- material_result_metric_rows(snapshot, "light")
   table_data <- data.frame(
     metric = transmission_metric_labels(
       metrics$metric_id,
@@ -810,7 +938,7 @@ transmission_absolute_gt <- function(snapshot) {
     transmission_gt_theme(variant = "analysis")
 }
 
-#' Build the action-factor and DER `gt` table
+#' Build the alpha-opic EDI and DER `gt` table with separate row groups
 #'
 #' @param snapshot Immutable applied transmission snapshot.
 #'
@@ -818,11 +946,8 @@ transmission_absolute_gt <- function(snapshot) {
 #' @noRd
 transmission_balance_gt <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  metrics <- snapshot$active_metrics[
-    snapshot$active_metrics$comparison_type == "change",
-    ,
-    drop = FALSE
-  ]
+  transmission_text <- material_labeler(material_mode(snapshot))
+  metrics <- material_result_metric_rows(snapshot, "balance")
   table_data <- data.frame(
     metric = transmission_metric_labels(
       metrics$metric_id,
@@ -840,7 +965,7 @@ transmission_balance_gt <- function(snapshot) {
       NA_real_
     ),
     absolute_change = ifelse(
-      metrics$comparison_defined,
+      metrics$defined,
       metrics$absolute_change,
       NA_real_
     ),
@@ -849,16 +974,29 @@ transmission_balance_gt <- function(snapshot) {
       metrics$relative_change,
       NA_real_
     ),
+    unit = metrics$unit,
     check.names = FALSE
   )
 
   table_data |>
     gt::gt(rowname_col = "metric") |>
     gt::tab_header(title = transmission_text("balance_heading")) |>
+    gt::tab_row_group(
+      label = material_text("edi_group"),
+      rows = which(grepl("_edi$", metrics$metric_id)),
+      id = "edi"
+    ) |>
+    gt::tab_row_group(
+      label = material_text("der_group"),
+      rows = which(grepl("_der($|_effective$)", metrics$metric_id)),
+      id = "der"
+    ) |>
+    gt::row_group_order(groups = c("edi", "der")) |>
     gt::cols_label(
       symbol = transmission_text("table_symbol"),
       incident = transmission_text("table_incident"),
       transmitted = transmission_text("table_transmitted"),
+      unit = transmission_text("table_unit"),
       absolute_change = transmission_text("table_absolute_change"),
       relative_change = transmission_text("table_relative_change")
     ) |>
@@ -895,7 +1033,7 @@ transmission_balance_gt <- function(snapshot) {
     ) |>
     gt::cols_align(
       align = "center",
-      columns = tidyselect::all_of("symbol")
+      columns = tidyselect::all_of(c("symbol", "unit"))
     ) |>
     gt::cols_align(
       align = "right",
@@ -907,6 +1045,9 @@ transmission_balance_gt <- function(snapshot) {
       ))
     ) |>
     gt::tab_source_note(source_note = transmission_text("balance_intro")) |>
+    gt::tab_source_note(
+      source_note = material_text("effective_der_reference")
+    ) |>
     transmission_gt_theme(variant = "analysis")
 }
 
@@ -929,6 +1070,7 @@ transmission_filter_panel_plot <- function(
   font_size = 13
 ) {
   validate_transmission_applied_snapshot(snapshot)
+  transmission_text <- material_labeler(material_mode(snapshot))
   filter_data <- snapshot$filter
 
   ggplot2::ggplot(
@@ -979,6 +1121,78 @@ transmission_filter_panel_plot <- function(
     )
 }
 
+#' Draw an export with a measured header above the result panels
+#'
+#' @param snapshot Immutable applied material snapshot.
+#' @param width Export width in inches, including the shared header.
+#' @param ... Plot options passed to `transmission_spectral_comparison_plot()`.
+#' @param font_size Base figure font size.
+#'
+#' @return A patchwork plot.
+#' @noRd
+transmission_result_export_plot <- function(
+  snapshot,
+  width,
+  ...,
+  font_size = 15
+) {
+  labels <- material_labeler(material_mode(snapshot))
+  filter_name <- snapshot$metadata$filter_name
+  if (
+    is.null(filter_name) ||
+      length(filter_name) != 1L ||
+      is.na(filter_name) ||
+      !nzchar(trimws(filter_name))
+  ) {
+    filter_name <- labels("transmission_filter")
+  }
+  title <- paste0(snapshot$incident_name, " \u00d7 ", trimws(filter_name))
+  title <- as.character(htmltools::htmlEscape(title))
+  # Source/material names are literal text, including Markdown punctuation.
+  for (mark in c("#", "\\", "`", "*", "_", "[", "]")) {
+    title <- gsub(mark, paste0("&#", utf8ToInt(mark), ";"), title, fixed = TRUE)
+  }
+  plot <- transmission_spectral_comparison_plot(
+    snapshot,
+    ...,
+    show_title = FALSE,
+    axis_unit_linebreak = TRUE,
+    font_size = font_size
+  )
+  # Physical width gives gridtext the final wrapping width when it measures
+  # header height, before patchwork/cowplot nest the panels in an export.
+  header_width <- grid::unit(width, "in") - grid::unit(16, "pt")
+  patchwork::wrap_plots(plot) +
+    patchwork::plot_annotation(
+      title = title,
+      subtitle = labels("plot_result_subtitle"),
+      tag_levels = if (inherits(plot, "patchwork")) "A" else NULL,
+      theme = ggplot2::theme(
+        plot.title = ggtext::element_textbox_simple(
+          family = "sans",
+          face = "bold",
+          size = font_size,
+          width = header_width,
+          hjust = 0,
+          vjust = 1,
+          lineheight = 1.1,
+          margin = ggplot2::margin(5, 8, font_size * 0.4, 8)
+        ),
+        plot.subtitle = ggtext::element_textbox_simple(
+          family = "sans",
+          colour = "#4b4b4b",
+          size = font_size * 0.8,
+          width = header_width,
+          hjust = 0,
+          vjust = 1,
+          lineheight = 1.1,
+          margin = ggplot2::margin(0, 8, 5, 8)
+        ),
+        plot.margin = ggplot2::margin()
+      )
+    )
+}
+
 #' Save a Transmission result plot as a PNG
 #'
 #' @param snapshot Immutable applied transmission snapshot.
@@ -1005,8 +1219,10 @@ write_transmission_result_plot <- function(
   max_irradiance = NULL
 ) {
   validate_transmission_applied_snapshot(snapshot)
-  plot <- transmission_spectral_comparison_plot(
+  transmission_text <- material_labeler(material_mode(snapshot))
+  plot <- transmission_result_export_plot(
     snapshot,
+    width = width,
     show_transmittance_panel = show_transmittance_panel,
     incident_fill = incident_fill,
     response_curves = response_curves,
@@ -1042,6 +1258,7 @@ write_transmission_filter_plot <- function(
   font_size = 15
 ) {
   validate_transmission_applied_snapshot(snapshot)
+  transmission_text <- material_labeler(material_mode(snapshot))
   plot <- transmission_filter_panel_plot(
     snapshot,
     show_title = TRUE,
@@ -1106,6 +1323,7 @@ write_transmission_plot_table_png <- function(
   max_irradiance = NULL
 ) {
   validate_transmission_applied_snapshot(snapshot)
+  transmission_text <- material_labeler(material_mode(snapshot))
   metric_group <- match.arg(metric_group)
   table_file <- tempfile(fileext = ".png")
   on.exit(unlink(table_file), add = TRUE)
@@ -1114,8 +1332,9 @@ write_transmission_plot_table_png <- function(
     table_file
   )
   table_image <- png::readPNG(table_file, native = TRUE)
-  plot <- transmission_spectral_comparison_plot(
+  plot <- transmission_result_export_plot(
     snapshot = snapshot,
+    width = width,
     show_transmittance_panel = show_transmittance_panel,
     incident_fill = incident_fill,
     response_curves = response_curves,

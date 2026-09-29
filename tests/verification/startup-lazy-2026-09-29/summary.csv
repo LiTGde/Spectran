@@ -1,0 +1,3 @@
+"label","n","startup_median_ms","startup_min_ms","startup_max_ms","first_visit_median_ms","first_visit_min_ms","first_visit_max_ms","repeat_visit_median_ms","repeat_visit_min_ms","repeat_visit_max_ms"
+"before_lazy",5,1186,900,2434.59999990463,2415.60000002384,2206.30000007153,2426.69999992847,18.7000000476837,18.5,19
+"lazy",5,636,623.399999976158,913.200000047684,2713.60000002384,2617.89999997616,3236.79999995232,19,18,21.3000000715256

@@ -176,6 +176,10 @@ body {
     position: relative;
 }
 
+.sidebar-menu > li#transmission > a {
+    white-space: normal;
+}
+
 .sidebar-menu > li#transmission::before {
     content: "";
     position: absolute;
@@ -562,3 +566,30 @@ body {
 body.stop-scrolling{
     overflow: scroll;
 }
+.material-colour-preview { margin: 16px 0; padding: 12px; border: 1px solid #c8c8c8; border-radius: 4px; background: #fff; }
+.material-colour-cards { display: flex; flex-wrap: wrap; gap: 16px; }
+.material-colour-card { flex: 0 1 320px; min-width: 0; overflow-wrap: anywhere; }
+.material-colour-swatch { height: 64px; border: 1px solid #666; margin: 8px 0 4px; }
+.material-colour-note { margin-top: 10px; font-size: 0.9em; }
+.material-colour-preview details > summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+}
+.material-colour-preview details > summary::-webkit-details-marker {
+  display: none;
+}
+.material-colour-preview details > summary::before {
+  content: "\25B6";
+  display: inline-block;
+  margin-right: 0.5em;
+  color: #555;
+}
+.material-colour-preview details[open] > summary::before {
+  content: "\25BC";
+}
+.transmission-history-row-action { margin: 2px; white-space: nowrap; }
+.transmission-history-row-action:disabled { color: #666; background: #e6e6e6; border-color: #bcbcbc; opacity: 0.65; cursor: not-allowed; }
+.transmission-history-row-action:focus-visible,
+.transmission-history-node-label:focus { outline: 3px solid #1769aa; outline-offset: 2px; }
+.transmission-history-selection { margin-top: 16px; padding: 10px; background: #eef5fa; border-left: 4px solid #1769aa; }

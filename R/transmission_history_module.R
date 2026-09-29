@@ -1,6 +1,6 @@
 # Promotion, restore, history, and downloads -----------------------------
 
-#' UI for promotion, history restore, and exports
+#' UI for promoting a receiver spectrum
 #'
 #' @param id Shiny module identifier.
 #'
@@ -16,6 +16,26 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE) {
       placeholder = transmission_text("promotion_placeholder"),
       updateOn = "blur"
     ),
+    htmltools::tags$div(
+      class = "transmission-field-label",
+      htmltools::tags$label(
+        material_text("target_lux"),
+        `for` = ns("promotion_lux")
+      ),
+      transmission_info_tooltip(
+        ns,
+        "promotion_lux_info",
+        material_text("target_lux"),
+        material_text("target_help")
+      )
+    ),
+    shiny::numericInput(
+      ns("promotion_lux"),
+      label = NULL,
+      value = NA_real_,
+      min = 0
+    ),
+    shiny::uiOutput(ns("promotion_scenario")),
     shiny::actionButton(
       ns("promote"),
       label = transmission_text("promote_button"),
@@ -23,28 +43,10 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE) {
       class = "btn-primary"
     )
   )
-  restore_controls <- htmltools::tagList(
-    shiny::selectInput(
-      ns("restore_node"),
-      label = transmission_text("restore_node"),
-      choices = character()
-    ),
-    shiny::actionButton(
-      ns("restore"),
-      label = transmission_text("restore_button"),
-      icon = shiny::icon("history")
-    )
-  )
   controls <- if (isTRUE(compact)) {
-    htmltools::tagList(
-      htmltools::tags$div(
-        class = "transmission-history-control-group",
-        promotion_controls
-      ),
-      htmltools::tags$div(
-        class = "transmission-history-control-group",
-        restore_controls
-      )
+    htmltools::tags$div(
+      class = "transmission-history-control-group",
+      promotion_controls
     )
   } else {
     shiny::fluidRow(
@@ -52,11 +54,6 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE) {
         width = 12,
         class = "col-lg-6 transmission-history-column",
         promotion_controls
-      ),
-      shiny::column(
-        width = 12,
-        class = "col-lg-6 transmission-history-column",
-        restore_controls
       )
     )
   }
@@ -84,12 +81,18 @@ transmissionHistoryDetailsUI <- function(id) {
   htmltools::tags$div(
     class = "transmission-history-details",
     htmltools::h4(transmission_text("history_tree")),
+    htmltools::p(material_text("history_actions_help")),
+    shiny::uiOutput(ns("history_status")),
     htmltools::tags$div(
       class = "transmission-gt-scroll",
       tabindex = "0",
       `aria-label` = transmission_text("aria_history_table"),
       transmission_gt_output(ns("history_table"))
     ),
+    shiny::uiOutput(ns("selected_node")),
+    htmltools::h4(material_text("cumulative")),
+    htmltools::p(material_text("cumulative_help")),
+    shiny::uiOutput(ns("cumulative_summary")),
     shiny::uiOutput(ns("archive_section"))
   )
 }
@@ -234,6 +237,7 @@ transmissionHistoryServer <- function(
   }
 
   shiny::moduleServer(id, function(input, output, session) {
+    transmission_info_tooltip_server("promotion_lux_info")
     history <- shiny::reactiveVal(NULL)
     promotion_event <- shiny::reactiveVal(NULL)
     restore_event <- shiny::reactiveVal(NULL)
@@ -241,10 +245,9 @@ transmissionHistoryServer <- function(
     prepared_export_bundle <- shiny::reactiveVal(NULL)
     action_sequence <- shiny::reactiveVal(0L)
     import_token <- shiny::reactiveVal(NULL)
+    last_promoted_snapshot <- shiny::reactiveVal(NULL)
     last_promote_click <- shiny::reactiveVal(-Inf)
     last_promote_keyboard <- shiny::reactiveVal(-Inf)
-    last_restore_click <- shiny::reactiveVal(-Inf)
-    last_restore_keyboard <- shiny::reactiveVal(-Inf)
     status <- shiny::reactiveVal(list(
       state = "neutral",
       message = transmission_text("history_initial")
@@ -285,15 +288,16 @@ transmissionHistoryServer <- function(
             history(new_transmission_history(current))
             import_token(token)
             promotion_event(NULL)
+            last_promoted_snapshot(NULL)
             restore_event(NULL)
-            archive_node_id(NULL)
+            archive_node_id(current$node_id)
             clear_snapshot()
             shiny::updateTextInput(session, "promotion_name", value = "")
             status(list(
               state = "current",
               message = transmission_text(
                 "history_new_root",
-                current$node_id
+                transmission_history_node_label(history(), current$node_id)
               )
             ))
           }
@@ -318,6 +322,70 @@ transmissionHistoryServer <- function(
       priority = 50
     )
 
+    output$promotion_scenario <- shiny::renderUI({
+      current <- applied_snapshot()
+      if (is.null(current)) return(NULL)
+      htmltools::tags$p(material_text(paste0(material_mode(current), "_model")))
+    })
+    cumulative <- shiny::reactive({
+      current <- history()
+      shiny::req(current)
+      selected <- archive_node_id()
+      if (is.null(selected) || !selected %in% names(current$nodes))
+        selected <- current$active_node_id
+      calculate_material_cumulative(current, selected)
+    })
+    output$selected_node <- shiny::renderUI({
+      current <- history()
+      selected <- archive_node_id()
+      shiny::req(current, selected, selected %in% names(current$nodes))
+      htmltools::tags$p(
+        class = "transmission-history-selection",
+        role = "status",
+        `aria-live` = "polite",
+        htmltools::tags$strong(paste0(
+          material_text("history_selected"),
+          ": ",
+          transmission_history_node_label(current, selected),
+          " \u00b7 ",
+          current$nodes[[selected]]$name
+        ))
+      )
+    })
+    output$cumulative_summary <- shiny::renderUI({
+      if (material_cumulative_has_rescaling(cumulative())) {
+        return(htmltools::tags$p(
+          class = "transmission-preview-note",
+          role = "status",
+          material_text("cumulative_rescaled")
+        ))
+      }
+      htmltools::tagList(
+        htmltools::tags$div(
+          class = "transmission-gt-scroll",
+          transmission_gt_output(session$ns("cumulative_material"))
+        ),
+        shiny::downloadButton(
+          session$ns("cumulative_csv"),
+          material_text("cumulative_download")
+        )
+      )
+    })
+    output$cumulative_material <- shiny::renderUI({
+      shiny::req(!material_cumulative_has_rescaling(cumulative()))
+      transmission_gt_html(material_cumulative_gt(
+        cumulative()$material_metrics,
+        material_text("cumulative_material")
+      ))
+    })
+    output$cumulative_csv <- shiny::downloadHandler(
+      filename = function() "Spectran-cumulative-material-effect.csv",
+      content = function(file) {
+        shiny::req(!material_cumulative_has_rescaling(cumulative()))
+        write_transmission_csv(material_cumulative_export(cumulative()), file)
+      }
+    )
+
     snapshot_token <- shiny::reactive({
       current <- applied_snapshot()
       if (is.null(current)) {
@@ -333,6 +401,11 @@ transmissionHistoryServer <- function(
         if (is.null(current)) {
           return()
         }
+        shiny::updateNumericInput(
+          session,
+          "promotion_lux",
+          value = material_photopic_lux(current$transmitted_spectrum)
+        )
         filter_name <- current$metadata$filter_name
         if (is.null(filter_name) || !nzchar(trimws(filter_name))) {
           filter_name <- transmission_text("transmission_filter")
@@ -411,6 +484,14 @@ transmissionHistoryServer <- function(
         return(invisible(NULL))
       }
       if (!isTRUE(can_promote_current())) {
+        # A native click can arrive after the keyboard activation has already
+        # promoted this snapshot. Preserve its success status without adding
+        # a second node or showing a spurious unavailable error.
+        if (
+          !is.null(snapshot_token()) &&
+            identical(snapshot_token(), last_promoted_snapshot())
+        )
+          return(invisible(NULL))
         status(list(
           state = "error",
           message = transmission_text("promotion_unavailable")
@@ -435,7 +516,8 @@ transmissionHistoryServer <- function(
         transmission_history_promote(
           history(),
           applied_snapshot(),
-          trimws(name)
+          trimws(name),
+          target_lux = input$promotion_lux
         ),
         error = function(error) error
       )
@@ -443,6 +525,7 @@ transmissionHistoryServer <- function(
         status(list(state = "error", message = conditionMessage(promoted)))
         return(invisible(NULL))
       }
+      last_promoted_snapshot(snapshot_token())
       history(promoted$history)
       archive_node_id(promoted$node$node_id)
       next_sequence <- action_sequence() + 1L
@@ -464,7 +547,7 @@ transmissionHistoryServer <- function(
         message = transmission_text(
           "promoted_status",
           promoted$node$name,
-          promoted$node$node_id
+          transmission_history_node_label(history(), promoted$node$node_id)
         )
       ))
       invisible(NULL)
@@ -485,55 +568,11 @@ transmissionHistoryServer <- function(
       properties = c("key", "code", "repeat", "which")
     )
 
-    shiny::observe({
-      current_history <- history()
-      if (is.null(current_history)) {
-        shiny::updateSelectInput(
-          session,
-          "restore_node",
-          choices = character(),
-          selected = character()
-        )
-        return(invisible(NULL))
-      }
-      choices <- transmission_history_choices(current_history)
-      active_id <- current_history$active_node_id
-      shiny::updateSelectInput(
-        session,
-        "restore_node",
-        choices = choices,
-        selected = active_id
-      )
-      invisible(NULL)
-    })
-
-    can_restore <- shiny::reactive({
-      current_history <- history()
-      !is.null(current_history) &&
-        !is.null(input$restore_node) &&
-        input$restore_node %in% names(current_history$nodes) &&
-        !identical(input$restore_node, current_history$active_node_id)
-    })
-    shiny::observe({
-      shinyjs::toggleState("restore", can_restore())
-    })
-
-    restore_current <- function(trigger = c("click", "keyboard")) {
-      trigger <- match.arg(trigger)
-      if (
-        !activation_allowed(
-          trigger,
-          last_restore_click,
-          last_restore_keyboard
-        )
-      ) {
-        return(invisible(NULL))
-      }
-      if (!isTRUE(can_restore())) {
-        return(invisible(NULL))
-      }
+    restore_node <- function(node_id) {
+      current <- history()
+      if (identical(node_id, current$active_node_id)) return(invisible(NULL))
       restored <- tryCatch(
-        transmission_history_restore(history(), input$restore_node),
+        transmission_history_restore(current, node_id),
         error = function(error) error
       )
       if (inherits(restored, "error")) {
@@ -541,18 +580,16 @@ transmissionHistoryServer <- function(
         return(invisible(NULL))
       }
       history(restored$history)
+      archive_node_id(node_id)
       next_sequence <- action_sequence() + 1L
       provenance <- utils::modifyList(
         restored$node$provenance,
-        list(
-          origin = restored$node$provenance$origin,
-          restored_from_node = restored$node$node_id
-        )
+        list(restored_from_node = node_id)
       )
       event <- new_transmission_activation_event(
         action_sequence = next_sequence,
         change_type = "restore",
-        node_id = restored$node$node_id,
+        node_id = node_id,
         parent_id = restored$node$parent_id,
         spectrum = restored$node$spectrum,
         name = restored$node$name,
@@ -566,29 +603,59 @@ transmissionHistoryServer <- function(
         state = "current",
         message = transmission_text(
           "restored_status",
-          restored$node$node_id,
+          transmission_history_node_label(history(), node_id),
           restored$node$name
         )
       ))
       invisible(NULL)
     }
 
-    shiny::observeEvent(input$restore, {
-      restore_current("click")
-    })
-
-    shinyjs::onevent(
-      event = "keydown",
-      id = "restore",
-      expr = function(event) {
-        if (is_transmission_activation_key(event)) {
-          restore_current("keyboard")
+    shiny::observeEvent(
+      input$node_action,
+      {
+        action <- input$node_action
+        current <- history()
+        scalar_text <- function(x)
+          is.character(x) && length(x) == 1L && !is.na(x)
+        if (
+          is.null(current) ||
+            !is.list(action) ||
+            !scalar_text(action$node) ||
+            !scalar_text(action$action) ||
+            !action$node %in% names(current$nodes) ||
+            !action$action %in% c("show", "restore")
+        )
+          return(invisible(NULL))
+        if (action$action == "show") {
+          if (identical(action$node, archive_node_id())) return(invisible(NULL))
+          archive_node_id(action$node)
+        } else {
+          if (identical(action$node, current$active_node_id))
+            return(invisible(NULL))
+          restore_node(action$node)
         }
+        # The activated button becomes disabled after the table is redrawn.
+        # Keep keyboard focus in its row on the short node label instead.
+        focus_id <- session$ns(paste0(
+          "node-label-",
+          current$nodes[[action$node]]$sequence_id
+        ))
+        session$onFlushed(
+          function() {
+            shinyjs::runjs(paste0(
+              "requestAnimationFrame(function(){requestAnimationFrame(function(){",
+              "var node=document.getElementById(",
+              encodeString(focus_id, quote = '"'),
+              ");if(node)node.focus({preventScroll:true});});});"
+            ))
+          },
+          once = TRUE
+        )
       },
-      properties = c("key", "code", "repeat", "which")
+      ignoreInit = TRUE
     )
 
-    output$status <- shiny::renderUI({
+    status_ui <- shiny::reactive({
       current <- status()
       htmltools::tags$div(
         class = paste(
@@ -601,11 +668,17 @@ transmissionHistoryServer <- function(
         current$message
       )
     })
+    output$status <- shiny::renderUI(status_ui())
+    output$history_status <- shiny::renderUI(status_ui())
 
     output$history_table <- shiny::renderUI({
       current_history <- history()
       shiny::req(current_history)
-      transmission_gt_html(transmission_history_gt(current_history))
+      transmission_gt_html(transmission_history_gt(
+        current_history,
+        ns = session$ns,
+        selected_node = archive_node_id()
+      ))
     })
 
     archived_nodes <- shiny::reactive({
@@ -636,88 +709,33 @@ transmissionHistoryServer <- function(
       nodes[[selected]]$applied_snapshot
     })
 
-    shiny::observe({
-      nodes <- archived_nodes()
-      if (length(nodes) == 0L) {
-        archive_node_id(NULL)
-        return(invisible(NULL))
-      }
-      selected <- archive_node_id()
-      if (is.null(selected) || !selected %in% names(nodes)) {
-        sequences <- vapply(
-          nodes,
-          function(node) node$sequence_id,
-          integer(1)
-        )
-        archive_node_id(names(nodes)[[which.max(sequences)]])
-      }
-      invisible(NULL)
-    })
-
-    shiny::observeEvent(
-      input$archive_node,
-      {
-        nodes <- archived_nodes()
-        if (
-          !is.null(input$archive_node) &&
-            input$archive_node %in% names(nodes)
-        ) {
-          archive_node_id(input$archive_node)
-        }
-      },
-      ignoreInit = TRUE,
-      ignoreNULL = TRUE
-    )
-
     output$archive_section <- shiny::renderUI({
-      nodes <- archived_nodes()
-      if (length(nodes) == 0L) {
-        return(htmltools::tags$section(
-          class = "transmission-archive-section is-empty",
-          htmltools::h4(transmission_text("archive_heading")),
-          htmltools::p(
-            class = "text-muted",
-            transmission_text("archive_empty")
-          )
-        ))
-      }
-
-      labels <- vapply(
-        nodes,
-        function(node) {
-          paste0(node$sequence_id, ". ", node$name)
-        },
-        character(1)
-      )
-      choices <- stats::setNames(names(nodes), labels)
-      selected <- archive_node_id()
-      if (is.null(selected) || !selected %in% names(nodes)) {
-        selected <- names(nodes)[[length(nodes)]]
-      }
-
+      current <- archived_snapshot()
       htmltools::tags$section(
-        class = "transmission-archive-section",
+        class = paste(
+          "transmission-archive-section",
+          if (is.null(current)) "is-empty"
+        ),
         `aria-labelledby` = session$ns("archive_heading"),
         htmltools::h4(
           id = session$ns("archive_heading"),
           transmission_text("archive_heading")
         ),
-        htmltools::p(
-          transmission_text("archive_intro")
-        ),
-        shiny::selectInput(
-          session$ns("archive_node"),
-          label = transmission_text("archive_select"),
-          choices = choices,
-          selected = selected
-        ),
-        shiny::uiOutput(session$ns("archived_outputs"))
+        if (is.null(current)) {
+          htmltools::p(class = "text-muted", material_text("archive_source"))
+        } else {
+          htmltools::tagList(
+            htmltools::p(transmission_text("archive_intro")),
+            shiny::uiOutput(session$ns("archived_outputs"))
+          )
+        }
       )
     })
 
     output$archived_outputs <- shiny::renderUI({
       current <- archived_snapshot()
       shiny::req(current)
+      transmission_text <- material_labeler(material_mode(current))
       filter_name <- current$metadata$filter_name
       if (is.null(filter_name) || !nzchar(trimws(filter_name))) {
         filter_name <- transmission_text("transmission_filter")
@@ -731,6 +749,8 @@ transmissionHistoryServer <- function(
         `aria-label` = transmission_text("aria_archived_results"),
         shiny::uiOutput(session$ns("archived_metric_warnings")),
         shiny::uiOutput(session$ns("archived_plot_outputs")),
+        if (material_mode(current) == "reflection")
+          material_colour_preview_ui(current$filter),
         transmission_tabset_panel(
           id = session$ns("archived_metric_table_tabs"),
           type = "tabs",
@@ -830,14 +850,12 @@ transmissionHistoryServer <- function(
           title_wrap_width = transmission_archived_result_title_wrap_width(
             archived_plot_width
           ),
-          title_word_wrap_width =
-            transmission_result_title_word_wrap_width(
-              archived_plot_width
-            ),
-          plot_margin_right =
-            transmission_archived_result_title_right_margin(
-              archived_plot_width
-            ),
+          title_word_wrap_width = transmission_result_title_word_wrap_width(
+            archived_plot_width
+          ),
+          plot_margin_right = transmission_archived_result_title_right_margin(
+            archived_plot_width
+          ),
           adaptive_title_spacing = TRUE
         )
       },
@@ -886,6 +904,7 @@ transmissionHistoryServer <- function(
     })
 
     output$archive_download_controls <- shiny::renderUI({
+      transmission_text <- material_labeler(material_mode(archived_snapshot()))
       htmltools::tags$div(
         class = "transmission-download-grid",
         transmission_download_control(
@@ -936,6 +955,7 @@ transmissionHistoryServer <- function(
     })
 
     output$download_controls <- shiny::renderUI({
+      transmission_text <- material_labeler(material_mode(applied_snapshot()))
       enabled <- can_download_current()
       htmltools::tags$div(
         class = "transmission-download-grid",
@@ -999,7 +1019,7 @@ transmissionHistoryServer <- function(
         labels <- vapply(
           nodes,
           function(node) {
-            paste0(node$sequence_id, ". ", node$name)
+            paste0("N", node$sequence_id, " \u00b7 ", node$name)
           },
           character(1)
         )
@@ -1035,6 +1055,7 @@ transmissionHistoryServer <- function(
     })
 
     bundle_choice_labels <- function() {
+      transmission_text <- material_labeler(material_mode(export_snapshot()))
       stats::setNames(
         transmission_export_content_ids(),
         vapply(
@@ -1221,6 +1242,7 @@ transmissionHistoryServer <- function(
     ))
 
     output$export_panel <- shiny::renderUI({
+      transmission_text <- material_labeler(material_mode(export_snapshot()))
       choices <- export_choices()
       if (length(choices) == 0L) {
         return(htmltools::tags$div(
@@ -1487,10 +1509,10 @@ transmissionHistoryServer <- function(
       contentType = "image/png"
     )
     output$download_d65 <- shiny::downloadHandler(
-      filename = function() download_filename("d65-properties"),
+      filename = function() download_filename("material-coefficients"),
       content = function(file) {
         write_transmission_csv(
-          transmission_d65_export(current_download()),
+          material_coefficient_comparison(current_download()),
           file
         )
       }
@@ -1580,10 +1602,10 @@ transmissionHistoryServer <- function(
       contentType = "image/png"
     )
     output$archive_download_d65 <- shiny::downloadHandler(
-      filename = function() archive_download_filename("d65-properties"),
+      filename = function() archive_download_filename("material-coefficients"),
       content = function(file) {
         write_transmission_csv(
-          transmission_d65_export(current_archive_download()),
+          material_coefficient_comparison(current_archive_download()),
           file
         )
       }
@@ -1660,7 +1682,10 @@ transmissionHistoryServer <- function(
     )
     output$export_download_filter_plot <- shiny::downloadHandler(
       filename = function() {
-        export_download_filename("transmittance-spectrum", "png")
+        export_download_filename(
+          material_coefficient_filename(export_snapshot()),
+          "png"
+        )
       },
       content = function(file) {
         write_transmission_filter_plot(
@@ -1698,7 +1723,7 @@ transmissionHistoryServer <- function(
     )
     output$export_download_d65_png <- shiny::downloadHandler(
       filename = function() {
-        export_download_filename("d65-properties-table", "png")
+        export_download_filename("material-coefficients-table", "png")
       },
       content = function(file) {
         write_transmission_gt_png(
@@ -1751,10 +1776,10 @@ transmissionHistoryServer <- function(
       }
     )
     output$export_download_d65_csv <- shiny::downloadHandler(
-      filename = function() export_download_filename("d65-properties"),
+      filename = function() export_download_filename("material-coefficients"),
       content = function(file) {
         write_transmission_csv(
-          transmission_d65_export(current_export_download()),
+          material_coefficient_comparison(current_export_download()),
           file
         )
       }

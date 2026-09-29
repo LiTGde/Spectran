@@ -10,9 +10,10 @@ test_that("production tabs keep a live preview beside every input section", {
   ))
 
   expect_match(rendered, "tabs-section", fixed = TRUE)
-  expect_match(rendered, ">Transmission spectrum<", fixed = TRUE)
+  expect_match(rendered, ">Material spectrum<", fixed = TRUE)
   expect_match(rendered, ">Results<", fixed = TRUE)
-  expect_match(rendered, ">Promotion and History<", fixed = TRUE)
+  expect_match(rendered, ">Promotion<", fixed = TRUE)
+  expect_match(rendered, ">History<", fixed = TRUE)
   expect_match(rendered, ">Export<", fixed = TRUE)
   expect_match(rendered, "tabs-preview_outputs_spectrum", fixed = TRUE)
   expect_match(rendered, "tabs-preview_outputs_measurement", fixed = TRUE)
@@ -22,6 +23,18 @@ test_that("production tabs keep a live preview beside every input section", {
   expect_match(rendered, "tabs-history-promote", fixed = TRUE)
   expect_match(rendered, "tabs-navigation_spectrum", fixed = TRUE)
   expect_match(rendered, "tabs-navigation_results", fixed = TRUE)
+  expect_match(rendered, "tabs-navigation_promotion", fixed = TRUE)
+  expect_lt(
+    regexpr('data-value="promotion"', rendered)[[1L]],
+    regexpr('data-value="history"', rendered)[[1L]]
+  )
+  for (removed in c("restore_node", "cumulative_node", "archive_node")) {
+    expect_false(grepl(
+      paste0('id="tabs-history-', removed, '"'),
+      rendered,
+      fixed = TRUE
+    ))
+  }
   expect_match(
     rendered,
     '<details class="transmission-csv-settings">',
@@ -44,7 +57,7 @@ test_that("production tabs keep a live preview beside every input section", {
     'data-tabsetid="spectran-tabs-section"',
     fixed = TRUE
   )
-  for (index in seq_len(6L)) {
+  for (index in seq_len(7L)) {
     target <- paste0("tab-spectran-tabs-section-", index)
     expect_match(rendered, paste0('href="#', target, '"'), fixed = TRUE)
     expect_match(rendered, paste0('id="', target, '"'), fixed = TRUE)
@@ -271,6 +284,24 @@ test_that("tabs are directly accessible while Apply retains scientific gating", 
       session$setInputs(section = "history")
       session$flushReact()
       expect_identical(returned$active_section(), "history")
+      session$setInputs(section = "promotion")
+      session$flushReact()
+      expect_identical(returned$active_section(), "promotion")
+      expect_match(
+        output$navigation_results$html,
+        "Continue to promotion",
+        fixed = TRUE
+      )
+      expect_match(
+        output$navigation_promotion$html,
+        "Continue to History",
+        fixed = TRUE
+      )
+      expect_match(
+        output$navigation_history$html,
+        "Continue to Export",
+        fixed = TRUE
+      )
     }
   )
 })
@@ -555,7 +586,7 @@ test_that("Transmission is an optional sidebar page after Export", {
     analysis = regexpr('id="analysis"', rendered, fixed = TRUE)[[1L]],
     export = regexpr('id="export"', rendered, fixed = TRUE)[[1L]],
     transmission = regexpr(
-      'id="transmission"',
+      'data-value="transmission"',
       rendered,
       fixed = TRUE
     )[[1L]]
@@ -664,8 +695,8 @@ test_that("integrated Import contains wide content within the page", {
   expect_match(
     rendered,
     paste0(
-      "Analysis opens afterwards, and Transmission is unlocked as an ",
-      "optional page after Export."
+      "Import a source spectrum or open Transmission / Reflection ",
+      "directly to start with daylight D65 at 100 lx."
     ),
     fixed = TRUE
   )

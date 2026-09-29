@@ -384,7 +384,8 @@ transmission_history_promote <- function(
   history,
   snapshot,
   name,
-  provenance = list()
+  provenance = list(),
+  target_lux = NULL
 ) {
   validate_transmission_history(history)
   if (!inherits(snapshot, "transmission_applied_snapshot")) {
@@ -407,20 +408,35 @@ transmission_history_promote <- function(
   }
   parent_id <- history$active_node_id
   parent <- transmission_history_node(history, parent_id)
+  if (
+    !isTRUE(all.equal(
+      as_visible_spectrum(snapshot$incident_spectrum),
+      parent$spectrum,
+      tolerance = 1e-12
+    ))
+  ) {
+    stop(
+      "The applied spectrum does not match the active history node. Apply the material again.",
+      call. = FALSE
+    )
+  }
+  promotion <- material_promotion(snapshot, target_lux)
   node_provenance <- c(
     list(
-      origin = "Transmission",
+      origin = if (material_mode(snapshot) == "reflection") "Reflection" else
+        "Transmission",
       parent_name = parent$name,
       filter_name = snapshot$metadata$filter_name,
       apply_sequence = snapshot$apply_sequence
     ),
+    promotion$provenance,
     provenance
   )
   node <- new_transmission_history_node(
     sequence_id = sequence_id,
     node_id = node_id,
     parent_id = parent_id,
-    spectrum = snapshot$transmitted_spectrum,
+    spectrum = promotion$spectrum,
     applied_snapshot = snapshot,
     provenance = node_provenance,
     name = name,
@@ -472,6 +488,8 @@ transmission_history_table <- function(history) {
       parent_id = node$parent_id,
       name = node$name,
       change_type = node$change_type,
+      material_mode = if (is.null(snapshot)) NA_character_ else
+        material_mode(snapshot),
       active = node$active,
       filter_name = if (is.null(snapshot)) {
         NA_character_

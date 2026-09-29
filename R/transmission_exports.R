@@ -77,6 +77,11 @@ transmission_filename_component <- function(value, fallback = "transmission") {
   if (!nzchar(component)) fallback else component
 }
 
+material_coefficient_filename <- function(snapshot) {
+  if (material_mode(snapshot) == "reflection") "reflectance-spectrum" else
+    "transmittance-spectrum"
+}
+
 #' Export a completed transmission curve
 #'
 #' @param snapshot Applied transmission snapshot.
@@ -85,7 +90,10 @@ transmission_filename_component <- function(value, fallback = "transmission") {
 #' @noRd
 transmission_completed_filter_export <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  as_completed_filter(snapshot$filter)
+  result <- as_completed_filter(snapshot$filter)
+  if (material_mode(snapshot) == "reflection")
+    names(result)[names(result) == "transmittance"] <- "reflectance"
+  result
 }
 
 #' Export incident and transmitted spectra on one grid
@@ -96,13 +104,21 @@ transmission_completed_filter_export <- function(snapshot) {
 #' @noRd
 transmission_spectral_comparison_export <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  tibble::tibble(
+  result <- tibble::tibble(
     wavelength_nm = snapshot$incident_spectrum$Wellenlaenge,
     incident_spectral_irradiance_w_m2_nm = snapshot$incident_spectrum$Bestrahlungsstaerke,
     transmittance = snapshot$filter$transmittance,
     transmitted_spectral_irradiance_w_m2_nm = snapshot$transmitted_spectrum$Bestrahlungsstaerke,
     completion_status = snapshot$filter$status
   )
+  if (material_mode(snapshot) == "reflection") {
+    names(result)[names(result) == "transmittance"] <- "reflectance"
+    names(result)[
+      names(result) == "transmitted_spectral_irradiance_w_m2_nm"
+    ] <- "reflected_spectral_exitance_w_m2_nm"
+    result$receiver_irradiance_f1_w_m2_nm <- result$reflected_spectral_exitance_w_m2_nm
+  }
+  result
 }
 
 #' Export D65-referenced filter properties
@@ -113,7 +129,7 @@ transmission_spectral_comparison_export <- function(snapshot) {
 #' @noRd
 transmission_d65_export <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  tibble::as_tibble(snapshot$d65_properties)
+  material_metric_export(snapshot$d65_properties, material_mode(snapshot))
 }
 
 #' Export active-source applied metrics
@@ -124,29 +140,39 @@ transmission_d65_export <- function(snapshot) {
 #' @noRd
 transmission_applied_metrics_export <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  tibble::as_tibble(snapshot$active_metrics)
+  material_metric_export(snapshot$active_metrics, material_mode(snapshot))
 }
 
-#' Export active-source retained light metrics
+#' Export active-source illuminance and irradiance metrics
 #'
 #' @param snapshot Applied transmission snapshot.
 #'
 #' @return Long-form retained metric records.
 #' @noRd
 transmission_light_metrics_export <- function(snapshot) {
-  metrics <- transmission_applied_metrics_export(snapshot)
-  metrics[metrics$comparison_type == "retained", , drop = FALSE]
+  material_metric_export(
+    material_result_metric_rows(snapshot, "light"),
+    material_mode(snapshot)
+  )
 }
 
-#' Export action factors and daylight efficacy ratios
+#' Export grouped alpha-opic EDI and daylight efficacy ratios
 #'
 #' @param snapshot Applied transmission snapshot.
 #'
-#' @return Long-form change metric records.
+#' @return Long-form EDI, DER and effective MDER records with group identifiers.
 #' @noRd
 transmission_balance_metrics_export <- function(snapshot) {
-  metrics <- transmission_applied_metrics_export(snapshot)
-  metrics[metrics$comparison_type == "change", , drop = FALSE]
+  metrics <- material_metric_export(
+    material_result_metric_rows(snapshot, "balance"),
+    material_mode(snapshot)
+  )
+  metrics$metric_group <- ifelse(
+    grepl("_edi$", metrics$metric_id),
+    "EDI",
+    "DER"
+  )
+  metrics
 }
 
 #' Machine identifiers for the configurable user export bundle
@@ -287,6 +313,26 @@ transmission_flatten_metadata <- function(value, prefix = "") {
 transmission_decisions_warnings_export <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
   decisions <- snapshot$metadata$normalization_decisions
+  for (tail in c("lower_tail", "upper_tail")) {
+    choice <- decisions[[tail]]
+    if (is.null(choice) || !choice %in% c("zero", "one", "carry")) next
+    key <- switch(
+      choice,
+      zero = "tail_opaque",
+      one = "tail_transparent",
+      carry = if (tail == "lower_tail") "tail_carry_first" else
+        "tail_carry_last"
+    )
+    for (locale in c("English", "Deutsch"))
+      decisions[[paste(
+        tail,
+        locale,
+        sep = "_"
+      )]] <- material_labeler(material_mode(snapshot))(
+        key,
+        language_direct = locale
+      )
+  }
   decision_rows <- if (is.null(decisions)) {
     tibble::tibble(kind = character(), item = character(), value = character())
   } else {
@@ -334,7 +380,7 @@ transmission_citations_licenses_export <- function(snapshot) {
     NULL
   }
   if (is.null(input_citation) || !nzchar(input_citation)) {
-    input_citation <- "User-supplied transmission spectrum"
+    input_citation <- "User-supplied material spectrum"
   }
   if (is.null(input_license) || !nzchar(input_license)) {
     input_license <- "Rights and reuse terms remain with the user or source"
@@ -345,7 +391,7 @@ transmission_citations_licenses_export <- function(snapshot) {
       "Spectran software",
       "CIE alpha-opic action spectra and efficacy constants",
       "CIE standard illuminant D65",
-      "Transmission input record"
+      "Material input record"
     ),
     citation = c(
       paste(
@@ -392,7 +438,7 @@ transmission_audit_readme <- function(snapshot, active_state, generated_at) {
     tz = "UTC"
   )
   c(
-    "SPECTRAN TRANSMISSION AUDIT ARCHIVE",
+    "SPECTRAN MATERIAL AUDIT ARCHIVE",
     "",
     "English",
     paste0("Generated: ", generated),
@@ -401,10 +447,14 @@ transmission_audit_readme <- function(snapshot, active_state, generated_at) {
     paste0("Active spectrum at download: ", active_state$name),
     paste0("Active history node: ", active_state$node_id),
     paste0("Active change type: ", active_state$change_type),
+    paste0("Interaction: ", material_mode(snapshot)),
+    material_assumption(material_mode(snapshot)),
+    "Node spectra include receiver rescaling; unscaled-comparison files preserve each native material result.",
+    "Cumulative metric tables show the material-only effect on branches without illuminance rescaling. Raw cumulative spectra also retain the actual receiver spectrum for audit. Only branch ancestors contribute.",
     "All scientific calculations use the 380 to 780 nm, 1 nm grid.",
     paste(
       "The archive preserves the input record, parsed and completed curves,",
-      "incident and transmitted spectra, metrics, history tree, decisions,",
+      "incident and resulting spectra, metrics, history tree, decisions,",
       "warnings, citations, licences, and checksums."
     ),
     paste(
@@ -420,10 +470,12 @@ transmission_audit_readme <- function(snapshot, active_state, generated_at) {
     paste0("Aktives Spektrum beim Download: ", active_state$name),
     paste0("Aktiver Verlaufsknoten: ", active_state$node_id),
     paste0("Art der Aktivierung: ", active_state$change_type),
+    material_text(paste0(material_mode(snapshot), "_model"), "Deutsch"),
+    material_text("cumulative_help", "Deutsch"),
     "Alle wissenschaftlichen Berechnungen verwenden 380 bis 780 nm in 1-nm-Schritten.",
     paste(
       "Das Archiv enth\u00e4lt den Eingabedatensatz, die eingelesene und",
-      "vervollst\u00e4ndigte Kurve, einfallende und transmittierte Spektren,"
+      "vervollst\u00e4ndigte Kurve, einfallende und resultierende Spektren,"
     ),
     paste(
       "Kennwerte, den Verlaufsbaum, Entscheidungen, Warnungen, Quellen,",
@@ -514,11 +566,11 @@ write_transmission_audit_zip <- function(
   if (!is.list(input_record)) {
     input_record <- list(
       record_type = "unspecified",
-      record_name = "transmission-input",
+      record_name = "material-input",
       media_type = "",
       raw_bytes = raw(),
       parsed_values = snapshot$metadata$parsed_values,
-      citation = "User-supplied transmission spectrum",
+      citation = "User-supplied material spectrum",
       license = "Rights and reuse terms remain with the user or source"
     )
   }
@@ -526,7 +578,7 @@ write_transmission_audit_zip <- function(
   if (is.raw(raw_bytes) && length(raw_bytes) > 0L) {
     original_name <- input_record$record_name
     if (is.null(original_name) || !nzchar(original_name)) {
-      original_name <- "transmission-upload.dat"
+      original_name <- "material-upload.dat"
     }
     original_name <- basename(original_name)
     original_name <- gsub("[^A-Za-z0-9._-]+", "-", original_name)
@@ -593,7 +645,7 @@ write_transmission_audit_zip <- function(
     file.path(audit_dir, "metrics", "active-metrics.csv")
   )
   write_transmission_csv(
-    snapshot$metrics,
+    material_metric_export(snapshot$metrics, material_mode(snapshot)),
     file.path(audit_dir, "metrics", "all-metrics.csv")
   )
   write_transmission_csv(
@@ -605,6 +657,64 @@ write_transmission_audit_zip <- function(
     file.path(audit_dir, "history", "node-spectra.csv")
   )
 
+  if (!is.null(history)) {
+    for (node_id in names(history$nodes)) {
+      cumulative <- calculate_material_cumulative(history, node_id)
+      write_transmission_csv(
+        material_cumulative_export(cumulative),
+        file.path(
+          audit_dir,
+          "history",
+          paste0(node_id, "-cumulative-metrics.csv")
+        )
+      )
+      write_transmission_csv(
+        cumulative$spectra,
+        file.path(
+          audit_dir,
+          "history",
+          paste0(node_id, "-cumulative-spectra.csv")
+        )
+      )
+      node <- history$nodes[[node_id]]
+      write_transmission_csv(
+        transmission_flatten_metadata(node$provenance),
+        file.path(
+          audit_dir,
+          "history",
+          paste0(node_id, "-promotion-metadata.csv")
+        )
+      )
+      if (!is.null(node$applied_snapshot)) {
+        write_transmission_csv(
+          transmission_completed_filter_export(node$applied_snapshot),
+          file.path(audit_dir, "history", paste0(node_id, "-material.csv"))
+        )
+        write_transmission_csv(
+          transmission_spectral_comparison_export(node$applied_snapshot),
+          file.path(
+            audit_dir,
+            "history",
+            paste0(node_id, "-unscaled-comparison.csv")
+          )
+        )
+        write_transmission_csv(
+          transmission_citations_licenses_export(node$applied_snapshot),
+          file.path(audit_dir, "history", paste0(node_id, "-sources.csv"))
+        )
+      }
+    }
+  }
+  if (material_mode(snapshot) == "reflection") {
+    file.rename(
+      file.path(audit_dir, "spectra", "transmitted-spectrum.csv"),
+      file.path(audit_dir, "spectra", "receiver-spectrum-f1.csv")
+    )
+    write_transmission_csv(
+      snapshot$native_output,
+      file.path(audit_dir, "spectra", "reflected-exitance.csv")
+    )
+  }
   metadata_without_record <- snapshot$metadata
   metadata_without_record$input_record <- NULL
   write_transmission_csv(
@@ -689,8 +799,10 @@ write_transmission_export_bundle <- function(
     stop("The `zip` package is required to create an export bundle.")
   }
   plot_table_metric <- match.arg(plot_table_metric)
-  contents <- intersect(unique(as.character(contents)),
-    transmission_export_content_ids())
+  contents <- intersect(
+    unique(as.character(contents)),
+    transmission_export_content_ids()
+  )
   if (length(contents) == 0L) {
     stop("Select at least one file for the export bundle.", call. = FALSE)
   }
@@ -719,7 +831,7 @@ write_transmission_export_bundle <- function(
   if ("filter_plot" %in% contents) {
     write_transmission_filter_plot(
       snapshot = snapshot,
-      file = path("transmittance-spectrum", "png"),
+      file = path(material_coefficient_filename(snapshot), "png"),
       width = plot_width,
       height = plot_height,
       font_size = font_size
@@ -742,7 +854,7 @@ write_transmission_export_bundle <- function(
   if ("d65_png" %in% contents) {
     write_transmission_gt_png(
       transmission_d65_gt(snapshot),
-      path("d65-properties-table", "png")
+      path("material-coefficients-table", "png")
     )
   }
   if ("light_png" %in% contents) {
@@ -771,8 +883,8 @@ write_transmission_export_bundle <- function(
   }
   if ("d65_csv" %in% contents) {
     write_transmission_csv(
-      transmission_d65_export(snapshot),
-      path("d65-properties", "csv")
+      material_coefficient_comparison(snapshot),
+      path("material-coefficients", "csv")
     )
   }
   if ("light_csv" %in% contents) {

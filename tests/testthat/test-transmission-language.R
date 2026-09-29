@@ -40,15 +40,16 @@ test_that("integrated tabs render English and German from the workbook", {
     default_source = "catalogue",
     layout = "tabs"
   ))
-  expect_match(english, "Transmission sections", fixed = TRUE)
+  expect_match(english, "Material sections", fixed = TRUE)
   expect_match(english, "Live normalization preview", fixed = TRUE)
   expect_match(english, "Results", fixed = TRUE)
-  expect_match(english, "Promotion and History", fixed = TRUE)
+  expect_match(english, ">Promotion<", fixed = TRUE)
+  expect_match(english, ">History<", fixed = TRUE)
   expect_match(english, ">Export<", fixed = TRUE)
   expect_match(english, "english-history-archive_section", fixed = TRUE)
   expect_identical(
     transmission_text("archive_heading"),
-    "Archived promoted results"
+    "Archived promoted result"
   )
   expect_identical(
     transmission_text("continue_details"),
@@ -102,19 +103,20 @@ test_that("integrated tabs render English and German from the workbook", {
     default_source = "catalogue",
     layout = "tabs"
   ))
-  expect_match(german, "Transmissionsbereiche", fixed = TRUE)
+  expect_match(german, "Materialbereiche", fixed = TRUE)
   expect_match(german, "Vorschaugrafik", fixed = TRUE)
   expect_match(german, "Ergebnisse", fixed = TRUE)
-  expect_match(german, "Übernahme und Verlauf", fixed = TRUE)
+  expect_match(german, ">Übernahme<", fixed = TRUE)
+  expect_match(german, ">Verlauf<", fixed = TRUE)
   expect_match(german, ">Export<", fixed = TRUE)
   expect_match(german, "deutsch-history-archive_section", fixed = TRUE)
   expect_identical(
     transmission_text("archive_heading"),
-    "Archivierte übernommene Ergebnisse"
+    "Archiviertes übernommenes Ergebnis"
   )
   expect_identical(
     transmission_text("balance_heading"),
-    "Wirkfaktoren und Tageslicht-Effizienzverhältnisse"
+    "Alpha-opische EDI und DER vor und nach der Materialwirkung"
   )
   expect_identical(
     transmission_text("metric_l_cone_opic_action_factor"),
@@ -203,7 +205,7 @@ test_that("readiness, metric labels, and Apply states follow German", {
       applied_html <- output[["apply-applied_outputs"]]$html
       expect_match(
         applied_html,
-        "Tabelle der D65-bezogenen Filtereigenschaften",
+        "Tabelle der Transmissionsgrade für gewähltes Spektrum und D65",
         fixed = TRUE
       )
       expect_false(grepl(

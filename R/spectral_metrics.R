@@ -708,15 +708,48 @@ calculate_active_transmission_metrics <- function(incident, filter) {
     Wellenlaenge = incident$Wellenlaenge,
     Bestrahlungsstaerke = incident$Bestrahlungsstaerke * filter$transmittance
   )
+  compare_spectrum_metrics(incident, transmitted, filter$transmittance)
+}
+
+#' Compare two irradiance scenarios on the same visible wavelength grid
+#'
+#' @param incident Reference spectrum.
+#' @param transmitted Result spectrum, which may include explicit rescaling.
+#' @param coefficient Optional spectral material coefficient for retained ratios.
+#' @return Spectra, metrics, and denominator diagnostics.
+#' @noRd
+compare_spectrum_metrics <- function(
+  incident,
+  transmitted,
+  coefficient = NULL
+) {
+  incident <- as_visible_spectrum(incident)
+  transmitted <- as_visible_spectrum(transmitted)
+  # Retained ratios are calculated from the two spectra, including at zero
+  # source wavelengths. Never divide spectra wavelength by wavelength.
+  retention <- function(weighting, label) {
+    if (!is.null(coefficient)) {
+      return(weighted_transmittance(
+        source = incident$Bestrahlungsstaerke,
+        transmission = coefficient,
+        weighting = weighting,
+        metric_label = label
+      ))
+    }
+    guarded_spectral_ratio(
+      sum(transmitted$Bestrahlungsstaerke * weighting),
+      sum(incident$Bestrahlungsstaerke * weighting),
+      metric_label = label,
+      denominator_label = "incident weighted irradiance"
+    )
+  }
   incident_metrics <- calculate_visible_spectrum_metrics(incident)
   transmitted_metrics <- calculate_visible_spectrum_metrics(transmitted)
   definitions <- spectral_response_definitions()
 
-  energy_retained <- weighted_transmittance(
-    source = incident$Bestrahlungsstaerke,
-    transmission = filter$transmittance,
-    weighting = rep(1, 401L),
-    metric_label = "Active-source radiant-energy retained proportion"
+  energy_retained <- retention(
+    rep(1, 401L),
+    "Active-source radiant-energy retained proportion"
   )
   rows <- list(active_retained_metric_row(
     metric_id = "total_irradiance",
@@ -730,13 +763,11 @@ calculate_active_transmission_metrics <- function(incident, filter) {
   ))
 
   photopic_index <- match("photopic", definitions$response_id)
-  photopic_retained <- weighted_transmittance(
-    source = incident$Bestrahlungsstaerke,
-    transmission = filter$transmittance,
+  photopic_retained <- retention(
     weighting = spectral_action_weighting(
       definitions$action_spectrum[[photopic_index]]
     ),
-    metric_label = "Active-source photopic retained proportion"
+    label = "Active-source photopic retained proportion"
   )
   rows[[length(rows) + 1L]] <- active_retained_metric_row(
     metric_id = "photopic_illuminance",
@@ -772,11 +803,9 @@ calculate_active_transmission_metrics <- function(incident, filter) {
       response_id,
       transmitted_metrics$responses$response_id
     )
-    retained <- weighted_transmittance(
-      source = incident$Bestrahlungsstaerke,
-      transmission = filter$transmittance,
+    retained <- retention(
       weighting = spectral_action_weighting(definition$action_spectrum[[1]]),
-      metric_label = paste0(
+      label = paste0(
         "Active-source ",
         tolower(definition$response_label[[1]]),
         " retained proportion"

@@ -519,6 +519,8 @@ transmission_metric_warning_ui <- function(presentation) {
 #' @param adaptive_title_spacing Whether a title of three or more measured
 #'   lines should reserve an additional gap before the semantic subtitle.
 #'   This is used by narrow archived plots only.
+#' @param axis_unit_linebreak Whether to place the irradiance unit on a separate
+#'   axis-title line. Exports use this to keep long labels within short panels.
 #'
 #' @return A ggplot or patchwork object.
 #' @noRd
@@ -535,9 +537,11 @@ transmission_spectral_comparison_plot <- function(
   title_wrap_width = 56L,
   title_word_wrap_width = NULL,
   plot_margin_right = 8,
-  adaptive_title_spacing = FALSE
+  adaptive_title_spacing = FALSE,
+  axis_unit_linebreak = FALSE
 ) {
   validate_transmission_applied_snapshot(snapshot)
+  transmission_text <- material_labeler(material_mode(snapshot))
   panel_layout <- match.arg(panel_layout)
   response_curves <- normalize_transmission_response_curves(response_curves)
   filter_name <- snapshot$metadata$filter_name
@@ -690,7 +694,16 @@ transmission_spectral_comparison_plot <- function(
       },
       tag = panel_tag,
       x = transmission_text("plot_wavelength"),
-      y = transmission_text("plot_spectral_irradiance")
+      y = if (isTRUE(axis_unit_linebreak)) {
+        sub(
+          " (",
+          "\n(",
+          transmission_text("plot_spectral_irradiance"),
+          fixed = TRUE
+        )
+      } else {
+        transmission_text("plot_spectral_irradiance")
+      }
     ) +
     transmission_plot_theme(font_size = font_size) +
     ggplot2::theme(
@@ -963,6 +976,7 @@ transmission_result_title_subtitle_gap <- function(title, adaptive = FALSE) {
 #' @noRd
 transmission_d65_display_table <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
+  transmission_text <- material_labeler(material_mode(snapshot))
   properties <- snapshot$d65_properties
   result <- data.frame(
     Property = transmission_metric_labels(
@@ -1010,11 +1024,8 @@ transmission_d65_display_table <- function(snapshot) {
 #' @noRd
 transmission_absolute_display_table <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  metrics <- snapshot$active_metrics[
-    snapshot$active_metrics$comparison_type == "retained",
-    ,
-    drop = FALSE
-  ]
+  transmission_text <- material_labeler(material_mode(snapshot))
+  metrics <- material_result_metric_rows(snapshot, "light")
   result <- data.frame(
     Metric = transmission_metric_labels(
       metrics$metric_id,
@@ -1065,7 +1076,7 @@ transmission_absolute_display_table <- function(snapshot) {
   result
 }
 
-#' Build the action-factor and DER display table
+#' Build the alpha-opic EDI and DER display table
 #'
 #' @param snapshot Immutable transmission snapshot.
 #'
@@ -1073,11 +1084,8 @@ transmission_absolute_display_table <- function(snapshot) {
 #' @noRd
 transmission_balance_display_table <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
-  metrics <- snapshot$active_metrics[
-    snapshot$active_metrics$comparison_type == "change",
-    ,
-    drop = FALSE
-  ]
+  transmission_text <- material_labeler(material_mode(snapshot))
+  metrics <- material_result_metric_rows(snapshot, "balance")
   result <- data.frame(
     Metric = transmission_metric_labels(
       metrics$metric_id,
@@ -1104,12 +1112,13 @@ transmission_balance_display_table <- function(snapshot) {
       },
       character(1)
     ),
+    Unit = metrics$unit,
     `Absolute change` = vapply(
       seq_len(nrow(metrics)),
       function(index) {
         format_transmission_metric(
           metrics$absolute_change[[index]],
-          metrics$comparison_defined[[index]]
+          metrics$defined[[index]]
         )
       },
       character(1)
@@ -1131,6 +1140,7 @@ transmission_balance_display_table <- function(snapshot) {
     transmission_text("table_symbol"),
     transmission_text("table_incident"),
     transmission_text("table_transmitted"),
+    transmission_text("table_unit"),
     transmission_text("table_absolute_change"),
     transmission_text("table_relative_change")
   )
@@ -1304,9 +1314,10 @@ transmissionApplyServer <- function(
       }
 
       result <- tryCatch(
-        calculate_transmission_result(
+        calculate_material_result(
           incident = source_validation()$spectrum,
-          filter = preparation()$completed
+          filter = preparation()$completed,
+          mode = material_mode(mode = metadata()$material_mode)
         ),
         error = function(error) error
       )
@@ -1382,6 +1393,9 @@ transmissionApplyServer <- function(
     })
 
     output$apply_controls <- shiny::renderUI({
+      transmission_text <- material_labeler(material_mode(
+        mode = metadata()$material_mode
+      ))
       current <- snapshot()
       if (
         !is.null(current) &&
@@ -1466,6 +1480,7 @@ transmissionApplyServer <- function(
 
     output$applied_outputs <- shiny::renderUI({
       current <- snapshot()
+      transmission_text <- material_labeler(material_mode(current))
       if (is.null(current)) {
         return(NULL)
       }
@@ -1492,6 +1507,10 @@ transmissionApplyServer <- function(
         } else {
           transmission_text("aria_applied_current")
         },
+        htmltools::tags$p(material_text(paste0(
+          material_mode(current),
+          "_model"
+        ))),
         if (isTRUE(snapshot_archived())) {
           htmltools::tags$div(
             class = "transmission-frozen-result-banner",
@@ -1534,6 +1553,8 @@ transmissionApplyServer <- function(
           )
         ),
         shiny::uiOutput(session$ns("plot_outputs")),
+        if (material_mode(current) == "reflection")
+          material_colour_preview_ui(current$filter),
         transmission_tabset_panel(
           id = session$ns("metric_table_tabs"),
           type = "tabs",

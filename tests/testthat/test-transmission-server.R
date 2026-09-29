@@ -376,13 +376,17 @@ test_that("production module UI exposes responsive and early-feedback hooks", {
   expect_match(rendered, "col-lg-5 transmission-form-column", fixed = TRUE)
   expect_match(rendered, "transmission-table-scroll", fixed = TRUE)
   expect_match(rendered, "overflow-x: auto", fixed = TRUE)
-  expect_match(rendered, "100% flat-transmittance CSV template", fixed = TRUE)
+  expect_match(rendered, "100% material-coefficient CSV template", fixed = TRUE)
   expect_match(rendered, "transmission-template-download", fixed = TRUE)
   expect_match(rendered, "@media (max-width: 479px)", fixed = TRUE)
   expect_match(rendered, "display: flex; width: 100%", fixed = TRUE)
   expect_match(rendered, "Point (example: 0.5)", fixed = TRUE)
   expect_match(rendered, "Receiving file", fixed = TRUE)
   expect_match(rendered, "File received", fixed = TRUE)
+  rendered <- paste(
+    rendered,
+    as.character(transmission_metadata_inputs_ui(shiny::NS("review")))
+  )
   expect_match(rendered, 'value="fraction" selected', fixed = TRUE)
   expect_match(rendered, 'value="total" selected', fixed = TRUE)
   expect_false(grepl("passive_ack", rendered, fixed = TRUE))
@@ -422,7 +426,7 @@ test_that("production module UI exposes responsive and early-feedback hooks", {
     rendered,
     fixed = TRUE
   )[[1]]
-  expect_length(tooltip_occurrences, length(tooltip_specs))
+  expect_length(tooltip_occurrences, length(tooltip_specs) + 1L)
 
   expect_match(rendered, 'for="review-filter_file"', fixed = TRUE)
   expect_match(rendered, 'for="review-filter_name"', fixed = TRUE)
@@ -473,7 +477,7 @@ test_that("production module UI exposes responsive and early-feedback hooks", {
   )
 
   readiness_position <- regexpr("review-readiness", rendered, fixed = TRUE)
-  form_position <- regexpr("Transmission spectrum", rendered, fixed = TRUE)
+  form_position <- regexpr("Material spectrum", rendered, fixed = TRUE)
   expect_lt(as.integer(readiness_position), as.integer(form_position))
 })
 
@@ -538,7 +542,7 @@ test_that("Apply freezes metrics and calculation edits make them stale", {
       expect_s3_class(snapshot, "transmission_applied_snapshot")
       expect_equal(snapshot$draft_revision, applied_revision)
       expect_equal(snapshot$incident_name, "CIE D65 at 250 lx")
-      expect_equal(nrow(snapshot$metrics), 28L)
+      expect_equal(nrow(snapshot$metrics), 29L)
       expect_equal(snapshot$d65_properties$transmitted_value, rep(0.5, 6L))
       expect_false(returned$applied_stale())
       expect_true(returned$can_promote())

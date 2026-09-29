@@ -2,7 +2,7 @@ library(dplyr)
 
 files <- list.files(path = "data-raw", pattern = "[.]R$", full.names = TRUE)
 
-files <- files[!stringr::str_detect(files, "internal_data")]
+files <- files[!stringr::str_detect(files, "internal_data|validate_")]
 
 purrr::map(files, source)
 
@@ -15,6 +15,9 @@ usethis::use_data(
   transmission_catalogue_curves,
   transmission_catalogue_provenance,
   transmission_catalogue_records,
+  tub_material_records,
+  tub_material_curves,
+  tub_material_provenance,
   internal = TRUE,
   overwrite = TRUE
 )
