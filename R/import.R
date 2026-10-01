@@ -34,7 +34,7 @@ importUI <- function(
 # Server ------------------------------------------------------------------
 
 importServer <-
-  function(id, Spectrum = NULL, transmission_history = NULL) {
+  function(id, Spectrum = NULL, transmission_history = NULL, workspace = FALSE) {
     if (!is.null(transmission_history)) {
       stopifnot(shiny::is.reactive(transmission_history))
     }
@@ -87,7 +87,7 @@ importServer <-
 
       import_verifierServer("verify_import", Spectrum = Spectrum)
       import_dataServer("fileimport", Spectrum = Spectrum)
-      import_examplesServer("examples", Spectrum = Spectrum)
+      import_examplesServer("examples", Spectrum = Spectrum, workspace = workspace)
       import_eigenServer("eigen", Spectrum = Spectrum)
 
       # The legacy file-import validator uses global notification IDs. Clear

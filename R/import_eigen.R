@@ -2,7 +2,8 @@
 
 import_eigenUI <-
   function(
-    id
+    id,
+    workspace = FALSE
   ) {
     ns <- shiny::NS(id)
 
@@ -81,7 +82,7 @@ import_eigenUI <-
           #Import Button
           shiny::actionButton(
             ns("uebernahme"),
-            lang$ui(91),
+            if (workspace) material_workspace_text("use_source") else lang$ui(91),
             class = "btn-lg",
             shiny::icon("play", lib = "glyphicon")
           ),

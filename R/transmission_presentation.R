@@ -667,7 +667,8 @@ transmission_history_row_button <- function(
 #'
 #' @return A `gt_tbl` with the active node highlighted.
 #' @noRd
-transmission_history_gt <- function(history, ns = NULL, selected_node = NULL) {
+transmission_history_gt <- function(history, ns = NULL, selected_node = NULL, workspace = FALSE) {
+  transmission_text <- if (isTRUE(workspace)) material_workspace_history_text else transmission_text
   validate_transmission_history(history)
   records <- transmission_history_table(history)
   labels <- transmission_history_node_label(history, records$node_id)

@@ -516,7 +516,8 @@ transmission_input_tab_ui <- function(
 #' @noRd
 transmission_construction_plot <- function(
   preparation = NULL,
-  mode = "transmission"
+  mode = "transmission",
+  preview_width = NULL
 ) {
   transmission_text <- material_labeler(mode)
   status_colours <- c(
@@ -548,6 +549,19 @@ transmission_construction_plot <- function(
   plot_labels <- transmission_status_label(names(status_colours))
   plot_labels <- gsub(" \\(", "\n(", plot_labels)
   names(plot_labels) <- names(status_colours)
+  legend_columns <- 2L
+  legend_title <- transmission_text("plot_construction_legend")
+  if (is.numeric(preview_width) && length(preview_width) == 1L &&
+      is.finite(preview_width) && preview_width > 0) {
+    legend_columns <- if (preview_width < 540) 1L else 2L
+    wrap_width <- max(16L, min(42L, floor((preview_width / legend_columns - 60) / 7.2)))
+    plot_labels <- vapply(plot_labels, function(label) {
+      parts <- strsplit(label, "\n", fixed = TRUE)[[1L]]
+      paste(stringr::str_wrap(parts, width = wrap_width), collapse = "\n")
+    }, character(1))
+    legend_title <- stringr::str_wrap(legend_title,
+      width = max(18L, floor((preview_width - 24) / 8)))
+  }
 
   frame <- tibble::tibble(
     wavelength_nm = c(380, 780),
@@ -728,8 +742,8 @@ transmission_construction_plot <- function(
   if (has_status_points) {
     plot <- plot +
       ggplot2::labs(
-        colour = transmission_text("plot_construction_legend"),
-        shape = transmission_text("plot_construction_legend")
+        colour = legend_title,
+        shape = legend_title
       ) +
       ggplot2::scale_colour_manual(
         values = status_colours,
@@ -747,13 +761,13 @@ transmission_construction_plot <- function(
       ) +
       ggplot2::guides(
         colour = ggplot2::guide_legend(
-          ncol = 2,
+          ncol = legend_columns,
           byrow = TRUE,
           title.position = "top",
           title.hjust = 0
         ),
         shape = ggplot2::guide_legend(
-          ncol = 2,
+          ncol = legend_columns,
           byrow = TRUE,
           title.position = "top",
           title.hjust = 0
@@ -790,10 +804,12 @@ transmission_construction_plot <- function(
 transmissionUI <- function(
   id,
   default_source = c("upload", "catalogue"),
-  layout = c("review", "tabs")
+  layout = c("review", "tabs", "workspace"),
+  source_ui = NULL
 ) {
   default_source <- match.arg(default_source)
   layout <- match.arg(layout)
+  if (identical(layout, "workspace")) return(material_workspace_ui(id, source_ui))
   ns <- shiny::NS(id)
   csv_labels <- transmission_csv_settings_labels()
 
@@ -1486,7 +1502,8 @@ transmissionServer <- function(
   fixture_data = NULL,
   incident_spectrum = NULL,
   incident_name = NULL,
-  active_state = NULL
+  active_state = NULL,
+  workspace = FALSE
 ) {
   if (!is.null(fixture_data)) {
     stopifnot(shiny::is.reactive(fixture_data))
@@ -1504,6 +1521,16 @@ transmissionServer <- function(
 
   shiny::moduleServer(id, function(input, output, session) {
     current_mode <- shiny::reactive(material_mode(mode = input$material_mode))
+    browser_selection <- shiny::reactiveVal(NULL)
+    catalogue_selection <- shiny::reactive({
+      if (!isTRUE(workspace)) return(input$catalogue_filter)
+      records <- catalogue_records()
+      selected <- browser_selection()
+      if (is.null(selected) || !selected %in% records$catalogue_id) {
+        selected <- filter_transmission_catalogue(records, collection = "tub67600")$catalogue_id[[1L]]
+      }
+      selected
+    })
     transmission_text <- function(...)
       material_labeler(shiny::isolate(current_mode()))(...)
     localize_diagnostics <- function(messages)
@@ -1586,8 +1613,8 @@ transmissionServer <- function(
       )
       shiny::updateTextInput(session, "measurement_angle", value = "")
       shiny::updateCheckboxInput(session, "scattering_ack", value = FALSE)
-      shiny::updateSelectInput(session, "lower_tail", selected = "")
-      shiny::updateSelectInput(session, "upper_tail", selected = "")
+      (if (isTRUE(workspace)) shiny::updateRadioButtons else shiny::updateSelectInput)(session, "lower_tail", selected = "")
+      (if (isTRUE(workspace)) shiny::updateRadioButtons else shiny::updateSelectInput)(session, "upper_tail", selected = "")
       shiny::updateCheckboxInput(session, "large_gap_ack", value = FALSE)
 
       curve_decision_key$lower_tail <- NULL
@@ -1638,11 +1665,19 @@ transmissionServer <- function(
           measurement_angle = current_decision("measurement_angle", "")
         ))
       }
-      transmission_metadata_inputs_ui(
+      controls <- transmission_metadata_inputs_ui(
         session$ns,
         mode = current_mode(),
-        defaults = defaults
+        defaults = defaults,
+        heading = !isTRUE(workspace)
       )
+      if (!isTRUE(workspace)) return(controls)
+      needs_details <- current_input_source() == "upload" ||
+        !identical(defaults$transmittance_type, "total") || identical(defaults$scattering, "yes")
+      htmltools::tags$details(class = "material-disclosure",
+        open = if (needs_details) NA else NULL,
+        htmltools::tags$summary(material_workspace_text(if (needs_details && current_input_source() != "upload")
+          "advanced_required" else "advanced")), controls)
     })
     shiny::outputOptions(output, "material_details", suspendWhenHidden = FALSE)
     shiny::observe({
@@ -1764,7 +1799,7 @@ transmissionServer <- function(
     })
 
     selected_catalogue <- shiny::reactive({
-      selected <- input$catalogue_filter
+      selected <- catalogue_selection()
       if (is.null(selected) || !nzchar(selected)) {
         return(NULL)
       }
@@ -1777,6 +1812,53 @@ transmissionServer <- function(
         error = function(error) NULL
       )
     })
+
+    if (isTRUE(workspace)) {
+      output$workspace_selection <- shiny::renderUI({
+        selected <- selected_catalogue()
+        shiny::req(selected)
+        record <- selected$record
+        complete <- record$wavelength_min_nm <= 380 && record$wavelength_max_nm >= 780
+        htmltools::div(class = "material-selection",
+          htmltools::p(class = "material-eyebrow",
+            transmission_catalogue_localized_value(record, "catalogue_label")),
+          htmltools::h4(transmission_catalogue_localized_value(record, "display_name")),
+          htmltools::p(material_browser_description(record)),
+          htmltools::span(class = if (complete) "material-badge" else "material-badge needs-choice",
+            material_workspace_text(if (complete) "complete" else "decisions")),
+          htmltools::span(class = "material-selected-range",
+            paste0(" \u00b7 ", record$wavelength_min_nm, "\u2013", record$wavelength_max_nm, " nm")))
+      })
+      output$workspace_library <- shiny::renderUI({
+        query <- input$material_search %||% ""
+        material_browser_ui(material_browser_records(current_mode(), query),
+          session$ns, catalogue_selection(), query)
+      })
+      shiny::observeEvent(input$browse_material, {
+        shiny::showModal(shiny::modalDialog(
+          title = material_workspace_text("library"),
+          htmltools::div(class = "material-library",
+            htmltools::p(material_workspace_text("library_intro")),
+            if (current_mode() == "reflection") htmltools::p(class = "material-library-colour-hint",
+              material_workspace_text("colour_hint")),
+            shiny::textInput(session$ns("material_search"), material_workspace_text("search"),
+              placeholder = material_workspace_text("search_hint"), width = "100%"),
+            shiny::uiOutput(session$ns("workspace_library"))),
+          size = "l", easyClose = TRUE,
+          footer = shiny::modalButton(material_workspace_text("close"))))
+      })
+      all_ids <- c(material_catalogue_records_data("transmission")$catalogue_id,
+        material_catalogue_records_data("reflection")$catalogue_id)
+      for (record_id in all_ids) local({
+        selected_id <- record_id
+        shiny::observeEvent(input[[paste0("pick_", make.names(selected_id))]], {
+          shiny::req(selected_id %in% catalogue_records()$catalogue_id)
+          browser_selection(selected_id)
+          shiny::updateRadioButtons(session, "input_source", selected = "catalogue")
+          shiny::removeModal()
+        })
+      })
+    }
 
     output$catalogue_info <- shiny::renderUI({
       selected <- selected_catalogue()
@@ -1968,7 +2050,7 @@ transmissionServer <- function(
     )
 
     shiny::observeEvent(
-      input$catalogue_filter,
+      catalogue_selection(),
       {
         if (!identical(shiny::isolate(current_input_source()), "catalogue")) {
           return(invisible(NULL))
@@ -2324,8 +2406,8 @@ transmissionServer <- function(
         active_curve_key(new_key)
 
         if (!is.null(previous_key) && !identical(previous_key, new_key)) {
-          shiny::updateSelectInput(session, "lower_tail", selected = "")
-          shiny::updateSelectInput(session, "upper_tail", selected = "")
+          (if (isTRUE(workspace)) shiny::updateRadioButtons else shiny::updateSelectInput)(session, "lower_tail", selected = "")
+          (if (isTRUE(workspace)) shiny::updateRadioButtons else shiny::updateSelectInput)(session, "upper_tail", selected = "")
           shiny::updateCheckboxInput(
             session,
             "large_gap_ack",
@@ -2556,7 +2638,7 @@ transmissionServer <- function(
       )
     })
 
-    output$type_acknowledgement <- shiny::renderUI({
+    type_acknowledgement_ui <- shiny::renderUI({
       current_type <- metadata()$transmittance_type
       if (!current_type %in% c("internal", "unknown")) {
         return(NULL)
@@ -2567,19 +2649,35 @@ transmissionServer <- function(
         value = isTRUE(current_decision("type_ack", FALSE))
       )
     })
+    output$type_acknowledgement <- if (isTRUE(workspace)) {
+      shiny::bindEvent(type_acknowledgement_ui, source_revision(), current_mode(),
+        current_decision("transmittance_type", "total"), ignoreNULL = FALSE)
+    } else type_acknowledgement_ui
 
-    output$scattering_acknowledgement <- shiny::renderUI({
+    scattering_acknowledgement_ui <- shiny::renderUI({
       if (!identical(metadata()$scattering, "yes")) {
         return(NULL)
       }
-      shiny::checkboxInput(
-        session$ns("scattering_ack"),
-        label = transmission_text("scattering_ack"),
-        value = isTRUE(current_decision("scattering_ack", FALSE))
+      geometry <- metadata()$measurement_geometry
+      htmltools::tagList(
+        if (isTRUE(workspace) && nzchar(geometry))
+          htmltools::div(class = "material-geometry-summary",
+            htmltools::h4(material_workspace_text("geometry_confirmation")),
+            htmltools::p(geometry)),
+        shiny::checkboxInput(
+          session$ns("scattering_ack"),
+          label = transmission_text("scattering_ack"),
+          value = isTRUE(current_decision("scattering_ack", FALSE))
+        )
       )
     })
+    output$scattering_acknowledgement <- if (isTRUE(workspace)) {
+      shiny::bindEvent(scattering_acknowledgement_ui, source_revision(), current_mode(),
+        current_decision("scattering", "no"), current_decision("measurement_geometry", ""),
+        ignoreNULL = FALSE)
+    } else scattering_acknowledgement_ui
 
-    output$coverage_controls <- shiny::renderUI({
+    coverage_controls_ui <- shiny::renderUI({
       transmission_text <- material_labeler(current_mode())
       current <- preparation()
       if (is.null(current) || is.null(current$normalized)) {
@@ -2594,19 +2692,19 @@ transmissionServer <- function(
         controls <- c(
           controls,
           list(
-            shiny::selectInput(
+            (if (isTRUE(workspace)) shiny::radioButtons else shiny::selectInput)(
               session$ns("lower_tail"),
-              label = transmission_text("tail_lower_label", affected),
+              label = if (isTRUE(workspace)) material_workspace_text("short_end", affected) else transmission_text("tail_lower_label", affected),
               choices = c(
-                stats::setNames("", transmission_text("tail_choose")),
-                stats::setNames("zero", transmission_text("tail_opaque")),
+                if (!isTRUE(workspace)) stats::setNames("", transmission_text("tail_choose")),
+                stats::setNames("zero", if (isTRUE(workspace)) material_workspace_text(paste0("zero_", current_mode())) else transmission_text("tail_opaque")),
                 stats::setNames(
                   "one",
-                  transmission_text("tail_transparent")
+                  if (isTRUE(workspace)) material_workspace_text(paste0("one_", current_mode())) else transmission_text("tail_transparent")
                 ),
                 stats::setNames(
                   "carry",
-                  transmission_text("tail_carry_first")
+                  if (isTRUE(workspace)) material_workspace_text("carry") else transmission_text("tail_carry_first")
                 )
               ),
               selected = current_curve_decision("lower_tail", "")
@@ -2625,19 +2723,19 @@ transmissionServer <- function(
         controls <- c(
           controls,
           list(
-            shiny::selectInput(
+            (if (isTRUE(workspace)) shiny::radioButtons else shiny::selectInput)(
               session$ns("upper_tail"),
-              label = transmission_text("tail_upper_label", affected),
+              label = if (isTRUE(workspace)) material_workspace_text("long_end", affected) else transmission_text("tail_upper_label", affected),
               choices = c(
-                stats::setNames("", transmission_text("tail_choose")),
-                stats::setNames("zero", transmission_text("tail_opaque")),
+                if (!isTRUE(workspace)) stats::setNames("", transmission_text("tail_choose")),
+                stats::setNames("zero", if (isTRUE(workspace)) material_workspace_text(paste0("zero_", current_mode())) else transmission_text("tail_opaque")),
                 stats::setNames(
                   "one",
-                  transmission_text("tail_transparent")
+                  if (isTRUE(workspace)) material_workspace_text(paste0("one_", current_mode())) else transmission_text("tail_transparent")
                 ),
                 stats::setNames(
                   "carry",
-                  transmission_text("tail_carry_last")
+                  if (isTRUE(workspace)) material_workspace_text("carry") else transmission_text("tail_carry_last")
                 )
               ),
               selected = current_curve_decision("upper_tail", "")
@@ -2686,6 +2784,7 @@ transmissionServer <- function(
       }
 
       if (length(controls) == 0L) {
+        if (isTRUE(workspace)) return(NULL)
         return(htmltools::tags$div(
           class = "transmission-normalization-complete",
           role = "status",
@@ -2700,11 +2799,36 @@ transmissionServer <- function(
           )
         ))
       }
+      if (isTRUE(workspace)) {
+        missing_ends <- isTRUE(diagnostic$lower_missing) || isTRUE(diagnostic$upper_missing)
+        internal_gaps <- !is.null(diagnostic$large_gaps) && nrow(diagnostic$large_gaps) > 0L
+        return(htmltools::div(class = "material-coverage-needed",
+          htmltools::h4(material_workspace_text(if (missing_ends) "missing" else "gap_heading")),
+          if (missing_ends) htmltools::p(material_workspace_text("missing_help")),
+          if (internal_gaps) htmltools::p(material_workspace_text("gap_help")),
+          do.call(htmltools::tagList, controls)))
+      }
       do.call(htmltools::tagList, controls)
     })
+    # Completion choices update the preview, not their own controls. Rebuilding
+    # a focused radio group would lose the user's place in keyboard navigation.
+    output$coverage_controls <- if (isTRUE(workspace)) shiny::bindEvent(
+      coverage_controls_ui, curve_key(), source_revision(), current_mode(),
+      current_decision("scale", "fraction"), ignoreNULL = FALSE
+    ) else coverage_controls_ui
 
     output$readiness <- shiny::renderUI({
       current <- diagnostics()
+      if (isTRUE(workspace)) return(htmltools::div(
+        class = paste("transmission-readiness", if (current$ready) "is-ready" else "not-ready"),
+        role = "status", `aria-live` = "polite",
+        htmltools::strong(shiny::icon(if (current$ready) "check-circle" else "circle-info"),
+          material_workspace_text(if (current$ready) "ready" else "needs_input")),
+        if (length(current$errors)) htmltools::tags$ul(lapply(current$errors, htmltools::tags$li)),
+        if (length(metadata_requirements())) htmltools::tags$ul(lapply(metadata_requirements(), htmltools::tags$li)),
+        if (length(current$warnings)) htmltools::tags$details(class = "material-disclosure",
+          htmltools::tags$summary(transmission_text("readiness_notes", length(current$warnings))),
+          htmltools::tags$ul(lapply(current$warnings, htmltools::tags$li)))))
       action_items <- list()
       note_items <- list()
 
@@ -2820,7 +2944,8 @@ transmissionServer <- function(
         htmltools::tagList(
           shiny::plotOutput(
             session$ns(preview_id("construction_plot")),
-            height = "340px"
+            height = if (isTRUE(workspace) && !is.null(current$completed) &&
+                any(grepl("tail|gap", current$completed$status))) "480px" else "340px"
           ),
           if (current_mode() == "reflection")
             material_colour_preview_ui(
@@ -2880,9 +3005,11 @@ transmissionServer <- function(
       output[[preview_id("construction_plot")]] <- shiny::renderPlot(
         {
           current <- preparation()
-          transmission_construction_plot(current, current_mode())
+          width_key <- paste0("output_", session$ns(preview_id("construction_plot")), "_width")
+          transmission_construction_plot(current, current_mode(),
+            preview_width = if (isTRUE(workspace)) session$clientData[[width_key]] else NULL)
         },
-        alt = transmission_text("alt_construction_plot")
+        alt = shiny::reactive(material_labeler(current_mode())("alt_construction_plot"))
       )
 
       output[[preview_id("input_preview_caption")]] <- shiny::renderUI({
@@ -3017,7 +3144,8 @@ transmissionServer <- function(
       ready = shiny::reactive(isTRUE(diagnostics()$ready)),
       incident_spectrum = incident_spectrum,
       incident_name = incident_name,
-      draft_state = draft_state
+      draft_state = draft_state,
+      workspace = workspace
     )
 
     history_module <- transmissionHistoryServer(
@@ -3030,7 +3158,8 @@ transmissionServer <- function(
       mark_snapshot_archived = applied$mark_snapshot_archived,
       show_transmittance_panel = applied$show_transmittance_panel,
       show_incident_fill = applied$show_incident_fill,
-      response_curves = applied$response_curves
+      response_curves = applied$response_curves,
+      workspace = workspace
     )
 
     missing_groups <- shiny::reactive({
@@ -3043,6 +3172,9 @@ transmissionServer <- function(
     })
 
     go_to_section <- function(section) {
+      if (isTRUE(workspace) && section %in% c("measurement", "normalization")) section <- "spectrum"
+      if (isTRUE(workspace)) shiny::updateRadioButtons(session, "section_nav",
+        selected = if (section == "promotion") "results" else section)
       shiny::updateTabsetPanel(
         session,
         "section",
@@ -3053,6 +3185,32 @@ transmissionServer <- function(
         section
       )
       invisible(NULL)
+    }
+
+    if (isTRUE(workspace)) {
+      shiny::observeEvent(input$section_nav, {
+        if (input$section_nav %in% c("spectrum", "results", "history", "export") &&
+            !identical(input$section_nav, input$section)) go_to_section(input$section_nav)
+      }, ignoreInit = TRUE)
+      shiny::observe({
+        shinyjs::toggleState("spectrum_forward", isTRUE(diagnostics()$ready))
+      })
+      output$workspace_result_context <- shiny::renderUI(material_workspace_result_summary(applied$snapshot(), session$ns))
+      output$workspace_result_actions <- shiny::renderUI({
+        shiny::req(applied$snapshot())
+        htmltools::div(class = "material-result-actions",
+          if (any(applied$snapshot()$transmitted_spectrum$Bestrahlungsstaerke < 0))
+            htmltools::p(class = "material-continuation-note", role = "status",
+              htmltools::strong(material_workspace_text("continuation_unavailable")), " ",
+              material_workspace_text("negative_source")),
+          shiny::actionButton(session$ns("results_back"), material_workspace_text("edit"),
+            icon = shiny::icon("pen")),
+          shiny::actionButton(session$ns("workspace_download"), material_workspace_text("downloads"),
+            icon = shiny::icon("download")),
+          if (isTRUE(applied$can_promote())) shiny::actionButton(session$ns("results_forward"),
+            material_workspace_text("next"), icon = shiny::icon("plus"), class = "btn-primary"))
+      })
+      shiny::observeEvent(input$workspace_download, go_to_section("export"))
     }
 
     session$onFlushed(
@@ -3540,6 +3698,7 @@ transmissionServer <- function(
       {
         current <- active_state()
         reset_section <- transmission_tabs_reset_section(current)
+        if (isTRUE(workspace) && !is.null(current) && current$change_type %in% c("promotion", "restore")) reset_section <- "spectrum"
         if (!is.null(reset_section)) {
           go_to_section(reset_section)
         }

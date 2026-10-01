@@ -86,11 +86,11 @@ Spectran <- function(
           #add the optional transmission-filter tab after export
           shinydashboard::tabItem(
             tabName = "transmission",
-            shiny::uiOutput("material_source_notice"),
             transmissionUI(
               "transmission",
               default_source = "catalogue",
-              layout = "tabs"
+              layout = "workspace",
+              source_ui = material_source_ui("material_source")
             )
           ),
           #add a tab for the validity
@@ -156,6 +156,7 @@ Spectran <- function(
         if (is.null(transmission_module())) {
           transmission_module(transmissionServer(
             "transmission",
+            workspace = TRUE,
             incident_spectrum = shiny::reactive(Spectrum$Spectrum),
             incident_name = shiny::reactive(Spectrum$Name),
             active_state = shiny::reactive(
@@ -167,20 +168,22 @@ Spectran <- function(
     }) |>
       shiny::bindEvent(input$inTabset)
 
-    output$material_source_notice <- shiny::renderUI({
-      if (!isTRUE(Spectrum$automatic_source)) return(NULL)
-      htmltools::tags$div(
-        class = "alert alert-info",
-        role = "status",
-        material_text("default_daylight_notice")
-      )
-    })
-
     #Import. Source changes are guarded when promoted history exists.
     Spectrum <- importServer(
       "import",
       Spectrum = Spectrum,
       transmission_history = Transmission$history
+    )
+
+    material_source_server(
+      "material_source",
+      current = shiny::reactive(spectran_transmission_active_state(Spectrum)),
+      history = Transmission$history,
+      automatic = shiny::reactive(Spectrum$automatic_source),
+      on_import = function(request) activate_spectran_spectrum(
+        Spectrum, request$spectrum, request$name, request$origin,
+        "import", "node-1", request$provenance, destination = request$destination
+      )
     )
 
     last_transmission_activation <- shiny::reactiveVal(0L)
@@ -197,14 +200,7 @@ Spectran <- function(
     }
     shiny::observeEvent(
       Transmission$promotion_event(),
-      {
-        activate_transmission_event(Transmission$promotion_event())
-        shinydashboard::updateTabItems(
-          session,
-          inputId = "inTabset",
-          selected = "analysis"
-        )
-      },
+      activate_transmission_event(Transmission$promotion_event()),
       ignoreInit = TRUE,
       ignoreNULL = TRUE
     )

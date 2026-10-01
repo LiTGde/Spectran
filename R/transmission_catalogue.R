@@ -143,6 +143,10 @@ filter_transmission_catalogue <- function(
     search_fields <- intersect(
       c(
         "display_name",
+        "display_name_en",
+        "display_name_de",
+        "catalogue_label_en",
+        "catalogue_label_de",
         "manufacturer",
         "product_name",
         "category_en",

@@ -6,16 +6,19 @@
 #'
 #' @return Shiny UI tags.
 #' @noRd
-transmissionHistoryControlsUI <- function(id, compact = FALSE) {
+transmissionHistoryControlsUI <- function(id, compact = FALSE, workspace = FALSE) {
   ns <- shiny::NS(id)
   promotion_controls <- htmltools::tagList(
     shiny::textInput(
       ns("promotion_name"),
-      label = transmission_text("promotion_name"),
+      label = if (isTRUE(workspace)) material_workspace_text("next_source_name") else transmission_text("promotion_name"),
       value = "",
       placeholder = transmission_text("promotion_placeholder"),
       updateOn = "blur"
     ),
+    if (isTRUE(workspace)) shiny::checkboxInput(ns("rescale"), material_workspace_text("rescale"), FALSE),
+    shiny::conditionalPanel(
+      condition = if (isTRUE(workspace)) sprintf("input['%s'] === true", ns("rescale")) else "true",
     htmltools::tags$div(
       class = "transmission-field-label",
       htmltools::tags$label(
@@ -34,11 +37,11 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE) {
       label = NULL,
       value = NA_real_,
       min = 0
-    ),
+    )),
     shiny::uiOutput(ns("promotion_scenario")),
     shiny::actionButton(
       ns("promote"),
-      label = transmission_text("promote_button"),
+      label = if (isTRUE(workspace)) material_workspace_text("use_output") else transmission_text("promote_button"),
       icon = shiny::icon("level-up"),
       class = "btn-primary"
     )
@@ -61,7 +64,7 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE) {
   htmltools::tags$div(
     class = "transmission-history-controls",
     `aria-labelledby` = ns("heading"),
-    htmltools::h3(id = ns("heading"), transmission_text("promote_heading")),
+    htmltools::h3(id = ns("heading"), if (isTRUE(workspace)) material_workspace_text("next") else transmission_text("promote_heading")),
     htmltools::p(
       transmission_text("promote_intro")
     ),
@@ -76,12 +79,14 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE) {
 #'
 #' @return Shiny UI tags.
 #' @noRd
-transmissionHistoryDetailsUI <- function(id) {
+transmissionHistoryDetailsUI <- function(id, workspace = FALSE) {
   ns <- shiny::NS(id)
+  transmission_text <- if (isTRUE(workspace)) material_workspace_history_text else transmission_text
   htmltools::tags$div(
     class = "transmission-history-details",
     htmltools::h4(transmission_text("history_tree")),
-    htmltools::p(material_text("history_actions_help")),
+    htmltools::p(if (isTRUE(workspace)) material_workspace_text("history_help") else
+      material_text("history_actions_help")),
     shiny::uiOutput(ns("history_status")),
     htmltools::tags$div(
       class = "transmission-gt-scroll",
@@ -90,8 +95,10 @@ transmissionHistoryDetailsUI <- function(id) {
       transmission_gt_output(ns("history_table"))
     ),
     shiny::uiOutput(ns("selected_node")),
-    htmltools::h4(material_text("cumulative")),
-    htmltools::p(material_text("cumulative_help")),
+    htmltools::h4(if (isTRUE(workspace)) material_workspace_text("history_combined") else
+      material_text("cumulative")),
+    htmltools::p(if (isTRUE(workspace)) material_workspace_text("history_combined_help") else
+      material_text("cumulative_help")),
     shiny::uiOutput(ns("cumulative_summary")),
     shiny::uiOutput(ns("archive_section"))
   )
@@ -215,8 +222,10 @@ transmissionHistoryServer <- function(
   mark_snapshot_archived,
   show_transmittance_panel,
   show_incident_fill,
-  response_curves
+  response_curves,
+  workspace = FALSE
 ) {
+  transmission_text <- if (isTRUE(workspace)) material_workspace_history_text else transmission_text
   reactive_arguments <- list(
     applied_snapshot = applied_snapshot,
     can_promote = can_promote,
@@ -325,7 +334,10 @@ transmissionHistoryServer <- function(
     output$promotion_scenario <- shiny::renderUI({
       current <- applied_snapshot()
       if (is.null(current)) return(NULL)
-      htmltools::tags$p(material_text(paste0(material_mode(current), "_model")))
+      htmltools::tagList(
+        if (isTRUE(workspace)) htmltools::p(class = "material-promotion-default",
+          material_workspace_text("preserve_lux", material_workspace_metric(material_photopic_lux(current$transmitted_spectrum)))),
+        htmltools::tags$p(material_text(paste0(material_mode(current), "_model"))))
     })
     cumulative <- shiny::reactive({
       current <- history()
@@ -357,7 +369,8 @@ transmissionHistoryServer <- function(
         return(htmltools::tags$p(
           class = "transmission-preview-note",
           role = "status",
-          material_text("cumulative_rescaled")
+          if (isTRUE(workspace)) material_workspace_text("history_adjusted") else
+            material_text("cumulative_rescaled")
         ))
       }
       htmltools::tagList(
@@ -406,6 +419,7 @@ transmissionHistoryServer <- function(
           "promotion_lux",
           value = material_photopic_lux(current$transmitted_spectrum)
         )
+        if (isTRUE(workspace)) shiny::updateCheckboxInput(session, "rescale", value = FALSE)
         filter_name <- current$metadata$filter_name
         if (is.null(filter_name) || !nzchar(trimws(filter_name))) {
           filter_name <- transmission_text("transmission_filter")
@@ -413,7 +427,7 @@ transmissionHistoryServer <- function(
         shiny::updateTextInput(
           session,
           "promotion_name",
-          value = paste0(
+          value = if (isTRUE(workspace)) material_workspace_text("after_material", trimws(filter_name)) else paste0(
             current$incident_name,
             " \u00d7 ",
             trimws(filter_name)
@@ -517,7 +531,7 @@ transmissionHistoryServer <- function(
           history(),
           applied_snapshot(),
           trimws(name),
-          target_lux = input$promotion_lux
+          target_lux = if (isTRUE(workspace) && !isTRUE(input$rescale)) NULL else input$promotion_lux
         ),
         error = function(error) error
       )
@@ -668,7 +682,10 @@ transmissionHistoryServer <- function(
         current$message
       )
     })
-    output$status <- shiny::renderUI(status_ui())
+    output$status <- shiny::renderUI({
+      if (isTRUE(workspace) && identical(status()$state, "current")) return(NULL)
+      status_ui()
+    })
     output$history_status <- shiny::renderUI(status_ui())
 
     output$history_table <- shiny::renderUI({
@@ -677,7 +694,7 @@ transmissionHistoryServer <- function(
       transmission_gt_html(transmission_history_gt(
         current_history,
         ns = session$ns,
-        selected_node = archive_node_id()
+        selected_node = archive_node_id(), workspace = workspace
       ))
     })
 
@@ -722,7 +739,8 @@ transmissionHistoryServer <- function(
           transmission_text("archive_heading")
         ),
         if (is.null(current)) {
-          htmltools::p(class = "text-muted", material_text("archive_source"))
+          htmltools::p(class = "text-muted", if (isTRUE(workspace))
+            material_workspace_text("history_source_help") else material_text("archive_source"))
         } else {
           htmltools::tagList(
             htmltools::p(transmission_text("archive_intro")),
@@ -746,7 +764,8 @@ transmissionHistoryServer <- function(
           "transmission-applied-results transmission-analysis-package",
           "transmission-archived-results"
         ),
-        `aria-label` = transmission_text("aria_archived_results"),
+        `aria-label` = if (isTRUE(workspace)) material_workspace_text("history_saved") else
+          transmission_text("aria_archived_results"),
         shiny::uiOutput(session$ns("archived_metric_warnings")),
         shiny::uiOutput(session$ns("archived_plot_outputs")),
         if (material_mode(current) == "reflection")
@@ -1011,7 +1030,9 @@ transmissionHistoryServer <- function(
       if (isTRUE(can_download_current())) {
         choices <- c(
           choices,
-          stats::setNames("current", transmission_text("export_current"))
+          stats::setNames("current", if (isTRUE(workspace))
+            material_workspace_text("current_result", applied_snapshot()$metadata$filter_name) else
+            transmission_text("export_current"))
         )
       }
       nodes <- archived_nodes()
@@ -1255,16 +1276,16 @@ transmissionHistoryServer <- function(
       if (is.null(selected) || !selected %in% unname(choices)) {
         selected <- unname(choices)[[1L]]
       }
-      htmltools::tagList(
+      panels <- htmltools::tagList(
         shiny::selectInput(
           session$ns("export_result"),
           label = transmission_text("export_result"),
           choices = choices,
           selected = selected
         ),
-        htmltools::tags$section(
+        (if (isTRUE(workspace)) htmltools::tags$details else htmltools::tags$section)(
           class = "transmission-export-settings",
-          htmltools::h4(transmission_text("export_plot_settings")),
+          (if (isTRUE(workspace)) htmltools::tags$summary else htmltools::h4)(transmission_text("export_plot_settings")),
           htmltools::p(transmission_text("export_plot_settings_intro")),
           htmltools::tags$div(
             class = "transmission-export-setting-grid",
@@ -1328,9 +1349,9 @@ transmissionHistoryServer <- function(
             )
           )
         ),
-        htmltools::tags$section(
+        (if (isTRUE(workspace)) htmltools::tags$details else htmltools::tags$section)(
           class = "transmission-export-bundle",
-          htmltools::h4(transmission_text("export_bundle_heading")),
+          (if (isTRUE(workspace)) htmltools::tags$summary else htmltools::h4)(transmission_text("export_bundle_heading")),
           htmltools::p(transmission_text("export_bundle_intro")),
           shiny::checkboxGroupInput(
             session$ns("export_bundle_contents"),
@@ -1343,16 +1364,17 @@ transmissionHistoryServer <- function(
           shiny::uiOutput(session$ns("export_bundle_build_status")),
           shiny::uiOutput(session$ns("export_bundle_control"))
         ),
-        htmltools::tags$details(
+        (if (isTRUE(workspace)) htmltools::tags$div else htmltools::tags$details)(
           class = "transmission-export-quick",
-          htmltools::tags$summary(
+          (if (isTRUE(workspace)) htmltools::h4 else htmltools::tags$summary)(
             transmission_text("export_quick_heading")
           ),
           htmltools::tags$div(
             class = "transmission-export-groups",
-            htmltools::tags$section(
+            (if (isTRUE(workspace)) htmltools::tags$details else htmltools::tags$section)(
               class = "transmission-export-group",
-              htmltools::h4(transmission_text("export_figures")),
+              open = if (isTRUE(workspace)) NA else NULL,
+              (if (isTRUE(workspace)) htmltools::tags$summary else htmltools::h4)(transmission_text("export_figures")),
               htmltools::tags$div(
                 class = "transmission-download-grid",
                 transmission_download_control(
@@ -1378,9 +1400,9 @@ transmissionHistoryServer <- function(
                 )
               )
             ),
-            htmltools::tags$section(
+            (if (isTRUE(workspace)) htmltools::tags$details else htmltools::tags$section)(
               class = "transmission-export-group",
-              htmltools::h4(transmission_text("export_tables")),
+              (if (isTRUE(workspace)) htmltools::tags$summary else htmltools::h4)(transmission_text("export_tables")),
               htmltools::tags$div(
                 class = "transmission-download-grid",
                 transmission_download_control(
@@ -1424,9 +1446,9 @@ transmissionHistoryServer <- function(
                 )
               )
             ),
-            htmltools::tags$section(
+            (if (isTRUE(workspace)) htmltools::tags$details else htmltools::tags$section)(
               class = "transmission-export-group",
-              htmltools::h4(transmission_text("export_data")),
+              (if (isTRUE(workspace)) htmltools::tags$summary else htmltools::h4)(transmission_text("export_data")),
               htmltools::tags$div(
                 class = "transmission-download-grid",
                 transmission_download_control(
@@ -1459,6 +1481,11 @@ transmissionHistoryServer <- function(
           )
         )
       )
+      if (isTRUE(workspace)) {
+        return(htmltools::div(class = "material-export-workspace",
+          panels[[1L]], panels[[4L]], panels[[2L]], panels[[3L]]))
+      }
+      panels
     })
 
     download_filename <- function(suffix, extension = "csv") {

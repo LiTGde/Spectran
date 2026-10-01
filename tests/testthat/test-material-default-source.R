@@ -94,7 +94,7 @@ test_that("the full app opens materials directly and replaces automatic D65 only
           tolerance = 1e-12
         )
         expect_true(Spectrum$automatic_source)
-        expect_match(output$material_source_notice$html, "100 lx", fixed = TRUE)
+        expect_match(output[["material_source-summary"]]$html, "100 lx", fixed = TRUE)
         expect_identical(
           Transmission$history()$nodes[["node-1"]]$name,
           material_text("default_daylight_name")
@@ -153,7 +153,8 @@ test_that("the full app opens materials directly and replaces automatic D65 only
         session$setInputs(`import-history_reset-confirm_import` = 1L)
         session$flushReact()
         expect_length(Transmission$history()$nodes, 1L)
-        expect_null(output$material_source_notice)
+        expect_match(output[["material_source-summary"]]$html, "Explicit", fixed = TRUE)
+        expect_false(grepl("Startbeispiel", output[["material_source-summary"]]$html, fixed = TRUE))
         session$setInputs(inTabset = "analysis")
         session$setInputs(inTabset = "transmission")
         expect_equal(Spectrum$Spectrum, explicit)

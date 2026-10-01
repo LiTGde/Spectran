@@ -86,7 +86,8 @@ import_examples_boxServer <-
     examplespectra_descriptor = NULL,
     illu_eigen,
     down_import,
-    daylight_CCT = NULL
+    daylight_CCT = NULL,
+    workspace = FALSE
   ) {
     stopifnot(!(examplespectra_descriptor %>% shiny::is.reactive()))
     stopifnot(!(examplespectra %>% shiny::is.reactive()))
@@ -118,7 +119,7 @@ import_examples_boxServer <-
                 paste0(
                   ns(filling[[2]])
                 ),
-                names(filling[[2]]),
+                if (workspace) rep(material_workspace_text("use_source"), length(filling[[2]])) else names(filling[[2]]),
                 class = "butt"
               ),
               func
@@ -128,13 +129,13 @@ import_examples_boxServer <-
             htmltools::tagList(
               shinyWidgets::pickerInput(
                 inputId = ns("choose_from_many"),
-                label = lang$ui(170),
+                label = if (workspace) material_workspace_text("choose_spectrum") else lang$ui(170),
                 choices = filling[[2]],
                 selected = shiny::isolate(input$choose_from_many)
               ),
               func(
                 ns("save_from_many"),
-                label = inverse_lookup(filling[[2]])[input$choose_from_many],
+                label = if (workspace) material_workspace_text("use_source") else inverse_lookup(filling[[2]])[input$choose_from_many],
                 class = "butt"
               )
             )

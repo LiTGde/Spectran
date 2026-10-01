@@ -1222,7 +1222,8 @@ transmissionApplyServer <- function(
   ready,
   incident_spectrum,
   incident_name,
-  draft_state
+  draft_state,
+  workspace = FALSE
 ) {
   reactive_arguments <- list(
     preparation = preparation,
@@ -1374,7 +1375,8 @@ transmissionApplyServer <- function(
       !is.null(snapshot()) &&
         !isTRUE(snapshot_archived()) &&
         !isTRUE(stale()) &&
-        isTRUE(ready())
+        isTRUE(ready()) &&
+        (!isTRUE(workspace) || !any(snapshot()$transmitted_spectrum$Bestrahlungsstaerke < 0))
     })
     can_download <- shiny::reactive({
       !is.null(snapshot()) &&
@@ -1397,6 +1399,7 @@ transmissionApplyServer <- function(
         mode = metadata()$material_mode
       ))
       current <- snapshot()
+      if (isTRUE(workspace) && is.null(current)) return(NULL)
       if (
         !is.null(current) &&
           !isTRUE(stale()) &&
@@ -1524,9 +1527,10 @@ transmissionApplyServer <- function(
           )
         },
         shiny::uiOutput(session$ns("metric_warnings")),
-        htmltools::tags$div(
+        (if (isTRUE(workspace)) htmltools::tags$details else htmltools::tags$div)(
           class = "transmission-result-options",
-          htmltools::h4(transmission_text("plot_options")),
+          if (isTRUE(workspace)) htmltools::tags$summary(material_workspace_text("options")) else
+            htmltools::h4(transmission_text("plot_options")),
           htmltools::tags$div(
             class = "transmission-spectrum-options",
             shiny::checkboxGroupInput(
