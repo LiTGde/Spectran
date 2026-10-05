@@ -1,0 +1,99 @@
+Spectran M4-08 targeted visual and interaction review
+Review date: 2026-10-05 (Europe/Berlin)
+
+Candidate: TRX-M4-08-46c7371dbeac
+German: http://127.0.0.1:7537/
+English: http://127.0.0.1:7538/
+Decision: one focused lightbox revision required before final design preview.
+Bounded visual judgment: UI 9.2/10; UX 8.8/10 pending M4-UX-R04.
+The requested threshold of at least 9/10 for both is not yet confirmed.
+
+This review supplements M4-05-review.txt and M4-06-addendum.txt in this directory.
+All earlier accepted behavior is protected. The superseded M4-07 check was
+stopped at the programmer's request; its About change was checked here instead.
+
+Scope and method
+Visible interface, actual mouse/keyboard interaction, native accessibility state
+and screenshots only. No source, hidden state, application logs or scientific
+calculations were inspected. No application files were edited. The four requested
+changes were checked without replaying the earlier material, explanations,
+numerical, export or video matrix.
+
+Coverage
+- DE and EN desktop: 1440 x 1000.
+- DE phone: 320 x 844; About, hero button and light-path image.
+- EN phone: 390 x 844; hero, material-selection image and table-export image.
+- EN intermediate: 768 x 1000; hero spacing and nonvisual-analysis lightbox.
+- Nine distinct existing images opened across all four galleries: DE Import UI,
+  Auswertung Radiometrie, Ergebnisvergleich, Export UI and Lichtpfad; EN Example
+  Spectra, Nonvisual Analysis, Material selection and Table Export.
+- Both languages exposed all twelve gallery previews as image-viewer buttons.
+
+Accepted changes and protected passes
+1. The additional-module About section reads as normal page content, with an
+   ordinary bold paragraph title and no separate white card, border or yellow
+   accent. DE/EN desktop and DE 320 px are readable. Karin Bieske, Kai Broszio
+   and Nils Haferkemper remain readable, with the core committee separate.
+2. The filter / reflection icon pair sits to the left of the material-button
+   label. It remains coherent when the German label wraps at 320 px. The tested
+   German button opens the expected Transmission & Reflexion workspace.
+3. The shortcut-navigation row between hero and cards is absent. The remaining
+   vertical spacing is ordinary, with no conspicuous hole at desktop, tablet or
+   phone sizes.
+4. Lightboxes open in the existing tab. Tested images and titles switch correctly.
+   Desktop and tablet previews fit visibly inside the viewport. The cross and
+   footer Close/Schliessen controls remain reachable, including at 320/390 px.
+   No additional browser tab was created in either language's tested sequence.
+5. Mouse opening, Enter and Space activation work. Escape, cross, footer close
+   and desktop background dismissal work and return keyboard focus to the
+   corresponding thumbnail. Forward/backward Tab cycles remain inside the
+   dialog in desktop and phone samples. The prior Export UI caption fix remains.
+
+M4-UX-R04: Phone lightbox does not provide meaningful image enlargement
+State: open; medium-priority acceptance revision.
+
+Reproduction:
+- DE 320 x 844, Introduction, open Lichtpfad through its 'vergroessern' button.
+- EN 390 x 844, open Material selection or Table Export through 'enlarge image'.
+
+Observed:
+The lightbox only fits the entire screenshot into the phone width. Its displayed
+image is approximately the same size as the already full-column thumbnail, and
+the 320-px light-path sample is slightly smaller. Fine interface labels, chart
+labels and table text cannot be read comfortably. There is no visible control to
+enlarge further or inspect image detail. Double-clicking the German light-path
+image produces no visible change. Closing and focus behavior still work.
+
+Impact:
+The preview action promises enlargement but adds no useful detail access on a
+phone. This is a regression in the purpose of the full-size preview, even though
+the new modal itself opens and closes correctly. Browser-level pinch/zoom was
+not tested and is not being claimed unavailable.
+
+Requested outcome:
+Retain the fitted overview and add an evident, keyboard-operable way to inspect
+larger/native-size detail inside the same lightbox. Keep any image scrolling
+within the viewer, keep close controls reachable, avoid page-wide overflow, and
+preserve Escape, focus containment and return to the opening thumbnail. A simple
+fit/detail toggle is sufficient; no new tab, asset set or gallery redesign is
+needed. Recheck only this correction and its adjacent dialog behavior.
+
+Key evidence (all in M4-08-screenshots/):
+- 10-de-320-light-path-lightbox.jpg: full phone context and smaller image.
+- 11-de-320-lightbox-after-double-click.jpg: no additional enlargement.
+- 19-en-390-material-lightbox.jpg and 20-en-390-material-thumbnail.jpg: modal
+  versus normal thumbnail comparison.
+- 21-en-390-table-lightbox.jpg: fine table text at phone width.
+- 03 through 06, 14 through 16: accepted desktop/tablet image viewers.
+- 01, 09, 12, 17, 18: accepted button placement and spacing.
+- 07, 08, 13: accepted About styling and member readability.
+There are 21 saved screenshots in the evidence directory.
+
+Tool-only locator mismatches were resolved using the visible native controls.
+They are not application findings. No transfer or approval prompt was needed.
+Both M4-08 test tabs were closed and viewport overrides reset. No extra user
+preview was opened; the programming chat owns the single final preview.
+
+Next gate: a frozen candidate for the narrow M4-UX-R04 recheck. Acceptance can
+authorize presentation to the user only, not commit, push, integration, deployment
+or another milestone.

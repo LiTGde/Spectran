@@ -1,0 +1,12 @@
+Deutsch : all 12 image dialogs resolve to the correct local image in both module instances; unique IDs
+English : all 12 image dialogs resolve to the correct local image in both module instances; unique IDs
+introduction-navigation: .......
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+Nice code.
+R version 4.6.1 (2026-06-24) 
+shiny 1.14.0 
+shinydashboard 0.7.3 
+htmltools 0.5.9 
+testthat 3.3.2 
+xml2 1.6.0 

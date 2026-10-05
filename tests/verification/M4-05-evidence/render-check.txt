@@ -1,0 +1,11 @@
+Deutsch : introduction and ten topics render
+English : introduction and ten topics render
+R version 4.6.1 (2026-06-24) 
+shiny 1.14.0 
+htmltools 0.5.9 
+shinydashboard 0.7.3 
+                     file bytes
+1    material-library.jpg 88385
+2 material-light-path.jpg 73285
+3     material-result.jpg 74965
+All web assets (bytes): 4464569 

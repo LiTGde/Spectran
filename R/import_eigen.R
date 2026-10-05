@@ -63,11 +63,13 @@ import_eigenUI <-
               width = 6,
               shiny::checkboxInput(
                 ns("is_illu_eigen"),
-                lang$ui(90),
+                if (workspace) material_workspace_text("light_level") else lang$ui(90),
                 value = TRUE
               )
             ),
             shiny::column(width = 6, shiny::uiOutput(ns("eigene_Skala"))),
+            if (workspace) shiny::conditionalPanel(sprintf("input['%s'] === true", ns("is_illu_eigen")),
+              material_light_level_ui(ns)),
             #setting a name for the spectrum generated here
             shiny::textInput(
               ns("name_id"),
@@ -104,7 +106,8 @@ import_eigenUI <-
 import_eigenServer <-
   function(
     id,
-    Spectrum = NULL
+    Spectrum = NULL,
+    workspace = FALSE
   ) {
     shiny::moduleServer(id, function(input, output, session) {
       #Set up a container for the spectra to go into, if it isn´t already defined
@@ -135,13 +138,13 @@ import_eigenServer <-
 
             shiny::numericInput(
               ns("illu_eigen"),
-              lang$server(35),
+              if (workspace) material_workspace_text("target_level") else lang$server(35),
               value = Spectrum$Illu %||% 100,
               min = 0,
               width = "100%"
             )
           ),
-          " lux"
+          if (!workspace) " lux"
         )
       })
       shiny::outputOptions(output, "eigene_Skala", suspendWhenHidden = FALSE)
@@ -157,7 +160,16 @@ import_eigenServer <-
           eigen_Spectrum()$Bestrahlungsstaerke %>%
           Calc_lux(Specs$AS_wide, Specs$Efficacy)
 
-        Spectrum$Other <-
+        if (isTRUE(workspace) && isTRUE(input$is_illu_eigen)) {
+          scaled <- tryCatch(material_scale_light(eigen_Spectrum(), input$illu_eigen,
+            input$level_metric %||% "photopic"), error = identity)
+          if (inherits(scaled, "error")) {
+            shiny::showNotification(conditionMessage(scaled), type = "error")
+            return(invisible(NULL))
+          }
+          Spectrum$Spectrum_raw <- scaled
+          Spectrum$Spectrum_raw$Wellenlaenge <- as.integer(scaled$Wellenlaenge)
+        } else Spectrum$Other <-
           if (input$is_illu_eigen) {
             Spectrum$Spectrum_raw <-
               eigen_Spectrum() %>%

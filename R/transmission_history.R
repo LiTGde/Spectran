@@ -385,7 +385,8 @@ transmission_history_promote <- function(
   snapshot,
   name,
   provenance = list(),
-  target_lux = NULL
+  target_lux = NULL,
+  activate = TRUE
 ) {
   validate_transmission_history(history)
   if (!inherits(snapshot, "transmission_applied_snapshot")) {
@@ -441,14 +442,14 @@ transmission_history_promote <- function(
     provenance = node_provenance,
     name = name,
     change_type = "promotion",
-    active = TRUE
+    active = isTRUE(activate)
   )
-  history$nodes <- lapply(history$nodes, function(existing) {
-    existing$active <- FALSE
-    existing
-  })
+  if (isTRUE(activate)) history$nodes <- lapply(history$nodes, function(existing) {
+      existing$active <- FALSE
+      existing
+    })
   history$nodes[[node_id]] <- node
-  history$active_node_id <- node_id
+  if (isTRUE(activate)) history$active_node_id <- node_id
   history$next_sequence <- sequence_id + 1L
   validate_transmission_history(history)
   list(history = history, node = node)

@@ -37,6 +37,7 @@ Spectran <- function(
   the$language <- lang_setting
   the$palette <- color_palette
   review_build_id <- getOption("Spectran.review_build_id", NULL)
+  help_links <- spectran_explanation_links_ui("explanations")
 
   #create an Environment that holds the plotwidths of users
   theuser <- new.env(parent = emptyenv())
@@ -78,21 +79,26 @@ Spectran <- function(
             introductionUI("intro")
           ),
           #add a tab for the import
-          shinydashboard::tabItem(tabName = "import", importUI("import")),
+          shinydashboard::tabItem(tabName = "import", importUI("import", help_ui = help_links$from_import)),
           #add a tab for the analysis
-          shinydashboard::tabItem(tabName = "analysis", analysisUI("analysis")),
+          shinydashboard::tabItem(tabName = "analysis", analysisUI("analysis", help_links = help_links)),
           #add a tab for the export
-          shinydashboard::tabItem(tabName = "export", exportUI("export")),
+          shinydashboard::tabItem(tabName = "export", exportUI("export", help_ui = help_links$from_export)),
           #add the optional transmission-filter tab after export
           shinydashboard::tabItem(
             tabName = "transmission",
+            htmltools::div(id = "material_loading", class = "material-loading",
+              role = "status", `aria-live` = "polite", shiny::icon("hourglass-half"),
+              material_workspace_text("loading")),
             transmissionUI(
               "transmission",
               default_source = "catalogue",
               layout = "workspace",
-              source_ui = material_source_ui("material_source")
+              source_ui = material_source_ui("material_source"),
+              help_links = help_links
             )
           ),
+          shinydashboard::tabItem(tabName = "explanations", spectran_explanations_ui("explanations")),
           #add a tab for the validity
           shinydashboard::tabItem(tabName = "validity", validityUI("validity")),
           #add a tab for the impressum
@@ -124,9 +130,11 @@ Spectran <- function(
   server <- function(input, output, session) {
     #allow reconnect
     session$allowReconnect(TRUE)
+    explanations <- spectran_explanations_server("explanations", shiny::reactive(input$inTabset),
+      function(page) shinydashboard::updateTabItems(session, "inTabset", selected = page))
 
     #Introduction
-    zu_Import <- introductionServer("intro")
+    intro_navigation <- introductionServer("intro")
 
     #Shared active-spectrum state
     Spectrum <- shiny::reactiveValues()
@@ -163,6 +171,7 @@ Spectran <- function(
               spectran_transmission_active_state(Spectrum)
             )
           ))
+          session$onFlushed(function() shinyjs::hide("material_loading"), once = TRUE)
         }
       }
     }) |>
@@ -179,6 +188,10 @@ Spectran <- function(
       "material_source",
       current = shiny::reactive(spectran_transmission_active_state(Spectrum)),
       history = Transmission$history,
+      on_restore = function(node_id) {
+        module <- transmission_module()
+        if (!is.null(module)) module$restore_node(node_id)
+      },
       automatic = shiny::reactive(Spectrum$automatic_source),
       on_import = function(request) activate_spectran_spectrum(
         Spectrum, request$spectrum, request$name, request$origin,
@@ -236,18 +249,20 @@ Spectran <- function(
     # Delete Notifications between tab changes
     notification_remover(shiny::reactive(input$inTabset))
 
-    #Update the Navbar, when the Introduction is finished
-    shiny::observe({
+    # Introduction returns a destination; the parent owns cross-module routing.
+    shiny::observeEvent(intro_navigation(), {
+      event <- intro_navigation()
+      shiny::req(event$page)
+      if (identical(event$page, "explanations")) {
+        explanations$open_from("home", "tutorial", shiny::NS("intro")("to_explanations"))
+        return(invisible(NULL))
+      }
       shinydashboard::updateTabItems(
         session,
         inputId = "inTabset",
-        selected = "import"
+        selected = event$page
       )
-    }) %>%
-      shiny::bindEvent(
-        zu_Import(),
-        ignoreInit = TRUE
-      )
+    }, ignoreInit = TRUE)
 
     #Enable/disable spectrum-dependent menus when no source is active
     output$analysis <- shinydashboard::renderMenu({

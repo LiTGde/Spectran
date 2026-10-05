@@ -1,7 +1,7 @@
 # UI ----------------------------------------------------------------------
 
 importUI <- function(
-  id
+  id, help_ui = NULL
 ) {
   ns <- shiny::NS(id)
   htmltools::tags$div(
@@ -12,6 +12,7 @@ importUI <- function(
       class = "spectran-import-destination-note",
       transmission_text("import_unlocks_transmission")
     ),
+    help_ui,
     shiny::tabsetPanel(
       id = ns("inTabset"),
       shiny::tabPanel(
@@ -77,7 +78,8 @@ importServer <-
           "history_reset",
           history = transmission_history,
           perform_import = perform_import,
-          return_focus_id = session$ns("heading")
+          return_focus_id = session$ns("heading"),
+          workspace = workspace
         )
         Spectrum$import_guard <- function(request) {
           history_reset$request(request, "click")
@@ -88,7 +90,7 @@ importServer <-
       import_verifierServer("verify_import", Spectrum = Spectrum)
       import_dataServer("fileimport", Spectrum = Spectrum)
       import_examplesServer("examples", Spectrum = Spectrum, workspace = workspace)
-      import_eigenServer("eigen", Spectrum = Spectrum)
+      import_eigenServer("eigen", Spectrum = Spectrum, workspace = workspace)
 
       # The legacy file-import validator uses global notification IDs. Clear
       # any stale file-only messages after activating a non-file source. The

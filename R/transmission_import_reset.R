@@ -6,8 +6,9 @@
 #'
 #' @return Shiny UI tags.
 #' @noRd
-transmissionSourceImportUI <- function(id) {
+transmissionSourceImportUI <- function(id, workspace = FALSE) {
   ns <- shiny::NS(id)
+  transmission_text <- if (isTRUE(workspace)) material_workspace_history_text else transmission_text
   htmltools::tagList(
     shiny::uiOutput(ns("status")),
     shinyjs::hidden(htmltools::tags$section(
@@ -97,8 +98,10 @@ transmissionSourceImportServer <- function(
   id,
   history,
   perform_import,
-  return_focus_id
+  return_focus_id,
+  workspace = FALSE
 ) {
+  transmission_text <- if (isTRUE(workspace)) material_workspace_history_text else transmission_text
   if (!shiny::is.reactive(history)) {
     stop("`history` must be reactive.", call. = FALSE)
   }

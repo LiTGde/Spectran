@@ -28,13 +28,22 @@ UI_Sidebar <- function() {
       shinydashboard::menuItemOutput("export"),
       htmltools::tagAppendAttributes(
         shinydashboard::menuItem(
-          transmission_text("menu"),
+          htmltools::span(class = "spectran-material-menu",
+            htmltools::span(class = "spectran-material-menu-line",
+              shiny::icon("filter"), htmltools::span(material_text("transmission"))),
+            htmltools::span(class = "spectran-material-menu-line",
+              shiny::icon("reply"), htmltools::span(material_text("reflection")))),
           tabName = "transmission",
-          icon = shiny::icon("filter")
+          icon = shiny::icon("filter", class = "spectran-material-collapsed-icon")
         ),
         id = "transmission"
       ),
       htmltools::br(),
+      shinydashboard::menuItem(
+        spectran_help_text("Erl\u00e4uterungen", "Explanations"),
+        tabName = "explanations",
+        icon = shiny::icon("book-open")
+      ),
       shinydashboard::menuItem(
         lang$ui(153),
         tabName = "validity",

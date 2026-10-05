@@ -10,6 +10,7 @@ impressumUI <- function(
     ) {
   
   ns <- shiny::NS(id)
+  tr <- spectran_help_text
   #List all the used packages
   # packages <- utils::packageDescription("Spectran")$Imports %>% 
   #   stringr::str_split_1(pattern = ",\\n")
@@ -20,12 +21,12 @@ impressumUI <- function(
     htmltools::p(
       htmltools::img(
         width = "250px", 
-        src = "extr/litg-logo.png"
+        src = "extr/litg-logo.png", alt = "LiTG", loading = "lazy"
       ), htmltools::br(),
       htmltools::h4(lang$ui(162), htmltools::br(), htmltools::br(),
       lang$ui(163), htmltools::br(),
       htmltools::strong("Johannes Zauner"), htmltools::br(), htmltools::br(),
-      lang$ui(171), htmltools::br(),
+      tr("Projektausschuss Grundmodul (in alphabetischer Reihenfolge):", "Core application project committee (in alphabetical order):"), htmltools::br(),
       htmltools::strong("Meike Barfu\u00df, Nils Haferkemper, Sylvia Hubalek")), 
       htmltools::br(),
       #Details on the LiTG
@@ -49,6 +50,13 @@ impressumUI <- function(
       lang$ui(160),  
       R, 
       lang$ui(161)),
+    htmltools::tags$section(class = "spectran-about-material",
+      htmltools::p(htmltools::strong(tr("Zusatzmodul: Transmission und Reflexion", "Additional module: transmission and reflection"))),
+      htmltools::p(tr(
+        "Das LiTG-Modul erweitert Spectran um die spektrale Wirkung von Materialien. Materialkurven aus Bibliotheken oder CSV-Dateien lassen sich auf eine Lichtquelle anwenden. Gespeicherte Schritte k\u00f6nnen als Lichtpfad und in ihrer Gesamtwirkung verglichen und exportiert werden.",
+        "The LiTG module extends Spectran with spectral material effects. Material curves from libraries or CSV files can be applied to a light source. Saved steps can be compared and exported as a light path and as a combined effect.")),
+      htmltools::p(htmltools::strong(tr("Projektausschuss (in alphabetischer Reihenfolge):", "Project committee (in alphabetical order):")),
+        htmltools::br(), "Karin Bieske, Kai Broszio, Nils Haferkemper")),
     #Information about points of contact
     htmltools::p(
       lang$ui(176), 

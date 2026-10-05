@@ -9,6 +9,8 @@
 transmissionHistoryControlsUI <- function(id, compact = FALSE, workspace = FALSE) {
   ns <- shiny::NS(id)
   promotion_controls <- htmltools::tagList(
+    if (isTRUE(workspace)) shiny::checkboxInput(ns("include_incident"),
+      material_workspace_text("include_incident"), FALSE),
     shiny::textInput(
       ns("promotion_name"),
       label = if (isTRUE(workspace)) material_workspace_text("next_source_name") else transmission_text("promotion_name"),
@@ -19,17 +21,18 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE, workspace = FALSE
     if (isTRUE(workspace)) shiny::checkboxInput(ns("rescale"), material_workspace_text("rescale"), FALSE),
     shiny::conditionalPanel(
       condition = if (isTRUE(workspace)) sprintf("input['%s'] === true", ns("rescale")) else "true",
+    if (isTRUE(workspace)) material_light_level_ui(ns),
     htmltools::tags$div(
       class = "transmission-field-label",
       htmltools::tags$label(
-        material_text("target_lux"),
+        if (isTRUE(workspace)) material_workspace_text("target_level") else material_text("target_lux"),
         `for` = ns("promotion_lux")
       ),
       transmission_info_tooltip(
         ns,
         "promotion_lux_info",
-        material_text("target_lux"),
-        material_text("target_help")
+        if (isTRUE(workspace)) material_workspace_text("light_level") else material_text("target_lux"),
+        if (isTRUE(workspace)) material_workspace_text("rescale_help") else material_text("target_help")
       )
     ),
     shiny::numericInput(
@@ -39,12 +42,15 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE, workspace = FALSE
       min = 0
     )),
     shiny::uiOutput(ns("promotion_scenario")),
+    htmltools::div(class = "material-save-actions",
+    if (isTRUE(workspace)) shiny::actionButton(ns("save_result"),
+      material_workspace_text("save_only"), icon = shiny::icon("floppy-disk"), class = "btn-primary"),
     shiny::actionButton(
       ns("promote"),
       label = if (isTRUE(workspace)) material_workspace_text("use_output") else transmission_text("promote_button"),
       icon = shiny::icon("level-up"),
       class = "btn-primary"
-    )
+    ))
   )
   controls <- if (isTRUE(compact)) {
     htmltools::tags$div(
@@ -79,14 +85,20 @@ transmissionHistoryControlsUI <- function(id, compact = FALSE, workspace = FALSE
 #'
 #' @return Shiny UI tags.
 #' @noRd
-transmissionHistoryDetailsUI <- function(id, workspace = FALSE) {
+transmissionHistoryDetailsUI <- function(id, workspace = FALSE, help_ui = NULL) {
   ns <- shiny::NS(id)
   transmission_text <- if (isTRUE(workspace)) material_workspace_history_text else transmission_text
+  combined <- htmltools::tagList(
+    htmltools::h4(if (isTRUE(workspace)) material_workspace_text("history_combined") else material_text("cumulative")),
+    htmltools::p(if (isTRUE(workspace)) material_workspace_text("history_combined_help") else material_text("cumulative_help")),
+    if (isTRUE(workspace)) shiny::uiOutput(ns("path_plot_ui")),
+    shiny::uiOutput(ns("cumulative_summary")))
   htmltools::tags$div(
     class = "transmission-history-details",
     htmltools::h4(transmission_text("history_tree")),
     htmltools::p(if (isTRUE(workspace)) material_workspace_text("history_help") else
       material_text("history_actions_help")),
+    help_ui,
     shiny::uiOutput(ns("history_status")),
     htmltools::tags$div(
       class = "transmission-gt-scroll",
@@ -95,12 +107,12 @@ transmissionHistoryDetailsUI <- function(id, workspace = FALSE) {
       transmission_gt_output(ns("history_table"))
     ),
     shiny::uiOutput(ns("selected_node")),
-    htmltools::h4(if (isTRUE(workspace)) material_workspace_text("history_combined") else
-      material_text("cumulative")),
-    htmltools::p(if (isTRUE(workspace)) material_workspace_text("history_combined_help") else
-      material_text("cumulative_help")),
-    shiny::uiOutput(ns("cumulative_summary")),
-    shiny::uiOutput(ns("archive_section"))
+    if (isTRUE(workspace)) htmltools::div(class = "material-path-views",
+      shiny::tabsetPanel(id = ns("path_view"),
+        shiny::tabPanel(material_workspace_text("history_saved"), value = "saved",
+          shiny::uiOutput(ns("archive_section"))),
+        shiny::tabPanel(material_workspace_text("history_combined"), value = "combined", combined))) else
+      htmltools::tagList(combined, shiny::uiOutput(ns("archive_section")))
   )
 }
 
@@ -249,6 +261,7 @@ transmissionHistoryServer <- function(
     transmission_info_tooltip_server("promotion_lux_info")
     history <- shiny::reactiveVal(NULL)
     promotion_event <- shiny::reactiveVal(NULL)
+    saved_event <- shiny::reactiveVal(NULL)
     restore_event <- shiny::reactiveVal(NULL)
     archive_node_id <- shiny::reactiveVal(NULL)
     prepared_export_bundle <- shiny::reactiveVal(NULL)
@@ -297,6 +310,7 @@ transmissionHistoryServer <- function(
             history(new_transmission_history(current))
             import_token(token)
             promotion_event(NULL)
+            saved_event(NULL)
             last_promoted_snapshot(NULL)
             restore_event(NULL)
             archive_node_id(current$node_id)
@@ -399,6 +413,48 @@ transmissionHistoryServer <- function(
       }
     )
 
+    selected_path_node <- shiny::reactive({
+      current <- history()
+      shiny::req(current)
+      selected <- archive_node_id()
+      if (is.null(selected) || !selected %in% names(current$nodes)) selected <- current$active_node_id
+      selected
+    })
+    output$path_plot_ui <- shiny::renderUI({
+      current <- history()
+      shiny::req(current)
+      path <- material_history_path(current, selected_path_node())
+      if (length(path) < 2L)
+        return(htmltools::p(material_workspace_text("path_empty")))
+      htmltools::tagList(
+        htmltools::h4(material_workspace_text("path_plot")),
+        htmltools::p(class = "material-path-plot-note", material_workspace_text("path_plot_help")),
+        if (length(path) > 4L)
+          htmltools::p(class = "material-path-plot-note", material_workspace_text("path_plot_readability")),
+        if (material_cumulative_has_rescaling(cumulative()))
+          htmltools::p(class = "material-source-warning", material_workspace_text("path_plot_adjusted")),
+        shiny::plotOutput(session$ns("path_plot"), height = "auto"),
+        htmltools::div(class = "material-path-downloads",
+          shiny::downloadButton(session$ns("path_plot_png"), material_workspace_text("path_plot_download")),
+          shiny::downloadButton(session$ns("path_spectra_csv"), material_workspace_text("path_data_download"))))
+    })
+    path_plot_width <- shiny::reactive(session$clientData[[paste0("output_", session$ns("path_plot"), "_width")]] %||% 800)
+    output$path_plot <- shiny::renderPlot({
+      material_path_plot(history(), selected_path_node(),
+        font_size = if (path_plot_width() < 500) 10 else 12,
+        label_width = material_path_label_width(path_plot_width()), width_px = path_plot_width())
+    }, height = function() {
+      nodes <- history()$nodes[material_history_path(history(), selected_path_node())]
+      wrap <- max(10L, material_path_label_width(path_plot_width()) - 8L)
+      330 + 18 * sum(vapply(nodes, function(x) 2 + ceiling(nchar(x$name) / wrap), numeric(1)))
+    }, alt = function() material_workspace_text("path_plot_help"), res = 96)
+    output$path_plot_png <- shiny::downloadHandler(
+      filename = function() paste0("Spectran-light-path-", selected_path_node(), ".png"),
+      content = function(file) write_material_path_plot(history(), selected_path_node(), file))
+    output$path_spectra_csv <- shiny::downloadHandler(
+      filename = function() paste0("Spectran-light-path-", selected_path_node(), ".csv"),
+      content = function(file) write_transmission_csv(material_path_spectra(history(), selected_path_node()), file))
+
     snapshot_token <- shiny::reactive({
       current <- applied_snapshot()
       if (is.null(current)) {
@@ -417,7 +473,8 @@ transmissionHistoryServer <- function(
         shiny::updateNumericInput(
           session,
           "promotion_lux",
-          value = material_photopic_lux(current$transmitted_spectrum)
+          value = material_light_level(current$transmitted_spectrum,
+            if (isTRUE(workspace)) input$level_metric %||% "photopic" else "photopic")
         )
         if (isTRUE(workspace)) shiny::updateCheckboxInput(session, "rescale", value = FALSE)
         filter_name <- current$metadata$filter_name
@@ -427,7 +484,7 @@ transmissionHistoryServer <- function(
         shiny::updateTextInput(
           session,
           "promotion_name",
-          value = if (isTRUE(workspace)) material_workspace_text("after_material", trimws(filter_name)) else paste0(
+          value = if (isTRUE(workspace) && !isTRUE(input$include_incident)) material_workspace_text("after_material", trimws(filter_name)) else paste0(
             current$incident_name,
             " \u00d7 ",
             trimws(filter_name)
@@ -437,6 +494,20 @@ transmissionHistoryServer <- function(
       ignoreInit = FALSE,
       ignoreNULL = TRUE
     )
+
+    shiny::observeEvent(input$include_incident, {
+      current <- applied_snapshot()
+      shiny::req(isTRUE(workspace), current)
+      name <- if (isTRUE(input$include_incident)) paste(current$incident_name, "\u00d7", current$metadata$filter_name) else
+        material_workspace_text("after_material", current$metadata$filter_name)
+      shiny::updateTextInput(session, "promotion_name", value = name)
+    }, ignoreInit = TRUE)
+    shiny::observeEvent(input$level_metric, {
+      current <- applied_snapshot()
+      shiny::req(isTRUE(workspace), current)
+      shiny::updateNumericInput(session, "promotion_lux",
+        value = material_light_level(current$transmitted_spectrum, input$level_metric))
+    }, ignoreInit = TRUE)
 
     can_promote_current <- shiny::reactive({
       current_history <- history()
@@ -456,6 +527,7 @@ transmissionHistoryServer <- function(
 
     shiny::observe({
       shinyjs::toggleState("promote", can_promote_current())
+      if (isTRUE(workspace)) shinyjs::toggleState("save_result", can_promote_current())
     })
 
     activation_allowed <- function(
@@ -486,7 +558,7 @@ transmissionHistoryServer <- function(
       TRUE
     }
 
-    promote_current <- function(trigger = c("click", "keyboard")) {
+    promote_current <- function(trigger = c("click", "keyboard"), activate = TRUE) {
       trigger <- match.arg(trigger)
       if (
         !activation_allowed(
@@ -508,7 +580,7 @@ transmissionHistoryServer <- function(
           return(invisible(NULL))
         status(list(
           state = "error",
-          message = transmission_text("promotion_unavailable")
+          message = if (isTRUE(workspace)) material_workspace_text("save_unavailable") else transmission_text("promotion_unavailable")
         ))
         return(invisible(NULL))
       }
@@ -521,7 +593,7 @@ transmissionHistoryServer <- function(
       ) {
         status(list(
           state = "error",
-          message = transmission_text("promotion_name_required")
+          message = if (isTRUE(workspace)) material_workspace_text("save_name_required") else transmission_text("promotion_name_required")
         ))
         return(invisible(NULL))
       }
@@ -531,7 +603,10 @@ transmissionHistoryServer <- function(
           history(),
           applied_snapshot(),
           trimws(name),
-          target_lux = if (isTRUE(workspace) && !isTRUE(input$rescale)) NULL else input$promotion_lux
+          target_lux = if (isTRUE(workspace) && !isTRUE(input$rescale)) NULL else if (isTRUE(workspace))
+            material_photopic_lux(material_scale_light(applied_snapshot()$transmitted_spectrum,
+              input$promotion_lux, input$level_metric %||% "photopic")) else input$promotion_lux,
+          activate = activate
         ),
         error = function(error) error
       )
@@ -542,6 +617,13 @@ transmissionHistoryServer <- function(
       last_promoted_snapshot(snapshot_token())
       history(promoted$history)
       archive_node_id(promoted$node$node_id)
+      if (!isTRUE(activate)) {
+        mark_snapshot_archived()
+        saved_event(list(node_id = promoted$node$node_id, token = snapshot_token()))
+        status(list(state = "current", message = material_workspace_text("history_saved_status",
+          promoted$node$name, transmission_history_node_label(history(), promoted$node$node_id))))
+        return(invisible(NULL))
+      }
       next_sequence <- action_sequence() + 1L
       event <- new_transmission_activation_event(
         action_sequence = next_sequence,
@@ -569,6 +651,9 @@ transmissionHistoryServer <- function(
 
     shiny::observeEvent(input$promote, {
       promote_current("click")
+    })
+    if (isTRUE(workspace)) shiny::observeEvent(input$save_result, {
+      promote_current("click", activate = FALSE)
     })
 
     shinyjs::onevent(
@@ -1075,6 +1160,22 @@ transmissionHistoryServer <- function(
       nodes[[node_id]]$applied_snapshot
     })
 
+    export_path_node <- shiny::reactive({
+      choices <- unname(export_choices())
+      selected <- input$export_result
+      if (is.null(selected) || !selected %in% choices) selected <- if (length(choices)) choices[[1L]] else ""
+      if (!startsWith(selected, "archive:")) return(NULL)
+      node_id <- sub("^archive:", "", selected)
+      if (!node_id %in% names(archived_nodes())) return(NULL)
+      node_id
+    })
+    output$export_path_plot <- shiny::downloadHandler(
+      filename = function() paste0("Spectran-light-path-", export_path_node(), ".png"),
+      content = function(file) {
+        shiny::req(export_path_node())
+        write_material_path_plot(history(), export_path_node(), file)
+      }, contentType = "image/png")
+
     bundle_choice_labels <- function() {
       transmission_text <- material_labeler(material_mode(export_snapshot()))
       stats::setNames(
@@ -1375,6 +1476,11 @@ transmissionHistoryServer <- function(
               class = "transmission-export-group",
               open = if (isTRUE(workspace)) NA else NULL,
               (if (isTRUE(workspace)) htmltools::tags$summary else htmltools::h4)(transmission_text("export_figures")),
+              if (isTRUE(workspace)) htmltools::tagList(
+                transmission_download_control(session$ns, "export_path_plot",
+                  material_workspace_text("path_plot_download"), icon = "image",
+                  enabled = !is.null(export_path_node())),
+                if (is.null(export_path_node())) htmltools::p(class = "help-block", material_workspace_text("path_export_hint"))),
               htmltools::tags$div(
                 class = "transmission-download-grid",
                 transmission_download_control(
@@ -1943,7 +2049,8 @@ transmissionHistoryServer <- function(
       "export_download_balance_csv",
       "export_download_history",
       "export_download_audit",
-      "export_download_bundle"
+      "export_download_bundle",
+      "path_plot_png", "path_spectra_csv", "export_path_plot"
     )
     invisible(lapply(download_output_ids, function(output_id) {
       shiny::outputOptions(
@@ -1956,6 +2063,8 @@ transmissionHistoryServer <- function(
     list(
       promotion_event = shiny::reactive(promotion_event()),
       restore_event = shiny::reactive(restore_event()),
+      saved_event = shiny::reactive(saved_event()),
+      restore_node = restore_node,
       history = shiny::reactive(history()),
       archived_snapshot = archived_snapshot,
       archive_node_id = shiny::reactive(archive_node_id()),

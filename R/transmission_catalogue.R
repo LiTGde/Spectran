@@ -96,6 +96,10 @@ transmission_catalogue_localized_value <- function(
         !is.na(value) &&
         nzchar(trimws(as.character(value)))
     ) {
+      if (identical(field, "display_name")) {
+        parts <- strsplit(as.character(value), " - ", fixed = TRUE)[[1L]]
+        value <- paste(trimws(parts)[!trimws(parts) %in% c("", "N/A", "NA")], collapse = " - ")
+      }
       return(as.character(value))
     }
   }

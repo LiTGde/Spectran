@@ -1,0 +1,62 @@
+.spectran-help-page { background: #fff; color: #252c32; border-radius: 12px; padding: 28px; max-width: 1250px; margin: 0 auto; line-height: 1.6; }
+.spectran-help-page * { box-sizing: border-box; }
+.spectran-help-page a { color: #315366; }
+.spectran-help-page a:hover { color: #172e3d; }
+.spectran-help-header { border-bottom: 4px solid #f8e350; padding-bottom: 16px; margin-bottom: 18px; }
+.spectran-help-eyebrow { font-size: 12px; letter-spacing: .08em; font-weight: 700; color: #59616a; }
+.spectran-help-header h2 { font-size: 30px; font-weight: 700; margin: 6px 0 10px; scroll-margin-top: 80px; }
+.spectran-help-header p:last-child { margin: 0; color: #59616a; font-size: 16px; }
+.spectran-help-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.spectran-help-page .btn, .spectran-help-link { white-space: normal; text-align: left; }
+.spectran-help-link, .material-workspace .spectran-help-link { color: #375568; background: transparent; border: 0; padding: 8px 0; text-decoration: underline; text-underline-offset: 3px; max-width: 100%; font-weight: 500; }
+.spectran-help-link:hover { color: #172e3d; }
+.spectran-help-page select { height: auto; min-height: 42px; border-radius: 6px; width: 100%; }
+.spectran-help-page h3 { font-size: 20px; font-weight: 650; margin: 24px 0 16px; }
+.spectran-help-page .spectran-help-article > h2 { font-size: 26px; font-weight: 700; margin: 28px 0 18px; }
+.spectran-help-article > p { max-width: 85ch; font-size: 16px; }
+.spectran-help-article > p:first-of-type { font-size: 18px; line-height: 1.65; margin-bottom: 24px; }
+.spectran-help-topic-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.spectran-help-page .spectran-help-topic { display: block; background: #f7f8f9; border: 1px solid #d9dfe2; border-radius: 9px; padding: 18px; line-height: 1.5; color: #252c32; width: 100%; }
+.spectran-help-topic > .action-label { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 5px 12px; width: 100%; text-align: left; }
+.spectran-help-topic i { grid-column: 1; grid-row: 1 / 3; margin-top: 3px; color: #496472; }
+.spectran-help-topic strong { font-size: 16px; }
+.spectran-help-topic .action-label > span { grid-column: 2; color: #59616a; }
+.spectran-help-page .spectran-help-topic:hover { border-color: #9b8500; background: #fffbe0; }
+.spectran-help-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 20px 0; }
+.spectran-help-cards-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.spectran-help-card { border: 1px solid #dce2e5; border-radius: 9px; padding: 20px; background: #fafbfc; }
+.spectran-help-card h3 { font-size: 18px; margin: 0 0 10px; }
+.spectran-help-card p { margin: 0; font-size: 16px; }
+.spectran-help-application { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(0, 3fr); gap: 28px; margin-top: 28px; padding-top: 25px; border-top: 1px solid #dce2e5; }
+.spectran-help-application > h3 { margin: 0; color: #315366; line-height: 1.4; }
+.spectran-help-application-body { min-width: 0; font-size: 16px; }
+.spectran-help-application-body > :first-child { margin-top: 0; }
+.spectran-help-application-body > :last-child { margin-bottom: 0; }
+.spectran-help-application-body > p { max-width: 75ch; margin-bottom: 16px; }
+.spectran-help-note { border-left: 4px solid #c5a700; background: #fffbe8; padding: 16px 20px; margin: 20px 0; font-size: 16px; }
+.spectran-help-formula { padding: 20px; margin: 20px 0; border-radius: 9px; background: #ecf4f3; color: #23544f; font-size: 19px; font-weight: 650; }
+.spectran-help-figure { margin: 22px 0; }
+.spectran-help-figure > img { display: block; width: 100%; height: auto; border: 1px solid #dce2e5; border-radius: 9px; }
+.spectran-help-figure figcaption { padding: 12px 2px; }
+.spectran-help-figure a { display: inline-block; padding: 5px 0; text-decoration: underline; }
+.spectran-help-references { color: #59616a; border-top: 1px solid #dce2e5; margin-top: 26px; padding-top: 16px; }
+.spectran-help-page :is(button, select, a, summary, [tabindex]):focus-visible, .spectran-help-link:focus-visible { outline: 3px solid #1263a4; outline-offset: 3px; }
+@media (max-width: 700px) {
+  .spectran-help-page { padding: 18px; }
+  .spectran-help-topic-grid, .spectran-help-cards { grid-template-columns: minmax(0, 1fr); }
+  .spectran-help-header h2 { font-size: 26px; }
+  .spectran-help-page .spectran-help-article > h2 { font-size: 23px; }
+  .spectran-help-card { padding: 16px; }
+  .spectran-help-formula { font-size: 17px; }
+}
+@media (max-width: 1000px) {
+  .spectran-help-cards-three { grid-template-columns: minmax(0, 1fr); }
+  .spectran-help-application { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+}
+/* Match the existing module's mobile treatment of the fixed 150px sidebar. */
+@media (max-width: 767px) {
+  body:has(#shiny-tab-explanations.active) .content-wrapper { margin-left: 0; min-width: 0; transform: none; }
+  body:has(#shiny-tab-explanations.active) .main-sidebar { transform: translate(-150px, 0); }
+  body.sidebar-open:has(#shiny-tab-explanations.active) .main-sidebar { transform: translate(0, 0); }
+  body:has(#shiny-tab-explanations.active) .content { padding: 10px; }
+}

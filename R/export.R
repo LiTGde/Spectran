@@ -3,12 +3,13 @@
 
 exportUI <- 
   function(
-    id
+    id, help_ui = NULL
     ) {
     ns <- shiny::NS(id)
     htmltools::tagList(
       #header, then box that contains everything
         shiny::h3("Export"),
+        help_ui,
         shiny::fluidRow(
         shinydashboard::box(
           width = 12,

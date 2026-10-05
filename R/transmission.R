@@ -805,11 +805,12 @@ transmissionUI <- function(
   id,
   default_source = c("upload", "catalogue"),
   layout = c("review", "tabs", "workspace"),
-  source_ui = NULL
+  source_ui = NULL,
+  help_links = list()
 ) {
   default_source <- match.arg(default_source)
   layout <- match.arg(layout)
-  if (identical(layout, "workspace")) return(material_workspace_ui(id, source_ui))
+  if (identical(layout, "workspace")) return(material_workspace_ui(id, source_ui, help_links))
   ns <- shiny::NS(id)
   csv_labels <- transmission_csv_settings_labels()
 
@@ -1831,6 +1832,8 @@ transmissionServer <- function(
       })
       output$workspace_library <- shiny::renderUI({
         query <- input$material_search %||% ""
+        # The checkbox controls the existing SVG fill through scoped CSS, so
+        # open categories and measurement details survive a colour change.
         material_browser_ui(material_browser_records(current_mode(), query),
           session$ns, catalogue_selection(), query)
       })
@@ -1838,7 +1841,12 @@ transmissionServer <- function(
         shiny::showModal(shiny::modalDialog(
           title = material_workspace_text("library"),
           htmltools::div(class = "material-library",
+            lang = if (transmission_language_setting() == "Deutsch") "de" else "en",
             htmltools::p(material_workspace_text("library_intro")),
+            htmltools::div(class = "material-spectral-toggle",
+              shiny::checkboxInput(session$ns("spectral_colours"),
+                material_workspace_text("spectral_colours"), input$spectral_colours %||% TRUE)),
+            htmltools::p(class = "material-library-colour-hint", material_workspace_text("spectral_colours_help")),
             if (current_mode() == "reflection") htmltools::p(class = "material-library-colour-hint",
               material_workspace_text("colour_hint")),
             shiny::textInput(session$ns("material_search"), material_workspace_text("search"),
@@ -3211,6 +3219,7 @@ transmissionServer <- function(
             material_workspace_text("next"), icon = shiny::icon("plus"), class = "btn-primary"))
       })
       shiny::observeEvent(input$workspace_download, go_to_section("export"))
+      shiny::observeEvent(history_module$saved_event(), go_to_section("history"), ignoreInit = TRUE)
     }
 
     session$onFlushed(
@@ -3728,6 +3737,8 @@ transmissionServer <- function(
       },
       promotion_event = history_module$promotion_event,
       restore_event = history_module$restore_event,
+      restore_node = history_module$restore_node,
+      saved_event = history_module$saved_event,
       history = history_module$history,
       archived_snapshot = history_module$archived_snapshot,
       archive_node_id = history_module$archive_node_id,

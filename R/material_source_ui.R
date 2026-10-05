@@ -17,7 +17,8 @@ material_source_examples_ui <- function(id) {
       right = list(list("download", download)))
   htmltools::tagList(
     htmltools::p(material_workspace_text("source_examples_help")),
-    shiny::numericInput(ns("illu_eigen"), paste0(lang$ui(70), " (lx)"), 100, min = 0),
+    material_light_level_ui(ns),
+    shiny::numericInput(ns("illu_eigen"), material_workspace_text("target_level"), 100, min = 0),
     material_source_example_box(ns("norm"), lang$ui(71),
       left = list("controls", htmltools::tagList(
         shiny::numericInput(ns("CCT_norm"), paste0(lang$ui(72), " (K)"),
@@ -44,7 +45,7 @@ material_source_file_ui <- function(id) {
       icon = shiny::icon("check"), class = "btn-primary"))
 }
 
-material_source_picker_ui <- function(id) {
+material_source_picker_ui <- function(id, history_ui = NULL) {
   ns <- shiny::NS(id)
   htmltools::tagList(
     shiny::withMathJax(),
@@ -54,6 +55,8 @@ material_source_picker_ui <- function(id) {
         material_source_examples_ui(ns("examples"))),
       shiny::tabPanel(lang$ui(69), value = lang$ui(69), material_source_file_ui(ns("fileimport"))),
       shiny::tabPanel(lang$ui(94), value = "construction", import_eigenUI(ns("eigen"), workspace = TRUE)),
+      if (!is.null(history_ui)) shiny::tabPanel(material_workspace_text("path_sources"),
+        value = "light_path", history_ui),
       selected = "examples"),
-    transmissionSourceImportUI(ns("history_reset")))
+    transmissionSourceImportUI(ns("history_reset"), workspace = TRUE))
 }

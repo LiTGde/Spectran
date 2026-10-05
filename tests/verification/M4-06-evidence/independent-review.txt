@@ -1,0 +1,55 @@
+Spectran M4-06 final visual acceptance addendum
+Review date: 2026-10-05 (Europe/Berlin)
+
+Decision: accepted for presentation to the user for design approval.
+Final candidate: TRX-M4-06-241d6979423d
+German: http://127.0.0.1:7533/
+English: http://127.0.0.1:7534/
+Graphic/UI score: 9.2/10. UX score: 9.2/10.
+
+This addendum supplements:
+/Users/zauner/Documents/Codex/2026-10-01/spectran-visual-review/outputs/M4-05-review.txt
+
+The owner identifies caption/link-name normalization as the sole product change
+from M4-05. Images, layout, navigation, numbers and explanation text remain
+unchanged by that contract. All M4-05 visual and interaction passes are protected;
+no responsive or topic matrix was replayed for this text-only correction.
+
+M4-UX-I01: Normalize the English Export UI example caption
+State: closed by visible evidence.
+
+Observed on the final English build at the normal desktop viewport:
+- The Export gallery visibly labels the first image 'Export UI'.
+- Its accessible link name is 'Export UI open full size (new tab)'.
+- Enter on that link opens the intended 07_Export_UI.png in a new native tab.
+- The Export interface screenshot renders and the preview closes normally.
+
+The German final build identity was also confirmed. Its visible 'Export UI'
+caption and corresponding full-size link name remain correct. The correction
+introduces no observed problem in this bounded caption/link check.
+
+The complete accepted design now includes the relocated LiTG paragraph,
+permanent example galleries and core video, three material screenshots, aligned
+desktop card pairs, the additional reflection icon, removal of inline zoom while
+retaining the full-size links, and the coherent introduction/graphic/application
+sequence in six German and English explanation topics.
+
+Evidence:
+/Users/zauner/Documents/Codex/2026-10-01/spectran-visual-review/outputs/M4-06-screenshots/
+  01-en-export-caption.jpg
+  02-en-export-image-open.jpg
+  03-de-export-caption.jpg
+  04-de-final-introduction.jpg
+
+Review method remains visible UI, keyboard operation, native accessibility
+state and screenshots only. No source or hidden-state inspection, scientific
+audit, new upload, generated-data download or video playback test was performed.
+The existing task-wide 127.0.0.1 transfer approval remains valid. No approval
+prompt or rejection blocked this check.
+
+Temporary preview and review tabs were closed. The final German candidate is
+open at its normal viewport for the user. The predecessor servers were untouched.
+
+No open in-scope acceptance defect or remaining caption recommendation.
+Next gate: presentation to the user for final design approval only. This review
+does not authorize commits, push, integration, deployment or a later milestone.

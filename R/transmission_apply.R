@@ -175,8 +175,10 @@ transmission_apply_status_state <- function(
   apply_ready,
   apply_error = "",
   archived = FALSE,
-  active_source_name = NULL
+  active_source_name = NULL,
+  workspace = FALSE
 ) {
+  transmission_text <- if (isTRUE(workspace)) material_workspace_history_text else transmission_text
   if (length(apply_error) == 1L && !is.na(apply_error) && nzchar(apply_error)) {
     return(list(message = apply_error, state_class = "apply-error"))
   }
@@ -1469,7 +1471,8 @@ transmissionApplyServer <- function(
         apply_ready = apply_ready(),
         apply_error = apply_error(),
         archived = snapshot_archived(),
-        active_source_name = incident_name()
+        active_source_name = incident_name(),
+        workspace = workspace
       )
 
       htmltools::tags$div(
@@ -1504,7 +1507,7 @@ transmissionApplyServer <- function(
           }
         ),
         `aria-label` = if (isTRUE(snapshot_archived())) {
-          transmission_text("aria_applied_archived")
+          if (isTRUE(workspace)) material_workspace_history_text("aria_applied_archived") else transmission_text("aria_applied_archived")
         } else if (isTRUE(stale())) {
           transmission_text("aria_applied_stale")
         } else {
@@ -1519,10 +1522,10 @@ transmissionApplyServer <- function(
             class = "transmission-frozen-result-banner",
             role = "status",
             htmltools::tags$strong(
-              transmission_text("frozen_result_heading")
+              if (isTRUE(workspace)) material_workspace_history_text("frozen_result_heading") else transmission_text("frozen_result_heading")
             ),
             htmltools::tags$p(
-              transmission_text("frozen_result_intro")
+              if (isTRUE(workspace)) material_workspace_history_text("frozen_result_intro") else transmission_text("frozen_result_intro")
             )
           )
         },

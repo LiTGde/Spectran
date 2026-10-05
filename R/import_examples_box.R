@@ -87,7 +87,8 @@ import_examples_boxServer <-
     illu_eigen,
     down_import,
     daylight_CCT = NULL,
-    workspace = FALSE
+    workspace = FALSE,
+    level_metric = shiny::reactive("photopic")
   ) {
     stopifnot(!(examplespectra_descriptor %>% shiny::is.reactive()))
     stopifnot(!(examplespectra %>% shiny::is.reactive()))
@@ -169,7 +170,12 @@ import_examples_boxServer <-
           dplyr::mutate(
             Wellenlaenge = as.integer(Wellenlaenge)
           )
-        Data[[2]] <- Data[[2]] * illu_eigen()
+        if (isTRUE(workspace)) {
+          scaled <- tryCatch(material_scale_source_data(Data, illu_eigen(), level_metric()), error = identity)
+          shiny::validate(shiny::need(!inherits(scaled, "error"),
+            if (inherits(scaled, "error")) conditionMessage(scaled) else ""))
+          Data <- scaled
+        } else Data[[2]] <- Data[[2]] * illu_eigen()
         names(Data) <- c(lang$server(31), lang$server(32))
         Data
       }
@@ -358,6 +364,17 @@ import_examples_boxServer <-
                 ) *
                 illu_eigen()
             )
+          if (isTRUE(workspace)) {
+            # Derive the selected response from the unscaled daylight shape,
+            # including a zero target without dividing by a zero spectrum.
+            raw <- tibble::tibble(Wellenlaenge = 380:780,
+              Bestrahlungsstaerke = as.numeric(colorSpec::daylightSpectra(daylight_CCT(), wavelength = 380:780)))
+            scaled <- tryCatch(material_scale_light(raw, illu_eigen(), level_metric()), error = identity)
+            shiny::validate(shiny::need(!inherits(scaled, "error"),
+              if (inherits(scaled, "error")) conditionMessage(scaled) else ""))
+            Bspdat <- scaled
+            Bspdat$Wellenlaenge <- as.integer(Bspdat$Wellenlaenge)
+          }
           names(Bspdat) <- c(lang$server(31), lang$server(32))
           Bspdat
         })

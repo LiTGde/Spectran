@@ -3,7 +3,7 @@
 
 analysisUI <- 
   function(
-    id
+    id, help_links = list()
     ) {
     ns <- shiny::NS(id)
     htmltools::tagList(
@@ -14,15 +14,19 @@ analysisUI <-
       shiny::tabsetPanel(
         shiny::tabPanel(id = "radiometrie",
                  title = lang$ui(119),
+                 help_links$from_spectrum,
                  analysis_radioUI(ns("radio"))),
         shiny::tabPanel(id = "photometrie",
                  title = lang$ui(120),
+                 help_links$from_colour,
                  analysis_photoUI(ns("photo"))),
         shiny::tabPanel(id = "alphaopie",
                  title = paste0(Specs$Alpha.ico, lang$ui(121)),
+                 help_links$from_quantities,
                  analysis_alphaUI(ns("alpha"))),
         shiny::tabPanel(id = "alter",
                  title = lang$ui(122),
+                 help_links$from_age,
                  analysis_ageUI(ns("age"))),
         selected = lang$ui(119)
       ),

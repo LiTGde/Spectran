@@ -1,0 +1,84 @@
+.spectran-intro-page { max-width:1280px; margin:0 auto; padding:12px 8px 32px; color:#252c32; }
+.spectran-intro-page h1,.spectran-intro-page h2 { font-weight:700; }
+.spectran-intro-page h2 { font-size:25px; line-height:1.2; margin:0; }
+.spectran-intro-page p { line-height:1.6; }
+.spectran-intro-hero { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(220px,.85fr); align-items:center; gap:28px; padding:38px 36px; border:1px solid #e0e4e6; border-top:5px solid #f8e350; border-radius:16px; background:#fff; }
+.spectran-intro-eyebrow { font-weight:700; letter-spacing:.12em; color:#657078; font-size:13px; }
+.spectran-intro-hero h1 { font-size:clamp(31px,3.2vw,46px); line-height:1.14; margin:14px 0 19px; }
+.spectran-intro-lead { font-size:19px; color:#59616a; max-width:690px; }
+.spectran-intro-hero-visual { padding:22px 0 0; }
+.spectran-intro-hero-visual img { display:block; width:100%; height:auto; }
+.spectran-intro-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:23px; }
+.spectran-intro-material-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+.spectran-intro-material-icons { display:inline-flex; align-items:center; gap:5px; flex-shrink:0; }
+.spectran-intro-page .btn { white-space:normal; min-height:44px; padding:11px 16px; font-size:16px; border-radius:7px; font-weight:600; }
+.spectran-intro-page .btn-primary { background:#f8e350; border-color:#c2aa00; color:#252c32; }
+.spectran-intro-page .btn-primary:hover { background:#f1da34; border-color:#917e00; }
+.spectran-intro-page .btn-default:not(.btn-primary) { color:#252c32; background:#fff; border-color:#bcc5ca; }
+.spectran-intro-page a { color:#125f75; text-decoration:underline; text-underline-offset:3px; }
+.spectran-intro-page :is(a,button,summary):focus-visible { outline:3px solid #1769aa; outline-offset:3px; }
+.spectran-intro-features { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:stretch; margin-top:24px; }
+.spectran-intro-feature { display:flex; flex-direction:column; min-width:0; padding:26px; border:1px solid #dce1e3; border-radius:12px; background:#fff; scroll-margin-top:25px; }
+.spectran-intro-feature-heading { display:flex; align-items:center; gap:13px; margin-bottom:16px; }
+.spectran-intro-feature-icon { display:grid; place-items:center; flex:0 0 43px; height:43px; border-radius:10px; color:#746000; background:#fff5ba; font-size:22px; }
+.spectran-intro-feature-lead { font-size:18px; margin-bottom:15px; }
+.spectran-intro-feature ul { margin:0; padding-left:20px; color:#59616a; font-size:16px; line-height:1.6; }
+.spectran-intro-feature li+li { margin-top:8px; }
+.spectran-intro-feature ul { margin-bottom:21px; }
+.spectran-intro-examples { margin-top:auto; padding-top:16px; border-top:1px solid #e2e6e8; }
+.spectran-intro-examples h3 { font-size:16px; font-weight:600; color:#59616a; margin:4px 0 0; }
+.spectran-intro-gallery { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:16px; }
+.spectran-intro-gallery figure { margin:0; min-width:0; }
+.spectran-intro-thumbnail { display:block; width:100%; padding:0; border:0; border-radius:5px; background:transparent; cursor:zoom-in; }
+.spectran-intro-thumbnail img { display:block; width:100%; height:auto; aspect-ratio:3 / 2; object-fit:contain; background:#f7f8f9; border:1px solid #dce1e3; border-radius:5px; }
+.spectran-intro-thumbnail:hover img { border-color:#125f75; box-shadow:0 0 0 1px #125f75; }
+.spectran-intro-gallery figcaption { margin-top:8px; font-size:14px; line-height:1.35; color:#59616a; overflow-wrap:anywhere; }
+.spectran-intro-lightbox .modal-dialog { width:calc(100% - 32px); max-width:1200px; margin:24px auto; }
+.spectran-intro-lightbox .modal-content { border:1px solid #dce1e3; border-radius:12px; overflow:hidden; }
+.spectran-intro-lightbox .modal-header { display:flex; align-items:center; gap:16px; padding:14px 20px; }
+.spectran-intro-lightbox .modal-title { font-size:20px; line-height:1.3; overflow-wrap:anywhere; }
+.spectran-intro-lightbox .close { order:1; flex-shrink:0; margin:0 0 0 auto; min-width:44px; min-height:44px; font-size:30px; color:#252c32; opacity:1; }
+.spectran-intro-lightbox input.spectran-intro-zoom { width:18px; height:18px; margin:14px 6px 14px 20px; vertical-align:middle; accent-color:#125f75; cursor:pointer; }
+.spectran-intro-zoom-label { margin:0; font-size:16px; font-weight:500; vertical-align:middle; cursor:pointer; }
+.spectran-intro-zoom:focus-visible { outline:3px solid #1769aa; outline-offset:3px; }
+.spectran-intro-lightbox .modal-body { padding:12px 20px; background:#f7f8f9; max-height:calc(100vh - 270px); max-height:calc(100dvh - 270px); overflow:auto; overscroll-behavior:contain; }
+.spectran-intro-lightbox .modal-body:focus-visible { outline:3px solid #1769aa; outline-offset:-3px; }
+.spectran-intro-lightbox .modal-body img { display:block; width:100%; max-height:calc(100vh - 300px); max-height:calc(100dvh - 300px); height:auto; object-fit:contain; margin:0 auto; }
+.spectran-intro-lightbox .spectran-intro-pan-hint { display:none; margin:0 0 12px; font-size:14px; color:#59616a; }
+.spectran-intro-zoom:checked ~ .modal-body img { width:auto; max-width:none; max-height:none; }
+.spectran-intro-zoom:checked ~ .modal-body .spectran-intro-pan-hint { display:block; }
+.spectran-intro-lightbox .modal-footer { padding:12px 20px; }
+.spectran-intro-learning { display:flex; gap:24px; align-items:center; justify-content:space-between; margin-top:24px; padding:28px; border-radius:12px; background:#eaf3f2; }
+.spectran-intro-learning p { font-size:17px; margin:12px 0 0; max-width:800px; }
+.spectran-intro-learning .btn { flex-shrink:0; }
+.spectran-intro-tutorial { margin:26px 0 0; padding:19px 22px; border:1px solid #dce1e3; border-radius:10px; background:#fff; }
+.spectran-intro-tutorial p { margin-top:15px; color:#59616a; font-size:16px; }
+.spectran-intro-tutorial video { display:block; max-width:100%; width:800px; aspect-ratio:16 / 9; margin:18px auto 0; background:#171d21; }
+.spectran-intro-hero .spectran-intro-background { grid-column:1 / -1; margin:0; padding-top:20px; border-top:1px solid #e2e6e8; color:#59616a; font-size:15px; }
+.spectran-about-material { margin:20px 0; }
+@media(max-width:1100px) {
+  .spectran-intro-hero { grid-template-columns:minmax(0,1.5fr) minmax(150px,.6fr); padding:28px; gap:20px; }
+  .spectran-intro-feature { padding:22px; }
+}
+@media(max-width:850px) {
+  .spectran-intro-features { grid-template-columns:minmax(0,1fr); }
+  .spectran-intro-hero { grid-template-columns:minmax(0,1fr); }
+  .spectran-intro-hero-visual { max-width:420px; padding-top:0; }
+  .spectran-intro-learning { align-items:flex-start; flex-direction:column; gap:18px; }
+}
+@media(max-width:500px) {
+  .spectran-intro-lightbox .modal-dialog { width:calc(100% - 16px); margin:8px auto; }
+  .spectran-intro-lightbox .modal-header,.spectran-intro-lightbox .modal-footer { padding:10px 12px; }
+  .spectran-intro-lightbox .modal-body { padding:8px; }
+  .spectran-intro-lightbox input.spectran-intro-zoom { margin-left:12px; }
+  .spectran-intro-page { padding:3px 0 24px; }
+  .spectran-intro-hero { padding:22px 18px; gap:18px; }
+  .spectran-intro-hero h1 { font-size:32px; }
+  .spectran-intro-lead { font-size:17px; }
+  .spectran-intro-actions { flex-direction:column; }
+  .spectran-intro-feature { padding:21px 18px; }
+  .spectran-intro-page h2 { font-size:23px; }
+  .spectran-intro-feature-heading { align-items:flex-start; }
+  .spectran-intro-gallery { grid-template-columns:minmax(0,1fr); }
+  .spectran-intro-learning,.spectran-intro-tutorial { padding:22px 18px; }
+}

@@ -9,6 +9,18 @@
     position: fixed;
 }
 
+/* An off-screen navigation must also leave the keyboard focus order. */
+@media (min-width: 768px) {
+    .skin-yellow.sidebar-collapse:not(.sidebar-mini) .main-sidebar {
+        visibility: hidden;
+    }
+}
+@media (max-width: 767px) {
+    .skin-yellow:not(.sidebar-open) .main-sidebar {
+        visibility: hidden;
+    }
+}
+
 .content-wrapper {
     background-color: #F0F0F0;
     overflow-y: hidden;
@@ -178,6 +190,33 @@ body {
 
 .sidebar-menu > li#transmission > a {
     white-space: normal;
+}
+
+.sidebar-menu .spectran-material-menu {
+    display: inline-grid;
+    gap: 5px;
+}
+
+.sidebar-menu .spectran-material-menu-line {
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 3px;
+}
+
+.sidebar-menu .spectran-material-menu-line > .fa {
+    width: 16px;
+    text-align: center;
+}
+
+/* Retain a native menu icon when AdminLTE hides labels in collapsed mode. */
+.sidebar-menu > li#transmission > a > .spectran-material-collapsed-icon {
+    display: none;
+}
+@media (min-width: 768px) {
+    .sidebar-collapse .sidebar-menu > li#transmission > a > .spectran-material-collapsed-icon {
+        display: inline-block;
+    }
 }
 
 .sidebar-menu > li#transmission::before {

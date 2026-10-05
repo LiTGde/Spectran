@@ -1,0 +1,11 @@
+"condition","index","warmup","app_driver_ready_s","explanation_svg_requests"
+"with_help",1,TRUE,3.604,0
+"without_help",2,TRUE,2.585,0
+"with_help",3,FALSE,2.385,0
+"without_help",4,FALSE,2.54,0
+"without_help",5,FALSE,2.353,0
+"with_help",6,FALSE,2.601,0
+"with_help",7,FALSE,2.577,0
+"without_help",8,FALSE,2.581,0
+"without_help",9,FALSE,2.381,0
+"with_help",10,FALSE,2.389,0
