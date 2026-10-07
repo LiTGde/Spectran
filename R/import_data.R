@@ -288,7 +288,8 @@ import_dataServer <-
         dat = dat,
         Spectrum = Spectrum,
         csv_settings = csv_settings,
-        Name = shiny::reactive(input$name_id)
+        Name = shiny::reactive(input$name_id),
+        raw_data = dat0
       )
 
       #Checks on the data when transfering the File to adjustments
@@ -299,7 +300,8 @@ import_dataServer <-
         Spectrum = Spectrum,
         csv_settings = csv_settings,
         Name = shiny::reactive(input$name_id),
-        Destination = lang$ui(94)
+        Destination = lang$ui(94),
+        raw_data = dat0
       )
 
       #Set the name of the Spectrum depending on the global Name

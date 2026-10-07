@@ -1377,8 +1377,7 @@ transmissionApplyServer <- function(
       !is.null(snapshot()) &&
         !isTRUE(snapshot_archived()) &&
         !isTRUE(stale()) &&
-        isTRUE(ready()) &&
-        (!isTRUE(workspace) || !any(snapshot()$transmitted_spectrum$Bestrahlungsstaerke < 0))
+        isTRUE(ready())
     })
     can_download <- shiny::reactive({
       !is.null(snapshot()) &&

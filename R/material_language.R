@@ -1,6 +1,16 @@
 # Semantic additions for the shared material workflow. Each entry is EN, DE.
 material_strings <- function()
   list(
+    measurement_instrument = c("Measuring instrument", "Messger\u00e4t"),
+    measurement_instrument_optional = c("Measuring instrument (optional)", "Messger\u00e4t (optional)"),
+    measurement_instrument_placeholder = c("Model and calibration year, if known", "Modell und Kalibrierjahr, sofern bekannt"),
+    relative_measurement_error = c("Relative measurement error", "Relativer Messfehler"),
+    relative_measurement_error_optional = c("Relative measurement error (optional)", "Relativer Messfehler (optional)"),
+    relative_measurement_error_placeholder = c("e.g. \u00b12%; include source and conditions", "z. B. \u00b12 %; Quelle und Bedingungen angeben"),
+    measurement_metadata_note = c(
+      "These details describe the material measurement and are saved with the result. Leave undocumented details blank. Measurement errors are documented, but are not propagated through the calculation.",
+      "Diese Angaben beschreiben die Materialmessung und werden mit dem Ergebnis gespeichert. Nicht dokumentierte Angaben bleiben leer. Messfehler werden dokumentiert, aber nicht durch die Berechnung fortgepflanzt."
+    ),
     default_daylight_name = c(
       "Daylight D65, 100 lx (automatic)",
       "Tageslicht D65, 100 lx (automatisch)"

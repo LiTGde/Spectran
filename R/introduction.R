@@ -62,7 +62,7 @@ introductionUI <- function(id) {
   ui <- htmltools::tags$main(class = "spectran-intro-page",
     htmltools::tags$header(class = "spectran-intro-hero",
       htmltools::div(class = "spectran-intro-hero-copy",
-        htmltools::p(class = "spectran-intro-eyebrow", "LiTG \u00b7 SPECTRAN"),
+        htmltools::p(class = "spectran-intro-eyebrow", "LiTG Spectran"),
         htmltools::h1(tr("Licht verstehen. Mit Spektren arbeiten.", "Understand light. Explore its spectrum.")),
         htmltools::p(class = "spectran-intro-lead", tr(
           "Spektraldaten f\u00fcr Lichtplanung, Lehre und Pr\u00e4sentation. Untersuchen Sie Lichtquellen und verfolgen Sie, wie Materialien ihr Licht ver\u00e4ndern.",

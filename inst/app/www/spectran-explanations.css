@@ -8,7 +8,7 @@
 .spectran-help-header p:last-child { margin: 0; color: #59616a; font-size: 16px; }
 .spectran-help-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
 .spectran-help-page .btn, .spectran-help-link { white-space: normal; text-align: left; }
-.spectran-help-link, .material-workspace .spectran-help-link { color: #375568; background: transparent; border: 0; padding: 8px 0; text-decoration: underline; text-underline-offset: 3px; max-width: 100%; font-weight: 500; }
+.spectran-help-link, .material-workspace .spectran-help-link { display: inline-block; color: #375568; background: transparent; border: 0; box-shadow: none; padding: 8px 0; text-decoration: underline; text-underline-offset: 3px; max-width: 100%; font-weight: 500; }
 .spectran-help-link:hover { color: #172e3d; }
 .spectran-help-page select { height: auto; min-height: 42px; border-radius: 6px; width: 100%; }
 .spectran-help-page h3 { font-size: 20px; font-weight: 650; margin: 24px 0 16px; }

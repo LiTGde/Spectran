@@ -4,9 +4,13 @@ material_workspace_text <- function(key, ...) {
   strings <- list(
     title = c("Transmission & reflection", "Transmission & Reflexion"),
     intro = c("Explore how a material changes light.", "Entdecken Sie, wie ein Material Licht ver\u00e4ndert."),
-    loading = c("Loading materials and preparing the workspace\u2026", "Materialien werden geladen und der Arbeitsbereich wird vorbereitet\u2026"),
+    loading_title = c("Preparing materials", "Materialien werden vorbereitet"),
+    loading = c("Loading the material library and preparing the workspace. This window closes automatically when everything is ready.", "Die Materialbibliothek wird geladen und der Arbeitsbereich vorbereitet. Dieses Fenster schlie\u00dft sich automatisch, sobald alles bereit ist."),
+    loading_error = c("The material workspace could not be loaded. Open another page and return to try again.", "Der Materialbereich konnte nicht geladen werden. Wechseln Sie zu einer anderen Seite und kehren Sie zur\u00fcck, um es erneut zu versuchen."),
     type_label = c("Type:", "Typ:"),
     source_label = c("Source:", "Quelle:"),
+    original_source = c("Original source (as cited in the collection)", "Originalquelle (laut Sammlung)"),
+    upload_provenance = c("This material comes from your CSV file. Measurement details are documented only when you enter them in Material details.", "Dieses Material stammt aus Ihrer CSV-Datei. Messangaben werden nur dokumentiert, wenn Sie diese unter Materialdetails eintragen."),
     facade_products = c("Fa\u00e7ade glazing products", "Verglasungsprodukte f\u00fcr Fassaden"),
     spectral_colours = c("Show spectral colours", "Spektralfarben anzeigen"),
     spectral_colours_help = c("Spectral colours indicate wavelength, not the material's appearance.", "Spektralfarben kennzeichnen die Wellenl\u00e4nge, nicht die Materialfarbe."),
@@ -77,8 +81,7 @@ material_workspace_text <- function(key, ...) {
     source_reset_cancelled = c("Source change cancelled. %s was not used. The active source and saved light path are still available.", "Quellenwechsel abgebrochen. %s wurde nicht verwendet. Die aktive Quelle und der gespeicherte Lichtpfad sind weiterhin verf\u00fcgbar."),
     automatic = c("Starting example \u00b7 daylight D65", "Startbeispiel \u00b7 Tageslicht D65"),
     current = c("Active source for the next calculation", "Aktive Quelle f\u00fcr die n\u00e4chste Berechnung"),
-    negative_source = c("This source contains negative measured values. Results remain available, but it cannot be used for a sequence of materials. Choose a standard illuminant or upload corrected measurements using Change light source.", "Diese Quelle enth\u00e4lt negative Messwerte. Ergebnisse sind verf\u00fcgbar, aber eine Folge mehrerer Materialien ist damit nicht m\u00f6glich. W\u00e4hlen Sie \u00fcber Lichtquelle \u00e4ndern eine Normlichtart oder laden Sie korrigierte Messwerte."),
-    continuation_unavailable = c("Another material needs a nonnegative light spectrum.", "Ein weiteres Material ben\u00f6tigt ein nichtnegatives Lichtspektrum."),
+    negative_source = c("%d negative light measurements were set to 0 before calculation. This can occur with measurement noise. The original values and correction are recorded in the audit export. You can save the result and continue with more materials.", "%d negative Lichtmesswerte wurden vor der Berechnung auf 0 gesetzt. Solche Werte k\u00f6nnen durch Messrauschen entstehen. Ursprungswerte und Korrektur sind im Pr\u00fcfexport dokumentiert. Sie k\u00f6nnen das Ergebnis speichern und weitere Materialien verwenden."),
     material = c("Material", "Material"),
     browse = c("Browse materials", "Materialien entdecken"),
     choose = c("Use this material", "Material verwenden"),
@@ -99,6 +102,11 @@ material_workspace_text <- function(key, ...) {
     preview = c("Material preview", "Materialvorschau"),
     advanced = c("Material details & assumptions", "Materialdetails & Annahmen"),
     advanced_required = c("Confirm measurement assumptions", "Messannahmen best\u00e4tigen"),
+    optional_measurements = c("Optional measurement details", "Freiwillige Messangaben"),
+    confirmation_required = c("Required before calculation", "Vor der Berechnung erforderlich"),
+    confirmation_done = c("Confirmed", "Best\u00e4tigt"),
+    type_confirmation = c("Confirm the measurement type", "Messart best\u00e4tigen"),
+    scattering_confirmation = c("Confirm the scattering measurement", "Messung der streuenden Probe best\u00e4tigen"),
     geometry_confirmation = c("Geometry for this result", "Geometrie f\u00fcr dieses Ergebnis"),
     measurement_choices = c("Measurement confirmation needed", "Messannahmen zu best\u00e4tigen"),
     missing = c("Complete the missing wavelengths", "Fehlende Wellenl\u00e4ngen erg\u00e4nzen"),
@@ -235,6 +243,7 @@ material_browser_card <- function(record, ns, selected = NULL, spectral_colours 
     material_thumbnail(item$curve, name, spectral_colours, ns(paste0("spectrum_", make.names(id)))),
     htmltools::p(class = "material-card-description",
       if (!is.na(description)) description),
+    material_catalogue_source_ui(record),
     htmltools::tags$div(class = "material-card-coverage",
       htmltools::span(paste0(record$wavelength_min_nm, "\u2013", record$wavelength_max_nm, " nm")),
       htmltools::span(class = if (complete) "material-badge" else "material-badge needs-choice",
@@ -250,14 +259,65 @@ material_browser_card <- function(record, ns, selected = NULL, spectral_colours 
       htmltools::tags$summary(material_workspace_text("measurement")),
       if (identical(record$catalogue[[1L]], "facade_windows")) htmltools::p(
         htmltools::strong(paste0(material_workspace_text("catalogue_designation"), ": ")),
-        transmission_catalogue_localized_value(record, "source_description")),
-      htmltools::p(transmission_catalogue_localized_value(record, "measurement_geometry")),
-      htmltools::p(record$source_reference),
-      htmltools::a(href = record$source_url, target = "_blank", rel = "noopener noreferrer",
-        transmission_text("source")),
-      htmltools::p(transmission_catalogue_localized_value(record, "licence"))
+        material_catalogue_description(record)),
+      material_optional_metadata_ui(transmission_text("catalogue_geometry"),
+        transmission_catalogue_localized_value(record, "measurement_geometry")),
+      material_measurement_metadata_ui(record),
+      material_catalogue_original_source_ui(record),
+      material_optional_metadata_ui(transmission_text("licence"),
+        transmission_catalogue_localized_value(record, "licence"))
     )
   )
+}
+
+material_confirmation_ui <- function(title, control) {
+  htmltools::tags$section(class = "material-confirmation",
+    htmltools::h4(title),
+    htmltools::div(class = "material-confirmation-status", role = "status",
+      htmltools::span(class = "material-confirmation-pending",
+        shiny::icon("circle-exclamation"), material_workspace_text("confirmation_required")),
+      htmltools::span(class = "material-confirmation-done",
+        shiny::icon("check-circle"), material_workspace_text("confirmation_done"))),
+    control)
+}
+
+material_optional_metadata_ui <- function(label, value) {
+  if (is.null(value) || length(value) != 1L || is.na(value) ||
+      trimws(value) %in% c("", "NA", "N/A", "NaN")) return(NULL)
+  htmltools::p(htmltools::strong(paste0(label, ": ")), value)
+}
+
+# Name the collection beside its link, keeping original per-material references
+# distinct. Raw catalogue metadata remain unchanged for the audit export.
+material_catalogue_source_ui <- function(record) {
+  label <- switch(record$catalogue[[1L]],
+    spitschan2019 = "Spitschan et al. (2019)",
+    tub67600 = "Rudawski et al. (2022)",
+    facade_windows = "CIE / photobiologyFilters",
+    transmission_catalogue_localized_value(record, "catalogue_label"))
+  htmltools::p(class = "material-catalogue-source",
+    htmltools::strong(paste0(transmission_text("source"), ": ")),
+    htmltools::a(href = record$source_url, target = "_blank",
+      rel = "noopener noreferrer", label))
+}
+
+material_catalogue_original_source_ui <- function(record) {
+  if (!identical(record$catalogue[[1L]], "spitschan2019")) return(NULL)
+  material_optional_metadata_ui(material_workspace_text("original_source"), record$source_reference)
+}
+
+material_catalogue_description <- function(record) {
+  # Thickness has a separate field with units; source prose sometimes says NA
+  # or gives metres without a unit. Keep the product designation and maker.
+  sub("; (thickness|Dicke) [^;]+", "",
+    transmission_catalogue_localized_value(record, "source_description"))
+}
+
+material_measurement_metadata_ui <- function(record) {
+  htmltools::tagList(lapply(c("measurement_instrument", "relative_measurement_error"), function(field) {
+    material_optional_metadata_ui(material_text(field),
+      transmission_catalogue_localized_value(record, field))
+  }))
 }
 
 material_browser_colour <- function(curve) {
@@ -275,7 +335,6 @@ material_browser_colour <- function(curve) {
 # Raw catalogue prose sometimes embeds missing thickness or metre values without
 # units. The separate measurement details retain the supplied thickness in mm.
 material_browser_description <- function(record) {
-  description <- transmission_catalogue_localized_value(record, "source_description")
   if (identical(record$catalogue[[1L]], "facade_windows") &&
       !identical(record$catalogue_id[[1L]], "facade:JIS_Z8902")) {
     thickness <- record$thickness_mm[[1L]]
@@ -283,7 +342,7 @@ material_browser_description <- function(record) {
       if (is.finite(thickness)) material_workspace_text("documented_thickness",
         material_workspace_metric(thickness))))
   }
-  sub("; (thickness|Dicke) [^;]+", "", description)
+  material_catalogue_description(record)
 }
 
 material_browser_ui <- function(records, ns, selected, query = "", spectral_colours = TRUE) {
@@ -305,6 +364,20 @@ material_browser_ui <- function(records, ns, selected, query = "", spectral_colo
   }))
 }
 
+material_source_icon <- function() {
+  htmltools::tags$svg(
+    viewBox = "-44 -44 88 88", width = "44", height = "44",
+    fill = "none", stroke = "currentColor", `stroke-width` = "3.3",
+    `stroke-linecap` = "round", `stroke-linejoin` = "round",
+    `aria-hidden` = "true", focusable = "false",
+    htmltools::tags$circle(r = "10.5"),
+    lapply(seq(0, 315, by = 45), function(angle) {
+      htmltools::tags$path(d = "M0 -18 V-25",
+        transform = paste0("rotate(", angle, ")"))
+    })
+  )
+}
+
 material_source_ui <- function(id) shiny::uiOutput(shiny::NS(id, "summary"))
 
 # Import has its own draft state; the parent receives only confirmed imports.
@@ -318,7 +391,7 @@ material_source_server <- function(id, current, history, on_import, automatic = 
       lux <- if (is.null(source)) NA_real_ else material_photopic_lux(source$spectrum)
       edi <- if (is.null(source)) NA_real_ else material_light_level(source$spectrum, "melanopic")
       htmltools::tags$section(class = "material-source-card",
-        htmltools::div(class = "material-source-icon", shiny::icon("sun")),
+        htmltools::div(class = "material-source-icon", material_source_icon()),
         htmltools::div(class = "material-source-copy",
           htmltools::p(class = "material-eyebrow", material_workspace_text("source")),
           htmltools::h3(name),
@@ -327,8 +400,7 @@ material_source_server <- function(id, current, history, on_import, automatic = 
             " \u00b7 ", material_workspace_text("melanopic_edi"), ": ", material_workspace_metric(edi), " lx",
             " \u00b7 ", material_workspace_text(if (isTRUE(automatic()) &&
               identical(source$node_id, "node-1")) "automatic" else "current")),
-          if (!is.null(source) && any(source$spectrum$Bestrahlungsstaerke < 0))
-            htmltools::p(class = "material-source-warning", material_workspace_text("negative_source"))),
+          if (!is.null(source)) material_source_preprocessing_note(source$provenance)),
         shiny::actionButton(session$ns("change"), material_workspace_text("change_source"),
           icon = shiny::icon("pen"), class = "btn-default"))
     })
@@ -404,7 +476,7 @@ material_workspace_ui <- function(id, source_ui = NULL, help_links = list()) {
     lang = if (transmission_language_setting() == "Deutsch") "de" else "en",
     common_style, shinyjs::useShinyjs(),
     htmltools::tags$header(class = "material-workspace-header",
-      htmltools::p(class = "material-eyebrow", "SPECTRAN / LiTG"),
+      htmltools::p(class = "material-eyebrow material-brand", "LiTG Spectran"),
       htmltools::h2(t("title")), htmltools::p(t("intro"))),
     source_ui,
     htmltools::div(class = "material-workspace-flow",
@@ -447,6 +519,8 @@ material_workspace_ui <- function(id, source_ui = NULL, help_links = list()) {
                   spectral_csv_settingsUI(ns("csv"), labels = transmission_csv_settings_labels()))),
               shiny::uiOutput(ns("coverage_controls")),
               shiny::uiOutput(ns("material_details")),
+              shiny::uiOutput(ns("type_acknowledgement")),
+              shiny::uiOutput(ns("scattering_acknowledgement")),
               htmltools::tags$details(class = "material-disclosure material-provenance",
                 htmltools::tags$summary(t("measurement")), shiny::uiOutput(ns("catalogue_info")))),
             htmltools::tags$section(class = "material-preview-card",

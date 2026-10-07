@@ -18,6 +18,25 @@ notice identifies this automatic choice until an explicit source is imported.
 An existing source, including a zero spectrum, is never replaced automatically.
 Later imports retain the usual confirmation before replacing a promoted history.
 
+Negative measured light-spectrum values, for example from measurement noise,
+are set to zero before interpolation, scaling, or material calculations. The
+source and result show the correction count. Saving and additional material
+steps remain available. The source provenance and every subsequent snapshot
+retain the original negative measurements, their wavelengths, canonical units
+(W m^-2 nm^-1), and the processing stage. The audit ZIP includes these in
+`spectra/source-negative-values.csv`, as well as a decision and warning. A new
+clean source clears this history of corrections. This does not relax material
+coefficient validation, which still requires values from 0 to 1.
+
+Optional material metadata records the measuring instrument (model and
+calibration year) and relative measurement error, including any supplied
+conditions. These descriptions are retained with snapshots and audit exports;
+measurement uncertainty is not propagated into calculated metrics. The
+[TU Berlin measurement methods](https://api-depositonce.tu-berlin.de/server/api/core/bitstreams/891785be-774c-4de7-a168-22af70e19302/content),
+page 1, identify a Bruins Instruments OMEGA 20 for all samples. No calibration
+year or relative measurement error is specified there. Other library records
+leave these fields blank when the source does not document them.
+
 The results start with **Transmissionsgrad** or **Reflexionsgrad**, followed by
 **Licht und Strahlung** (photopic illuminance first, then irradiances) and
 **alpha-opisch** (five EDI values in lux, then a separate DER group containing

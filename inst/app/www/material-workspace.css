@@ -14,8 +14,9 @@
 .material-workspace-header h2 { font-size: 30px; font-weight: 600; letter-spacing: -.6px; margin: 4px 0 6px; }
 .material-workspace-header > p:last-child { color: var(--material-muted); font-size: 16px; margin: 0; }
 .material-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: #59616a; margin: 0 0 5px; }
+.material-brand { text-transform: none; }
 .material-source-card { display: flex; align-items: center; gap: 16px; padding: 18px 20px; background: #f7f8f6; border: 1px solid #e4e6de; border-radius: 8px; margin-bottom: 24px; }
-.material-source-icon { background: #f8e350; border-radius: 50%; width: 44px; height: 44px; flex: 0 0 44px; display: grid; place-items: center; font-size: 22px; }
+.material-source-icon { background: #f8e350; border-radius: 50%; width: 44px; height: 44px; flex: 0 0 44px; display: grid; place-items: center; }
 .material-source-copy { flex: 1; min-width: 0; }
 .material-source-copy h3 { font-size: 18px; margin: 0 0 4px; line-height: 1.3; overflow-wrap: anywhere; }
 .material-source-meta { font-size: 13px; color: #59616a; margin: 0; }
@@ -70,8 +71,10 @@
 .material-light-level .radio-inline input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
 .material-light-level .radio-inline:has(input:focus-visible) { outline: 3px solid #1263a4; outline-offset: 2px; }
 .material-light-level .help-block { font-size: 12px; color: #59616a; }
-.material-loading { padding: 16px 20px; margin-bottom: 12px; border-left: 4px solid #dfc638; background: #fff9d6; color: #36392f; font-weight: 600; }
-.material-loading i { margin-right: 8px; }
+.material-loading { padding: 12px 4px; text-align: center; color: #36392f; }
+#shiny-modal .modal-dialog:has(.material-loading) { top: 50%; margin: 0 auto; transform: translateY(-50%); }
+.material-loading i { display: inline-block; margin-bottom: 18px; font-size: 32px; color: #887400; }
+.material-loading p { margin: 0; line-height: 1.6; }
 .material-result-model { padding: 0 0 16px; }
 .material-save-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .material-path-views > .nav-tabs { margin: 16px 0; }
@@ -93,6 +96,21 @@
 .material-geometry-summary { padding: 12px 14px; margin: 14px 0 8px; background: #f7f8f6; border-left: 3px solid #d0b943; overflow-wrap: anywhere; }
 .material-geometry-summary h4 { margin: 0 0 7px; font-size: 14px; font-weight: 600; }
 .material-geometry-summary p { margin: 0; font-size: 13px; line-height: 1.5; }
+.material-field { margin-bottom: 18px; }
+.material-field .shiny-input-container { width: 100%; margin-bottom: 0; }
+.material-field:has(.material-field-message) { padding: 12px 14px; border-left: 3px solid #b37400; background: #fffaf0; border-radius: 4px; }
+.material-field-message { margin: 8px 0 0; color: #775000; font-size: 13px; line-height: 1.5; }
+.material-confirmation { margin: 12px 0 16px; padding: 16px; border: 1px solid #e9ce93; border-left: 3px solid #b37400; border-radius: 8px; background: #fffaf0; }
+.material-confirmation h4 { margin: 0 0 8px; font-size: 17px; font-weight: 600; }
+.material-confirmation-status { font-size: 12px; font-weight: 600; color: #775000; margin-bottom: 12px; }
+.material-confirmation .shiny-input-container { width: 100%; margin-bottom: 0; }
+.material-confirmation .checkbox { margin-bottom: 0; }
+.material-confirmation .checkbox label { line-height: 1.5; }
+.material-confirmation .material-confirmation-done { display: none; }
+.material-confirmation:has(input[type="checkbox"]:checked) { border-color: #b9cdbc; border-left-color: #54775a; background: #f3f7f3; }
+.material-confirmation:has(input[type="checkbox"]:checked) .material-confirmation-status { color: #3e6144; }
+.material-confirmation:has(input[type="checkbox"]:checked) .material-confirmation-pending { display: none; }
+.material-confirmation:has(input[type="checkbox"]:checked) .material-confirmation-done { display: inline; }
 .material-workspace .transmission-catalogue-info { border: 0; background: #f7f8f9; padding: 12px; font-size: 12px; margin: 0; }
 .material-workspace .transmission-normalization-complete { margin: 8px 0; padding: 10px 0; background: transparent; border: 0; font-size: 12px; }
 .material-workspace .transmission-normalization-complete p { margin-bottom: 0; }
@@ -159,6 +177,8 @@
 .material-thumbnail { width: 100%; height: auto; margin: 3px 0 10px; overflow: visible; }
 .material-thumbnail text { font-size: 9px; fill: #657078; font-family: sans-serif; }
 .material-card-description { font-size: 12px; color: #59616a; line-height: 1.45; }
+.material-catalogue-source { font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.material-catalogue-source a { color: #005b70; text-decoration: underline; text-underline-offset: 2px; }
 .material-card-coverage { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 8px; font-size: 12px; padding-top: 8px; margin-top: auto; }
 .material-browser-card details { margin: 10px 0; font-size: 12px; }
 .material-browser-card summary { cursor: pointer; font-weight: 600; color: #485158; }

@@ -21,3 +21,5 @@ manifest.json
 ^tests/verification$
 ^\.Renviron$
 (^|/)Rplots\.pdf$
+^vignettes/\.quarto$
+^Spectran_Hexfarben_Kurzbeschreibung\.docx$

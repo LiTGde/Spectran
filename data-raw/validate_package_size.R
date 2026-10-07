@@ -2,7 +2,7 @@
 # the corresponding installed package directory from R CMD check.
 #
 # Rscript --vanilla data-raw/validate_package_size.R \
-#   /tmp/Spectran_1.0.6.tar.gz /tmp/Spectran.Rcheck/Spectran
+#   /tmp/Spectran_2.0.0.tar.gz /tmp/Spectran.Rcheck/Spectran
 #
 # These conservative project budgets are 5 decimal MB each. CRAN's policy
 # distinguishes data/documentation (normally 5 MB each) from source archives
@@ -36,6 +36,8 @@ excluded <- c(
   "^Spectran/README\\.md$",
   "^Spectran/man/figures/English(/|$)",
   "^Spectran/tests/verification(/|$)",
+  "^Spectran/vignettes/\\.quarto(/|$)",
+  "^Spectran/Spectran_Hexfarben_Kurzbeschreibung\\.docx$",
   "/Rplots\\.pdf$",
   "^Spectran/\\.Renviron$",
   "^Spectran/(renv|rsconnect|data-raw)(/|$)"

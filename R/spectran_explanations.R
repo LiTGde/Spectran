@@ -16,7 +16,8 @@ spectran_explanation_topics <- function() {
       summary = tr("Lichtmenge und spektrale Zusammensetzung unterscheiden.", "Distinguish light level from spectral composition.")),
     colour = list(group = "basics", icon = "palette",
       title = tr("Lichtfarbe und Farbwiedergabe", "Light colour and colour rendering"),
-      summary = tr("Was CCT, Ra und die Testfarben beschreiben.", "What CCT, Ra and the test colours describe.")),
+      summary = htmltools::HTML(tr("Was CCT, R<sub>a</sub> und die Testfarben beschreiben.",
+        "What CCT, R<sub>a</sub> and the test colours describe."))),
     age = list(group = "basics", icon = "eye",
       title = tr("Alter und Auge", "Age and the eye"),
       summary = tr("Augenmedien, Pupille und der 32-j\u00e4hrige Referenzbeobachter.", "Ocular media, pupil size and the 32-year-old reference observer.")),
@@ -64,8 +65,8 @@ spectran_explanation_links_ui <- function(id) {
     from_result_model = tr("Was bedeutet F = 1?", "What does F = 1 mean?"),
     from_path = tr("Lichtpfad und Gesamtwirkung erkl\u00e4rt", "Light path and combined effects explained"))
   stats::setNames(lapply(names(labels), function(key) {
-    shiny::actionButton(ns(key), labels[[key]], icon = shiny::icon("circle-question"),
-      class = "btn-link spectran-help-link")
+    shiny::actionLink(ns(key), labels[[key]], icon = shiny::icon("circle-question"),
+      class = "spectran-help-link")
   }), names(labels))
 }
 
@@ -83,6 +84,8 @@ spectran_help_figure <- function(file, alt) {
 
 spectran_explanation_content <- function(topic) {
   tr <- spectran_help_text
+  # Markup is limited to these static translations; image alt text stays plain.
+  rich <- function(de, en) htmltools::HTML(tr(de, en))
   p <- htmltools::p
   h3 <- htmltools::h3
   note <- function(...) htmltools::div(class = "spectran-help-note", ...)
@@ -103,8 +106,8 @@ spectran_explanation_content <- function(topic) {
       cards(
         card(tr("Waagerecht: Wellenl\u00e4nge", "Horizontal: wavelength"), tr("Die Wellenl\u00e4nge \u03bb steht in Nanometern (nm). Kurze Wellenl\u00e4ngen liegen links, lange rechts. Die Spektralfarben dienen der Orientierung; ein Bildschirm kann monochromatisches Licht nicht farbgetreu wiedergeben.",
           "Wavelength \u03bb is given in nanometres (nm). Short wavelengths are on the left, long wavelengths on the right. Spectral colours are a visual guide; a screen cannot faithfully reproduce monochromatic light.")),
-        card(tr("Senkrecht: spektrale Bestrahlungsst\u00e4rke", "Vertical: spectral irradiance"), tr("E\u03bb beschreibt die Strahlungsleistung pro Fl\u00e4che und Wellenl\u00e4ngenintervall. Die H\u00f6he eines Peaks allein beschreibt noch nicht die gesamte Bestrahlungsst\u00e4rke.",
-          "E\u03bb describes radiant power per area and wavelength interval. The height of a peak alone does not describe the total irradiance."))),
+        card(tr("Senkrecht: spektrale Bestrahlungsst\u00e4rke", "Vertical: spectral irradiance"), rich("E<sub>\u03bb</sub> beschreibt die Strahlungsleistung pro Fl\u00e4che und Wellenl\u00e4ngenintervall. Die H\u00f6he eines Peaks allein beschreibt noch nicht die gesamte Bestrahlungsst\u00e4rke.",
+          "E<sub>\u03bb</sub> describes radiant power per area and wavelength interval. The height of a peak alone does not describe the total irradiance."))),
       spectran_help_figure("05-spektrum-lesen", tr(
         "Ein schmaler hoher Peak und ein breiter niedrigerer Peak verdeutlichen den Unterschied zwischen H\u00f6he und Fl\u00e4che. Die Fl\u00e4che \u00fcber 380 bis 780 nm ergibt die Bestrahlungsst\u00e4rke. Darunter wird das Beispielspektrum mit V Lambda gewichtet und zur Kenngr\u00f6\u00dfe integriert.",
         "A tall narrow peak and a lower broad peak distinguish height from area. The area over 380 to 780 nm gives irradiance. Below, the example spectrum is weighted by V lambda and integrated to obtain a metric.")),
@@ -121,10 +124,10 @@ spectran_explanation_content <- function(topic) {
       cards(
       card(tr("Bestrahlungsst\u00e4rke", "Irradiance"), tr("Strahlungsleistung pro Fl\u00e4che, in W/m\u00b2 oder mW/m\u00b2. Die Gesamtbestrahlungsst\u00e4rke wird ohne Empfindlichkeitsgewichtung aus dem Spektrum gebildet.",
           "Radiant power per area, in W/m\u00b2 or mW/m\u00b2. Total irradiance is obtained from the spectrum without sensitivity weighting.")),
-      card(tr("Photopische Beleuchtungsst\u00e4rke Ev", "Photopic illuminance Ev"), tr("Mit V(\u03bb) gewichtetes Licht am Empfangsort, in Lux (lx). Es beschreibt die photometrische Bewertung f\u00fcr das Tagsehen.",
+      card(rich("Photopische Beleuchtungsst\u00e4rke E<sub>v</sub>", "Photopic illuminance E<sub>v</sub>"), tr("Mit V(\u03bb) gewichtetes Licht am Empfangsort, in Lux (lx). Es beschreibt die photometrische Bewertung f\u00fcr das Tagsehen.",
           "Light at the receiving location weighted by V(\u03bb), in lux (lx). It describes the photometric assessment for daytime vision.")),
-      card(tr("Melanopische EDI", "Melanopic EDI"), tr("Die Beleuchtungsst\u00e4rke des Referenztageslichts D65 mit derselben melanopischen Bestrahlungsst\u00e4rke wie das untersuchte Licht. Die Einheit ist ebenfalls lx; EDI ist eine andere Bewertung als Ev.",
-          "The illuminance of reference daylight D65 with the same melanopic irradiance as the light being assessed. Its unit is also lx; EDI is a different assessment from Ev.")),
+      card(tr("Melanopische EDI", "Melanopic EDI"), rich("Die Beleuchtungsst\u00e4rke des Referenztageslichts D65 mit derselben melanopischen Bestrahlungsst\u00e4rke wie das untersuchte Licht. Die Einheit ist ebenfalls lx; EDI ist eine andere Bewertung als E<sub>v</sub>.",
+          "The illuminance of reference daylight D65 with the same melanopic irradiance as the light being assessed. Its unit is also lx; EDI is a different assessment from E<sub>v</sub>.")),
       columns = 3L),
       spectran_help_figure("06-beleuchtungsstaerke-edi-der", tr(
         "Drei Bewertungswege f\u00fchren vom selben Spektrum zur Bestrahlungsst\u00e4rke, zur Beleuchtungsst\u00e4rke und zur melanopischen EDI. Im frei gew\u00e4hlten Rechenbeispiel werden aus 100 Lux bei DER 0,6 eine EDI von 60 Lux. Verdoppeln auf 200 Lux ergibt 120 Lux EDI bei gleicher DER.",
@@ -132,13 +135,13 @@ spectran_explanation_content <- function(topic) {
       application(
       tr("Lichtniveau und Spektralform unterscheiden", "Distinguish light level from spectral shape"),
       p(
-      tr("Die melanopische DER (MDER) ist das Verh\u00e4ltnis melanopische EDI / Ev. Es ist einheitenlos und beschreibt die spektrale Zusammensetzung relativ zu D65. Bei unver\u00e4nderter Spektralform bleibt DER beim Skalieren gleich.",
-          "Melanopic DER (MDER) is the ratio of melanopic EDI to Ev. It is dimensionless and describes spectral composition relative to D65. With an unchanged spectral shape, DER stays constant when the level is scaled.")),
-      formula(tr("Melanopische EDI = Ev \u00d7 melanopische DER", "Melanopic EDI = Ev \u00d7 melanopic DER")),
+      rich("Die melanopische DER (MDER) ist das Verh\u00e4ltnis melanopische EDI / E<sub>v</sub>. Es ist einheitenlos und beschreibt die spektrale Zusammensetzung relativ zu D65. Bei unver\u00e4nderter Spektralform bleibt DER beim Skalieren gleich.",
+          "Melanopic DER (MDER) is the ratio of melanopic EDI to E<sub>v</sub>. It is dimensionless and describes spectral composition relative to D65. With an unchanged spectral shape, DER stays constant when the level is scaled.")),
+      formula(rich("Melanopische EDI = E<sub>v</sub> \u00d7 melanopische DER", "Melanopic EDI = E<sub>v</sub> \u00d7 melanopic DER")),
       p(tr("Im \u03b1-opischen Bereich stehen neben der melanopischen auch die rhodopische sowie die S-, M- und L-Zapfen-Bewertung zur Verf\u00fcgung. EDI und DER werden f\u00fcr jede Empfindlichkeit entsprechend gebildet.",
         "The \u03b1-opic view includes melanopic, rhodopic and S-, M- and L-cone assessments. EDI and DER are defined accordingly for each sensitivity.")),
-      note(tr("Diese Kenngr\u00f6\u00dfen beschreiben einen Lichtreiz. Sie sagen allein keine individuelle Wirkung auf Schlaf, Wachheit oder Gesundheit voraus. Bei Ev = 0 ist das Verh\u00e4ltnis EDI / Ev nicht definiert.",
-        "These metrics describe a light stimulus. On their own, they do not predict an individual's sleep, alertness or health response. When Ev = 0, the ratio EDI / Ev is undefined."))),
+      note(rich("Diese Kenngr\u00f6\u00dfen beschreiben einen Lichtreiz. Sie sagen allein keine individuelle Wirkung auf Schlaf, Wachheit oder Gesundheit voraus. Bei E<sub>v</sub> = 0 ist das Verh\u00e4ltnis EDI / E<sub>v</sub> nicht definiert.",
+        "These metrics describe a light stimulus. On their own, they do not predict an individual's sleep, alertness or health response. When E<sub>v</sub> = 0, the ratio EDI / E<sub>v</sub> is undefined."))),
       refs(link("CIE S 026:2018", URL_CIE))),
     colour = htmltools::tagList(
       p(
@@ -146,8 +149,8 @@ spectran_explanation_content <- function(topic) {
       cards(
         card(tr("Lichtfarbe: CCT", "Light colour: CCT"), tr("Die \u00e4hnlichste Farbtemperatur in Kelvin beschreibt die N\u00e4he der Lichtfarbe zu einem Planckschen Strahler. Sie ist f\u00fcr Lichtfarben nahe dem Planckschen Kurvenzug sinnvoll. Gleiche CCT bedeutet nicht gleiche Spektren oder gleiche melanopische DER.",
           "Correlated colour temperature, in kelvin, relates the light colour to a Planckian radiator. It is meaningful for colours close to the Planckian locus. Equal CCT does not imply equal spectra or equal melanopic DER.")),
-        card(tr("Farbwiedergabe: Ra und Ri", "Colour rendering: Ra and Ri"), tr("Ra fasst die Farbwiedergabe von acht Testfarben gegen\u00fcber einer Referenzlichtquelle zusammen. Die einzelnen Ri zeigen Unterschiede f\u00fcr bestimmte Testfarben. Der Ra-Wert allein beschreibt nicht alle Farbeigenschaften einer Lichtquelle.",
-          "Ra summarises the colour rendering of eight test colours relative to a reference illuminant. Individual Ri values show differences for particular test colours. Ra alone does not describe every colour property of a light source."))),
+        card(rich("Farbwiedergabe: R<sub>a</sub> und R<sub>i</sub>", "Colour rendering: R<sub>a</sub> and R<sub>i</sub>"), rich("R<sub>a</sub> fasst die Farbwiedergabe von acht Testfarben gegen\u00fcber einer Referenzlichtquelle zusammen. Die einzelnen R<sub>i</sub> zeigen Unterschiede f\u00fcr bestimmte Testfarben. Der R<sub>a</sub>-Wert allein beschreibt nicht alle Farbeigenschaften einer Lichtquelle.",
+          "R<sub>a</sub> summarises the colour rendering of eight test colours relative to a reference illuminant. Individual R<sub>i</sub> values show differences for particular test colours. R<sub>a</sub> alone does not describe every colour property of a light source."))),
       spectran_help_figure("07-lichtfarbe-farbwiedergabe", tr(
         "CCT ordnet die Lichtfarbe von warmwei\u00df bis kaltwei\u00df ein. Ri vergleichen einzelne Testfarben unter Testlicht und Referenz. Ra ist der Mittelwert R1 bis R8; R9 f\u00fcr ges\u00e4ttigtes Rot ist darin nicht enthalten. Die Farbfelder sind schematisch.",
         "CCT describes light colour from warm white to cool white. Ri compare individual test colours under test and reference lighting. Ra is the mean of R1 to R8; R9 for saturated red is not included. The colour patches are schematic.")),
@@ -180,8 +183,8 @@ spectran_explanation_content <- function(topic) {
       cards(
       card(tr("1 \u00b7 Lichtquelle w\u00e4hlen", "1 \u00b7 Choose a light source"), tr("Importieren Sie eine CSV-Datei, w\u00e4hlen Sie ein Beispielspektrum oder konstruieren Sie eine Lichtquelle. Pr\u00fcfen Sie bei Dateien die Spalten, Einheiten und Hinweise der Importpr\u00fcfung.",
           "Import a CSV file, choose an example spectrum or construct a light source. For files, check columns, units and the import validation messages.")),
-      card(tr("2 \u00b7 Niveau festlegen", "2 \u00b7 Set the level"), tr("Eine Skalierung multipliziert alle Wellenl\u00e4ngen mit demselben Faktor. Damit \u00e4ndert sich die Lichtmenge, w\u00e4hrend die Spektralform gleich bleibt. Im Materialmodul kann das Zielniveau als Ev oder melanopische EDI vorgegeben werden.",
-          "Scaling multiplies all wavelengths by the same factor. It changes the light level while preserving the spectral shape. In the material module, the target can be set as Ev or melanopic EDI."))),
+      card(tr("2 \u00b7 Niveau festlegen", "2 \u00b7 Set the level"), rich("Eine Skalierung multipliziert alle Wellenl\u00e4ngen mit demselben Faktor. Damit \u00e4ndert sich die Lichtmenge, w\u00e4hrend die Spektralform gleich bleibt. Im Materialmodul kann das Zielniveau als E<sub>v</sub> oder melanopische EDI vorgegeben werden.",
+          "Scaling multiplies all wavelengths by the same factor. It changes the light level while preserving the spectral shape. In the material module, the target can be set as E<sub>v</sub> or melanopic EDI."))),
       spectran_help_figure("09-import-skalierung-export", tr(
         "Drei Schritte f\u00fchren von CSV, Beispiel oder konstruierter Lichtquelle \u00fcber eine einheitliche Skalierung zum Export von Abbildungen und Tabellen. Ein Vergleich kann auf gleichem Ev, gleicher melanopischer EDI oder den Originalwerten beruhen.",
         "Three steps lead from a CSV, example or constructed light source through uniform scaling to exported figures and tables. Comparisons can use equal Ev, equal melanopic EDI or original values.")),
@@ -201,10 +204,10 @@ spectran_explanation_content <- function(topic) {
         "The arrows explain the light paths. Spectran does not derive angular distributions, room geometry or room interreflections from them."))),
     interactions = htmltools::tagList(
       cards(
-        card("Transmission", tr("Das einfallende Spektrum E\u03bb wird mit dem spektralen Transmissionsgrad \u03c4\u03bb multipliziert. Die Ausgangsgr\u00f6\u00dfe E\u2032\u03bb ist eine spektrale Bestrahlungsst\u00e4rke.",
-          "The incident spectrum E\u03bb is multiplied by spectral transmittance \u03c4\u03bb. The output E\u2032\u03bb is a spectral irradiance.")),
-        card(tr("Reflexion", "Reflection"), tr("Das einfallende Spektrum E\u03bb wird mit dem spektralen Reflexionsgrad \u03c1\u03bb multipliziert. Die Ausgangsgr\u00f6\u00dfe am Material ist M\u03bb, die reflektierte spektrale spezifische Ausstrahlung. Die Bestrahlungsst\u00e4rke am Empf\u00e4nger ben\u00f6tigt zus\u00e4tzlich eine geometrische Annahme.",
-          "The incident spectrum E\u03bb is multiplied by spectral reflectance \u03c1\u03bb. The output at the material is M\u03bb, reflected spectral radiant exitance. Irradiance at the receiver also needs a geometrical assumption."))),
+        card("Transmission", rich("Das einfallende Spektrum E<sub>\u03bb</sub> wird mit dem spektralen Transmissionsgrad \u03c4<sub>\u03bb</sub> multipliziert. Die Ausgangsgr\u00f6\u00dfe E\u2032<sub>\u03bb</sub> ist eine spektrale Bestrahlungsst\u00e4rke.",
+          "The incident spectrum E<sub>\u03bb</sub> is multiplied by spectral transmittance \u03c4<sub>\u03bb</sub>. The output E\u2032<sub>\u03bb</sub> is a spectral irradiance.")),
+        card(tr("Reflexion", "Reflection"), rich("Das einfallende Spektrum E<sub>\u03bb</sub> wird mit dem spektralen Reflexionsgrad \u03c1<sub>\u03bb</sub> multipliziert. Die Ausgangsgr\u00f6\u00dfe am Material ist M<sub>\u03bb</sub>, die reflektierte spektrale spezifische Ausstrahlung. Die Bestrahlungsst\u00e4rke am Empf\u00e4nger ben\u00f6tigt zus\u00e4tzlich eine geometrische Annahme.",
+          "The incident spectrum E<sub>\u03bb</sub> is multiplied by spectral reflectance \u03c1<sub>\u03bb</sub>. The output at the material is M<sub>\u03bb</sub>, reflected spectral radiant exitance. Irradiance at the receiver also needs a geometrical assumption."))),
       spectran_help_figure("01-strahlenwege", tr("Transmission: E\u2032\u03bb = \u03c4\u03bb \u00d7 E\u03bb. Reflexion: M\u03bb = \u03c1\u03bb \u00d7 E\u03bb. Das einfallende Licht ist gelb, Transmission gr\u00fcn und Reflexion violett gekennzeichnet.",
         "Transmission: E\u2032\u03bb = \u03c4\u03bb \u00d7 E\u03bb. Reflection: M\u03bb = \u03c1\u03bb \u00d7 E\u03bb. Incident light is yellow, transmission green and reflection purple."))),
     material_spectra = htmltools::tagList(
@@ -223,8 +226,8 @@ spectran_explanation_content <- function(topic) {
       spectran_help_figure("04-material-und-empfaenger", tr("Materialwirkung und Empfang sind getrennt: E\u2032\u03bb beziehungsweise M\u03bb wird mit F zur Empf\u00e4nger-Bestrahlungsst\u00e4rke verkn\u00fcpft. Spectran verwendet F = 1.",
         "Material effect and reception are separate: E\u2032\u03bb or M\u03bb is related to receiver irradiance through F. Spectran uses F = 1.")),
       h3(tr("Besonderheit bei Reflexion", "For reflection")),
-      p(tr("M\u03bb beschreibt die vom Material abgegebene Strahlung pro Fl\u00e4che, E\u03bb,Empf die am Empf\u00e4nger eintreffende Strahlung pro Fl\u00e4che. F\u00fcr E\u03bb,Empf = F \u00d7 M\u03bb wird eine homogen beleuchtete, diffus reflektierende Fl\u00e4che angenommen. Bei F = 1 f\u00fcllt sie idealisiert die gesamte vom Empf\u00e4nger gesehene Hemisph\u00e4re aus. F\u00fcr gerichtete Reflexion ist diese vereinfachte Beziehung keine allgemeine Raumsimulation.",
-        "M\u03bb describes radiation leaving the material per unit area; E\u03bb,rec describes radiation reaching the receiver per unit area. E\u03bb,rec = F \u00d7 M\u03bb assumes a uniformly illuminated, diffusely reflecting surface. At F = 1, it ideally fills the receiver's entire viewed hemisphere. For directional reflection, this simplified relationship is not a general room simulation."))),
+      p(rich("M<sub>\u03bb</sub> beschreibt die vom Material abgegebene Strahlung pro Fl\u00e4che, E<sub>\u03bb,Empf</sub> die am Empf\u00e4nger eintreffende Strahlung pro Fl\u00e4che. F\u00fcr E<sub>\u03bb,Empf</sub> = F \u00d7 M<sub>\u03bb</sub> wird eine homogen beleuchtete, diffus reflektierende Fl\u00e4che angenommen. Bei F = 1 f\u00fcllt sie idealisiert die gesamte vom Empf\u00e4nger gesehene Hemisph\u00e4re aus. F\u00fcr gerichtete Reflexion ist diese vereinfachte Beziehung keine allgemeine Raumsimulation.",
+        "M<sub>\u03bb</sub> describes radiation leaving the material per unit area; E<sub>\u03bb,rec</sub> describes radiation reaching the receiver per unit area. E<sub>\u03bb,rec</sub> = F \u00d7 M<sub>\u03bb</sub> assumes a uniformly illuminated, diffusely reflecting surface. At F = 1, it ideally fills the receiver's entire viewed hemisphere. For directional reflection, this simplified relationship is not a general room simulation."))),
     path = htmltools::tagList(
       p(
       tr("Ein Lichtpfad verbindet die Ursprungslichtquelle mit gespeicherten Materialergebnissen. Entscheidend ist, ob Sie einen einzelnen Schritt oder die gesamte Ver\u00e4nderung seit dem Start betrachten.", "A light path connects the original light source to saved material results. Choose whether to examine one step or the full change since the start.")),
@@ -240,8 +243,8 @@ spectran_explanation_content <- function(topic) {
       tr("Das Lichtpfad-Diagramm lesen", "Reading the light-path plot"),
       p(tr("Der Start hat helle Spektralfarben. Der ausgew\u00e4hlte letzte Schritt hat volle Spektralfarben und eine durchgezogene Linie. Die Legende unterscheidet die Zwischenschritte. L\u00e4ngere Lichtpfade lassen sich auf kleinen Bildschirmen schwerer vergleichen. Ein fr\u00fcherer Schritt zeigt eine Teilansicht; das PNG bietet eine gr\u00f6\u00dfere Ansicht. Alle Schritte bleiben erhalten.",
         "The start uses pale spectral colours. The selected final step uses full spectral colours and a solid line. The legend distinguishes intermediate steps. Longer paths can be harder to compare on small screens. Select an earlier step for a partial view or use the PNG for a larger view. All steps are retained.")),
-      note(tr("Wird ein Zwischenschritt auf ein neues Lichtniveau skaliert, ist der weitere Pfad kein reiner passiver Materialverlust mehr. Beachten Sie den Hinweis zur Skalierung. Der effektive MDER in der Gesamtbewertung verwendet Ev der Ursprungsquelle als Nenner und ist daher vom DER des austretenden Lichts zu unterscheiden.",
-        "If an intermediate step is rescaled to a new light level, the subsequent path no longer represents passive material loss alone. Check the rescaling note. Effective MDER in the combined assessment uses the original source's Ev as its denominator, so it differs from the DER of the outgoing light.")))))
+      note(rich("Wird ein Zwischenschritt auf ein neues Lichtniveau skaliert, ist der weitere Pfad kein reiner passiver Materialverlust mehr. Beachten Sie den Hinweis zur Skalierung. Der effektive MDER in der Gesamtbewertung verwendet E<sub>v</sub> der Ursprungsquelle als Nenner und ist daher vom DER des austretenden Lichts zu unterscheiden.",
+        "If an intermediate step is rescaled to a new light level, the subsequent path no longer represents passive material loss alone. Check the rescaling note. Effective MDER in the combined assessment uses the original source's E<sub>v</sub> as its denominator, so it differs from the DER of the outgoing light.")))))
 }
 
 spectran_explanations_dependency <- function() {
@@ -262,7 +265,7 @@ spectran_explanations_ui <- function(id) {
   ui <- htmltools::div(class = "spectran-help-page", lang = if (transmission_language_setting() == "Deutsch") "de" else "en",
     shinyjs::useShinyjs(),
     htmltools::tags$header(class = "spectran-help-header",
-      htmltools::p(class = "spectran-help-eyebrow", "SPECTRAN / LiTG"),
+      htmltools::p(class = "spectran-help-eyebrow", "LiTG Spectran"),
       htmltools::h2(id = ns("heading"), tabindex = "-1", tr("Erl\u00e4uterungen", "Explanations")),
       htmltools::p(tr("Licht verstehen, Ergebnisse einordnen und sicher durch Spectran navigieren.",
         "Understand light, interpret results and find your way around Spectran."))),

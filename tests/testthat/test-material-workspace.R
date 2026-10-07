@@ -50,6 +50,43 @@ test_that("workspace renders a single instance of each input and output", {
   expect_false(grepl('id="work-catalogue_filter"', markup, fixed = TRUE))
 })
 
+test_that("required material decisions have local feedback and independent confirmation panels", {
+  old_language <- the$language
+  withr::defer(the$language <- old_language)
+  the$language <- "English"
+  shiny::testServer(transmissionServer, args = list(
+    workspace = TRUE,
+    fixture_data = shiny::reactive(transmission_fixture("neutral"))
+  ), {
+    session$setInputs(input_source = "upload", material_mode = "transmission")
+    session$setInputs(filter_name = "", scale = "", transmittance_type = "",
+      scattering = "yes", measurement_geometry = "")
+    returned <- session$getReturned()
+    expect_false(returned$ready())
+    for (field in c("filter_name", "scale", "transmittance_type", "measurement_geometry")) {
+      expect_match(output[[paste0(field, "_feedback")]]$html,
+        "material-field-message", fixed = TRUE)
+    }
+    session$setInputs(filter_name = "Measured sample", scale = "fraction",
+      transmittance_type = "unknown", measurement_geometry = "8 degree/diffuse")
+    expect_false(returned$ready())
+    for (field in c("filter_name", "scale", "transmittance_type", "measurement_geometry")) {
+      expect_null(output[[paste0(field, "_feedback")]])
+    }
+    expect_match(output$type_acknowledgement$html, "Required before calculation", fixed = TRUE)
+    expect_match(output$scattering_acknowledgement$html, "8 degree/diffuse", fixed = TRUE)
+    expect_match(output$material_details$html, "Optional measurement details", fixed = TRUE)
+    expect_false(grepl('id="proxy1-type_acknowledgement"', output$material_details$html, fixed = TRUE))
+    session$setInputs(type_ack = TRUE, scattering_ack = TRUE)
+    expect_true(returned$ready())
+    expect_identical(returned$metadata()$measurement_instrument, "")
+    expect_identical(returned$metadata()$relative_measurement_error, "")
+    session$setInputs(measurement_geometry = "")
+    expect_false(returned$ready())
+    expect_match(output$measurement_geometry_feedback$html, "measurement geometry", fixed = TRUE)
+  })
+})
+
 test_that("the unmounted source picker is idle and commits only confirmed imports", {
   old_language <- the$language
   old_palette <- the$palette
@@ -79,7 +116,7 @@ test_that("the unmounted source picker is idle and commits only confirmed import
   })
 })
 
-test_that("workspace blocks negative-spectrum continuation without changing results", {
+test_that("workspace corrects negative measurements and allows continuation", {
   source <- transmission_source_fixture("d65")
   source$Bestrahlungsstaerke[[1L]] <- -1e-6
   shiny::testServer(transmissionServer, args = list(
@@ -95,9 +132,12 @@ test_that("workspace blocks negative-spectrum continuation without changing resu
     session$flushReact()
     returned <- session$getReturned()
     snapshot <- returned$applied_snapshot()
-    expect_lt(snapshot$transmitted_spectrum$Bestrahlungsstaerke[[1L]], 0)
-    expect_false(returned$can_promote())
+    expect_equal(snapshot$incident_spectrum$Bestrahlungsstaerke[[1L]], 0)
+    expect_equal(snapshot$transmitted_spectrum$Bestrahlungsstaerke[[1L]], 0)
+    expect_equal(snapshot$metadata$source_preprocessing$samples$measured_irradiance_w_m2_nm, -1e-6)
+    expect_true(returned$can_promote())
     expect_true(returned$can_download())
-    expect_match(output$workspace_result_actions$html, "nonnegative", fixed = TRUE)
+    expect_match(output$workspace_result_actions$html, "set to 0", fixed = TRUE)
+    expect_equal(source$Bestrahlungsstaerke[[1L]], -1e-6)
   })
 })

@@ -12,11 +12,15 @@ plot_exp <- function(...,
                      Spectrum_Name,
                      subtitle,
                      font_size) {
+
+  plot_args <- list(..., font_size = font_size,
+    Spectrum_Name = if (export_tab && feed != lang$server(129)) NULL else Spectrum_Name,
+    subtitle = if (export_tab && feed != lang$server(129)) NULL else subtitle)
+  if ("plot_width" %in% names(formals(f))) plot_args$plot_width <- plot_width
   
   if(export_tab & feed != lang$server(129)) {
   #Main Plot
-  p1 <- f(..., font_size = font_size, 
-          Spectrum_Name = NULL, subtitle = NULL)
+  p1 <- do.call(f, plot_args)
   
   #Add a conditional table
     #First, remove the plotlabels (the table has them)
@@ -38,12 +42,8 @@ plot_exp <- function(...,
   }
   #if no table, then add an appropriate subtitle
   else {
-    p1 <- f(..., 
-            font_size = font_size,
-            Spectrum_Name = Spectrum_Name, 
-            subtitle = subtitle) + footnote(font_size) + addon()
+    p1 <- do.call(f, plot_args) + footnote(font_size) + addon()
     p1
   }
 
 }
-

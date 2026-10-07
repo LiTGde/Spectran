@@ -1002,8 +1002,9 @@ transmissionHistoryServer <- function(
     output$archived_metric_warnings <- shiny::renderUI({
       current <- archived_snapshot()
       shiny::req(current)
-      transmission_metric_warning_ui(
-        transmission_metric_warning_presentation(current)
+      htmltools::tagList(
+        material_source_preprocessing_note(current$metadata),
+        transmission_metric_warning_ui(transmission_metric_warning_presentation(current))
       )
     })
 

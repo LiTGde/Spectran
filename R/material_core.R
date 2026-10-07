@@ -69,7 +69,10 @@ material_effective_der <- function(reference, outcome) {
 
 calculate_material_result <- function(incident, filter, mode = "transmission") {
   mode <- material_mode(mode = mode)
+  prepared_source <- prepare_spectran_source(as_visible_spectrum(incident))
+  incident <- prepared_source$spectrum
   result <- calculate_transmission_result(incident, filter)
+  result$source_preprocessing <- prepared_source$provenance$source_preprocessing
   result$material_mode <- mode
   result$receiver_factor <- 1
   result$receiver_assumption <- material_assumption(mode)

@@ -18,15 +18,21 @@ material_scale_light <- function(spectrum, target, metric = "photopic") {
 }
 
 # Bundled source examples include both 1 nm and 5 nm grids. Normalize to the
-# importer's linear 1 nm grid before deriving a scale factor, without changing
-# the source samples or extrapolating beyond their measured wavelength range.
+# importer's linear 1 nm grid before deriving a scale factor. Correct negative
+# measurements first and retain their originals; do not extrapolate the grid.
 material_scale_source_data <- function(data, target, metric = "photopic") {
+  prepared <- prepare_spectran_source(tibble::tibble(
+    Wellenlaenge = data[[1L]], Bestrahlungsstaerke = data[[2L]]),
+    provenance = list(source_preprocessing = attr(data, "source_preprocessing")),
+    stage = "before_source_scaling")
+  data[[2L]] <- prepared$spectrum$Bestrahlungsstaerke
   visible <- tibble::tibble(Wellenlaenge = 380:780,
     Bestrahlungsstaerke = stats::approx(data[[1L]], data[[2L]], xout = 380:780,
       method = "linear", rule = 1)$y)
   material_scale_light(visible, target, metric)
   current <- material_light_level(visible, metric)
   data[[2L]] <- if (target == 0) data[[2L]] * 0 else data[[2L]] * target / current
+  attr(data, "source_preprocessing") <- prepared$provenance$source_preprocessing
   data
 }
 

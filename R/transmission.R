@@ -334,11 +334,12 @@ transmission_metadata_inputs_ui <- function(
   ns,
   heading = TRUE,
   mode = "transmission",
-  defaults = list()
+  defaults = list(),
+  workspace = FALSE
 ) {
   transmission_text <- material_labeler(mode)
   default_value <- function(key, fallback)
-    if (is.null(defaults[[key]])) fallback else defaults[[key]]
+    if (is.null(defaults[[key]]) || is.na(defaults[[key]])) fallback else defaults[[key]]
   transmission_field_label <- function(ns, input_id) {
     spec <- transmission_tooltip_specs(mode)[[input_id]]
     htmltools::tags$label(
@@ -352,6 +353,28 @@ transmission_metadata_inputs_ui <- function(
       )
     )
   }
+  field <- function(input_id, control) {
+    contents <- htmltools::tagList(transmission_field_label(ns, input_id), control)
+    if (!isTRUE(workspace)) return(contents)
+    htmltools::div(class = "material-field", contents,
+      shiny::uiOutput(ns(paste0(input_id, "_feedback")),
+        class = "material-field-feedback", `aria-live` = "polite"))
+  }
+  optional_fields <- htmltools::tagList(
+    transmission_field_label(ns, "measurement_angle"),
+    shiny::textInput(ns("measurement_angle"), label = NULL,
+      value = default_value("measurement_angle", ""),
+      placeholder = transmission_text("angle_placeholder")),
+    shiny::textInput(ns("measurement_instrument"),
+      label = material_text("measurement_instrument_optional"),
+      value = default_value("measurement_instrument", ""),
+      placeholder = material_text("measurement_instrument_placeholder")),
+    shiny::textInput(ns("relative_measurement_error"),
+      label = material_text("relative_measurement_error_optional"),
+      value = default_value("relative_measurement_error", ""),
+      placeholder = material_text("relative_measurement_error_placeholder")),
+    htmltools::p(class = "help-block", material_text("measurement_metadata_note"))
+  )
   htmltools::tagList(
     if (isTRUE(heading))
       htmltools::h3(transmission_text("measurement_heading")),
@@ -361,14 +384,12 @@ transmission_metadata_inputs_ui <- function(
         transmission_text("measurement_intro")
       )
     },
-    transmission_field_label(ns, "filter_name"),
-    shiny::textInput(
+    field("filter_name", shiny::textInput(
       ns("filter_name"),
       label = NULL,
       value = default_value("filter_name", "Uploaded material")
-    ),
-    transmission_field_label(ns, "scale"),
-    shiny::selectInput(
+    )),
+    field("scale", shiny::selectInput(
       ns("scale"),
       label = NULL,
       choices = c(
@@ -377,9 +398,8 @@ transmission_metadata_inputs_ui <- function(
         stats::setNames("percent", transmission_text("scale_percent"))
       ),
       selected = default_value("scale", "fraction")
-    ),
-    transmission_field_label(ns, "transmittance_type"),
-    shiny::selectInput(
+    )),
+    field("transmittance_type", shiny::selectInput(
       ns("transmittance_type"),
       label = NULL,
       choices = c(
@@ -389,8 +409,8 @@ transmission_metadata_inputs_ui <- function(
         stats::setNames("unknown", transmission_text("type_unknown"))
       ),
       selected = default_value("transmittance_type", "total")
-    ),
-    shiny::uiOutput(ns("type_acknowledgement")),
+    )),
+    if (!isTRUE(workspace)) shiny::uiOutput(ns("type_acknowledgement")),
     transmission_field_label(ns, "scattering"),
     shiny::selectInput(
       ns("scattering"),
@@ -402,21 +422,16 @@ transmission_metadata_inputs_ui <- function(
       ),
       selected = default_value("scattering", "no")
     ),
-    transmission_field_label(ns, "measurement_geometry"),
-    shiny::textInput(
+    field("measurement_geometry", shiny::textInput(
       ns("measurement_geometry"),
       label = NULL,
       value = default_value("measurement_geometry", ""),
       placeholder = transmission_text("geometry_placeholder")
-    ),
-    transmission_field_label(ns, "measurement_angle"),
-    shiny::textInput(
-      ns("measurement_angle"),
-      label = NULL,
-      value = default_value("measurement_angle", ""),
-      placeholder = transmission_text("angle_placeholder")
-    ),
-    shiny::uiOutput(ns("scattering_acknowledgement"))
+    )),
+    if (!isTRUE(workspace)) shiny::uiOutput(ns("scattering_acknowledgement")),
+    if (isTRUE(workspace)) htmltools::tags$details(class = "material-disclosure",
+      htmltools::tags$summary(material_workspace_text("optional_measurements")),
+      optional_fields) else optional_fields
   )
 }
 
@@ -1591,7 +1606,9 @@ transmissionServer <- function(
       scale = "fraction",
       transmittance_type = "total",
       scattering = "no",
-      measurement_geometry = ""
+      measurement_geometry = "",
+      measurement_instrument = "",
+      relative_measurement_error = ""
     ) {
       source_revision(source_revision() + 1L)
       shiny::updateTextInput(
@@ -1613,6 +1630,10 @@ transmissionServer <- function(
         value = if (is.na(measurement_geometry)) "" else measurement_geometry
       )
       shiny::updateTextInput(session, "measurement_angle", value = "")
+      for (field in c("measurement_instrument", "relative_measurement_error")) {
+        value <- get(field)
+        shiny::updateTextInput(session, field, value = if (is.na(value)) "" else value)
+      }
       shiny::updateCheckboxInput(session, "scattering_ack", value = FALSE)
       (if (isTRUE(workspace)) shiny::updateRadioButtons else shiny::updateSelectInput)(session, "lower_tail", selected = "")
       (if (isTRUE(workspace)) shiny::updateRadioButtons else shiny::updateSelectInput)(session, "upper_tail", selected = "")
@@ -1646,7 +1667,9 @@ transmissionServer <- function(
         measurement_geometry = transmission_catalogue_localized_value(
           record,
           "measurement_geometry"
-        )
+        ),
+        measurement_instrument = transmission_catalogue_localized_value(record, "measurement_instrument"),
+        relative_measurement_error = transmission_catalogue_localized_value(record, "relative_measurement_error")
       )
     })
     output$material_details <- shiny::renderUI({
@@ -1663,22 +1686,24 @@ transmissionServer <- function(
           transmittance_type = current_decision("transmittance_type", "total"),
           scattering = current_decision("scattering", "no"),
           measurement_geometry = current_decision("measurement_geometry", ""),
-          measurement_angle = current_decision("measurement_angle", "")
+          measurement_angle = current_decision("measurement_angle", ""),
+          measurement_instrument = current_decision("measurement_instrument", ""),
+          relative_measurement_error = current_decision("relative_measurement_error", "")
         ))
       }
       controls <- transmission_metadata_inputs_ui(
         session$ns,
         mode = current_mode(),
         defaults = defaults,
-        heading = !isTRUE(workspace)
+        heading = !isTRUE(workspace),
+        workspace = workspace
       )
       if (!isTRUE(workspace)) return(controls)
       needs_details <- current_input_source() == "upload" ||
-        !identical(defaults$transmittance_type, "total") || identical(defaults$scattering, "yes")
+        identical(defaults$scattering, "yes")
       htmltools::tags$details(class = "material-disclosure",
         open = if (needs_details) NA else NULL,
-        htmltools::tags$summary(material_workspace_text(if (needs_details && current_input_source() != "upload")
-          "advanced_required" else "advanced")), controls)
+        htmltools::tags$summary(material_workspace_text("advanced")), controls)
     })
     shiny::outputOptions(output, "material_details", suspendWhenHidden = FALSE)
     shiny::observe({
@@ -1869,6 +1894,18 @@ transmissionServer <- function(
     }
 
     output$catalogue_info <- shiny::renderUI({
+      if (current_input_source() != "catalogue") {
+        return(htmltools::tags$aside(class = "transmission-catalogue-info",
+          htmltools::strong(material_workspace_text("own_csv")),
+          if (!is.null(input$filter_file)) htmltools::p(basename(input$filter_file$name)),
+          htmltools::p(material_workspace_text("upload_provenance")),
+          material_optional_metadata_ui(transmission_text("catalogue_geometry"),
+            current_decision("measurement_geometry", "")),
+          material_optional_metadata_ui(material_text("measurement_instrument"),
+            current_decision("measurement_instrument", "")),
+          material_optional_metadata_ui(material_text("relative_measurement_error"),
+            current_decision("relative_measurement_error", ""))))
+      }
       selected <- selected_catalogue()
       if (is.null(selected)) {
         return(htmltools::tags$p(
@@ -1897,10 +1934,7 @@ transmissionServer <- function(
       )
       thickness_mm <- record$thickness_mm[[1L]]
       source_points <- record$source_points[[1L]]
-      source_description <- transmission_catalogue_localized_value(
-        record,
-        "source_description"
-      )
+      source_description <- material_catalogue_description(record)
       transformation <- transmission_catalogue_localized_value(
         record,
         "transformation"
@@ -1934,17 +1968,8 @@ transmissionServer <- function(
         ) {
           htmltools::tags$p(source_tail_treatment)
         },
-        htmltools::tags$p(
-          htmltools::tags$strong(
-            paste0(transmission_text("source"), ": ")
-          ),
-          htmltools::tags$a(
-            href = record$source_url,
-            target = "_blank",
-            rel = "noopener noreferrer",
-            record$source_reference
-          )
-        ),
+        material_catalogue_source_ui(record),
+        material_catalogue_original_source_ui(record),
         htmltools::tags$p(
           htmltools::tags$strong(
             paste0(
@@ -1977,6 +2002,7 @@ transmissionServer <- function(
           htmltools::tags$summary(
             transmission_text("catalogue_measurement_details")
           ),
+          material_measurement_metadata_ui(record),
           htmltools::tags$dl(
             if (!is.na(source_description) && nzchar(source_description)) {
               htmltools::tagList(
@@ -2073,7 +2099,9 @@ transmissionServer <- function(
           scale = record$scale,
           transmittance_type = record$transmittance_type,
           scattering = catalogue_defaults()$scattering,
-          measurement_geometry = catalogue_defaults()$measurement_geometry
+          measurement_geometry = catalogue_defaults()$measurement_geometry,
+          measurement_instrument = catalogue_defaults()$measurement_instrument,
+          relative_measurement_error = catalogue_defaults()$relative_measurement_error
         )
         invisible(NULL)
       },
@@ -2094,7 +2122,9 @@ transmissionServer <- function(
               scale = record$scale,
               transmittance_type = record$transmittance_type,
               scattering = catalogue_defaults()$scattering,
-              measurement_geometry = catalogue_defaults()$measurement_geometry
+              measurement_geometry = catalogue_defaults()$measurement_geometry,
+              measurement_instrument = catalogue_defaults()$measurement_instrument,
+              relative_measurement_error = catalogue_defaults()$relative_measurement_error
             )
           }
         } else if (identical(current_input_source(), "upload")) {
@@ -2215,6 +2245,11 @@ transmissionServer <- function(
           catalogue_default else default
       }
     }
+
+    shiny::observeEvent(input$measurement_instrument,
+      record_decision_revision("measurement_instrument"), ignoreInit = TRUE)
+    shiny::observeEvent(input$relative_measurement_error,
+      record_decision_revision("relative_measurement_error"), ignoreInit = TRUE)
 
     qualified_type_acknowledged <- function() {
       current_type <- current_decision("transmittance_type", "total")
@@ -2501,11 +2536,14 @@ transmissionServer <- function(
       list(
         material_mode = current_mode(),
         receiver_assumption = material_assumption(current_mode()),
+        source_preprocessing = active_state()$provenance$source_preprocessing,
         filter_name = current_decision("filter_name", ""),
         scale = current_decision("scale", "fraction"),
         transmittance_type = current_decision("transmittance_type", "total"),
         filter_model_scope = "passive_non_fluorescent",
         filter_model_limitation = transmission_text("type_tooltip"),
+        measurement_instrument = trimws(current_decision("measurement_instrument", "")),
+        relative_measurement_error = trimws(current_decision("relative_measurement_error", "")),
         qualified_type_acknowledged = qualified_type_acknowledged(),
         scattering = current_decision("scattering", "no"),
         measurement_geometry = trimws(current_decision(
@@ -2563,48 +2601,54 @@ transmissionServer <- function(
       )
     })
 
-    metadata_requirements <- shiny::reactive({
+    metadata_requirements_by_field <- shiny::reactive({
       current <- metadata()
       requirements <- character()
 
       if (
         is.null(current$filter_name) || !nzchar(trimws(current$filter_name))
       ) {
-        requirements <- c(requirements, transmission_text("require_name"))
+        requirements["filter_name"] <- transmission_text("require_name")
       }
       if (
         is.null(current$transmittance_type) ||
           !current$transmittance_type %in% c("total", "internal", "unknown")
       ) {
-        requirements <- c(requirements, transmission_text("require_type"))
+        requirements["transmittance_type"] <- transmission_text("require_type")
       }
       if (
         current$transmittance_type %in%
           c("internal", "unknown") &&
           !current$qualified_type_acknowledged
       ) {
-        requirements <- c(
-          requirements,
-          transmission_text("require_type_ack")
-        )
+        requirements["type_ack"] <- transmission_text("require_type_ack")
       }
       if (identical(current$scattering, "yes")) {
         if (!nzchar(current$measurement_geometry)) {
-          requirements <- c(
-            requirements,
-            transmission_text("require_geometry")
-          )
+          requirements["measurement_geometry"] <- transmission_text("require_geometry")
         }
         if (!current$scattering_acknowledged) {
-          requirements <- c(
-            requirements,
-            transmission_text("require_scattering_ack")
-          )
+          requirements["scattering_ack"] <- transmission_text("require_scattering_ack")
         }
       }
 
-      unique(requirements)
+      requirements
     })
+    metadata_requirements <- shiny::reactive(unique(unname(metadata_requirements_by_field())))
+
+    # Update feedback independently so typing and keyboard focus stay in place.
+    if (isTRUE(workspace)) lapply(
+      c("filter_name", "scale", "transmittance_type", "measurement_geometry"),
+      function(field) {
+        output[[paste0(field, "_feedback")]] <- shiny::renderUI({
+          requirements <- metadata_requirements_by_field()
+          if (!metadata()$scale %in% c("fraction", "percent"))
+            requirements["scale"] <- transmission_text("diagnostic_choose_scale")
+          if (!field %in% names(requirements)) return(NULL)
+          htmltools::p(class = "material-field-message",
+            shiny::icon("circle-exclamation"), requirements[[field]])
+        })
+      })
 
     diagnostics <- shiny::reactive({
       upload <- uploaded_data()
@@ -2651,11 +2695,13 @@ transmissionServer <- function(
       if (!current_type %in% c("internal", "unknown")) {
         return(NULL)
       }
-      shiny::checkboxInput(
+      control <- shiny::checkboxInput(
         session$ns("type_ack"),
         label = transmission_text("type_ack"),
         value = isTRUE(current_decision("type_ack", FALSE))
       )
+      if (isTRUE(workspace)) material_confirmation_ui(
+        material_workspace_text("type_confirmation"), control) else control
     })
     output$type_acknowledgement <- if (isTRUE(workspace)) {
       shiny::bindEvent(type_acknowledgement_ui, source_revision(), current_mode(),
@@ -2667,7 +2713,7 @@ transmissionServer <- function(
         return(NULL)
       }
       geometry <- metadata()$measurement_geometry
-      htmltools::tagList(
+      control <- htmltools::tagList(
         if (isTRUE(workspace) && nzchar(geometry))
           htmltools::div(class = "material-geometry-summary",
             htmltools::h4(material_workspace_text("geometry_confirmation")),
@@ -2678,6 +2724,8 @@ transmissionServer <- function(
           value = isTRUE(current_decision("scattering_ack", FALSE))
         )
       )
+      if (isTRUE(workspace)) material_confirmation_ui(
+        material_workspace_text("scattering_confirmation"), control) else control
     })
     output$scattering_acknowledgement <- if (isTRUE(workspace)) {
       shiny::bindEvent(scattering_acknowledgement_ui, source_revision(), current_mode(),
@@ -3125,6 +3173,8 @@ transmissionServer <- function(
             "total"
           ),
           filter_model_scope = "passive_non_fluorescent",
+          measurement_instrument = trimws(current_decision("measurement_instrument", "")),
+          relative_measurement_error = trimws(current_decision("relative_measurement_error", "")),
           qualified_type_acknowledged = qualified_type_acknowledged(),
           scattering = current_decision("scattering", "no"),
           measurement_geometry = trimws(current_decision(
@@ -3207,10 +3257,7 @@ transmissionServer <- function(
       output$workspace_result_actions <- shiny::renderUI({
         shiny::req(applied$snapshot())
         htmltools::div(class = "material-result-actions",
-          if (any(applied$snapshot()$transmitted_spectrum$Bestrahlungsstaerke < 0))
-            htmltools::p(class = "material-continuation-note", role = "status",
-              htmltools::strong(material_workspace_text("continuation_unavailable")), " ",
-              material_workspace_text("negative_source")),
+          material_source_preprocessing_note(applied$snapshot()$metadata),
           shiny::actionButton(session$ns("results_back"), material_workspace_text("edit"),
             icon = shiny::icon("pen")),
           shiny::actionButton(session$ns("workspace_download"), material_workspace_text("downloads"),

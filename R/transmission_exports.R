@@ -313,6 +313,10 @@ transmission_flatten_metadata <- function(value, prefix = "") {
 transmission_decisions_warnings_export <- function(snapshot) {
   validate_transmission_applied_snapshot(snapshot)
   decisions <- snapshot$metadata$normalization_decisions
+  correction <- snapshot$metadata$source_preprocessing
+  if (!is.null(correction)) {
+    decisions$source_preprocessing <- correction[c("action", "stage", "count", "unit")]
+  }
   for (tail in c("lower_tail", "upper_tail")) {
     choice <- decisions[[tail]]
     if (is.null(choice) || !choice %in% c("zero", "one", "carry")) next
@@ -345,7 +349,10 @@ transmission_decisions_warnings_export <- function(snapshot) {
   }
   warnings <- unique(c(
     snapshot$metadata$normalization_warnings,
-    snapshot$warnings
+    snapshot$warnings,
+    if (!is.null(correction)) sprintf(
+      "%d negative source measurements were set to 0 before calculation; see spectra/source-negative-values.csv for the original measurements.",
+      correction$count)
   ))
   warnings <- warnings[!is.na(warnings) & nzchar(warnings)]
   warning_rows <- tibble::tibble(
@@ -396,7 +403,7 @@ transmission_citations_licenses_export <- function(snapshot) {
     citation = c(
       paste(
         "Zauner J. Spectran: Visual and Non-Visual Spectral Analysis of Light.",
-        "R package version 1.0.6."
+        paste0("R package version ", utils::packageVersion("Spectran"), ".")
       ),
       "CIE S 026/E:2018, CIE System for Metrology of Optical Radiation for ipRGC-Influenced Responses to Light.",
       "ISO/CIE 23539:2023, Photometry: The CIE system of physical photometry.",
@@ -624,6 +631,11 @@ write_transmission_audit_zip <- function(
     ),
     file.path(audit_dir, "spectra", "incident-spectrum.csv")
   )
+  correction <- snapshot$metadata$source_preprocessing
+  if (!is.null(correction)) {
+    write_transmission_csv(correction$samples,
+      file.path(audit_dir, "spectra", "source-negative-values.csv"))
+  }
   write_transmission_csv(
     tibble::tibble(
       wavelength_nm = snapshot$transmitted_spectrum$Wellenlaenge,

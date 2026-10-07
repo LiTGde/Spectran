@@ -242,6 +242,14 @@ tub_prepared <- purrr::map(names(tub_ids), function(mode) {
     measurement_geometry = geometry_en,
     measurement_geometry_en = geometry_en,
     measurement_geometry_de = geometry_de,
+    # Measurement methods, p. 1 of the version-2 dataset description:
+    # https://api-depositonce.tu-berlin.de/server/api/core/bitstreams/891785be-774c-4de7-a168-22af70e19302/content
+    measurement_instrument = "Bruins Instruments OMEGA 20; calibration year not documented",
+    measurement_instrument_en = "Bruins Instruments OMEGA 20; calibration year not documented",
+    measurement_instrument_de = "Bruins Instruments OMEGA 20; Kalibrierjahr nicht dokumentiert",
+    relative_measurement_error = NA_character_,
+    relative_measurement_error_en = NA_character_,
+    relative_measurement_error_de = NA_character_,
     thickness_mm = NA_real_,
     source_file = file,
     source_record = ids,
@@ -360,6 +368,7 @@ tub_material_provenance <- list(
   catalogue = "tub67600",
   source_url = "https://doi.org/10.14279/depositonce-11893.2",
   source_version = "2 (2022-04-07)",
+  measurement_metadata_source = "Dataset description, Measurement method, p. 1: https://api-depositonce.tu-berlin.de/server/api/core/bitstreams/891785be-774c-4de7-a168-22af70e19302/content",
   glazing_descriptions = "Common glazing types follow DIN/TS 67600:2022-08, Table 6, rows 101-112; original TUB construction codes and all coefficients are retained.",
   german_surface_names = "German surface names follow DIN/TS 67600:2022-08, Tables 9-11. S1 shows both DIN yellow and TUB beige brick. S3-S5 use the concise DIN concrete names; the TUB pore descriptors remain in source details. Spectral identities and coefficients are unchanged.",
   licence = "CC BY 4.0",

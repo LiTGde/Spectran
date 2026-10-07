@@ -385,6 +385,11 @@ transmission_catalogue_records <- dplyr::bind_rows(
 transmission_catalogue_records <- add_transmission_catalogue_localization(
   transmission_catalogue_records
 )
+# The bundled upstream records do not document these measurement details.
+for (field in c("measurement_instrument", "relative_measurement_error")) {
+  for (suffix in c("", "_en", "_de"))
+    transmission_catalogue_records[[paste0(field, suffix)]] <- NA_character_
+}
 transmission_catalogue_curves <- dplyr::bind_rows(
   facade_curves,
   spitschan_curves

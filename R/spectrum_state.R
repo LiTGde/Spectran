@@ -91,6 +91,9 @@ activate_spectran_spectrum <- function(
   if (!is.list(provenance)) {
     stop("`provenance` must be a list.", call. = FALSE)
   }
+  prepared <- prepare_spectran_source(spectrum, provenance)
+  spectrum <- prepared$spectrum
+  provenance <- prepared$provenance
   initialize_spectran_spectrum_state(Spectrum)
 
   current_revision <- shiny::isolate(Spectrum$revision)
@@ -241,7 +244,8 @@ spectran_transmission_active_state <- function(Spectrum) {
     origin = Spectrum$Origin,
     revision = revision,
     change_type = change_type,
-    node_id = node_id
+    node_id = node_id,
+    provenance = Spectrum$provenance
   )
 }
 

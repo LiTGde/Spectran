@@ -979,6 +979,9 @@ new_transmission_applied_snapshot <- function(
   if (!is.list(metadata)) {
     stop("`metadata` must be a list.", call. = FALSE)
   }
+  if (!is.null(result$source_preprocessing)) {
+    metadata$source_preprocessing <- result$source_preprocessing
+  }
   if (
     !is.character(incident_name) ||
       length(incident_name) != 1L ||

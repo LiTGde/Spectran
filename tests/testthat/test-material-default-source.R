@@ -86,6 +86,10 @@ test_that("the full app opens materials directly and replaces automatic D65 only
         session$setInputs(inTabset = "import")
         expect_null(transmission_module())
         session$setInputs(inTabset = "transmission")
+        # First flush sends the loading modal; initialization runs afterwards.
+        expect_true(material_loading())
+        session$flushReact()
+        expect_false(material_loading())
         initialized_module <- transmission_module()
         expect_type(initialized_module, "list")
         expect_equal(

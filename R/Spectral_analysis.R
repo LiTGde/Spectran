@@ -87,9 +87,6 @@ Spectran <- function(
           #add the optional transmission-filter tab after export
           shinydashboard::tabItem(
             tabName = "transmission",
-            htmltools::div(id = "material_loading", class = "material-loading",
-              role = "status", `aria-live` = "polite", shiny::icon("hourglass-half"),
-              material_workspace_text("loading")),
             transmissionUI(
               "transmission",
               default_source = "catalogue",
@@ -158,11 +155,30 @@ Spectran <- function(
         if (!is.null(module)) module$restore_event()
       })
     )
-    shiny::observe({
-      if (identical(input$inTabset, "transmission")) {
+    material_loading <- shiny::reactiveVal(FALSE)
+    material_initialize <- shiny::reactiveVal(0L)
+    shiny::observeEvent(input$inTabset, {
+      if (identical(input$inTabset, "transmission") &&
+          is.null(transmission_module()) && !isTRUE(material_loading())) {
+        material_loading(TRUE)
+        shiny::showModal(shiny::modalDialog(
+          title = material_workspace_text("loading_title"),
+          htmltools::div(class = "material-loading", role = "status", `aria-live` = "polite",
+            shiny::icon("spinner", class = "fa-spin"),
+            htmltools::p(material_workspace_text("loading"))),
+          footer = NULL, easyClose = FALSE, fade = FALSE, size = "s"
+        ))
+        # Send the modal before registering and evaluating the material outputs.
+        session$onFlushed(function() {
+          material_initialize(shiny::isolate(material_initialize()) + 1L)
+        }, once = TRUE)
+      }
+    })
+    shiny::observeEvent(material_initialize(), {
+      if (material_initialize() == 0L) return()
+      tryCatch({
         activate_spectran_default_daylight(Spectrum)
-        if (is.null(transmission_module())) {
-          transmission_module(transmissionServer(
+        transmission_module(transmissionServer(
             "transmission",
             workspace = TRUE,
             incident_spectrum = shiny::reactive(Spectrum$Spectrum),
@@ -170,12 +186,16 @@ Spectran <- function(
             active_state = shiny::reactive(
               spectran_transmission_active_state(Spectrum)
             )
-          ))
-          session$onFlushed(function() shinyjs::hide("material_loading"), once = TRUE)
-        }
-      }
-    }) |>
-      shiny::bindEvent(input$inTabset)
+        ))
+      }, error = function(error) {
+        shiny::showNotification(material_workspace_text("loading_error"), type = "error", duration = NULL)
+        warning(conditionMessage(error), call. = FALSE)
+      })
+      session$onFlushed(function() {
+        shiny::removeModal()
+        material_loading(FALSE)
+      }, once = TRUE)
+    }, ignoreInit = TRUE)
 
     #Import. Source changes are guarded when promoted history exists.
     Spectrum <- importServer(

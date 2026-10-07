@@ -24,6 +24,12 @@ import_verifierServer <-
         {
           Spectrum_raw <- Spectrum$Spectrum_raw
           shiny::req(Spectrum_raw)
+          prepared_source <- prepare_spectran_source(tibble::tibble(
+            Wellenlaenge = Spectrum_raw[[1L]],
+            Bestrahlungsstaerke = Spectrum_raw[[2L]]
+          ), provenance = list(source_preprocessing = attr(Spectrum_raw, "source_preprocessing")),
+            stage = "before_interpolation")
+          Spectrum_raw <- prepared_source$spectrum
 
           #Very easy spectral setup, should there be 1nm steps between 380-780
           if (
@@ -97,10 +103,17 @@ import_verifierServer <-
             destination = Spectrum$Destination,
             provenance = list(
               origin = Spectrum$Origin %||% "Import",
-              imported_name = Spectrum$Name
+              imported_name = Spectrum$Name,
+              source_preprocessing = prepared_source$provenance$source_preprocessing
             ),
             notification = notification
           )
+          correction <- import_request$provenance$source_preprocessing
+          if (!is.null(correction)) {
+            import_request$notification$message <- paste(import_request$notification$message,
+              material_workspace_text("negative_source", correction$count), sep = "\n\n")
+            import_request$notification$type <- "warning"
+          }
           import_guard <- shiny::isolate(Spectrum$import_guard)
           if (is.function(import_guard)) {
             restore_spectran_committed_state(Spectrum)

@@ -53,6 +53,7 @@ transmission_session_integer <- function(value, arg, allow_zero = FALSE) {
 #' @param revision Session-local activation revision.
 #' @param change_type One of `import`, `promotion`, or `restore`.
 #' @param node_id Active history-node identifier.
+#' @param provenance Source preparation and origin metadata.
 #'
 #' @return A `transmission_active_spectrum` list.
 #' @noRd
@@ -62,12 +63,14 @@ new_transmission_active_spectrum <- function(
   origin,
   revision,
   change_type = c("import", "promotion", "restore"),
-  node_id
+  node_id,
+  provenance = list()
 ) {
   change_type <- match.arg(change_type)
+  prepared <- prepare_spectran_source(as_visible_spectrum(spectrum, arg = "spectrum"), provenance)
   structure(
     list(
-      spectrum = as_visible_spectrum(spectrum, arg = "spectrum"),
+      spectrum = prepared$spectrum,
       name = transmission_scalar_text(name, "name"),
       origin = transmission_scalar_text(origin, "origin"),
       revision = transmission_session_integer(
@@ -76,7 +79,8 @@ new_transmission_active_spectrum <- function(
         allow_zero = TRUE
       ),
       change_type = change_type,
-      node_id = transmission_scalar_text(node_id, "node_id")
+      node_id = transmission_scalar_text(node_id, "node_id"),
+      provenance = prepared$provenance
     ),
     class = c("transmission_active_spectrum", "list")
   )
@@ -113,7 +117,8 @@ as_transmission_active_spectrum <- function(active_state) {
     origin = active_state$origin,
     revision = active_state$revision,
     change_type = active_state$change_type,
-    node_id = active_state$node_id
+    node_id = active_state$node_id,
+    provenance = active_state$provenance %||% list()
   )
 }
 
@@ -194,7 +199,8 @@ transmission_active_spectrum_from_event <- function(event, revision) {
     origin = origin,
     revision = revision,
     change_type = event$change_type,
-    node_id = event$node_id
+    node_id = event$node_id,
+    provenance = event$provenance
   )
 }
 
@@ -267,7 +273,7 @@ new_transmission_history <- function(active_state, provenance = list()) {
       origin = active_state$origin,
       source_revision = active_state$revision
     ),
-    provenance
+    utils::modifyList(active_state$provenance, provenance)
   )
   root <- new_transmission_history_node(
     sequence_id = 1L,
@@ -428,7 +434,8 @@ transmission_history_promote <- function(
         "Transmission",
       parent_name = parent$name,
       filter_name = snapshot$metadata$filter_name,
-      apply_sequence = snapshot$apply_sequence
+      apply_sequence = snapshot$apply_sequence,
+      source_preprocessing = snapshot$metadata$source_preprocessing
     ),
     promotion$provenance,
     provenance
