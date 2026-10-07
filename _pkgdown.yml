@@ -1,3 +1,10 @@
 url: https://litgde.github.io/Spectran/
 template:
   bootstrap: 5
+articles:
+- title: Validation and methods
+  navbar: ~
+  contents:
+  - articles/Validation
+  - articles/Material_Validation
+  - articles/Values

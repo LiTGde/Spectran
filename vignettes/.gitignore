@@ -1,2 +1,7 @@
 *.html
 *.R
+
+/.quarto/
+**/*.quarto_ipynb
+/articles/Material_Validation_files/
+/articles/Material_Validation.rmarkdown

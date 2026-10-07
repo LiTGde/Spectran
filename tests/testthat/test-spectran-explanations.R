@@ -132,3 +132,68 @@ test_that("another module can open help and regain focus after topic navigation"
       expect_identical(focused, before_back)
     })
 })
+
+test_that("sequential reading follows the topic order without wrapping at the ends", {
+  active <- shiny::reactiveVal("explanations")
+  shiny::testServer(spectran_explanations_server,
+    args = list(active_page = active, navigate = function(page) active(page)), {
+      session$flushReact()
+      expect_null(output$topic_navigation)
+      # Stale clicks outside a topic must not start a reading sequence.
+      session$setInputs(next_topic = 1)
+      expect_identical(topic(), "home")
+      session$setInputs(topic = "spectrum")
+      session$setInputs(previous_topic = 1)
+      expect_identical(topic(), "spectrum")
+      expect_match(output$topic_navigation$html, "disabled")
+      ordered_topics <- names(spectran_explanation_topics())
+      for (target in ordered_topics[-1L]) {
+        before <- topic()
+        # Dynamic buttons remount at zero, which is not a user click.
+        session$setInputs(next_topic = 0)
+        expect_identical(topic(), before)
+        session$setInputs(next_topic = 1)
+        expect_identical(topic(), target)
+        if (!identical(target, "path")) expect_false(grepl("disabled", output$topic_navigation$html, fixed = TRUE))
+      }
+      session$setInputs(next_topic = 2)
+      expect_identical(topic(), "path")
+      expect_match(output$topic_navigation$html, "disabled")
+      for (target in rev(ordered_topics[-length(ordered_topics)])) {
+        before <- topic()
+        session$setInputs(previous_topic = 0)
+        expect_identical(topic(), before)
+        session$setInputs(previous_topic = 1)
+        expect_identical(topic(), target)
+      }
+      session$setInputs(previous_topic = 2)
+      expect_identical(topic(), "spectrum")
+      session$setInputs(home = 1)
+      expect_null(output$topic_navigation)
+    })
+})
+
+test_that("sequential reading starts at the selected topic and retains its return link", {
+  focused <- character()
+  local_mocked_bindings(transmission_focus_element = function(id) {
+    focused <<- c(focused, id)
+  })
+  active <- shiny::reactiveVal("transmission")
+  shiny::testServer(spectran_explanations_server,
+    args = list(active_page = active, navigate = function(page) active(page)), {
+      session$flushReact()
+      session$setInputs(from_setup_model = 1)
+      session$setInputs(next_topic = 1)
+      expect_identical(topic(), "path")
+      expect_match(tail(focused, 1), "-heading$")
+      session$setInputs(topic = "workflow")
+      session$setInputs(next_topic = 2)
+      expect_identical(topic(), "material")
+      session$setInputs(previous_topic = 1)
+      expect_identical(topic(), "workflow")
+      expect_identical(previous(), "transmission")
+      session$setInputs(back = 1)
+      expect_identical(active(), "transmission")
+      expect_match(tail(focused, 1), "-from_setup_model$")
+    })
+})

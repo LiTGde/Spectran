@@ -22,6 +22,17 @@
 .spectran-help-topic strong { font-size: 16px; }
 .spectran-help-topic .action-label > span { grid-column: 2; color: #59616a; }
 .spectran-help-page .spectran-help-topic:hover { border-color: #9b8500; background: #fffbe0; }
+.spectran-help-pagination { border-top: 1px solid #dce2e5; margin-top: 32px; padding-top: 20px; }
+.spectran-help-progress { color: #59616a; font-size: 14px; margin: 0 0 12px; }
+.spectran-help-step-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.spectran-help-page .spectran-help-step { width: 100%; padding: 16px 18px; border: 1px solid #cbd4da; border-radius: 9px; color: #252c32; background: #f7f8f9; line-height: 1.5; }
+.spectran-help-step > .action-label { display: flex; align-items: center; gap: 14px; width: 100%; }
+.spectran-help-step-label { flex: 1; min-width: 0; }
+.spectran-help-step-direction { display: block; color: #59616a; font-size: 14px; margin-bottom: 3px; }
+.spectran-help-step strong { display: block; font-size: 16px; overflow-wrap: anywhere; }
+.spectran-help-page .spectran-help-step-next { background: #fffbe0; border-color: #c5b440; text-align: right; }
+.spectran-help-page .spectran-help-step:hover:not(:disabled) { background: #fff5ad; border-color: #9b8500; }
+.spectran-help-page .spectran-help-step:disabled { background: #f7f8f9; border-color: #e1e5e8; opacity: .55; }
 .spectran-help-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 20px 0; }
 .spectran-help-cards-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .spectran-help-card { border: 1px solid #dce2e5; border-radius: 9px; padding: 20px; background: #fafbfc; }
@@ -43,7 +54,7 @@
 .spectran-help-page :is(button, select, a, summary, [tabindex]):focus-visible, .spectran-help-link:focus-visible { outline: 3px solid #1263a4; outline-offset: 3px; }
 @media (max-width: 700px) {
   .spectran-help-page { padding: 18px; }
-  .spectran-help-topic-grid, .spectran-help-cards { grid-template-columns: minmax(0, 1fr); }
+  .spectran-help-topic-grid, .spectran-help-cards, .spectran-help-step-buttons { grid-template-columns: minmax(0, 1fr); }
   .spectran-help-header h2 { font-size: 26px; }
   .spectran-help-page .spectran-help-article > h2 { font-size: 23px; }
   .spectran-help-card { padding: 16px; }

@@ -272,7 +272,8 @@ spectran_explanations_ui <- function(id) {
     shiny::selectInput(ns("topic"), tr("Thema", "Topic"),
       choices = c(stats::setNames(list("home"), tr("Themen\u00fcbersicht", "All topics")), choices),
       selected = "home", width = "100%", selectize = FALSE),
-    shiny::uiOutput(ns("content")))
+    shiny::uiOutput(ns("content")),
+    shiny::uiOutput(ns("topic_navigation")))
   htmltools::attachDependencies(ui, spectran_explanations_dependency())
 }
 
@@ -336,6 +337,20 @@ spectran_explanations_server <- function(id, active_page, navigate) {
     shiny::observeEvent(input$topic, {
       if (input$topic %in% c("home", names(topics))) topic(input$topic)
     })
+    move_topic <- function(offset) {
+      index <- match(topic(), names(topics))
+      if (is.na(index)) return(invisible(NULL))
+      target <- index + offset
+      if (target >= 1L && target <= length(topics)) open_topic(names(topics)[target])
+    }
+    shiny::observeEvent(input$previous_topic, {
+      shiny::req(input$previous_topic > 0)
+      move_topic(-1L)
+    }, ignoreInit = TRUE)
+    shiny::observeEvent(input$next_topic, {
+      shiny::req(input$next_topic > 0)
+      move_topic(1L)
+    }, ignoreInit = TRUE)
     shiny::observeEvent(input$home, open_topic("home"))
     shiny::observeEvent(input$back, {
       pending_return(origin())
@@ -343,6 +358,31 @@ spectran_explanations_server <- function(id, active_page, navigate) {
     })
     output$return_ui <- shiny::renderUI(shiny::actionButton(session$ns("back"),
       paste(tr("Zur\u00fcck", "Back"), page_names[[previous()]]), icon = shiny::icon("arrow-left")))
+    output$topic_navigation <- shiny::renderUI({
+      index <- match(topic(), names(topics))
+      if (is.na(index)) return(NULL)
+      navigation_button <- function(direction) {
+        is_next <- identical(direction, "next")
+        target <- index + if (is_next) 1L else -1L
+        available <- target >= 1L && target <= length(topics)
+        label <- htmltools::span(class = "spectran-help-step-label",
+          htmltools::span(class = "spectran-help-step-direction",
+            if (is_next) tr("N\u00e4chstes Thema", "Next topic") else tr("Vorheriges Thema", "Previous topic")),
+          htmltools::strong(if (available) topics[[target]]$title else
+            if (is_next) tr("Letztes Thema", "Last topic") else tr("Erstes Thema", "First topic")))
+        arrow <- shiny::icon(if (is_next) "arrow-right" else "arrow-left")
+        shiny::actionButton(session$ns(paste0(direction, "_topic")),
+          if (is_next) htmltools::tagList(label, arrow) else htmltools::tagList(arrow, label),
+          class = paste("spectran-help-step", paste0("spectran-help-step-", direction)),
+          disabled = !available)
+      }
+      htmltools::tags$nav(class = "spectran-help-pagination",
+        `aria-label` = tr("Durch die Erl\u00e4uterungen bl\u00e4ttern", "Browse explanation topics"),
+        htmltools::p(class = "spectran-help-progress",
+          sprintf(tr("Thema %d von %d", "Topic %d of %d"), index, length(topics))),
+        htmltools::div(class = "spectran-help-step-buttons",
+          navigation_button("previous"), navigation_button("next")))
+    })
     output$content <- shiny::renderUI({
       value <- topic()
       if (identical(value, "home")) return(htmltools::tagList(lapply(c("basics", "materials"), function(group) {

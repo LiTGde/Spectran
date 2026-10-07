@@ -1,0 +1,52 @@
+# Material-validation inputs
+
+`din-67600-material-coefficients.csv` contains 260 material–illuminant pairs
+and 520 weighted coefficients from DIN/TS 67600:2022-08, Tables 6 to 10.
+It covers 71 materials: 12 glazing samples, 11 multi-skin sheets, 21 plastics
+or filters, and 27 reflecting surfaces. The unglazed reference is excluded.
+
+- `din_id`: material identifier printed in the DIN tables.
+- `din_name_de`: original German designation, with line breaks removed.
+- `din_name_en`: English editorial translation of that designation. It does
+  not add TUB construction details.
+- `group`: material family.
+- `mode`: Transmission or Reflection. This determines whether the two
+  coefficients are transmittance or reflectance.
+- `illuminant`: evaluating illuminant as labelled in DIN. Transmission uses
+  D65; reflection uses EE, A, D65, FL11, LED-B1, LED-B2, LED-B3 and LED-B5.
+- `din_vis`: photopic material coefficient, a dimensionless fraction.
+- `din_mel`: melanopic material coefficient, a dimensionless fraction. DIN
+  also uses the designation k_mel for the weighted material factor under
+  illuminants other than D65. This field is not MDER or effective MDER.
+- `din_table_ref`: DIN table number.
+- `page`: printed DIN page number, not the PDF viewer's page index.
+
+Both numeric columns retain the published values to three decimal places.
+Trailing zeroes need not be present in a machine-readable numeric field.
+The CSV is UTF-8, comma-separated, with decimal points.
+
+`tub-assignments.csv` separately records the 39 documented specimen
+assignments used by the article: `din_id` and Spectran's `catalogue_id`.
+These assignments are project metadata, not additional columns transcribed
+from DIN. The article resolves TUB descriptions and source-column provenance
+from the current Spectran catalogue. Unassigned materials remain in the DIN
+CSV and are shown in one missing-spectrum table.
+
+## Preparation
+
+The article reads these CSV files directly. No PDF or extracted text is
+required during rendering. To repeat the preparation from a local, licensed
+copy of the standard, run from the Spectran package root:
+
+```sh
+pdftotext -layout /path/DINTS67600.PDF /path/DIN-TS-67600.txt
+Rscript --vanilla data-raw/prepare_din_material_coefficients.R \
+  /path/DIN-TS-67600.txt vignettes/articles/material-validation-data
+```
+
+The R script validates row identifiers, column counts, coefficient ranges and
+unique material–illuminant pairs. Material descriptions are transcribed in
+the script and English translations are recorded explicitly. Its output
+`preparation-provenance.txt` records the source-text checksum, R version,
+consequential package versions and command structure. The licensed source PDF
+and its text extraction are not included here.
