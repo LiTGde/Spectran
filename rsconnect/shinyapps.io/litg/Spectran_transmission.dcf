@@ -1,0 +1,12 @@
+name: Spectran_transmission
+title: Spectran_transmission
+username: litg
+account: litg
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17977325
+bundleId: 12590030
+url: https://litg.shinyapps.io/Spectran_transmission/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
