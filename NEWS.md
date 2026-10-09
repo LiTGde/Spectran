@@ -78,6 +78,13 @@
 * Set the package version to 2.0.0 and use the installed version in material
   audit citations.
 
+## Deployment
+
+* Refresh the Connect Cloud manifest from the project lockfile so deployments
+  include `photobiologyFilters` and its dependencies. Add a manifest-generation
+  script that includes tracked app and package files, preserves the language
+  configuration, and omits local plots, generated websites and review artifacts.
+
 ## Material calculations and data
 
 * Add the 55 TU Berlin transmission and reflection examples as the default
