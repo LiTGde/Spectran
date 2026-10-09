@@ -2,7 +2,7 @@
 title: "Material validation"
 subtitle: "Transmission and reflection against DIN/TS 67600"
 description: "Photopic and melanopic transmission and reflection coefficients compared with DIN/TS 67600."
-date: 2026-10-06
+date: 2026-10-09
 lang: en
 engine: knitr
 format:
@@ -788,7 +788,11 @@ if (nrow(outside)) {
 }
 ```
 
-The module and the explicit weighted sums agree for all tested inputs. The origin of the external DIN differences remains unresolved; the reproduction limit has not been enlarged to absorb them.
+The module and the explicit weighted sums agree for all tested inputs.
+
+The DIN photopic reflection coefficients for FL11 have a known deviation from the correct values. According to the author of the DIN source, Spectran calculates these coefficients correctly, and a correction of the DIN values is planned for the next edition of DIN/TS 67600.[^lang-2026]
+
+[^lang-2026]: Private correspondence between Johannes Zauner and Dieter Lang, 8 October 2026.
 
 For the remaining **32 DIN materials**, no confirmed spectrum is assigned. Two integrated coefficients are insufficient to reconstruct a unique material spectrum. A complete spectral validation of all 71 DIN materials is therefore not supported by the available specimen documentation.
 
