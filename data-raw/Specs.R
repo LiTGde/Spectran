@@ -4,7 +4,7 @@
 library(tidyverse)
 library(here)
 
-paste0(here(), "/R/language_helpers.R") %>% source()
+source(file.path(here(), "R", "language_helpers.R"), local = TRUE)
 path <- paste0(here(), "/data-raw/Rezeptorkurven_nm.csv")
 
 Action_Spectra_wide <- read_csv(path)
