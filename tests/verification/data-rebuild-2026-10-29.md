@@ -54,6 +54,43 @@ comparisons, input hashes, package versions and `sessionInfo()`.
 The console log is `/private/tmp/spectran-data-rebuild-passed.log`.
 No bundled `.rda` file or deployed app code was changed by this correction.
 
+## Follow-up: verify regeneration and relative evidence paths
+
+The [review of PR #61](https://github.com/LiTGde/Spectran/pull/61) identified two
+defects in the verification script itself. A relative evidence directory was
+resolved again after `setwd()`, and copied `.rda` outputs could let a skipped
+save pass. Both findings were reproduced in isolated package copies.
+
+The evidence directory is now normalized before constructing the staging
+path. All five staged `.rda` files are deleted before the rebuild, their
+absence is asserted, and every expected output must exist afterwards before
+its contents can be compared. Only the temporary copies are deleted.
+
+Ten scenarios were checked in separate R processes with the same R version,
+existing package library and checksum-verified local archive listed above:
+
+| Scenario | Previous checker | Corrected checker |
+|---|---|---|
+| Relative evidence path, full rebuild | Failed after rebuilding | Passed |
+| Absolute evidence path, full rebuild | Previously passed | Passed |
+| Default evidence path, full rebuild | Not rerun | Passed |
+| Entire rebuild replaced by a no-op | Incorrectly passed | Failed with missing outputs |
+| Internal-data save omitted | Incorrectly passed | Failed with missing `R/sysdata.rda` |
+| Public-data save omitted | Incorrectly passed | Failed with all four public outputs missing |
+
+The three successful corrected runs each recreated all 11 internal and
+4 public objects and matched the committed values and attributes with zero
+numerical tolerance. Evidence files were written at the requested relative
+and absolute locations. The original package files retained their checksums.
+
+Command: `Rscript --vanilla /private/tmp/spectran-rebuild-check-regressions.R`,
+with `R_LIBS_USER` pointing to the existing project library. The runner creates
+all mutations in temporary copies. Its output is recorded in
+`/private/tmp/spectran-rebuild-check-regressions.log`; per-scenario logs,
+comparison tables, source checksums and R session information are under
+`/private/tmp/spectran-rebuild-check-regressions-20261029/`. The default-path
+scenario uses R's temporary directory, which is removed when that process exits.
+
 ## Release checks and legacy workflow
 
 The [R-CMD-check run for the development merge](https://github.com/LiTGde/Spectran/actions/runs/40883206281)
