@@ -10,12 +10,18 @@ local({
   qa_dir <- Sys.getenv("SPECTRAN_DATA_REBUILD_CHECK_DIR",
     unset = tempfile("spectran-data-rebuild-"))
   stopifnot(!dir.exists(qa_dir))
-  dir.create(qa_dir, recursive = TRUE)
+  stopifnot(dir.create(qa_dir, recursive = TRUE))
+  qa_dir <- normalizePath(qa_dir, mustWork = TRUE)
   stage <- file.path(qa_dir, "package")
-  dir.create(stage)
+  stopifnot(dir.create(stage))
   inputs <- c("DESCRIPTION", "NAMESPACE", "Spectran.Rproj", "data-raw", "R",
     "data", "inst", "manifest.json")
   stopifnot(all(file.copy(file.path(repo, inputs), stage, recursive = TRUE)))
+  outputs <- c("R/sysdata.rda", file.path("data", c("ColorP.rda",
+    "examplespectra.rda", "examplespectra_descriptor.rda", "Specs.rda")))
+  # Copied artifacts must not let a skipped save pass the rebuild check.
+  unlink(file.path(stage, outputs))
+  stopifnot(!any(file.exists(file.path(stage, outputs))))
   old_wd <- setwd(stage)
   on.exit(setwd(old_wd), add = TRUE)
 
@@ -36,6 +42,11 @@ local({
     list(sentinel = "preserve the caller's objects")))
   stopifnot(identical(workspace_before, as.list(.GlobalEnv, all.names = TRUE)))
   stopifnot(identical(before, tools::md5sum(protected)))
+  missing_outputs <- outputs[!file.exists(file.path(stage, outputs))]
+  if (length(missing_outputs)) {
+    stop("Rebuild did not create: ", paste(missing_outputs, collapse = ", "),
+      call. = FALSE)
+  }
 
   compare_rda <- function(relative) {
     original <- new.env(parent = emptyenv())
@@ -49,8 +60,6 @@ local({
     }, character(1))
     data.frame(file = relative, object = expected, comparison = comparisons)
   }
-  outputs <- c("R/sysdata.rda", file.path("data", c("ColorP.rda",
-    "examplespectra.rda", "examplespectra_descriptor.rda", "Specs.rda")))
   comparisons <- do.call(rbind, lapply(outputs, compare_rda))
   write.csv(comparisons, file.path(qa_dir, "comparisons.csv"), row.names = FALSE)
   print(comparisons, row.names = FALSE)
