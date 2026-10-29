@@ -8123,10 +8123,10 @@
       "checksum": "30a14ea414e29ab03e20966ec691e47d"
     },
     ".Rprofile": {
-      "checksum": "79ce5bc5d9510ade01eb37af67a72d57"
+      "checksum": "57f9047cb06fdbef821b61f49e21406e"
     },
     "app.R": {
-      "checksum": "705276ce442bf15ff0ad449fb1f073a2"
+      "checksum": "1e0c36c713938603e9816e287f5e8946"
     },
     "data/ColorP.rda": {
       "checksum": "8016fb41e1d02c8e07e0ad42f512424e"
@@ -8141,7 +8141,7 @@
       "checksum": "90a9bbcef9bf7ccbb1429cac2145f98e"
     },
     "DESCRIPTION": {
-      "checksum": "9a2dfd41ac39b95ccb8696af1e1730bb"
+      "checksum": "9bd5f03dd03e88361c51dabaf08ad9e0"
     },
     "inst/app/app.R": {
       "checksum": "f821b37c0bcd88ad04682629dc5ed116"
@@ -8336,7 +8336,7 @@
       "checksum": "61d56e966712e92d51631c85e0eebde7"
     },
     "man/Spectran.Rd": {
-      "checksum": "2d1c1149a0bdfa3037dab4e238ddd967"
+      "checksum": "97d5229de6b6ebb59585180b49189eee"
     },
     "NAMESPACE": {
       "checksum": "af4688ed08eb118697edeb7e301ed891"
@@ -8489,7 +8489,7 @@
       "checksum": "e62c617fe808722e591e9eddf5c13ec9"
     },
     "R/Spectral_analysis.R": {
-      "checksum": "6cbda7c65535648adb9cb9dba9a54897"
+      "checksum": "8fc153b5d2518997dfe09afbe8496e10"
     },
     "R/spectral_csv_core.R": {
       "checksum": "bef285a7005e8a5613cb82257244b814"
@@ -8507,7 +8507,7 @@
       "checksum": "78835fbdcb1f47b55d49fb127030a616"
     },
     "R/sysdata.rda": {
-      "checksum": "86d30a7d54f7a67c0dc8f905d121df14"
+      "checksum": "cffd8b740f522fc84af73913ab0edb11"
     },
     "R/transmission_apply.R": {
       "checksum": "423bea7648a8c57dc0fb3a12da864550"
@@ -8540,7 +8540,7 @@
       "checksum": "542f64b90aee3adf6241ab2055ba6b99"
     },
     "R/UI_shinydashboard.R": {
-      "checksum": "780cb81fbfc0f4e1edb2bc97d743c238"
+      "checksum": "df51b5f8c98f0de242154f225dfd4d5c"
     },
     "R/validity.R": {
       "checksum": "3c2576b3401fb84c8f938a644bf05c42"

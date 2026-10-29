@@ -1,4 +1,14 @@
-# Spectran 2.0.0
+# Spectran 2.0.0.9000
+
+## Development preview
+
+* Identify the transmission and reflection app as a development prototype in a
+  bilingual startup notice shown once per session. Link the verification
+  documentation and explain that interface details may still change.
+* Use the German and English Posit Connect apps for hosted access and the
+  in-app language switch.
+* Allow each Connect Cloud deployment to select its language and hide the
+  language switch through SPECTRAN_LANGUAGE and SPECTRAN_LANG_LINK.
 
 ## Material workflow
 

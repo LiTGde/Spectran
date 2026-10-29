@@ -1,4 +1,6 @@
 url: https://litgde.github.io/Spectran/
+development:
+  mode: unreleased
 template:
   bootstrap: 5
 articles:

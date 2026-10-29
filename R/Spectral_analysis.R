@@ -1,7 +1,7 @@
 #' Unlock the Spectrum: Easy, Educational, and Engaging Analysis of Light Spectra
 #'
 #' @param lang_setting A language for the application. Currently **Deutsch** for German and **English** (default) are implemented. Expects a *character*.
-#' @param lang_link Only relevant for the App deployed on *Shinyapps.io*. Handles whether a link to the German/English Version of the App is present in the header. Expects a *logical* (default FALSE)
+#' @param lang_link Show a header link to the other language version hosted on Posit Connect. Expects a *logical* (default FALSE).
 #' @param color_palette A color palette for the application. Currently `**Lang**` (default), `**Lang_bright**`, `**Dan_Bruton**`, and `**Rainbow**` are implemented. Expects a `*character*`. In terms of `color accuracy`, the decending order is likely `**Dan_Bruton**`, `**Lang**`, `**Lang_bright**`, and `**Rainbow**`. However, all of them are wrong in the sense, that monochromatic light can not well be recreated with RGB colors. Look at the documentation for [ColorP] for more information about these palettes.
 #' @param ... Any other settings that get passed to shinyApp
 #'
@@ -127,6 +127,13 @@ Spectran <- function(
   server <- function(input, output, session) {
     #allow reconnect
     session$allowReconnect(TRUE)
+
+    # Keep this notice until the transmission/reflection app is released.
+    # A new session shows it once, after the initial interface is ready.
+    session$onFlushed(function() {
+      shiny::showModal(spectran_startup_notice(lang_setting), session = session)
+    }, once = TRUE)
+
     explanations <- spectran_explanations_server("explanations", shiny::reactive(input$inTabset),
       function(page) shinydashboard::updateTabItems(session, "inTabset", selected = page))
 
@@ -363,4 +370,42 @@ Spectran <- function(
     # waiter::waiter_hide()
   }
   shiny::shinyApp(ui, server, ...)
+}
+
+spectran_startup_notice <- function(language_setting) {
+  tr <- function(de, en) if (identical(language_setting, "Deutsch")) de else en
+  htmltools::tagAppendAttributes(
+    shiny::modalDialog(
+      title = htmltools::span(
+        id = "spectran-prototype-title",
+        tr("Spectran: Entwicklungs-Prototyp", "Spectran: development prototype")
+      ),
+      htmltools::div(
+        id = "spectran-prototype-description",
+        htmltools::p(tr(
+          "Diese Version von Spectran ist ein Entwicklungs-Prototyp, mit dem Sie Reflexions- und Transmissionsberechnungen durchf\u00fchren k\u00f6nnen.",
+          "This version of Spectran is a development prototype for reflection and transmission calculations."
+        )),
+        htmltools::p(tr(
+          "Die Berechnungsergebnisse wurden bereits verifiziert und k\u00f6nnen als belastbar angesehen werden. Die Pr\u00fcfungen und ihre G\u00fcltigkeitsbereiche sind in der Dokumentation beschrieben.",
+          "The calculation results have already been verified and can be considered reliable. The checks and their scope are described in the documentation."
+        )),
+        htmltools::p(htmltools::a(
+          tr("Zur Validierungsdokumentation (Englisch, neuer Tab)",
+             "Validation documentation (opens in a new tab)"),
+          href = "https://litgde.github.io/Spectran/articles/Material_Validation.html",
+          target = "_blank", rel = "noopener noreferrer"
+        )),
+        htmltools::p(tr(
+          "Bis zur Freigabe k\u00f6nnen sich Details der Benutzerf\u00fchrung und Darstellung noch ver\u00e4ndern.",
+          "Details of the user interface and presentation may still change before release."
+        ))
+      ),
+      footer = shiny::modalButton(tr("Spectran starten", "Start Spectran")),
+      easyClose = TRUE,
+      fade = FALSE
+    ),
+    `aria-labelledby` = "spectran-prototype-title",
+    `aria-describedby` = "spectran-prototype-description"
+  )
 }
