@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Validation">
 </head>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Spectran</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">2.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/Validation.html">Validation</a></li>
+    <li><a class="dropdown-item" href="../articles/Material_Validation.html">Material validation</a></li>
     <li><a class="dropdown-item" href="../articles/Values.html">Underlying values</a></li>
   </ul>
 </li>
@@ -142,7 +143,7 @@ Setup
 <span><span class="co">#&gt;     as_gtable</span></span>
 <span></span>
 <span><span class="co">#Plottheme</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/theme_cowplot.html" class="external-link">theme_cowplot</a></span><span class="op">(</span>font_size <span class="op">=</span> <span class="fl">10</span>, font_family <span class="op">=</span> <span class="st">"sans"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/theme_cowplot.html" class="external-link">theme_cowplot</a></span><span class="op">(</span>font_size <span class="op">=</span> <span class="fl">10</span>, font_family <span class="op">=</span> <span class="st">"sans"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </details><p>The following chunk loads all data:</p>
 <details><summary>
 Data Import
@@ -1186,7 +1187,7 @@ Creating the gt Table
 <tr>
 <th id="stub_1_1" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">EE_Spektrum</span></th>
 <td headers="stub_1_1 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/EE_Spektrum/EE_Spektrum_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_1 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1196,7 +1197,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>75.641<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1205,7 +1206,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>139.676<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1214,7 +1215,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>163.891<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.51 × 10<sup style="font-size: 65%;">−9</sup>
 </div>
@@ -1224,7 +1225,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>133.005<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1233,7 +1234,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>120.131<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1242,7 +1243,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>92.550<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.27 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1252,7 +1253,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>95.945<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1262,7 +1263,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.614<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.77 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1272,7 +1273,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>91.747<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.47 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1282,7 +1283,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>90.583<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">9.94 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1292,7 +1293,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>549.443<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -1300,7 +1301,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_1 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>5453.666<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.78 × 10<sup style="font-size: 65%;">−15</sup>
 </div>
@@ -1308,7 +1309,7 @@ toolbox:</div>
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_1 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
@@ -1319,7 +1320,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_2" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Fluoreszenz_NW</span></th>
 <td headers="stub_1_2 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Fluoreszenz_NW/Fluoreszenz_NW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_2 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1329,7 +1330,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>40.235<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1338,7 +1339,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>125.328<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1347,7 +1348,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>161.847<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.62 × 10<sup style="font-size: 65%;">−10</sup>
 </div>
@@ -1357,7 +1358,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>90.644<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.46 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -1367,7 +1368,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>71.312<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">8.36 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -1377,7 +1378,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>49.229<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.27 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1387,7 +1388,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>86.089<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1397,7 +1398,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.360<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.77 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1407,7 +1408,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>62.526<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.51 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1417,7 +1418,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>53.772<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.00 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1427,7 +1428,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>293.442<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -1435,7 +1436,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_2 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>3759.099<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">7.57 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -1443,7 +1444,7 @@ toolbox:</div>
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_2 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>83.077<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">9.21 × 10<sup style="font-size: 65%;">−4</sup>
 </div>
@@ -1455,7 +1456,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_3" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Fluoreszenz_WW</span></th>
 <td headers="stub_1_3 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Fluoreszenz_WW/Fluoreszenz_WW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_3 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.90 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1465,7 +1466,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>23.471<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1474,7 +1475,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>111.528<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.84 × 10<sup style="font-size: 65%;">−9</sup>
 </div>
@@ -1484,7 +1485,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>164.806<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.78 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -1494,7 +1495,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>65.329<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.15 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -1504,7 +1505,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>44.754<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">9.02 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -1514,7 +1515,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>28.718<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.27 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1524,7 +1525,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>76.610<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1534,7 +1535,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>101.176<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.79 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1544,7 +1545,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>45.064<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.88 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1554,7 +1555,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>33.746<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.08 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1564,7 +1565,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>284.770<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -1572,7 +1573,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_3 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>2676.108<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.20 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -1580,7 +1581,7 @@ toolbox:</div>
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_3 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>82.394<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.29 × 10<sup style="font-size: 65%;">−4</sup>
 </div>
@@ -1592,7 +1593,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_4" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Halogen</span></th>
 <td headers="stub_1_4 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Halogen/Halogen_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_4 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1602,7 +1603,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>22.648<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1611,7 +1612,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>115.192<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1620,7 +1621,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>166.103<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.51 × 10<sup style="font-size: 65%;">−9</sup>
 </div>
@@ -1630,7 +1631,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>78.883<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1639,7 +1640,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>61.492<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -1648,7 +1649,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>27.711<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.27 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1658,7 +1659,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>79.126<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1668,7 +1669,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>101.973<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.77 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1678,7 +1679,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>54.413<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.47 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1688,7 +1689,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>46.367<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">9.94 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1698,7 +1699,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>671.237<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -1706,14 +1707,14 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_4 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>2714.135<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_4 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.784<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.16 × 10<sup style="font-size: 65%;">−3</sup>
 </div>
@@ -1725,7 +1726,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_5" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_2200K</span></th>
 <td headers="stub_1_5 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_2200K/LED_2200K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_5 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.71 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1735,7 +1736,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>15.044<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.38 × 10<sup style="font-size: 65%;">−4</sup>
 </div>
@@ -1745,7 +1746,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>109.249<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.88 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1755,7 +1756,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>167.526<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.28 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1765,7 +1766,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>66.304<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.23 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1775,7 +1776,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>48.778<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.14 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1785,7 +1786,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>18.407<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.26 × 10<sup style="font-size: 65%;">−4</sup>
 </div>
@@ -1795,7 +1796,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>75.044<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.00 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1805,7 +1806,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>102.846<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">6.05 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1815,7 +1816,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>45.736<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.48 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1825,7 +1826,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>36.780<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">3.13 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1835,7 +1836,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>329.187<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -1843,7 +1844,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_5 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>2410.988<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.61 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1851,7 +1852,7 @@ toolbox:</div>
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_5 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>87.665<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.62 × 10<sup style="font-size: 65%;">−4</sup>
 </div>
@@ -1863,7 +1864,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_6" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_4000K_1</span></th>
 <td headers="stub_1_6 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_4000K_1/LED_4000K_1_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_6 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.92 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1873,7 +1874,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>39.460<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.61 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1883,7 +1884,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>126.303<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.87 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -1893,7 +1894,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>162.057<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.40 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -1903,7 +1904,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>93.656<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">3.64 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -1913,7 +1914,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>74.836<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">6.17 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -1923,7 +1924,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>48.281<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.01 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1933,7 +1934,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>86.759<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1943,7 +1944,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.489<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.81 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1953,7 +1954,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>64.603<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.83 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -1963,7 +1964,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>56.429<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.06 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -1973,7 +1974,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>300.094<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -1981,7 +1982,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_6 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>3811.887<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">5.90 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -1989,7 +1990,7 @@ toolbox:</div>
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_6 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>82.085<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−4.92 × 10<sup style="font-size: 65%;">−4</sup>
 </div>
@@ -2001,7 +2002,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_7" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_4000K_2</span></th>
 <td headers="stub_1_7 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_4000K_2/LED_4000K_2_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_7 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2011,7 +2012,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>54.816<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">6.77 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -2021,7 +2022,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>127.856<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.76 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -2031,7 +2032,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>164.399<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.66 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -2041,7 +2042,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>106.315<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">8.93 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -2051,7 +2052,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>90.404<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.32 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -2061,7 +2062,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>67.069<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.20 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2071,7 +2072,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>87.825<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2081,7 +2082,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.926<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.78 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2091,7 +2092,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>73.336<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.56 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2101,7 +2102,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>68.168<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.01 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2111,7 +2112,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>338.823<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -2119,7 +2120,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_7 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>3899.370<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.72 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -2127,7 +2128,7 @@ toolbox:</div>
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_7 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
@@ -2138,7 +2139,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_8" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_6900K</span></th>
 <td headers="stub_1_8 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_6900K/LED_6900K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_8 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.92 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2148,7 +2149,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>93.998<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.39 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -2158,7 +2159,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>145.326<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">9.31 × 10<sup style="font-size: 65%;">−9</sup>
 </div>
@@ -2168,7 +2169,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>161.924<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.03 × 10<sup style="font-size: 65%;">−8</sup>
 </div>
@@ -2178,7 +2179,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>144.972<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.07 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -2188,7 +2189,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>131.440<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">3.24 × 10<sup style="font-size: 65%;">−7</sup>
 </div>
@@ -2198,7 +2199,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>115.010<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.24 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2208,7 +2209,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.826<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2218,7 +2219,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.407<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.78 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2228,7 +2229,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.001<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.67 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2238,7 +2239,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.110<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.03 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2248,7 +2249,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>351.290<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -2256,7 +2257,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_8 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>7418.690<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.36 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2264,7 +2265,7 @@ toolbox:</div>
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_8 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>93.878<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">3.68 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2276,7 +2277,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_9" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Nordhimmel</span></th>
 <td headers="stub_1_9 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Nordhimmel/Nordhimmel_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_9 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2286,7 +2287,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>108.054<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−9.33 × 10<sup style="font-size: 65%;">−15</sup>
 </div>
@@ -2296,7 +2297,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>153.329<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -2305,7 +2306,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>163.589<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.91 × 10<sup style="font-size: 65%;">−9</sup>
 </div>
@@ -2315,7 +2316,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>166.521<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -2324,7 +2325,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>157.556<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -2333,7 +2334,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>132.209<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.27 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2343,7 +2344,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>105.323<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2353,7 +2354,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.429<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.77 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2363,7 +2364,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>114.866<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.47 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2373,7 +2374,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>118.802<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">9.94 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2383,7 +2384,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>528.454<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -2391,7 +2392,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_9 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>9317.532<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">9.99 × 10<sup style="font-size: 65%;">−16</sup>
 </div>
@@ -2399,7 +2400,7 @@ toolbox:</div>
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_9 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>97.943<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−5.81 × 10<sup style="font-size: 65%;">−4</sup>
 </div>
@@ -2411,7 +2412,7 @@ toolbox:</div>
 <tr>
 <th id="stub_1_10" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Norm_TL_6500K</span></th>
 <td headers="stub_1_10 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Norm_TL_6500K/Norm_TL_6500K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_10 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−2.93 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2421,7 +2422,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>81.711<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -2430,7 +2431,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>145.575<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -2439,7 +2440,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>162.890<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.06 × 10<sup style="font-size: 65%;">−9</sup>
 </div>
@@ -2449,7 +2450,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>144.953<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -2458,7 +2459,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>132.602<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
@@ -2467,7 +2468,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.976<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−1.27 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2477,7 +2478,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.996<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">1.81 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2487,7 +2488,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">4.77 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2497,7 +2498,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.988<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">2.47 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2507,7 +2508,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.986<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:blue">9.94 × 10<sup style="font-size: 65%;">−6</sup>
 </div>
@@ -2517,7 +2518,7 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>488.200<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>
@@ -2525,14 +2526,14 @@ toolbox:</div>
 </div>
 </span>
 </td>
-<td headers="stub_1_10 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>6499.265<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:green">0.00</div>
 </span><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_10 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.991<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md"><div style="color:red">−8.92 × 10<sup style="font-size: 65%;">−5</sup>
 </div>
@@ -2542,7 +2543,7 @@ toolbox:</div>
 </td>
 </tr>
 </tbody>
-<tfoot class="gt_footnotes"><tr>
+<tfoot><tr class="gt_footnotes">
 <td class="gt_footnote" colspan="16"> <span class="gt_from_md">The first number in every cell shows the Result from the <em>Shiny</em> app, <br>the second number the <strong>relative</strong> difference of the respective result from the <em>luox</em> app, <br>whereas the third number shows the same for the result from the <em>CIE S026 Toolbox</em>. <br><a style="color:green">green</a> values indicate a zero difference, <a style="color:red">red</a> a negative difference, and <a style="color:blue">blue</a> a positive difference. <br>All <em>Shiny</em> values are rounded to three decimals. <br>Missing values or pairwise comparisons are indicated by a —.</span>
 </td>
     </tr></tfoot>
@@ -3062,61 +3063,61 @@ Creating the gt Table
 <tr>
 <th id="stub_1_1" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">EE_Spektrum</span></th>
 <td headers="stub_1_1 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/EE_Spektrum/EE_Spektrum_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_1 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_1 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>75.641<br><div style="color:lightgrey">luox:</div>75.641<br><div style="color:lightgrey">
 toolbox:</div>75.641<br>
 </td>
-<td headers="stub_1_1 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>139.676<br><div style="color:lightgrey">luox:</div>139.676<br><div style="color:lightgrey">
 toolbox:</div>139.676<br>
 </td>
-<td headers="stub_1_1 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>163.891<br><div style="color:lightgrey">luox:</div>163.891<br><div style="color:lightgrey">
 toolbox:</div>163.891<br>
 </td>
-<td headers="stub_1_1 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>133.005<br><div style="color:lightgrey">luox:</div>133.005<br><div style="color:lightgrey">
 toolbox:</div>133.005<br>
 </td>
-<td headers="stub_1_1 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>120.131<br><div style="color:lightgrey">luox:</div>120.131<br><div style="color:lightgrey">
 toolbox:</div>120.131<br>
 </td>
-<td headers="stub_1_1 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>92.550<br><div style="color:lightgrey">luox:</div>92.551<br><div style="color:lightgrey">
 toolbox:</div>92.551<br>
 </td>
-<td headers="stub_1_1 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>95.945<br><div style="color:lightgrey">luox:</div>95.943<br><div style="color:lightgrey">
 toolbox:</div>95.943<br>
 </td>
-<td headers="stub_1_1 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.614<br><div style="color:lightgrey">luox:</div>100.614<br><div style="color:lightgrey">
 toolbox:</div>100.614<br>
 </td>
-<td headers="stub_1_1 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>91.747<br><div style="color:lightgrey">luox:</div>91.747<br><div style="color:lightgrey">
 toolbox:</div>91.747<br>
 </td>
-<td headers="stub_1_1 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>90.583<br><div style="color:lightgrey">luox:</div>90.582<br><div style="color:lightgrey">
 toolbox:</div>90.582<br>
 </td>
-<td headers="stub_1_1 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>549.443<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>549.443<br>
 </td>
-<td headers="stub_1_1 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>5453.666<br><div style="color:lightgrey">luox:</div>5453.666<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_1 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_1 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">luox:</div>95.250<br><div style="color:lightgrey">
 toolbox:</div>
@@ -3126,61 +3127,61 @@ toolbox:</div>
 <tr>
 <th id="stub_1_2" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Fluoreszenz_NW</span></th>
 <td headers="stub_1_2 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Fluoreszenz_NW/Fluoreszenz_NW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_2 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_2 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>40.235<br><div style="color:lightgrey">luox:</div>40.235<br><div style="color:lightgrey">
 toolbox:</div>40.235<br>
 </td>
-<td headers="stub_1_2 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>125.328<br><div style="color:lightgrey">luox:</div>125.328<br><div style="color:lightgrey">
 toolbox:</div>125.328<br>
 </td>
-<td headers="stub_1_2 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>161.847<br><div style="color:lightgrey">luox:</div>161.847<br><div style="color:lightgrey">
 toolbox:</div>161.847<br>
 </td>
-<td headers="stub_1_2 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>90.644<br><div style="color:lightgrey">luox:</div>90.644<br><div style="color:lightgrey">
 toolbox:</div>90.644<br>
 </td>
-<td headers="stub_1_2 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>71.312<br><div style="color:lightgrey">luox:</div>71.312<br><div style="color:lightgrey">
 toolbox:</div>71.312<br>
 </td>
-<td headers="stub_1_2 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>49.229<br><div style="color:lightgrey">luox:</div>49.230<br><div style="color:lightgrey">
 toolbox:</div>49.230<br>
 </td>
-<td headers="stub_1_2 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>86.089<br><div style="color:lightgrey">luox:</div>86.087<br><div style="color:lightgrey">
 toolbox:</div>86.087<br>
 </td>
-<td headers="stub_1_2 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.360<br><div style="color:lightgrey">luox:</div>99.359<br><div style="color:lightgrey">
 toolbox:</div>99.359<br>
 </td>
-<td headers="stub_1_2 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>62.526<br><div style="color:lightgrey">luox:</div>62.526<br><div style="color:lightgrey">
 toolbox:</div>62.526<br>
 </td>
-<td headers="stub_1_2 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>53.772<br><div style="color:lightgrey">luox:</div>53.771<br><div style="color:lightgrey">
 toolbox:</div>53.771<br>
 </td>
-<td headers="stub_1_2 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>293.442<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>293.442<br>
 </td>
-<td headers="stub_1_2 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>3759.099<br><div style="color:lightgrey">luox:</div>3759.099<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_2 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_2 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>83.077<br><div style="color:lightgrey">luox:</div>83.000<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
@@ -3189,61 +3190,61 @@ toolbox:</div>
 <tr>
 <th id="stub_1_3" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Fluoreszenz_WW</span></th>
 <td headers="stub_1_3 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Fluoreszenz_WW/Fluoreszenz_WW_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_3 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_3 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>23.471<br><div style="color:lightgrey">luox:</div>23.471<br><div style="color:lightgrey">
 toolbox:</div>23.471<br>
 </td>
-<td headers="stub_1_3 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>111.528<br><div style="color:lightgrey">luox:</div>111.528<br><div style="color:lightgrey">
 toolbox:</div>111.528<br>
 </td>
-<td headers="stub_1_3 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>164.806<br><div style="color:lightgrey">luox:</div>164.806<br><div style="color:lightgrey">
 toolbox:</div>164.806<br>
 </td>
-<td headers="stub_1_3 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>65.329<br><div style="color:lightgrey">luox:</div>65.329<br><div style="color:lightgrey">
 toolbox:</div>65.329<br>
 </td>
-<td headers="stub_1_3 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>44.754<br><div style="color:lightgrey">luox:</div>44.754<br><div style="color:lightgrey">
 toolbox:</div>44.754<br>
 </td>
-<td headers="stub_1_3 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>28.718<br><div style="color:lightgrey">luox:</div>28.718<br><div style="color:lightgrey">
 toolbox:</div>28.718<br>
 </td>
-<td headers="stub_1_3 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>76.610<br><div style="color:lightgrey">luox:</div>76.608<br><div style="color:lightgrey">
 toolbox:</div>76.608<br>
 </td>
-<td headers="stub_1_3 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>101.176<br><div style="color:lightgrey">luox:</div>101.176<br><div style="color:lightgrey">
 toolbox:</div>101.176<br>
 </td>
-<td headers="stub_1_3 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>45.064<br><div style="color:lightgrey">luox:</div>45.064<br><div style="color:lightgrey">
 toolbox:</div>45.064<br>
 </td>
-<td headers="stub_1_3 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>33.746<br><div style="color:lightgrey">luox:</div>33.746<br><div style="color:lightgrey">
 toolbox:</div>33.746<br>
 </td>
-<td headers="stub_1_3 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>284.770<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>284.770<br>
 </td>
-<td headers="stub_1_3 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>2676.108<br><div style="color:lightgrey">luox:</div>2676.108<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_3 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_3 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>82.394<br><div style="color:lightgrey">luox:</div>82.375<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
@@ -3252,61 +3253,61 @@ toolbox:</div>
 <tr>
 <th id="stub_1_4" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Halogen</span></th>
 <td headers="stub_1_4 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Halogen/Halogen_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_4 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_4 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>22.648<br><div style="color:lightgrey">luox:</div>22.648<br><div style="color:lightgrey">
 toolbox:</div>22.648<br>
 </td>
-<td headers="stub_1_4 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>115.192<br><div style="color:lightgrey">luox:</div>115.192<br><div style="color:lightgrey">
 toolbox:</div>115.192<br>
 </td>
-<td headers="stub_1_4 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>166.103<br><div style="color:lightgrey">luox:</div>166.103<br><div style="color:lightgrey">
 toolbox:</div>166.103<br>
 </td>
-<td headers="stub_1_4 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>78.883<br><div style="color:lightgrey">luox:</div>78.883<br><div style="color:lightgrey">
 toolbox:</div>78.883<br>
 </td>
-<td headers="stub_1_4 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>61.492<br><div style="color:lightgrey">luox:</div>61.492<br><div style="color:lightgrey">
 toolbox:</div>61.492<br>
 </td>
-<td headers="stub_1_4 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>27.711<br><div style="color:lightgrey">luox:</div>27.711<br><div style="color:lightgrey">
 toolbox:</div>27.711<br>
 </td>
-<td headers="stub_1_4 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>79.126<br><div style="color:lightgrey">luox:</div>79.125<br><div style="color:lightgrey">
 toolbox:</div>79.125<br>
 </td>
-<td headers="stub_1_4 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>101.973<br><div style="color:lightgrey">luox:</div>101.972<br><div style="color:lightgrey">
 toolbox:</div>101.972<br>
 </td>
-<td headers="stub_1_4 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>54.413<br><div style="color:lightgrey">luox:</div>54.413<br><div style="color:lightgrey">
 toolbox:</div>54.413<br>
 </td>
-<td headers="stub_1_4 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>46.367<br><div style="color:lightgrey">luox:</div>46.366<br><div style="color:lightgrey">
 toolbox:</div>46.366<br>
 </td>
-<td headers="stub_1_4 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>671.237<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>671.237<br>
 </td>
-<td headers="stub_1_4 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>2714.135<br><div style="color:lightgrey">luox:</div>2714.135<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_4 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_4 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.784<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
@@ -3315,61 +3316,61 @@ toolbox:</div>
 <tr>
 <th id="stub_1_5" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_2200K</span></th>
 <td headers="stub_1_5 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_2200K/LED_2200K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_5 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_5 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>15.044<br><div style="color:lightgrey">luox:</div>15.040<br><div style="color:lightgrey">
 toolbox:</div>15.044<br>
 </td>
-<td headers="stub_1_5 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>109.249<br><div style="color:lightgrey">luox:</div>109.249<br><div style="color:lightgrey">
 toolbox:</div>109.249<br>
 </td>
-<td headers="stub_1_5 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>167.526<br><div style="color:lightgrey">luox:</div>167.526<br><div style="color:lightgrey">
 toolbox:</div>167.526<br>
 </td>
-<td headers="stub_1_5 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>66.304<br><div style="color:lightgrey">luox:</div>66.303<br><div style="color:lightgrey">
 toolbox:</div>66.304<br>
 </td>
-<td headers="stub_1_5 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>48.778<br><div style="color:lightgrey">luox:</div>48.777<br><div style="color:lightgrey">
 toolbox:</div>48.778<br>
 </td>
-<td headers="stub_1_5 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>18.407<br><div style="color:lightgrey">luox:</div>18.403<br><div style="color:lightgrey">
 toolbox:</div>18.407<br>
 </td>
-<td headers="stub_1_5 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>75.044<br><div style="color:lightgrey">luox:</div>75.042<br><div style="color:lightgrey">
 toolbox:</div>75.042<br>
 </td>
-<td headers="stub_1_5 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>102.846<br><div style="color:lightgrey">luox:</div>102.845<br><div style="color:lightgrey">
 toolbox:</div>102.846<br>
 </td>
-<td headers="stub_1_5 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>45.736<br><div style="color:lightgrey">luox:</div>45.736<br><div style="color:lightgrey">
 toolbox:</div>45.736<br>
 </td>
-<td headers="stub_1_5 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>36.780<br><div style="color:lightgrey">luox:</div>36.779<br><div style="color:lightgrey">
 toolbox:</div>36.780<br>
 </td>
-<td headers="stub_1_5 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>329.187<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>329.187<br>
 </td>
-<td headers="stub_1_5 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>2410.988<br><div style="color:lightgrey">luox:</div>2410.977<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_5 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_5 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>87.665<br><div style="color:lightgrey">luox:</div>87.625<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
@@ -3378,61 +3379,61 @@ toolbox:</div>
 <tr>
 <th id="stub_1_6" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_4000K_1</span></th>
 <td headers="stub_1_6 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_4000K_1/LED_4000K_1_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_6 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_6 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>39.460<br><div style="color:lightgrey">luox:</div>39.460<br><div style="color:lightgrey">
 toolbox:</div>39.460<br>
 </td>
-<td headers="stub_1_6 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>126.303<br><div style="color:lightgrey">luox:</div>126.303<br><div style="color:lightgrey">
 toolbox:</div>126.303<br>
 </td>
-<td headers="stub_1_6 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>162.057<br><div style="color:lightgrey">luox:</div>162.057<br><div style="color:lightgrey">
 toolbox:</div>162.057<br>
 </td>
-<td headers="stub_1_6 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>93.656<br><div style="color:lightgrey">luox:</div>93.656<br><div style="color:lightgrey">
 toolbox:</div>93.656<br>
 </td>
-<td headers="stub_1_6 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>74.836<br><div style="color:lightgrey">luox:</div>74.836<br><div style="color:lightgrey">
 toolbox:</div>74.836<br>
 </td>
-<td headers="stub_1_6 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>48.281<br><div style="color:lightgrey">luox:</div>48.282<br><div style="color:lightgrey">
 toolbox:</div>48.282<br>
 </td>
-<td headers="stub_1_6 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>86.759<br><div style="color:lightgrey">luox:</div>86.757<br><div style="color:lightgrey">
 toolbox:</div>86.757<br>
 </td>
-<td headers="stub_1_6 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.489<br><div style="color:lightgrey">luox:</div>99.488<br><div style="color:lightgrey">
 toolbox:</div>99.488<br>
 </td>
-<td headers="stub_1_6 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>64.603<br><div style="color:lightgrey">luox:</div>64.603<br><div style="color:lightgrey">
 toolbox:</div>64.603<br>
 </td>
-<td headers="stub_1_6 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>56.429<br><div style="color:lightgrey">luox:</div>56.428<br><div style="color:lightgrey">
 toolbox:</div>56.428<br>
 </td>
-<td headers="stub_1_6 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>300.094<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>300.094<br>
 </td>
-<td headers="stub_1_6 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>3811.887<br><div style="color:lightgrey">luox:</div>3811.885<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_6 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_6 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>82.085<br><div style="color:lightgrey">luox:</div>82.125<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
@@ -3441,61 +3442,61 @@ toolbox:</div>
 <tr>
 <th id="stub_1_7" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_4000K_2</span></th>
 <td headers="stub_1_7 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_4000K_2/LED_4000K_2_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_7 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_7 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>54.816<br><div style="color:lightgrey">luox:</div>54.816<br><div style="color:lightgrey">
 toolbox:</div>54.816<br>
 </td>
-<td headers="stub_1_7 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>127.856<br><div style="color:lightgrey">luox:</div>127.856<br><div style="color:lightgrey">
 toolbox:</div>127.856<br>
 </td>
-<td headers="stub_1_7 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>164.399<br><div style="color:lightgrey">luox:</div>164.399<br><div style="color:lightgrey">
 toolbox:</div>164.399<br>
 </td>
-<td headers="stub_1_7 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>106.315<br><div style="color:lightgrey">luox:</div>106.315<br><div style="color:lightgrey">
 toolbox:</div>106.315<br>
 </td>
-<td headers="stub_1_7 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>90.404<br><div style="color:lightgrey">luox:</div>90.404<br><div style="color:lightgrey">
 toolbox:</div>90.404<br>
 </td>
-<td headers="stub_1_7 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>67.069<br><div style="color:lightgrey">luox:</div>67.070<br><div style="color:lightgrey">
 toolbox:</div>67.070<br>
 </td>
-<td headers="stub_1_7 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>87.825<br><div style="color:lightgrey">luox:</div>87.824<br><div style="color:lightgrey">
 toolbox:</div>87.824<br>
 </td>
-<td headers="stub_1_7 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.926<br><div style="color:lightgrey">luox:</div>100.926<br><div style="color:lightgrey">
 toolbox:</div>100.926<br>
 </td>
-<td headers="stub_1_7 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>73.336<br><div style="color:lightgrey">luox:</div>73.336<br><div style="color:lightgrey">
 toolbox:</div>73.336<br>
 </td>
-<td headers="stub_1_7 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>68.168<br><div style="color:lightgrey">luox:</div>68.167<br><div style="color:lightgrey">
 toolbox:</div>68.167<br>
 </td>
-<td headers="stub_1_7 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>338.823<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>338.823<br>
 </td>
-<td headers="stub_1_7 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>3899.370<br><div style="color:lightgrey">luox:</div>3899.370<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_7 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_7 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">luox:</div>94.625<br><div style="color:lightgrey">
 toolbox:</div>
@@ -3505,61 +3506,61 @@ toolbox:</div>
 <tr>
 <th id="stub_1_8" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">LED_6900K</span></th>
 <td headers="stub_1_8 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/LED_6900K/LED_6900K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_8 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_8 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>93.998<br><div style="color:lightgrey">luox:</div>93.998<br><div style="color:lightgrey">
 toolbox:</div>93.998<br>
 </td>
-<td headers="stub_1_8 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>145.326<br><div style="color:lightgrey">luox:</div>145.326<br><div style="color:lightgrey">
 toolbox:</div>145.326<br>
 </td>
-<td headers="stub_1_8 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>161.924<br><div style="color:lightgrey">luox:</div>161.924<br><div style="color:lightgrey">
 toolbox:</div>161.924<br>
 </td>
-<td headers="stub_1_8 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>144.972<br><div style="color:lightgrey">luox:</div>144.972<br><div style="color:lightgrey">
 toolbox:</div>144.972<br>
 </td>
-<td headers="stub_1_8 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>131.440<br><div style="color:lightgrey">luox:</div>131.440<br><div style="color:lightgrey">
 toolbox:</div>131.440<br>
 </td>
-<td headers="stub_1_8 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>115.010<br><div style="color:lightgrey">luox:</div>115.012<br><div style="color:lightgrey">
 toolbox:</div>115.012<br>
 </td>
-<td headers="stub_1_8 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.826<br><div style="color:lightgrey">luox:</div>99.824<br><div style="color:lightgrey">
 toolbox:</div>99.824<br>
 </td>
-<td headers="stub_1_8 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.407<br><div style="color:lightgrey">luox:</div>99.406<br><div style="color:lightgrey">
 toolbox:</div>99.406<br>
 </td>
-<td headers="stub_1_8 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.001<br><div style="color:lightgrey">luox:</div>100.001<br><div style="color:lightgrey">
 toolbox:</div>100.001<br>
 </td>
-<td headers="stub_1_8 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.110<br><div style="color:lightgrey">luox:</div>99.109<br><div style="color:lightgrey">
 toolbox:</div>99.109<br>
 </td>
-<td headers="stub_1_8 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>351.290<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>351.290<br>
 </td>
-<td headers="stub_1_8 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>7418.690<br><div style="color:lightgrey">luox:</div>7418.680<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_8 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_8 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>93.878<br><div style="color:lightgrey">luox:</div>93.875<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
@@ -3568,61 +3569,61 @@ toolbox:</div>
 <tr>
 <th id="stub_1_9" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Nordhimmel</span></th>
 <td headers="stub_1_9 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Nordhimmel/Nordhimmel_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_9 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_9 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>108.054<br><div style="color:lightgrey">luox:</div>108.054<br><div style="color:lightgrey">
 toolbox:</div>108.054<br>
 </td>
-<td headers="stub_1_9 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>153.329<br><div style="color:lightgrey">luox:</div>153.329<br><div style="color:lightgrey">
 toolbox:</div>153.329<br>
 </td>
-<td headers="stub_1_9 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>163.589<br><div style="color:lightgrey">luox:</div>163.589<br><div style="color:lightgrey">
 toolbox:</div>163.589<br>
 </td>
-<td headers="stub_1_9 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>166.521<br><div style="color:lightgrey">luox:</div>166.521<br><div style="color:lightgrey">
 toolbox:</div>166.521<br>
 </td>
-<td headers="stub_1_9 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>157.556<br><div style="color:lightgrey">luox:</div>157.556<br><div style="color:lightgrey">
 toolbox:</div>157.556<br>
 </td>
-<td headers="stub_1_9 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>132.209<br><div style="color:lightgrey">luox:</div>132.210<br><div style="color:lightgrey">
 toolbox:</div>132.210<br>
 </td>
-<td headers="stub_1_9 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>105.323<br><div style="color:lightgrey">luox:</div>105.321<br><div style="color:lightgrey">
 toolbox:</div>105.321<br>
 </td>
-<td headers="stub_1_9 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.429<br><div style="color:lightgrey">luox:</div>100.429<br><div style="color:lightgrey">
 toolbox:</div>100.429<br>
 </td>
-<td headers="stub_1_9 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>114.866<br><div style="color:lightgrey">luox:</div>114.866<br><div style="color:lightgrey">
 toolbox:</div>114.866<br>
 </td>
-<td headers="stub_1_9 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>118.802<br><div style="color:lightgrey">luox:</div>118.801<br><div style="color:lightgrey">
 toolbox:</div>118.801<br>
 </td>
-<td headers="stub_1_9 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>528.454<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>528.454<br>
 </td>
-<td headers="stub_1_9 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>9317.532<br><div style="color:lightgrey">luox:</div>9317.532<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_9 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_9 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>97.943<br><div style="color:lightgrey">luox:</div>98.000<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
@@ -3631,68 +3632,68 @@ toolbox:</div>
 <tr>
 <th id="stub_1_10" scope="row" class="gt_row gt_center gt_stub"><span class="gt_from_md">Norm_TL_6500K</span></th>
 <td headers="stub_1_10 Picture" class="gt_row gt_center"><span class="gt_from_md"><img src="Results_ShinyApp/Norm_TL_6500K/Norm_TL_6500K_1_Radiometrie_2022-10-20.png" style="height:80px;"></span></td>
-<td headers="stub_1_10 Results_shiny.Illuminance (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Illuminance-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_10 Results_shiny.S-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.S-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>81.711<br><div style="color:lightgrey">luox:</div>81.711<br><div style="color:lightgrey">
 toolbox:</div>81.711<br>
 </td>
-<td headers="stub_1_10 Results_shiny.M-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.M-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>145.575<br><div style="color:lightgrey">luox:</div>145.575<br><div style="color:lightgrey">
 toolbox:</div>145.575<br>
 </td>
-<td headers="stub_1_10 Results_shiny.L-cone-opic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.L-cone-opic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>162.890<br><div style="color:lightgrey">luox:</div>162.890<br><div style="color:lightgrey">
 toolbox:</div>162.890<br>
 </td>
-<td headers="stub_1_10 Results_shiny.Rhodopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Rhodopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>144.953<br><div style="color:lightgrey">luox:</div>144.953<br><div style="color:lightgrey">
 toolbox:</div>144.953<br>
 </td>
-<td headers="stub_1_10 Results_shiny.Melanopic irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Melanopic-irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>132.602<br><div style="color:lightgrey">luox:</div>132.602<br><div style="color:lightgrey">
 toolbox:</div>132.602<br>
 </td>
-<td headers="stub_1_10 Results_shiny.S-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.S-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.976<br><div style="color:lightgrey">luox:</div>99.978<br><div style="color:lightgrey">
 toolbox:</div>99.978<br>
 </td>
-<td headers="stub_1_10 Results_shiny.M-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.M-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.996<br><div style="color:lightgrey">luox:</div>99.995<br><div style="color:lightgrey">
 toolbox:</div>99.995<br>
 </td>
-<td headers="stub_1_10 Results_shiny.L-cone-opic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.L-cone-opic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>100.000<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>100.000<br>
 </td>
-<td headers="stub_1_10 Results_shiny.Rhodopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Rhodopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.988<br><div style="color:lightgrey">luox:</div>99.988<br><div style="color:lightgrey">
 toolbox:</div>99.988<br>
 </td>
-<td headers="stub_1_10 Results_shiny.Melanopic EDI (lx)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Melanopic-EDI-(lx)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.986<br><div style="color:lightgrey">luox:</div>99.985<br><div style="color:lightgrey">
 toolbox:</div>99.985<br>
 </td>
-<td headers="stub_1_10 Results_shiny.Irradiance (mW ⋅ m⁻²)" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Irradiance-(mW-⋅-m⁻²)" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>488.200<br><div style="color:lightgrey">luox:</div>
 <span class="gt_from_md">—<br></span><div style="color:lightgrey">
 toolbox:</div>488.200<br>
 </td>
-<td headers="stub_1_10 Results_shiny.CCT (K) - Robertson, 1968" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.CCT-(K)---Robertson,-1968" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>6499.265<br><div style="color:lightgrey">luox:</div>6499.265<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
-<td headers="stub_1_10 Results_shiny.Colour Rendering Index [Ra]" class="gt_row gt_center">
+<td headers="stub_1_10 Results_shiny.Colour-Rendering-Index-[Ra]" class="gt_row gt_center">
 <div style="color:lightgrey">shiny:</div>99.991<br><div style="color:lightgrey">luox:</div>100.000<br><div style="color:lightgrey">
 toolbox:</div>
 <span class="gt_from_md">—<br></span>
 </td>
 </tr>
 </tbody>
-<tfoot class="gt_footnotes"><tr>
+<tfoot><tr class="gt_footnotes">
 <td class="gt_footnote" colspan="16"> <span class="gt_from_md">The first number in every cell shows the Result from the <em>Shiny</em>
 app, <br>the second number the result from the <em>luox</em> app, <br>
 whereas the third number shows the result from the <em>CIE S026
@@ -3790,7 +3791,7 @@ histogram
 <span>                                                           n_sigfig <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>                                                           pattern <span class="op">=</span> <span class="st">"{x}%"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"no. of spectra"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation_files/figure-html/unnamed-chunk-14-1.png" width="768"></p>
+<p><img src="Validation_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="tab-pane" id="split-by-variable" role="tabpanel" aria-labelledby="split-by-variable-tab">
 
@@ -3799,7 +3800,7 @@ histogram
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_log10</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">breaks</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"no. of spectra"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"Name"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation_files/figure-html/unnamed-chunk-15-1.png" width="768"></p>
+<p><img src="Validation_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="tab-pane" id="split-by-spectrum" role="tabpanel" aria-labelledby="split-by-spectrum-tab">
 
@@ -3809,7 +3810,7 @@ histogram
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_log10</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">breaks</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"no. of variables"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"spectrum_name"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation_files/figure-html/unnamed-chunk-16-1.png" width="768"></p>
+<p><img src="Validation_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 </div>
 </div>
@@ -3874,7 +3875,7 @@ Histogram
 <span>                                                           n_sigfig <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>                                                           pattern <span class="op">=</span> <span class="st">"{x}%"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"no. of spectra"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation_files/figure-html/unnamed-chunk-19-1.png" width="768"></p>
+<p><img src="Validation_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="tab-pane" id="split-by-variable-1" role="tabpanel" aria-labelledby="split-by-variable-1-tab">
 
@@ -3884,7 +3885,7 @@ Histogram
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_log10</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">breaks</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"no. of spectra"</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"Name"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation_files/figure-html/unnamed-chunk-20-1.png" width="768"></p>
+<p><img src="Validation_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 <div class="tab-pane" id="split-by-spectrum-1" role="tabpanel" aria-labelledby="split-by-spectrum-1-tab">
 
@@ -3894,7 +3895,7 @@ Histogram
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_log10</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">breaks</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"no. of variables"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="st">"spectrum_name"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Validation_files/figure-html/unnamed-chunk-21-1.png" width="768"></p>
+<p><img src="Validation_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 </div>
 </div>
@@ -3935,7 +3936,7 @@ similar functionality.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

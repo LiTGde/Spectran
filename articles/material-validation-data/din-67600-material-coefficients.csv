@@ -1,0 +1,261 @@
+"din_id","din_name_de","din_name_en","group","mode","illuminant","din_vis","din_mel","din_table_ref","page"
+101,"Einfachverglasung","Single glazing","Glazing","Transmission","D65",0.901,0.901,6,20
+102,"Doppel-ISV","Double insulating glazing","Glazing","Transmission","D65",0.817,0.818,6,20
+103,"Doppel-ISV","Double insulating glazing","Glazing","Transmission","D65",0.808,0.807,6,20
+104,"2-Scheiben-WMSV","Double low-e glazing","Glazing","Transmission","D65",0.786,0.778,6,20
+105,"2-Scheiben-WMSV","Double low-e glazing","Glazing","Transmission","D65",0.658,0.64,6,20
+106,"2-Scheiben-WMSV","Double low-e glazing","Glazing","Transmission","D65",0.72,0.703,6,20
+107,"2-Scheiben-SSV","Double solar-control glazing","Glazing","Transmission","D65",0.685,0.673,6,20
+108,"2-Scheiben-SSV","Double solar-control glazing","Glazing","Transmission","D65",0.522,0.509,6,20
+109,"2-Scheiben-SSV","Double solar-control glazing","Glazing","Transmission","D65",0.585,0.568,6,20
+110,"3-Scheiben-WMSV","Triple low-e glazing","Glazing","Transmission","D65",0.687,0.674,6,20
+111,"3-Scheiben-SSV","Triple solar-control glazing","Glazing","Transmission","D65",0.599,0.583,6,20
+112,"3-Scheiben-SSV","Triple solar-control glazing","Glazing","Transmission","D65",0.417,0.399,6,20
+201,"Typ 1, 16 mm, durchsichtig","Type 1, 16 mm, clear","Multi-skin sheets","Transmission","D65",0.735,0.733,7,22
+202,"Typ 1, 16 mm, streuend","Type 1, 16 mm, diffusing","Multi-skin sheets","Transmission","D65",0.618,0.623,7,22
+203,"Typ 1, 16 mm, durchsichtig, eingefärbt","Type 1, 16 mm, clear, tinted","Multi-skin sheets","Transmission","D65",0.297,0.264,7,22
+204,"Typ 2, 16 mm, durchsichtig","Type 2, 16 mm, clear","Multi-skin sheets","Transmission","D65",0.635,0.63,7,22
+205,"Typ 2, 16 mm, streuend","Type 2, 16 mm, diffusing","Multi-skin sheets","Transmission","D65",0.547,0.555,7,22
+206,"Typ 2, 16 mm, durchsichtig, eingefärbt","Type 2, 16 mm, clear, tinted","Multi-skin sheets","Transmission","D65",0.268,0.232,7,22
+207,"Typ 3, 25 mm, durchsichtig","Type 3, 25 mm, clear","Multi-skin sheets","Transmission","D65",0.485,0.482,7,22
+208,"Typ 3, 25 mm, streuend","Type 3, 25 mm, diffusing","Multi-skin sheets","Transmission","D65",0.404,0.409,7,22
+209,"Typ 3, 25 mm, durchsichtig, eingefärbt","Type 3, 25 mm, clear, tinted","Multi-skin sheets","Transmission","D65",0.133,0.114,7,22
+210,"Typ 4, 20 mm, durchsichtig","Type 4, 20 mm, clear","Multi-skin sheets","Transmission","D65",0.589,0.58,7,22
+211,"Typ 4, 20 mm, streuend","Type 4, 20 mm, diffusing","Multi-skin sheets","Transmission","D65",0.467,0.474,7,22
+301,"Plexiglas® GS233","Plexiglas GS233","Plastics and filters","Transmission","D65",0.924,0.923,8,22
+302,"Plexiglas® XT","Plexiglas XT","Plastics and filters","Transmission","D65",0.924,0.923,8,22
+303,"Plexiglas® 7H","Plexiglas 7H","Plastics and filters","Transmission","D65",0.921,0.92,8,22
+304,"Plexiglas® 8N","Plexiglas 8N","Plastics and filters","Transmission","D65",0.923,0.921,8,22
+305,"Sonnenschutzglas RT95 (Schutzbrillen bei Makuladegeneration)","RT95 sun-protection filter","Plastics and filters","Transmission","D65",0.106,0.001,8,22
+306,"Plexiglas® GS blau 602, 3 mm","Plexiglas GS blue 602, 3 mm","Plastics and filters","Transmission","D65",0.158,0.437,8,22
+307,"Plexiglas® GS blau 625, 3 mm","Plexiglas GS blue 625, 3 mm","Plastics and filters","Transmission","D65",0.617,0.75,8,22
+308,"Plexiglas® GS blau 627, 3 mm","Plexiglas GS blue 627, 3 mm","Plastics and filters","Transmission","D65",0.041,0.232,8,22
+309,"Plexiglas® GS braun 400, 3 mm","Plexiglas GS brown 400, 3 mm","Plastics and filters","Transmission","D65",0.19,0.105,8,22
+310,"Plexiglas® GS gelb 303, 3 mm","Plexiglas GS yellow 303, 3 mm","Plastics and filters","Transmission","D65",0.739,0.194,8,22
+311,"Plexiglas® GS grau 837, 3 mm","Plexiglas GS grey 837, 3 mm","Plastics and filters","Transmission","D65",0.092,0.141,8,22
+312,"Plexiglas® GS grau 838, 3 mm","Plexiglas GS grey 838, 3 mm","Plastics and filters","Transmission","D65",0.21,0.232,8,22
+313,"Plexiglas® GS grau 882, 3 mm","Plexiglas GS grey 882, 3 mm","Plastics and filters","Transmission","D65",0.452,0.522,8,22
+314,"Plexiglas® GS grün 700, 3 mm","Plexiglas GS green 700, 3 mm","Plastics and filters","Transmission","D65",0.096,0.131,8,23
+315,"Plexiglas® GS grün 701, 3 mm","Plexiglas GS green 701, 3 mm","Plastics and filters","Transmission","D65",0.222,0.463,8,23
+316,"Plexiglas® GS grün 777, 3 mm","Plexiglas GS green 777, 3 mm","Plastics and filters","Transmission","D65",0.701,0.737,8,23
+317,"Plexiglas® GS orange 478, 3 mm","Plexiglas GS orange 478, 3 mm","Plastics and filters","Transmission","D65",0.474,0.046,8,23
+318,"Plexiglas® GS rot 501, 3 mm","Plexiglas GS red 501, 3 mm","Plastics and filters","Transmission","D65",0.134,0.013,8,23
+319,"Plexiglas® GS rot 502, 3 mm","Plexiglas GS red 502, 3 mm","Plastics and filters","Transmission","D65",0.056,0.005,8,23
+320,"Plexiglas® GS umbra 802, 3 mm","Plexiglas GS umbra 802, 3 mm","Plastics and filters","Transmission","D65",0.551,0.497,8,23
+321,"Plexiglas® GS umbra 807, 3 mm","Plexiglas GS umbra 807, 3 mm","Plastics and filters","Transmission","D65",0.471,0.526,8,23
+401,"Lachs 20","Lachs 20","Surfaces","Reflection","EE",0.666,0.573,9,25
+401,"Lachs 20","Lachs 20","Surfaces","Reflection","A",0.688,0.58,9,25
+401,"Lachs 20","Lachs 20","Surfaces","Reflection","D65",0.659,0.573,9,25
+401,"Lachs 20","Lachs 20","Surfaces","Reflection","FL11",0.686,0.576,9,25
+402,"Lachs 30","Lachs 30","Surfaces","Reflection","EE",0.806,0.737,9,25
+402,"Lachs 30","Lachs 30","Surfaces","Reflection","A",0.821,0.743,9,25
+402,"Lachs 30","Lachs 30","Surfaces","Reflection","D65",0.802,0.737,9,25
+402,"Lachs 30","Lachs 30","Surfaces","Reflection","FL11",0.813,0.74,9,25
+403,"Palazzo 235","Palazzo 235","Surfaces","Reflection","EE",0.775,0.584,9,25
+403,"Palazzo 235","Palazzo 235","Surfaces","Reflection","A",0.802,0.616,9,25
+403,"Palazzo 235","Palazzo 235","Surfaces","Reflection","D65",0.767,0.582,9,25
+403,"Palazzo 235","Palazzo 235","Surfaces","Reflection","FL11",0.799,0.598,9,25
+404,"Palazzo 240","Palazzo 240","Surfaces","Reflection","EE",0.845,0.775,9,25
+404,"Palazzo 240","Palazzo 240","Surfaces","Reflection","A",0.855,0.789,9,25
+404,"Palazzo 240","Palazzo 240","Surfaces","Reflection","D65",0.842,0.775,9,25
+404,"Palazzo 240","Palazzo 240","Surfaces","Reflection","FL11",0.854,0.779,9,25
+405,"Palazzo 90","Palazzo 90","Surfaces","Reflection","EE",0.825,0.775,9,25
+405,"Palazzo 90","Palazzo 90","Surfaces","Reflection","A",0.832,0.786,9,25
+405,"Palazzo 90","Palazzo 90","Surfaces","Reflection","D65",0.822,0.775,9,25
+405,"Palazzo 90","Palazzo 90","Surfaces","Reflection","FL11",0.833,0.777,9,25
+406,"Marill 30","Marill 30","Surfaces","Reflection","EE",0.656,0.618,9,25
+406,"Marill 30","Marill 30","Surfaces","Reflection","A",0.662,0.625,9,25
+406,"Marill 30","Marill 30","Surfaces","Reflection","D65",0.654,0.618,9,25
+406,"Marill 30","Marill 30","Surfaces","Reflection","FL11",0.661,0.62,9,25
+407,"Marill 120","Marill 120","Surfaces","Reflection","EE",0.776,0.636,9,25
+407,"Marill 120","Marill 120","Surfaces","Reflection","A",0.798,0.659,9,25
+407,"Marill 120","Marill 120","Surfaces","Reflection","D65",0.77,0.635,9,25
+407,"Marill 120","Marill 120","Surfaces","Reflection","FL11",0.798,0.643,9,25
+408,"Siena 150","Siena 150","Surfaces","Reflection","EE",0.809,0.707,9,25
+408,"Siena 150","Siena 150","Surfaces","Reflection","A",0.828,0.719,9,25
+408,"Siena 150","Siena 150","Surfaces","Reflection","D65",0.804,0.707,9,25
+408,"Siena 150","Siena 150","Surfaces","Reflection","FL11",0.823,0.713,9,25
+409,"Siena 120","Siena 120","Surfaces","Reflection","EE",0.774,0.677,9,25
+409,"Siena 120","Siena 120","Surfaces","Reflection","A",0.792,0.689,9,25
+409,"Siena 120","Siena 120","Surfaces","Reflection","D65",0.769,0.676,9,25
+409,"Siena 120","Siena 120","Surfaces","Reflection","FL11",0.795,0.684,9,25
+410,"Siena 115","Siena 115","Surfaces","Reflection","EE",0.742,0.619,9,25
+410,"Siena 115","Siena 115","Surfaces","Reflection","A",0.765,0.635,9,25
+410,"Siena 115","Siena 115","Surfaces","Reflection","D65",0.736,0.619,9,25
+410,"Siena 115","Siena 115","Surfaces","Reflection","FL11",0.768,0.629,9,25
+411,"Ceramic 90","Ceramic 90","Surfaces","Reflection","EE",0.846,0.803,9,25
+411,"Ceramic 90","Ceramic 90","Surfaces","Reflection","A",0.854,0.81,9,25
+411,"Ceramic 90","Ceramic 90","Surfaces","Reflection","D65",0.843,0.804,9,25
+411,"Ceramic 90","Ceramic 90","Surfaces","Reflection","FL11",0.852,0.805,9,25
+412,"Ceramic 60","Ceramic 60","Surfaces","Reflection","EE",0.768,0.674,9,25
+412,"Ceramic 60","Ceramic 60","Surfaces","Reflection","A",0.788,0.685,9,25
+412,"Ceramic 60","Ceramic 60","Surfaces","Reflection","D65",0.763,0.674,9,25
+412,"Ceramic 60","Ceramic 60","Surfaces","Reflection","FL11",0.786,0.676,9,25
+413,"Beton fein","Concrete, fine-pored","Surfaces","Reflection","EE",0.521,0.48,9,25
+413,"Beton fein","Concrete, fine-pored","Surfaces","Reflection","A",0.525,0.489,9,25
+413,"Beton fein","Concrete, fine-pored","Surfaces","Reflection","D65",0.519,0.48,9,25
+413,"Beton fein","Concrete, fine-pored","Surfaces","Reflection","FL11",0.526,0.484,9,25
+414,"Beton mittel","Concrete, medium-pored","Surfaces","Reflection","EE",0.501,0.481,9,25
+414,"Beton mittel","Concrete, medium-pored","Surfaces","Reflection","A",0.503,0.486,9,25
+414,"Beton mittel","Concrete, medium-pored","Surfaces","Reflection","D65",0.501,0.48,9,25
+414,"Beton mittel","Concrete, medium-pored","Surfaces","Reflection","FL11",0.503,0.483,9,25
+415,"Beton grob","Concrete, coarse-pored","Surfaces","Reflection","EE",0.463,0.438,9,25
+415,"Beton grob","Concrete, coarse-pored","Surfaces","Reflection","A",0.465,0.444,9,25
+415,"Beton grob","Concrete, coarse-pored","Surfaces","Reflection","D65",0.462,0.438,9,25
+415,"Beton grob","Concrete, coarse-pored","Surfaces","Reflection","FL11",0.465,0.44,9,25
+416,"Backstein gelb","Yellow brick","Surfaces","Reflection","EE",0.39,0.237,9,25
+416,"Backstein gelb","Yellow brick","Surfaces","Reflection","A",0.414,0.26,9,25
+416,"Backstein gelb","Yellow brick","Surfaces","Reflection","D65",0.383,0.236,9,25
+416,"Backstein gelb","Yellow brick","Surfaces","Reflection","FL11",0.417,0.254,9,25
+417,"Backstein rot","Red brick","Surfaces","Reflection","EE",0.118,0.073,9,25
+417,"Backstein rot","Red brick","Surfaces","Reflection","A",0.13,0.076,9,25
+417,"Backstein rot","Red brick","Surfaces","Reflection","D65",0.115,0.073,9,25
+417,"Backstein rot","Red brick","Surfaces","Reflection","FL11",0.131,0.075,9,25
+418,"Ahorn lackiert","Maple, varnished","Surfaces","Reflection","EE",0.563,0.433,9,25
+418,"Ahorn lackiert","Maple, varnished","Surfaces","Reflection","A",0.587,0.453,9,25
+418,"Ahorn lackiert","Maple, varnished","Surfaces","Reflection","D65",0.556,0.433,9,25
+418,"Ahorn lackiert","Maple, varnished","Surfaces","Reflection","FL11",0.589,0.445,9,25
+419,"Buche lackiert","Beech, varnished","Surfaces","Reflection","EE",0.388,0.252,9,25
+419,"Buche lackiert","Beech, varnished","Surfaces","Reflection","A",0.416,0.268,9,25
+419,"Buche lackiert","Beech, varnished","Surfaces","Reflection","D65",0.38,0.251,9,25
+419,"Buche lackiert","Beech, varnished","Surfaces","Reflection","FL11",0.416,0.263,9,25
+420,"Eiche lackiert","Oak, varnished","Surfaces","Reflection","EE",0.311,0.203,9,25
+420,"Eiche lackiert","Oak, varnished","Surfaces","Reflection","A",0.331,0.219,9,25
+420,"Eiche lackiert","Oak, varnished","Surfaces","Reflection","D65",0.305,0.203,9,25
+420,"Eiche lackiert","Oak, varnished","Surfaces","Reflection","FL11",0.331,0.212,9,25
+421,"Kirschbaum lackiert","Cherry, varnished","Surfaces","Reflection","EE",0.273,0.164,9,25
+421,"Kirschbaum lackiert","Cherry, varnished","Surfaces","Reflection","A",0.298,0.175,9,25
+421,"Kirschbaum lackiert","Cherry, varnished","Surfaces","Reflection","D65",0.266,0.164,9,25
+421,"Kirschbaum lackiert","Cherry, varnished","Surfaces","Reflection","FL11",0.297,0.173,9,25
+422,"Nussbaum lackiert","Walnut, varnished","Surfaces","Reflection","EE",0.133,0.098,9,25
+422,"Nussbaum lackiert","Walnut, varnished","Surfaces","Reflection","A",0.141,0.102,9,25
+422,"Nussbaum lackiert","Walnut, varnished","Surfaces","Reflection","D65",0.131,0.098,9,25
+422,"Nussbaum lackiert","Walnut, varnished","Surfaces","Reflection","FL11",0.14,0.1,9,25
+423,"Ahorn geölt","Maple, oiled","Surfaces","Reflection","EE",0.539,0.391,9,25
+423,"Ahorn geölt","Maple, oiled","Surfaces","Reflection","A",0.566,0.413,9,25
+423,"Ahorn geölt","Maple, oiled","Surfaces","Reflection","D65",0.531,0.391,9,25
+423,"Ahorn geölt","Maple, oiled","Surfaces","Reflection","FL11",0.567,0.404,9,25
+424,"Buche geölt","Beech, oiled","Surfaces","Reflection","EE",0.406,0.254,9,25
+424,"Buche geölt","Beech, oiled","Surfaces","Reflection","A",0.437,0.273,9,25
+424,"Buche geölt","Beech, oiled","Surfaces","Reflection","D65",0.397,0.253,9,25
+424,"Buche geölt","Beech, oiled","Surfaces","Reflection","FL11",0.438,0.267,9,25
+425,"Eiche geölt","Oak, oiled","Surfaces","Reflection","EE",0.355,0.228,9,25
+425,"Eiche geölt","Oak, oiled","Surfaces","Reflection","A",0.379,0.247,9,25
+425,"Eiche geölt","Oak, oiled","Surfaces","Reflection","D65",0.349,0.228,9,25
+425,"Eiche geölt","Oak, oiled","Surfaces","Reflection","FL11",0.379,0.239,9,25
+426,"Kirschbaum geölt","Cherry, oiled","Surfaces","Reflection","EE",0.33,0.196,9,26
+426,"Kirschbaum geölt","Cherry, oiled","Surfaces","Reflection","A",0.358,0.213,9,26
+426,"Kirschbaum geölt","Cherry, oiled","Surfaces","Reflection","D65",0.322,0.195,9,26
+426,"Kirschbaum geölt","Cherry, oiled","Surfaces","Reflection","FL11",0.358,0.208,9,26
+427,"Nussbaum geölt","Walnut, oiled","Surfaces","Reflection","EE",0.138,0.089,9,26
+427,"Nussbaum geölt","Walnut, oiled","Surfaces","Reflection","A",0.148,0.095,9,26
+427,"Nussbaum geölt","Walnut, oiled","Surfaces","Reflection","D65",0.134,0.089,9,26
+427,"Nussbaum geölt","Walnut, oiled","Surfaces","Reflection","FL11",0.147,0.093,9,26
+401,"Lachs 20","Lachs 20","Surfaces","Reflection","LED-B1",0.694,0.583,10,26
+401,"Lachs 20","Lachs 20","Surfaces","Reflection","LED-B2",0.689,0.581,10,26
+401,"Lachs 20","Lachs 20","Surfaces","Reflection","LED-B3",0.675,0.578,10,26
+401,"Lachs 20","Lachs 20","Surfaces","Reflection","LED-B5",0.662,0.575,10,26
+402,"Lachs 30","Lachs 30","Surfaces","Reflection","LED-B1",0.826,0.745,10,26
+402,"Lachs 30","Lachs 30","Surfaces","Reflection","LED-B2",0.823,0.744,10,26
+402,"Lachs 30","Lachs 30","Surfaces","Reflection","LED-B3",0.814,0.741,10,26
+402,"Lachs 30","Lachs 30","Surfaces","Reflection","LED-B5",0.805,0.739,10,26
+403,"Palazzo 235","Palazzo 235","Surfaces","Reflection","LED-B1",0.811,0.617,10,26
+403,"Palazzo 235","Palazzo 235","Surfaces","Reflection","LED-B2",0.805,0.611,10,26
+403,"Palazzo 235","Palazzo 235","Surfaces","Reflection","LED-B3",0.79,0.598,10,26
+403,"Palazzo 235","Palazzo 235","Surfaces","Reflection","LED-B5",0.775,0.578,10,26
+404,"Palazzo 240","Palazzo 240","Surfaces","Reflection","LED-B1",0.857,0.788,10,26
+404,"Palazzo 240","Palazzo 240","Surfaces","Reflection","LED-B2",0.855,0.785,10,26
+404,"Palazzo 240","Palazzo 240","Surfaces","Reflection","LED-B3",0.85,0.779,10,26
+404,"Palazzo 240","Palazzo 240","Surfaces","Reflection","LED-B5",0.844,0.769,10,26
+405,"Palazzo 90","Palazzo 90","Surfaces","Reflection","LED-B1",0.833,0.785,10,26
+405,"Palazzo 90","Palazzo 90","Surfaces","Reflection","LED-B2",0.832,0.783,10,26
+405,"Palazzo 90","Palazzo 90","Surfaces","Reflection","LED-B3",0.828,0.779,10,26
+405,"Palazzo 90","Palazzo 90","Surfaces","Reflection","LED-B5",0.823,0.771,10,26
+406,"Marill 30","Marill 30","Surfaces","Reflection","LED-B1",0.664,0.626,10,26
+406,"Marill 30","Marill 30","Surfaces","Reflection","LED-B2",0.663,0.624,10,26
+406,"Marill 30","Marill 30","Surfaces","Reflection","LED-B3",0.659,0.622,10,26
+406,"Marill 30","Marill 30","Surfaces","Reflection","LED-B5",0.656,0.618,10,26
+407,"Marill 120","Marill 120","Surfaces","Reflection","LED-B1",0.804,0.66,10,26
+407,"Marill 120","Marill 120","Surfaces","Reflection","LED-B2",0.8,0.656,10,26
+407,"Marill 120","Marill 120","Surfaces","Reflection","LED-B3",0.788,0.647,10,26
+407,"Marill 120","Marill 120","Surfaces","Reflection","LED-B5",0.775,0.632,10,26
+408,"Siena 150","Siena 150","Surfaces","Reflection","LED-B1",0.834,0.722,10,26
+408,"Siena 150","Siena 150","Surfaces","Reflection","LED-B2",0.83,0.719,10,26
+408,"Siena 150","Siena 150","Surfaces","Reflection","LED-B3",0.819,0.714,10,26
+408,"Siena 150","Siena 150","Surfaces","Reflection","LED-B5",0.808,0.708,10,26
+409,"Siena 120","Siena 120","Surfaces","Reflection","LED-B1",0.797,0.692,10,26
+409,"Siena 120","Siena 120","Surfaces","Reflection","LED-B2",0.793,0.69,10,26
+409,"Siena 120","Siena 120","Surfaces","Reflection","LED-B3",0.783,0.684,10,26
+409,"Siena 120","Siena 120","Surfaces","Reflection","LED-B5",0.772,0.678,10,26
+410,"Siena 115","Siena 115","Surfaces","Reflection","LED-B1",0.771,0.639,10,26
+410,"Siena 115","Siena 115","Surfaces","Reflection","LED-B2",0.766,0.636,10,26
+410,"Siena 115","Siena 115","Surfaces","Reflection","LED-B3",0.753,0.629,10,26
+410,"Siena 115","Siena 115","Surfaces","Reflection","LED-B5",0.74,0.621,10,26
+411,"Ceramic 90","Ceramic 90","Surfaces","Reflection","LED-B1",0.857,0.81,10,26
+411,"Ceramic 90","Ceramic 90","Surfaces","Reflection","LED-B2",0.855,0.809,10,26
+411,"Ceramic 90","Ceramic 90","Surfaces","Reflection","LED-B3",0.85,0.806,10,26
+411,"Ceramic 90","Ceramic 90","Surfaces","Reflection","LED-B5",0.844,0.803,10,26
+412,"Ceramic 60","Ceramic 60","Surfaces","Reflection","LED-B1",0.793,0.686,10,26
+412,"Ceramic 60","Ceramic 60","Surfaces","Reflection","LED-B2",0.788,0.684,10,26
+412,"Ceramic 60","Ceramic 60","Surfaces","Reflection","LED-B3",0.777,0.679,10,26
+412,"Ceramic 60","Ceramic 60","Surfaces","Reflection","LED-B5",0.765,0.671,10,26
+413,"Beton fein","Concrete, fine-pored","Surfaces","Reflection","LED-B1",0.526,0.489,10,26
+413,"Beton fein","Concrete, fine-pored","Surfaces","Reflection","LED-B2",0.526,0.488,10,26
+413,"Beton fein","Concrete, fine-pored","Surfaces","Reflection","LED-B3",0.523,0.484,10,26
+413,"Beton fein","Concrete, fine-pored","Surfaces","Reflection","LED-B5",0.521,0.478,10,26
+414,"Beton mittel","Concrete, medium-pored","Surfaces","Reflection","LED-B1",0.504,0.486,10,26
+414,"Beton mittel","Concrete, medium-pored","Surfaces","Reflection","LED-B2",0.504,0.485,10,26
+414,"Beton mittel","Concrete, medium-pored","Surfaces","Reflection","LED-B3",0.503,0.483,10,26
+414,"Beton mittel","Concrete, medium-pored","Surfaces","Reflection","LED-B5",0.502,0.479,10,26
+415,"Beton grob","Concrete, coarse-pored","Surfaces","Reflection","LED-B1",0.466,0.444,10,26
+415,"Beton grob","Concrete, coarse-pored","Surfaces","Reflection","LED-B2",0.465,0.443,10,26
+415,"Beton grob","Concrete, coarse-pored","Surfaces","Reflection","LED-B3",0.464,0.44,10,26
+415,"Beton grob","Concrete, coarse-pored","Surfaces","Reflection","LED-B5",0.463,0.436,10,26
+416,"Backstein gelb","Yellow brick","Surfaces","Reflection","LED-B1",0.42,0.264,10,26
+416,"Backstein gelb","Yellow brick","Surfaces","Reflection","LED-B2",0.416,0.26,10,26
+416,"Backstein gelb","Yellow brick","Surfaces","Reflection","LED-B3",0.402,0.25,10,26
+416,"Backstein gelb","Yellow brick","Surfaces","Reflection","LED-B5",0.39,0.238,10,26
+417,"Backstein rot","Red brick","Surfaces","Reflection","LED-B1",0.132,0.077,10,26
+417,"Backstein rot","Red brick","Surfaces","Reflection","LED-B2",0.13,0.076,10,26
+417,"Backstein rot","Red brick","Surfaces","Reflection","LED-B3",0.122,0.075,10,26
+417,"Backstein rot","Red brick","Surfaces","Reflection","LED-B5",0.115,0.073,10,26
+418,"Ahorn lackiert","Maple, varnished","Surfaces","Reflection","LED-B1",0.589,0.455,10,26
+418,"Ahorn lackiert","Maple, varnished","Surfaces","Reflection","LED-B2",0.585,0.451,10,26
+418,"Ahorn lackiert","Maple, varnished","Surfaces","Reflection","LED-B3",0.571,0.443,10,26
+418,"Ahorn lackiert","Maple, varnished","Surfaces","Reflection","LED-B5",0.558,0.432,10,26
+419,"Buche lackiert","Beech, varnished","Surfaces","Reflection","LED-B1",0.418,0.271,10,26
+419,"Buche lackiert","Beech, varnished","Surfaces","Reflection","LED-B2",0.413,0.268,10,26
+419,"Buche lackiert","Beech, varnished","Surfaces","Reflection","LED-B3",0.397,0.26,10,26
+419,"Buche lackiert","Beech, varnished","Surfaces","Reflection","LED-B5",0.381,0.251,10,26
+420,"Eiche lackiert","Oak, varnished","Surfaces","Reflection","LED-B1",0.332,0.22,10,26
+420,"Eiche lackiert","Oak, varnished","Surfaces","Reflection","LED-B2",0.329,0.217,10,26
+420,"Eiche lackiert","Oak, varnished","Surfaces","Reflection","LED-B3",0.318,0.21,10,26
+420,"Eiche lackiert","Oak, varnished","Surfaces","Reflection","LED-B5",0.307,0.201,10,26
+421,"Kirschbaum lackiert","Cherry, varnished","Surfaces","Reflection","LED-B1",0.299,0.178,10,26
+421,"Kirschbaum lackiert","Cherry, varnished","Surfaces","Reflection","LED-B2",0.294,0.176,10,26
+421,"Kirschbaum lackiert","Cherry, varnished","Surfaces","Reflection","LED-B3",0.28,0.17,10,26
+421,"Kirschbaum lackiert","Cherry, varnished","Surfaces","Reflection","LED-B5",0.266,0.165,10,26
+422,"Nussbaum lackiert","Walnut, varnished","Surfaces","Reflection","LED-B1",0.141,0.103,10,26
+422,"Nussbaum lackiert","Walnut, varnished","Surfaces","Reflection","LED-B2",0.14,0.102,10,26
+422,"Nussbaum lackiert","Walnut, varnished","Surfaces","Reflection","LED-B3",0.135,0.1,10,26
+422,"Nussbaum lackiert","Walnut, varnished","Surfaces","Reflection","LED-B5",0.131,0.097,10,26
+423,"Ahorn geölt","Maple, oiled","Surfaces","Reflection","LED-B1",0.569,0.415,10,26
+423,"Ahorn geölt","Maple, oiled","Surfaces","Reflection","LED-B2",0.564,0.411,10,26
+423,"Ahorn geölt","Maple, oiled","Surfaces","Reflection","LED-B3",0.549,0.402,10,26
+423,"Ahorn geölt","Maple, oiled","Surfaces","Reflection","LED-B5",0.534,0.39,10,26
+424,"Buche geölt","Beech, oiled","Surfaces","Reflection","LED-B1",0.44,0.276,10,26
+424,"Buche geölt","Beech, oiled","Surfaces","Reflection","LED-B2",0.434,0.272,10,26
+424,"Buche geölt","Beech, oiled","Surfaces","Reflection","LED-B3",0.417,0.264,10,26
+424,"Buche geölt","Beech, oiled","Surfaces","Reflection","LED-B5",0.4,0.253,10,26
+425,"Eiche geölt","Oak, oiled","Surfaces","Reflection","LED-B1",0.382,0.248,10,26
+425,"Eiche geölt","Oak, oiled","Surfaces","Reflection","LED-B2",0.377,0.245,10,26
+425,"Eiche geölt","Oak, oiled","Surfaces","Reflection","LED-B3",0.364,0.236,10,26
+425,"Eiche geölt","Oak, oiled","Surfaces","Reflection","LED-B5",0.351,0.226,10,26
+426,"Kirschbaum geölt","Cherry, oiled","Surfaces","Reflection","LED-B1",0.36,0.215,10,27
+426,"Kirschbaum geölt","Cherry, oiled","Surfaces","Reflection","LED-B2",0.355,0.212,10,27
+426,"Kirschbaum geölt","Cherry, oiled","Surfaces","Reflection","LED-B3",0.339,0.205,10,27
+426,"Kirschbaum geölt","Cherry, oiled","Surfaces","Reflection","LED-B5",0.324,0.196,10,27
+427,"Nussbaum geölt","Walnut, oiled","Surfaces","Reflection","LED-B1",0.148,0.096,10,27
+427,"Nussbaum geölt","Walnut, oiled","Surfaces","Reflection","LED-B2",0.146,0.095,10,27
+427,"Nussbaum geölt","Walnut, oiled","Surfaces","Reflection","LED-B3",0.141,0.092,10,27
+427,"Nussbaum geölt","Walnut, oiled","Surfaces","Reflection","LED-B5",0.135,0.089,10,27
