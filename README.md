@@ -30,6 +30,11 @@ documentation](https://litgde.github.io/Spectran/articles/Material_Validation.ht
 Details of the user guidance and presentation may still change before
 the transmission and reflection workflow is released.
 
+Try the development prototype in
+[German](https://litg-spectran-prototype.share.connect.posit.cloud/) or
+[English](https://litg-spectran-prototype-en.share.connect.posit.cloud/).
+Both versions are updated automatically from the `transmission` branch.
+
 ## Installation
 
 You can install the stable release version of Spectran from
