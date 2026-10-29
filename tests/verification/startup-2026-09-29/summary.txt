@@ -1,0 +1,32 @@
+                  label n ready_median_ms ready_min_ms ready_max_ms
+                    b08 5          1020.2        925.1       1678.6
+ b08_no_material_server 5           657.4        611.2       1042.5
+                    b09 5           973.6        873.2       1721.9
+               original 5           612.8        542.3       1114.9
+ connected_median_ms after_connect_median_ms resource_count_median
+               233.7                   788.5                    64
+               275.1                   385.1                    65
+               218.7                   727.8                    65
+               252.0                   360.8                    64
+ resource_transfer_bytes_median dom_nodes_median
+                            768             1661
+                              0             1547
+                            768             1660
+                              0             1283
+     label n load_median_s construct_median_s render_median_s html_bytes
+       b08 5         0.784              0.086           0.111     160916
+       b09 5         0.799              0.087           0.111     161179
+  original 5         0.719              0.056           0.088     113202
+ prototype 5         0.822              0.079           0.113     168495
+                      function_name total.time self.time
+                   "analysisServer"      0.035         0
+                     "exportServer"      0.010         0
+                     "importServer"      0.075         0
+       "prepare_transmission_curve"      0.005         0
+                          "readRDS"      0.005         0
+ "transmission_info_tooltip_server"      0.015         0
+          "transmissionApplyServer"      0.010         0
+        "transmissionHistoryServer"      0.035         0
+               "transmissionServer"      0.145         0
+B08 added milliseconds: 407.4 ; relative increase %: 66.48172 
+Removing the backend recovers % of added median time: 89.05253 

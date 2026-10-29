@@ -22,6 +22,19 @@ calculations that underlie commonly used parameters. As such, it serves
 as an ideal tool for educational purposes and for generating
 presentation-ready graphs in lighting research and application.
 
+The current development version is a prototype that includes
+transmission and reflection calculations. The calculation results have
+been verified and can already be considered reliable within the scope
+described in the [material validation
+documentation](https://litgde.github.io/Spectran/articles/Material_Validation.html).
+Details of the user guidance and presentation may still change before
+the transmission and reflection workflow is released.
+
+Try the development prototype in
+[German](https://litg-spectran-prototype.share.connect.posit.cloud/) or
+[English](https://litg-spectran-prototype-en.share.connect.posit.cloud/).
+Both versions are updated automatically from the `transmission` branch.
+
 ## Installation
 
 You can install the stable release version of Spectran from
@@ -47,15 +60,15 @@ The commands show how to start Spectran:
 
 `Spectran()`
 
-or simply go to the example hosted on
-[shinyapps.io](https://litg.shinyapps.io/Spectran_en/).
+or open the English version hosted on [Posit Connect
+Cloud](https://litg-spectran-en.share.connect.posit.cloud/).
 
 You can also use the German version:
 
 `Spectran(lang_setting = "Deutsch")`
 
-or go to it´s example on
-[shinyapps.io](https://litg.shinyapps.io/Spectran_de/).
+or open the German version hosted on [Posit Connect
+Cloud](https://litg-spectran-de.share.connect.posit.cloud/).
 
 ## Example Screenshots
 

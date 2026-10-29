@@ -1,0 +1,22 @@
+ [1] "inst/app/www/intro-examples/material-library.jpg"                
+ [2] "inst/app/www/intro-examples/material-light-path.jpg"             
+ [3] "inst/app/www/intro-examples/material-result.jpg"                 
+ [4] "inst/app/www/spectran-explanations.css"                          
+ [5] "inst/app/www/spectran-introduction.css"                          
+ [6] "R/introduction.R"                                                
+ [7] "R/spectran_explanations.R"                                       
+ [8] "tests/verification/M4-02-evidence/independent-review.txt"        
+ [9] "tests/verification/M4-02-introduction-and-learning-2026-10-05.md"
+[10] "tests/verification/M4-04-evidence/independent-review.txt"        
+[11] "tests/verification/M4-04-evidence/M4-04-browser-check.log"       
+[12] "tests/verification/M4-04-evidence/M4-04-check.log"               
+[13] "tests/verification/M4-04-evidence/M4-04-introduction-desktop.png"
+[14] "tests/verification/M4-04-evidence/M4-04-sizes.csv"               
+[15] "tests/verification/M4-04-evidence/manifest.csv"                  
+[16] "tests/verification/M4-04-evidence/onboarding-check.R"            
+[17] "tests/verification/M4-introduction-and-learning-2026-10-05.md"   
+                            item   bytes
+1                  source_tar_gz 3680214
+2                 all_web_assets 4464569
+3          shipped_manual_source   32633
+4 web_plus_shipped_manual_source 4497202

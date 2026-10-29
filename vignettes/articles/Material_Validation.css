@@ -1,0 +1,44 @@
+/* Article-specific details. Typography, navigation and colours follow pkgdown. */
+.gt_table .sample-id,
+.gt_table .spectrum-label { font-size: 10px; color: #555; }
+.gt_table .outside-limit { color: #a52b22; font-weight: 700; }
+.gt_table img { max-width: 100%; height: auto; vertical-align: middle; }
+.gt_table p { margin: 0; }
+.gt_table .gt_row { vertical-align: middle; }
+.gt_table .gt_col_heading { vertical-align: bottom; }
+.cell details > summary { cursor: pointer; margin-bottom: .35rem; }
+.cell details[open] > summary { margin-bottom: .5rem; }
+.cell { margin-bottom: 1rem; }
+.cell pre.sourceCode,
+.cell pre.sourceCode code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.cell pre.sourceCode,
+.cell pre.sourceCode * { hyphens: none; }
+.cell-output-display { max-width: 100%; }
+.material-table-key { font-size: .9em; margin-bottom: .8rem; }
+.material-scroll-hint { display: none; }
+.material-tabs .nav-tabs { flex-wrap: wrap; }
+.material-tabs .tab-content { padding-top: .8rem; }
+math[display="block"] { max-width: 100%; overflow-x: auto; }
+@media (max-width: 767px) {
+  .cell-output-display > div { max-width: 100%; }
+  .gt_table { min-width: 540px; }
+  .material-scroll-hint { display: block; }
+  .gt_table td[headers="identity"],
+  .gt_table th[id="identity"],
+  #tbl-missing .gt_table td[headers~="din_id"],
+  #tbl-missing .gt_table th[id="din_id"] {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: #fff;
+    box-shadow: 2px 0 0 #d3d3d3;
+  }
+  #tbl-missing .gt_table td[headers~="din_id"],
+  #tbl-missing .gt_table th[id="din_id"] {
+    min-width: 48px;
+    white-space: nowrap;
+  }
+}

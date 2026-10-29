@@ -1,0 +1,24 @@
+Introduction material example screenshots
+Captured: 2026-10-05
+Source: frozen Spectran build TRX-M4-04-fd198ccd6a43, English,
+http://127.0.0.1:7530/, operated through the visible application UI.
+
+inst/app/www/intro-examples/material-library.jpg
+Material library, Glazing category expanded, spectral colours enabled.
+G1, G2 and G3 material cards are visible.
+
+inst/app/www/intro-examples/material-result.jpg
+Daylight D65 at the app's automatic 100 lx, transmitted through TUB G4
+Double low-e glazing (FG-Ar-TIG1). The incident/output plot and the start
+of the transmittance table are visible.
+
+inst/app/www/intro-examples/material-light-path.jpg
+The same original D65 spectrum, followed by G4 transmission (saved as
+After glazing) and WF8 Cherry, oiled reflection (saved as After wood
+reflection). No rescaling between steps. The cumulative path plot
+shows the original source, intermediate spectrum, and selected result.
+
+All curves and displayed values were produced by the running R app.
+These are native browser JPEG screenshots, with no constructed values
+or retouched application elements. They document representative UI
+states, not a separate scientific verification. No external data used.

@@ -139,7 +139,9 @@ analysis_age2UI <- function(
   ns <- shiny::NS(id)
   #Outputs
   htmltools::tagList(
-    shiny::plotOutput(ns("plot"), height = plotheight),
+    # The server supplies the image height for the current layout. Let the
+    # container follow it, so the table starts below the complete legend.
+    shiny::plotOutput(ns("plot"), height = "auto"),
     gt::gt_output(ns("table"))
   )
   
@@ -213,9 +215,20 @@ analysis_age2Server <-
       #Plot generation
       output$plot <- shiny::renderPlot({
         shiny::req(Analysis[[ns_plot(feed)]])
-        do.call(Analysis[[ns_plot(feed)]]$fun, Analysis[[ns_plot(feed)]]$args)
+        plot <- Analysis[[ns_plot(feed)]]
+        args <- plot$args
+        if (plot$fun %in% c("Plot_age_tot", "Plot_age_trans")) {
+          args$plot_width <- session$clientData$output_Plotbreite_width / 96
+        }
+        do.call(plot$fun, args)
 
-      } ,height = plotheight,
+      } ,height = function() {
+        plot <- Analysis[[ns_plot(feed)]]
+        if (age_plot_is_compact(session$clientData$output_Plotbreite_width / 96) &&
+            isTRUE(plot$fun %in% c("Plot_age_tot", "Plot_age_trans"))) {
+          plotheight + if (isTRUE(plot$args$Alter_inset)) 260 else 140
+        } else plotheight
+      },
       width = \() {session$clientData$output_Plotbreite_width}
       )
       shiny::observe({

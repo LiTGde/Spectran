@@ -1,0 +1,55 @@
+Sys.setenv(NOT_CRAN = "true")
+source("/private/tmp/spectran-revision/load.R")
+args <- commandArgs(trailingOnly = TRUE)
+version <- if (length(args)) args[[1L]] else "M4-02"
+build <- file.path("/private/tmp/spectran-review-oct03", version)
+work <- "/private/tmp/spectran-revision/onboarding-browser"
+dir.create(work, showWarnings = FALSE)
+app_source <- c('Sys.setenv(R_USER_CACHE_DIR = "/private/tmp/spectran-revision/browser-cache")',
+  '.libPaths(c("/Users/zauner/Library/Caches/org.R-project.R/R/renv/library/Spectran-fd34ab45/macos/R-4.6/aarch64-apple-darwin23", .libPaths()))',
+  paste0('pkgload::load_all("', build, '/source", quiet = TRUE)'))
+run_check <- function(kind) {
+  folder <- file.path(work, kind)
+  dir.create(folder, showWarnings = FALSE)
+  writeLines(c(app_source, if (kind == "isolated") 'Spectran:::introduction_app("Deutsch")' else 'Spectran::Spectran("Deutsch")'), file.path(folder, "app.R"))
+  app <- shinytest2::AppDriver$new(app_dir = folder, name = paste0("onboarding-", kind), width = 1200, height = 900,
+    load_timeout = 40000, timeout = 20000, seed = 1L)
+  on.exit(app$stop())
+  if (kind == "isolated") {
+    app$click("intro-to_material")
+    stopifnot(identical(app$get_value(output = "destination"), "transmission 1"))
+    app$click("intro-zu_Import1")
+    stopifnot(identical(app$get_value(output = "destination"), "import 2"))
+    app$click("intro-to_explanations")
+    stopifnot(identical(app$get_value(output = "destination"), "explanations 3"))
+    app$click("intro-to_material")
+    stopifnot(identical(app$get_value(output = "destination"), "transmission 4"))
+  } else {
+    resources <- app$get_js("performance.getEntriesByType('resource').map(function(x){return x.name;})")
+    stopifnot(!any(grepl("/explanations/", resources, fixed = TRUE)))
+    cat("No explanation SVG was requested at initial load.\n")
+    app$click("intro-zu_Import1")
+    app$wait_for_idle()
+    stopifnot(identical(app$get_value(input = "inTabset"), "import"))
+    app$set_inputs(inTabset = "tutorial")
+    app$click("intro-to_material")
+    app$wait_for_idle()
+    stopifnot(identical(app$get_value(input = "inTabset"), "transmission"))
+    app$set_inputs(inTabset = "tutorial")
+    app$click("intro-to_explanations")
+    app$wait_for_idle()
+    stopifnot(identical(app$get_value(input = "inTabset"), "explanations"))
+    app$set_inputs(`explanations-topic` = "spectrum")
+    app$wait_for_js("document.querySelector('#explanations-content .spectran-help-figure > img') && document.querySelector('#explanations-content .spectran-help-figure > img').complete")
+    resources <- app$get_js("performance.getEntriesByType('resource').map(function(x){return x.name;})")
+    stopifnot(any(grepl("05-spektrum-lesen-de.svg", resources, fixed = TRUE)))
+    app$click("explanations-back")
+    app$wait_for_idle()
+    stopifnot(identical(app$get_value(input = "inTabset"), "tutorial"))
+    app$get_screenshot(file = file.path(work, "introduction-desktop.png"))
+    cat("Integrated routes, topic asset loading and help return pass.\n")
+  }
+  cat(kind, "browser check passed.\n")
+}
+run_check("isolated")
+run_check("full")

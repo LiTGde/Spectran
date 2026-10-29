@@ -1,0 +1,209 @@
+Spectran M4-02 visual acceptance review
+Review date: 2026-10-05 (Europe/Berlin)
+
+Decision: revision required for three bounded navigation/focus findings.
+Build: TRX-M4-02-4cb5af865d07
+German: http://127.0.0.1:7527/
+English: http://127.0.0.1:7528/
+Graphic/UI score: 9.1/10. UX score: 8.7/10.
+
+The information design, six integrated illustrations, English translations,
+new committee section and narrow-screen layouts meet the visual target.
+Keyboard focus in collapsed navigation, focus after returning to Introduction,
+and the Introduction learning button's repeated destination need correction.
+These keep UX below the acceptance target. No implementation cause is asserted.
+
+Review contract and evidence boundary
+-------------------------------------
+Independent light-planning and web-design review, without Shiny implementation
+knowledge. All product evidence came from visible browser controls, rendered
+text, accessibility state, screenshots and app-linked native SVG/PNG previews.
+No app source, hidden DOM/evaluation, backend state, logs, network payloads,
+curve files or independent scientific calculations were inspected.
+
+M4-02 remained frozen throughout the pass. M4-01 is superseded. Approved G3
+German graphic content and protected M3-08 computational/material workflow
+passes were not reopened. English translation and integration were new scope.
+The programmer's byte-identity statement was not independently audited here.
+CRAN/package-size and startup-performance checks remain the programmer's R work.
+
+The owner clarified during this pass that the unchanged external video's
+content/playback is outside this slice. Its findability and core-module label
+are in scope and pass. A brief initial play attempt did not establish playback;
+this is neither an app defect nor a playback pass. No further playback test is
+required for this slice.
+
+The owner also relayed the user's explicit acceptance requirement for the
+Introduction learning button to open the topic overview directly. This is
+included in M4-UX-R03 below.
+
+Findings
+--------
+
+M4-UX-R01: Return to Introduction loses the learning context and keyboard focus
+State: open. Importance: acceptance defect, modest severity.
+Scope: production-bound, new Introduction/explanations return path.
+Reproduced in German and English at 1440px. Return journeys were also exercised
+at 320px; the detailed focus reproduction below is the desktop evidence.
+Steps:
+1. Activate the learning-area button in Introduction with Enter.
+2. Open a topic, or remain on the overview.
+3. Activate Back to Introduction / Zurueck zur Einfuehrung with Enter.
+4. Continue with Tab.
+Observed: Introduction returns to its top. Focus leaves the learning button;
+there is no visible focus on a useful content target. Further Tab navigation
+starts again at Toggle navigation, instead of continuing after the learning
+button. The original learning section is well below the viewport on mobile.
+Expected: return to the originating learning button with visible focus and its
+surrounding learning section in view. The next Tab should continue naturally.
+Impact: keyboard users lose their place and must traverse/scroll the page again.
+Requested change: restore the Introduction learning action as the return target,
+matching the successful material-help return behavior.
+Regression surface: both language variants, repeated visits, topic changes,
+mobile scroll position, material-help and light-path-help returns.
+Evidence: 04-de-intro-return-focus.jpg, 16-en-intro-return.jpg and recorded
+visible accessibility focus transitions. A control check succeeded: material
+help returned focus to its original help button with the draft intact, and
+English path help returned focus with the saved comparison intact.
+
+M4-UX-R02: Collapsed navigation leaves invisible keyboard targets
+State: open. Importance: acceptance defect, moderate severity.
+Scope: production-bound navigation, explicitly included in this slice.
+Journeys/viewports: DE and EN 1440px collapsed sidebar; EN 320px closed mobile
+sidebar. Expanded mobile two-line labels were separately checked at EN 390px
+and DE 320px.
+Steps:
+1. At desktop, focus Toggle navigation and press Enter to collapse the sidebar.
+2. Press Tab twice: focus reaches the Introduction sidebar link.
+3. Continue to the Transmission/Reflection menu item.
+4. Press Enter on that invisible item.
+Observed: the sidebar and its links are absent visually, but Tab still visits
+them. No focused menu target is visible. The hidden material item activates
+the material workspace on Enter, confirming the key input was delivered.
+The same invisible Introduction target occurs with the mobile menu closed.
+Expected: every Tab stop is visible. A fully hidden menu should not contribute
+focusable links until opened, or collapsed navigation should provide visible,
+usable controls with focus indication. Preserve the requested two-line labels
+and separate icons when expanded.
+Impact: users encounter several invisible stops and can change sections without
+knowing which action they are about to activate.
+Requested change: make collapsed/closed navigation focus behavior agree with
+its visible state, with a predictable focus target when closing the menu.
+Regression surface: DE/EN, expanded/collapsed/mobile navigation, mouse/Enter
+activation, forward/reverse Tab, the new material menu item and adjacent links.
+Evidence: 18-en-collapsed-hidden-focus.jpg, 27-en-mobile-hidden-focus.jpg,
+31-de-collapsed-hidden-focus-1440.jpg, 32-de-material-menu-hidden-focus.jpg.
+Visible accessibility state identified the focused links; Enter then visibly
+opened the material module. This is not a browser-controller failure.
+
+M4-UX-R03: Repeated Introduction learning entry reopens the previous topic
+State: open. Importance: acceptance defect against the explicit entry contract.
+Scope: production-bound Introduction learning button.
+Journeys/viewports: DE desktop and 320px; EN desktop.
+Steps:
+1. Use Introduction's Open explanations / Erlaeuterungen oeffnen button.
+2. Choose a topic, for example Age and the eye or the light-path topic.
+3. Return to Introduction and activate the learning button again.
+Observed: a fresh session initially opens the overview, but repeated entry
+retains the previous topic. The DE 320px check reopened Alter und Auge; the EN
+desktop check reopened Steps and combined effects in the light path.
+Expected: this Introduction action opens the topic overview on every activation,
+as explicitly requested. Contextual material/help buttons should still open
+their specific topics.
+Impact: the promised general learning entry depends on unrelated prior browsing
+and requires an extra All topics action to reach the intended destination.
+Requested change: make the Introduction button's destination explicitly the
+overview while retaining origin tracking and the corrected Back focus target.
+Regression surface: first/repeated entry, entry after contextual material help,
+both languages, both widths, overview selection and contextual topic links.
+Evidence: 43-de-learning-entry-retains-old-topic.jpg and
+48-en-learning-entry-retains-old-topic.jpg.
+
+Meaningful passes and protected results
+---------------------------------------
+- Introduction has a clear headline, two distinct initial actions, four feature
+  cards including the material module, a learning area and a scoped video.
+- All three entry actions were exercised repeatedly in both languages. Source
+  and material buttons consistently reached the intended workspaces. Learning
+  activation works; its repeated destination is R03.
+- All six German graphics render in the intended topics. The full prior graphic
+  content acceptance remains protected. Integrated samples are listed below.
+- All six English SVG links were opened in native tabs, visually read, captured
+  and closed. Labels, units, legends, example qualifications, model limitations,
+  reference comparisons, line styles and footer text remain readable. No new
+  translation/content/layout defect was found. Numerical values were not audited.
+- DE Import, Analysis and Export example disclosures opened and closed in natural
+  Tab order with Enter/Space. A linked Import PNG opened by keyboard, rendered,
+  closed, and allowed Shift+Tab/Space recovery. All nine example thumbnails were
+  exposed across the three disclosures. The import examples stack on 320px.
+- The introductory material illustration and its nested enlargement work.
+  Native enlargement focus is visible, and keyboard navigation can leave it.
+- At 320px, both languages expose the light-path graphic, full-size link and
+  native enlargement. EN keyboard entry plus horizontal/vertical scroll reached
+  the far side of the illustration; Shift+Tab/Space closed it. DE keyboard entry
+  and closure also worked. The overflow belongs to the graphic region.
+- The video is findable and explicitly described as covering Import, Analysis
+  and Export in the core application. The material module is directed to the
+  explanations. Both language labels were checked.
+- About distinguishes the core committee (Meike Barfuß, Nils Haferkemper,
+  Sylvia Hubalek) from the
+  new module committee Karin Bieske, Kai Broszio and Nils Haferkemper. The new
+  module explanation and all three names are readable at 320px.
+- Expanded navigation displays Transmission and Reflexion/Reflection on separate
+  lines, with the Transmission filter and Reflection reply icons and no slash.
+  Mouse and keyboard activation work. Collapsed focus is the separate R02 defect.
+- German reflection draft (L1 white paint) survived material help and return.
+- English D65/G1 example produced a visible result, saved the named disposable
+  result 'M4 review glazing' in the session light path, and displayed its combined
+  comparison. Help and Back preserved the saved step, selected comparison and
+  original help-button focus. This was a workflow sample, not a numerical audit.
+- No in-scope app crash, missing illustration, new text collision or inaccessible
+  primary mobile control was observed outside the listed focus/destination issues.
+
+Actual responsive coverage
+---------------------------
+1440 x 1100: DE/EN Introduction and expanded/collapsed navigation; DE integrated
+spectrum; English topic text and six full-size native SVG previews. Primary,
+return and sampled material/path journeys. Native preview tabs use their own
+browser rendering sizes and are not counted as breakpoint evidence.
+1200 x 1000: DE/EN Introduction; DE integrated EDI/DER graphic and surrounding text.
+1024 x 900: DE/EN Introduction; DE colour-rendering graphic and surrounding text.
+768 x 1000: DE/EN Introduction; DE age graphic; EN About and committee section.
+390 x 844: DE/EN Introduction; EN expanded mobile menu and material selection;
+DE workflow graphic and its controls.
+320 x 844: DE/EN Introduction and learning/return paths; DE expanded menu, About
+and stacked import examples; both language light-path graphic enlargement;
+EN hidden-menu keyboard issue and full enlarged-region scrolling.
+
+Desktop presentation is readable. At tablet widths dense graphic fine print can
+use enlargement. At 390/320px the usable core remains contained, headings and
+actions wrap, cards stack, and diagrams offer the accepted enlargement route.
+Tiny thumbnails are not treated as the sole route to scientific-label reading.
+No complete factorial retest of every old page at every width was performed.
+The older native topic-select keyboard-controller residual from M3-08 was not
+reopened or represented as a fresh keyboard pass. Card navigation was exercised.
+
+Viewport note: an initial 1200px command targeted the previously selected gallery
+tab. It was corrected before responsive conclusions: dedicated foreground review
+sessions were selected, actual screenshot dimensions/layouts were verified, and
+the misleading preliminary 1200px screenshot was replaced. The matrix above
+contains only the verified breakpoint checks. Temporary overrides were reset.
+
+Evidence and next gate
+-----------------------
+Screenshots: /Users/zauner/Documents/Codex/2026-10-01/spectran-visual-review/outputs/M4-02-screenshots/
+Numbered screenshots 01 through 48 correspond to the descriptive filenames above.
+
+Request one frozen revision for M4-UX-R01, R02 and R03. Protect all other passes.
+Retest the original focus/destination reproductions, DE/EN navigation at desktop
+and mobile, and adjacent contextual-help return behavior. Unchanged graphics,
+About content and computational/material workflows do not need a full replay.
+
+Reviewer acceptance of a corrected build may authorize presentation to the user
+only. It does not authorize commit, push, deployment or a later milestone.
+Final user approval remains the next gate after reviewer acceptance.
+
+Continuing transfer authorization: the user's task-wide approval for uploads and
+downloads to 127.0.0.1 remains valid across these review ports. Only app-linked
+SVG/PNG views were opened; no research-file upload or generated-data download was
+needed. There was no pending transfer approval or auto-review rejection.

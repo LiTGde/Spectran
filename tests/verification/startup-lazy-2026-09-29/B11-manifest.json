@@ -1,0 +1,442 @@
+{
+  "build_id": "MAT-UX-B11-b06d34913f5d",
+  "sha256": "b06d34913f5d7fb5e1a2f423cc97bc21789772c36e8f97413b6f6809f100fa59",
+  "files": [
+    {
+      "path": "DESCRIPTION",
+      "sha256": "d6fc2960e580a2a8e38d319d1e4d923332d95edb8265f5005ef55c06dec4794d"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "1be879e25262a6cb6a42513c264d4ed5e0aca456faea0c706aaf29aece0bf23d"
+    },
+    {
+      "path": "LICENSE.md",
+      "sha256": "2668feb056d387c63627cd0272d1c43653ce845e8ab7c05bf69e4639565f36aa"
+    },
+    {
+      "path": "NAMESPACE",
+      "sha256": "9402344f3b32369617cecf5b38293ad8c664a84c9e428b9e9c775ab75ec5a695"
+    },
+    {
+      "path": "NEWS.md",
+      "sha256": "005b9881843581437ad7f6d9a34d70256d42b5172d5f8747ce71eb43c0a0b967"
+    },
+    {
+      "path": "R/Spectral_analysis.R",
+      "sha256": "e502339401bfe3bf603a2f100d8003dc77e0be962f6eeba01afe2455199ab5f0"
+    },
+    {
+      "path": "R/Spectran-package.R",
+      "sha256": "e386cbd3ae039c4f398756c6131fc6b421e0014f20cfbe54b6dd9ef0ba0446c4"
+    },
+    {
+      "path": "R/UI_shinydashboard.R",
+      "sha256": "549f222d34a742d8ae985054804ab8dc7c86cab5eb3ba05396a03e40df608b45"
+    },
+    {
+      "path": "R/aaa.R",
+      "sha256": "346d6aeecb84dbafa49cc38ffddf3e2441bd644e9678afe61dd929c6d4f6c6ee"
+    },
+    {
+      "path": "R/analysis.R",
+      "sha256": "327f3c5daf5a5eb44d2cf3f3f66b0dd9d7eb0142abe3c9952d3727baad3cc15a"
+    },
+    {
+      "path": "R/analysis_age.R",
+      "sha256": "d6bce92d82ca6d12ab3c54c4246cbd45e4fda10c19fb14cca17af5b089db3f16"
+    },
+    {
+      "path": "R/analysis_age_graphicgenerator.R",
+      "sha256": "0989d3e48cf8cbffa66d988c233c465c670c057039cf9a3a646908abe206f79b"
+    },
+    {
+      "path": "R/analysis_alpha.R",
+      "sha256": "ca4f7e2959ce60815d2792500d1bb174f02f6826cf0211d5b8f44b798db0dc0e"
+    },
+    {
+      "path": "R/analysis_helpers.R",
+      "sha256": "266be948b66f391e7bcecf602593eb6a40f5d1837ca215b695e63bb8c60a0311"
+    },
+    {
+      "path": "R/analysis_helpers_age.R",
+      "sha256": "3adb5f387ca39e9a2165a236c6c96244965b2d4bc76c04957368c9eb0003b29a"
+    },
+    {
+      "path": "R/analysis_helpers_plot.R",
+      "sha256": "8857b9ef9e1f64974553c8693d5ce9e3f52f3ba1550dbf9574f441711c05a002"
+    },
+    {
+      "path": "R/analysis_helpers_table.R",
+      "sha256": "c485a500b9ddc5edd078856de1698bb68de2dcec6c883fae7dcee1ef94c10f93"
+    },
+    {
+      "path": "R/analysis_photo.R",
+      "sha256": "395b7cc1adb2525f1ab429e282f7a4b2d7b2a06609923fb91e8cea15517ebf0e"
+    },
+    {
+      "path": "R/analysis_radio.R",
+      "sha256": "ac48915602553276b865fb447e1cdbc4bb0ba00341b0094060e27984e00c2f07"
+    },
+    {
+      "path": "R/analysis_setup.R",
+      "sha256": "a0bb16e5553ff82edb7e61cfabe02db916d066fa477a507cb4880cb7edaec741"
+    },
+    {
+      "path": "R/data.R",
+      "sha256": "7bc07dbb23155c064be937ffc2baf802a7363bcaf4fff7823cbf18af12763bbd"
+    },
+    {
+      "path": "R/export.R",
+      "sha256": "1d59be32b56baf23e46ba276e6d5d8fd7d7ece92ae09d1591e80edcf8cc44340"
+    },
+    {
+      "path": "R/export_Output_Settings.R",
+      "sha256": "c5744a92decad1593808d82a916dc4e07a02bd8cbcde63d8c1fde7fed06818d7"
+    },
+    {
+      "path": "R/export_define_Output.R",
+      "sha256": "32e13f055dc8601c5a4a07639f40244833ebcc25ca556b5391818cf6385c2e74"
+    },
+    {
+      "path": "R/export_download.R",
+      "sha256": "ba21636276ab4631d3d6ed73cde93ccf09e717626c4489652edc4ec623cda383"
+    },
+    {
+      "path": "R/export_general_settings.R",
+      "sha256": "155d9dcb6a5ba51d6ae0c30c0f95a1c44a099653a76f1366e3b076454a9d94ea"
+    },
+    {
+      "path": "R/export_helpers.R",
+      "sha256": "06222b433f9682e8f0f9e17bef3ec350e5eab89c2fc6226edbcc9a45c9546b49"
+    },
+    {
+      "path": "R/export_helpers_plot.R",
+      "sha256": "02a85dc1f0d4314ad674c2c55a9f0f7df9ec83f1b9eec83adc0c262caa0474d8"
+    },
+    {
+      "path": "R/export_helpers_table.R",
+      "sha256": "b3f651d38f1af382e37a53646741993cb51b674d903fee3fa2c9dbc57b44a201"
+    },
+    {
+      "path": "R/general_helpers.R",
+      "sha256": "a874aac56496d874afb889ae0fc8cae6ac2645b0870a7751749ed7401f9f4610"
+    },
+    {
+      "path": "R/import.R",
+      "sha256": "287645793a25bf4f44166372f361fc333a3476a55fa9b20fb4278e25521b121a"
+    },
+    {
+      "path": "R/import_csv_settings.R",
+      "sha256": "bdc496001f20a82794703a6cbe04b554e6d72160e9de16070bc8e1b064050bf3"
+    },
+    {
+      "path": "R/import_data.R",
+      "sha256": "11fc32d53d35dca32d7c8077a81393f63f709dcc3f0bdb45218004dee8fcf657"
+    },
+    {
+      "path": "R/import_data_check.R",
+      "sha256": "558de6b35a4916f25fab176047a1ab9edca941fd686372264f77930186974fa5"
+    },
+    {
+      "path": "R/import_data_verifier.R",
+      "sha256": "ac7640a88920c8d4ce8b28f43ea25e88506dcaad59e054e47ea0b2509016a9d2"
+    },
+    {
+      "path": "R/import_eigen.R",
+      "sha256": "0639f74c55de6e297de196fe74f3ddf55caf40141210103e3c65bb51a5c26b4f"
+    },
+    {
+      "path": "R/import_eigen_plot.R",
+      "sha256": "2805ae6688988284c3d9178701577c98d85ebda59c1cd9ecb0a20c2656593029"
+    },
+    {
+      "path": "R/import_examples.R",
+      "sha256": "814c429465869d59715d1a7183a677d756f74e510db58ebf3276f2905924578a"
+    },
+    {
+      "path": "R/import_examples_box.R",
+      "sha256": "57baaef004d3de15378041d94ca7ea7431b829fa9c08add1b3986aebd44125c4"
+    },
+    {
+      "path": "R/import_helpers.R",
+      "sha256": "b1208df98de28a38a36717371fb197c0ccfc61e3f41e5329851a296182a3babb"
+    },
+    {
+      "path": "R/import_verifier.R",
+      "sha256": "f66637303223f8c4a79433694d33ee9062d12f9bdcb45587a6928d7a85c2ca01"
+    },
+    {
+      "path": "R/import_visual_check.R",
+      "sha256": "6377809df70ea090adce644a2fa97c35775a4a5f1315b8c5ab1160bcccd95976"
+    },
+    {
+      "path": "R/impressum.R",
+      "sha256": "9f3a8664891eb095d0b725a71f9ce8ff77a9e3a7e25ba041c00b8d20d241c25d"
+    },
+    {
+      "path": "R/introduction.R",
+      "sha256": "5d34190f3d8f0a078cfeb2859199d341c2b21822f19f93f6e7fc20736ea0241b"
+    },
+    {
+      "path": "R/language_helpers.R",
+      "sha256": "bb488da49226a4138d824bec21f0efa3e12cf24fafd52068a81fb46c5e88f1af"
+    },
+    {
+      "path": "R/material_catalogue.R",
+      "sha256": "d83b31e3db6a39a93454d0dbe75031bd28001248c6eacf8dcfe34da9bc59f719"
+    },
+    {
+      "path": "R/material_colour.R",
+      "sha256": "4918dbdad538e61291fca76479d14af8da3da03155c9f39f50adc07dbd136e88"
+    },
+    {
+      "path": "R/material_core.R",
+      "sha256": "c79b831fabfd05cc6c9f36fae515454f47fb09f1ece9e7dad6b7173c81433e6c"
+    },
+    {
+      "path": "R/material_language.R",
+      "sha256": "68da736d0ebc8f154f4cf0e59e317c5d69acec64b14bb763851dba75b44266bf"
+    },
+    {
+      "path": "R/material_presentation.R",
+      "sha256": "8b52a87b522b6a3d2bb4dbdeef0b7ee14210f9e1e642022147bcdf03166998b2"
+    },
+    {
+      "path": "R/non_visible_bindings.R",
+      "sha256": "3a99f1caaa89aca5fda0667d420a5e040d985f51d4bf45261471f4a8e8715d98"
+    },
+    {
+      "path": "R/runApp.R",
+      "sha256": "8097e34b1999b44f258d93aba34afc0b4cce5b81658de904f3df6e93d7b582ae"
+    },
+    {
+      "path": "R/spectral_csv_core.R",
+      "sha256": "387cd569c07dd696c22101c6c6d56d9528179b0d3d04f3f8f8da06c73b9dc48d"
+    },
+    {
+      "path": "R/spectral_metrics.R",
+      "sha256": "fe7e57f32b59942112d4c9f3c94f755055b0cf1d38efa795a050160f414b3ac1"
+    },
+    {
+      "path": "R/spectrum_state.R",
+      "sha256": "b384cc01581b11c072f39d32e3f031c176012c98d98f1845317d7baf4192a7d3"
+    },
+    {
+      "path": "R/sysdata.rda",
+      "sha256": "5e2a73495161752d2f1d199e3aa4ead74e9538c2075be310c74fffc9816d9ac5"
+    },
+    {
+      "path": "R/transmission.R",
+      "sha256": "fa29b80d6d2303a98c604d3c6d394ab950f7d5e9c0e90ec6214d9fcfb5672459"
+    },
+    {
+      "path": "R/transmission_apply.R",
+      "sha256": "09aa5cdf1aad45b37cd1b87285436b7a8ab4c7173982475d8e4fcde984df41ef"
+    },
+    {
+      "path": "R/transmission_catalogue.R",
+      "sha256": "aaba4142105846e6b4f402e80a14dec7e4758ffb95a791e75d17562d2eb2b679"
+    },
+    {
+      "path": "R/transmission_core.R",
+      "sha256": "bf49a47ff5f0f551a6f48b8ca395913f135422058e577bb39ad8b4528510e8cc"
+    },
+    {
+      "path": "R/transmission_exports.R",
+      "sha256": "0e59c92f517b953335319e5f1dc588218001c981949fceed26689a83a71f2534"
+    },
+    {
+      "path": "R/transmission_history.R",
+      "sha256": "364cd4c87890431ce5b099d5b7615f46e99d9024d14c35856b03ddd054cd4eb2"
+    },
+    {
+      "path": "R/transmission_history_module.R",
+      "sha256": "54063d0a2c7d062c401ada2893d8344ed5a9b6fc58c4206b5b04a4a8f8ffb98e"
+    },
+    {
+      "path": "R/transmission_import_reset.R",
+      "sha256": "74e9a8172e6d5f535dffbc9a84cb6a81753c2e15136e0ea6c9283e4a7354dd84"
+    },
+    {
+      "path": "R/transmission_language.R",
+      "sha256": "40fbb4f45cefcac043c732a183a6b8d09555cda186d4433b9795eb14dfcca0d5"
+    },
+    {
+      "path": "R/transmission_presentation.R",
+      "sha256": "9703671336db2f9ff6cc4eb290f8b33a586f24b042f0d920d23ce307821bea10"
+    },
+    {
+      "path": "R/validity.R",
+      "sha256": "14ce1e89ca211cc601f4e3e7f76b0f7ec9bb1a88449eb0242049ad0125eb22ca"
+    },
+    {
+      "path": "README.md",
+      "sha256": "5a0f5636b169401a3082faccc6621bc15ebf4f607a21897447535b59f860f56b"
+    },
+    {
+      "path": "data/ColorP.rda",
+      "sha256": "910e32ae4a8f21fa8a07faeaf4c977a137471aca6adb496b525fdf3b332b0c7e"
+    },
+    {
+      "path": "data/Specs.rda",
+      "sha256": "b59e690458f2a796879406e7cfdc894abb1f70651df624ee61f1d3af232737bc"
+    },
+    {
+      "path": "data/examplespectra.rda",
+      "sha256": "bc948859f128c3c4bb97d3ede237720985ce0058c462d49119e486fe943bec72"
+    },
+    {
+      "path": "data/examplespectra_descriptor.rda",
+      "sha256": "cbb35ce5eb87dee7b6832fcd46b0e43404a5491af1320f68f39c1c8a122ff636"
+    },
+    {
+      "path": "inst/CITATION",
+      "sha256": "b9a620cdc84ba47a0c1e5fda8ba8cee7c543c7a07c75af27a58e64eebb324ef4"
+    },
+    {
+      "path": "inst/app/app.R",
+      "sha256": "4aa04035ab2a4a4ca2b4fc61f56f8d8f2f9dedcedb07b52d6807b2d52c4ba6a6"
+    },
+    {
+      "path": "inst/app/www/Beispiel.csv",
+      "sha256": "77c277cf9f1dfe5d0238946e0f41190b433b3f038572fa755b7735ad66592f79"
+    },
+    {
+      "path": "inst/app/www/Beispiel.png",
+      "sha256": "81a15736c2e166051bfa9cfe470d70b22e3d02e92419a667936ae3fe1193dc9e"
+    },
+    {
+      "path": "inst/app/www/Example.png",
+      "sha256": "8cea6f94c88da322894852f8e4eb358fb634fe2fb5da8c896d1c8e7440c40a33"
+    },
+    {
+      "path": "inst/app/www/Frontbild.png",
+      "sha256": "3c417827d3ca0e148b99da85ddd230681bdd5a8d4f8d181725178cc8445ce524"
+    },
+    {
+      "path": "inst/app/www/Logo.png",
+      "sha256": "085ff24ea628f53001c5da2be8828bc3b9da19298b7a06258458fadbdfda7f7e"
+    },
+    {
+      "path": "inst/app/www/favicon.ico",
+      "sha256": "4d8131b831009ae269f7d907519b0819d263923dd8d02ba6c47b0698f532e34c"
+    },
+    {
+      "path": "inst/app/www/img/01_Import_UI.png",
+      "sha256": "2852b338952ba5f258810b6c0a6059e53350326e305dce2b05f7146d15e642b7"
+    },
+    {
+      "path": "inst/app/www/img/02_Example_Spectra.png",
+      "sha256": "cb00f30824b48a5286c71f0a6643713e24e1967b6318d33ee59514606a695e31"
+    },
+    {
+      "path": "inst/app/www/img/03_Change_Spectra.png",
+      "sha256": "4e7204dab8025fc117ff5998ea6ead17ab7dd5e0e02012567d056a193eac83f7"
+    },
+    {
+      "path": "inst/app/www/img/04_Radiometric_Analysis.png",
+      "sha256": "555d525d0a4a09945a15344169bf75a59c359cafdb935546e79279f881c1f339"
+    },
+    {
+      "path": "inst/app/www/img/05_Nonvisual_Analysis.png",
+      "sha256": "1808a499cf0beb8efee663a3260dac410e8d7b87770c2e5f360b17b8cd6fb52b"
+    },
+    {
+      "path": "inst/app/www/img/06_Age-dependent_Analysis.png",
+      "sha256": "ab8d10dded87e63ec366dc7db5663761faf1d1e8afcf3a7dcd9a6d8501d7ace5"
+    },
+    {
+      "path": "inst/app/www/img/07_Export_UI.png",
+      "sha256": "cf044c8c9af9a6f718f7f25b25280d4eecc32c3c91d6aeb91df1bcb5321129c8"
+    },
+    {
+      "path": "inst/app/www/img/08_Graph_Export.png",
+      "sha256": "cb16bf9eb0d7acb35120d1a8f3c22ab4656830397691e3ed1532342237567b20"
+    },
+    {
+      "path": "inst/app/www/img/09_Table_Export.png",
+      "sha256": "b4316eedd52d7bb31201bbae021adebaa074a18eec7d8f90e68ee4a8bddac631"
+    },
+    {
+      "path": "inst/app/www/litg-logo.png",
+      "sha256": "3640ca59d085e070a3b5392b555f06544b7b695ebefcd4380cc6eec4bc243abf"
+    },
+    {
+      "path": "inst/app/www/style.css",
+      "sha256": "eee38a24a561bc6b8e00ff40deb07598b782e02e9e48202fe4dab6e64efdfa42"
+    },
+    {
+      "path": "inst/extdata/tub/README.md",
+      "sha256": "df515b40683d7413534207f1246359333b87145e70c50db19257e915de9fa799"
+    },
+    {
+      "path": "inst/extdata/tub/Spectral_reflectance.csv",
+      "sha256": "a5feceafc80616e300ccf4c6a07ed22598d0804c07a1230b18f0ec2058777696"
+    },
+    {
+      "path": "inst/extdata/tub/Spectral_transmittance.csv",
+      "sha256": "9fb5fa5e640aedb4785aec7f6dea60fbc6dd35220af6e42e712660eaa058c30f"
+    },
+    {
+      "path": "inst/extdata/tub/reference-photopic.csv",
+      "sha256": "438c8e2a160ecdf5043294540db5af1218a58fb3f69397e219498c8a8c60f43d"
+    },
+    {
+      "path": "inst/material-model.md",
+      "sha256": "6ad4796dddc593f2752bc240c78edef03815b14a250fd5794db2e8b2d6a31f44"
+    },
+    {
+      "path": "man/ColorP.Rd",
+      "sha256": "42ce565e7583dc90d6ea6266ea3cfae4b7cbd081011f5e01951312b138332799"
+    },
+    {
+      "path": "man/Specs.Rd",
+      "sha256": "91836592d84aff9b60c5a24d0bae3922392501a8db545fc297bd6c47b901e1fa"
+    },
+    {
+      "path": "man/Spectran-package.Rd",
+      "sha256": "f510f283dc12ecc6c4796978c0656af4d33dfe4ece3bbc7a3fd68d29ec3bf5c3"
+    },
+    {
+      "path": "man/Spectran.Rd",
+      "sha256": "c0d5762b0bf9159fb3c9e3fbde3ba55e79a285d68c2d21544e29aa1fb0e40d49"
+    },
+    {
+      "path": "man/examplespectra.Rd",
+      "sha256": "565822b45a11809d64c29308b4d98cffcae293d0baaed2e5a8abe83d8c2a2f2d"
+    },
+    {
+      "path": "man/examplespectra_descriptor.Rd",
+      "sha256": "b818049fa2303eea1e8f24eb676c0d3ed6b3aa137fedbe74fd0f6fd6eabe8a38"
+    },
+    {
+      "path": "man/figures/English/01_Import_UI.png",
+      "sha256": "af5892bd57201407d35e65f92773d64bfb81099b8920969892bd4f9951239cd0"
+    },
+    {
+      "path": "man/figures/English/02_Example_Spectra.png",
+      "sha256": "4afc7cf66aef9789082d6eb7509dac8a1fd90864ccf05f34020cb18f52f17cb2"
+    },
+    {
+      "path": "man/figures/English/05_Nonvisual_Analysis.png",
+      "sha256": "17ab76cb2db7ca0bd6873772af753ee2bc3289c4531a50b441a6eb0f7ecac560"
+    },
+    {
+      "path": "man/figures/English/06_Age-dependent_Analysis.png",
+      "sha256": "68ae8203e8b563703b0c7db78fe38eb47865922ff20182d7e3554c1fe0fa10a1"
+    },
+    {
+      "path": "man/figures/English/08_Graph_Export.png",
+      "sha256": "d6d4a63d010fe9bb84f7353ea325696593d940bfa2400bf54302ee9b26ec944a"
+    },
+    {
+      "path": "man/figures/English/09_Table_Export.png",
+      "sha256": "53f6284d3930bf4236ea6066205d5bfc42ad8aa9382adfdf77386c9c01b7e680"
+    },
+    {
+      "path": "man/figures/logo.png",
+      "sha256": "3b17c06a87e0aaabf4258058882d580aa1c2a38a4bd8c8278c26c2367abefe2a"
+    }
+  ]
+}

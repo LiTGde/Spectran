@@ -1,0 +1,151 @@
+Spectran M4-04 targeted visual acceptance review
+Review date: 2026-10-05 (Europe/Berlin)
+
+Decision: accepted for presentation to the user for final review.
+Build: TRX-M4-04-fd198ccd6a43
+German: http://127.0.0.1:7529/
+English: http://127.0.0.1:7530/
+Graphic/UI score: 9.2/10. UX score: 9.1/10.
+
+All three M4 navigation findings are closed by visible evidence. Back from the
+learning area restores the originating action and scroll context. Hidden
+navigation no longer contributes invisible Tab stops. Introduction consistently
+opens the topic overview, including after a visit to contextual material help.
+No remaining in-scope acceptance defect was observed in this targeted revision.
+
+Review contract and evidence boundary
+-------------------------------------
+This was an independent, code-blind review of the frozen M4-04 candidate through
+visible browser controls, native keyboard input, accessibility state and
+screenshots. No application source, hidden DOM evaluation, backend state, logs,
+network payloads, curve files or independent scientific calculations were used.
+The review build identity was visible in both language variants.
+
+M4-04 supersedes M4-02 for these corrections. M4-03 was an internal intermediate
+and was not reviewed. The previous full M4-02 review remains the evidence for
+unchanged graphics, English illustration content, example disclosures, About,
+video findability and the broader responsive matrix. Those passes were protected
+and were not replayed. M3-08 material/computational passes also remain protected.
+
+This revision was limited to M4-UX-R01, R02 and R03, their adjacent material-help
+transition, and the yellow primary source-selection button. Both languages were
+checked at 1440 x 1100 and 320 x 844. This targeted matrix follows the correction
+contract and does not replace or claim a fresh full six-width regression pass.
+
+Closed findings
+---------------
+
+M4-UX-R01: Return to Introduction loses the learning context and keyboard focus
+State: closed by visible evidence.
+Reproduction: open explanations from Introduction, choose a topic, then activate
+Back using the keyboard. Repeat on desktop and mobile in both languages.
+Observed correction: the Introduction learning button regains focus with a
+clear visible outline, and its surrounding learning section is in view. Normal
+Tab navigation continues after that action. The desktop continuation to the
+core-application video disclosure was checked. Mobile no longer returns the
+user to the distant top of Introduction.
+Evidence:
+  04-de-return-focus-1440.jpg
+  06-de-return-focus-320.jpg
+  14-en-return-focus-1440.jpg
+  16-en-return-focus-320.jpg
+
+M4-UX-R02: Collapsed navigation leaves invisible keyboard targets
+State: closed by visible evidence.
+Reproduction: close the desktop sidebar or use the closed mobile menu, focus
+Toggle navigation, and advance using Tab. Reopen and keyboard-activate the
+material item. Both languages were exercised at desktop and mobile widths.
+Observed correction: with navigation hidden, the sequence proceeds from Toggle
+navigation to Feedback, the visible main-content container and the visible
+primary source action. It no longer visits invisible sidebar links. Reverse Tab
+returns to Toggle navigation. Reopening restores the links to keyboard operation;
+Enter on the material item opens the material module. The expanded item retains
+two lines and separate Transmission and Reflection/Reflexion icons.
+Evidence:
+  02-de-collapsed-focus-1440.jpg
+  03-de-reopened-menu-focus.jpg
+  08-de-closed-mobile-focus-320.jpg
+  09-de-open-mobile-menu-320.jpg
+  13-en-collapsed-focus-1440.jpg
+  18-en-closed-mobile-focus-320.jpg
+  19-en-open-mobile-menu-320.jpg
+
+M4-UX-R03: Repeated Introduction learning entry reopens the previous topic
+State: closed by visible evidence.
+Reproduction: enter through Introduction, choose a topic, go Back, and enter
+again. Repeat with different topic cards at desktop and mobile widths in both
+languages. Also enter material help, return to the material draft, navigate to
+Introduction and use its learning button.
+Observed correction: every tested Introduction activation opens the actual
+overview cards, with the overview selected and Back to Introduction displayed.
+This holds after ordinary topic browsing and after contextual material help.
+Contextual help still opens Material effects at a glance / Materialwirkung im
+Ueberblick and retains its material-specific Back destination.
+Evidence:
+  05-de-repeat-overview-1440.jpg
+  07-de-repeat-overview-320.jpg
+  11-de-overview-after-context.jpg
+  15-en-repeat-overview-1440.jpg
+  17-en-repeat-overview-320.jpg
+  21-en-overview-after-context-320.jpg
+
+One early German post-navigation capture showed a transient combination of old
+topic content and the newly selected overview. It was not classified as a defect
+or a pass. The single context-to-overview journey was repeated in a fresh session
+and observed after rendering settled. The actual overview and correct Back label
+were confirmed, and screenshot 11 was replaced with that settled evidence.
+
+Adjacent controls and visual hierarchy
+--------------------------------------
+- In both languages at 320px, the material-context button opened its intended
+  specific topic. Keyboard Back restored focus to the original help button and
+  retained the Reflection/Reflexion choice and L1 white-lacquer material draft.
+  Evidence: 10-de-material-draft-return-320.jpg and
+  20-en-material-draft-return-320.jpg, plus visible accessibility state.
+- Introduction's source-selection button is visibly yellow and primary; the
+  material action remains secondary. Focus styling remains clear. Both language
+  desktop screenshots and mobile keyboard checks show usable actions.
+  Evidence: 01-de-intro-primary-1440.jpg, 12-en-intro-primary-1440.jpg and
+  22-de-final-introduction.jpg.
+- No app crash, persistent mixed topic state or new obstructed control was
+  observed within these targeted journeys.
+
+Protected results and residual boundaries
+-----------------------------------------
+The M4-02 report records the unchanged responsive checks at 1440, 1200, 1024,
+768, 390 and 320 CSS pixels; six integrated German graphics; six English native
+SVG previews; keyboard disclosures and enlargement; example images; About;
+two-line navigation labels; and the sampled saved material/light-path workflow.
+Those results remain protected under the programmer's unchanged-content contract.
+
+The unchanged external video's content and playback remain outside this slice
+by the responsible owner's scope decision. Its findability and core-module
+label passed M4-02. The older M3-08 native topic-select keyboard-controller
+residual was not reopened or represented as a fresh keyboard pass; visible topic
+cards were used in this correction review.
+
+The programmer reported R tests, package checks, startup/size checks and frozen
+candidate file matching. This reviewer did not independently audit those claims.
+Scientific correctness, numerical outputs, package size and performance remain
+the programmer's separately recorded responsibility.
+
+No file upload or generated-data download was required. The user's task-wide
+approval for transfers to 127.0.0.1 remains valid across the review ports. There
+was no pending transfer approval or automatic approval rejection in this pass.
+
+Evidence and handoff
+--------------------
+Previous report:
+/Users/zauner/Documents/Codex/2026-10-01/spectran-visual-review/outputs/M4-02-review.txt
+Current screenshots:
+/Users/zauner/Documents/Codex/2026-10-01/spectran-visual-review/outputs/M4-04-screenshots/
+Screenshots 01 through 22 provide the targeted evidence described above.
+
+Temporary viewport overrides were reset. The German M4-04 Introduction remains
+open at the normal viewport as the user-facing result. Temporary English and
+superseded review sessions were closed.
+
+Next gate: present M4-04 to the user for final review and approval. This reviewer
+acceptance authorizes that presentation only. It does not authorize commit,
+push, deployment or a later milestone. No further correction is requested from
+the programmer within the current M4 scope.

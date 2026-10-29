@@ -8,3 +8,6 @@
 .rsconnect
 docs
 CRAN-SUBMISSION
+
+# Default output from R graphics devices.
+Rplots.pdf

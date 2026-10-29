@@ -1,0 +1,83 @@
+Spectran M4-10 focused visual acceptance addendum
+Review date: 2026-10-05 (Europe/Berlin)
+
+Decision: accepted for presentation to the user for design approval.
+Candidate: TRX-M4-10-e97255b954b8
+German: http://127.0.0.1:7543/
+English: http://127.0.0.1:7544/
+Graphic/UI score: 9.2/10. UX score: 9.2/10.
+No open in-scope acceptance finding.
+
+This addendum supplements M4-08-review.txt in this directory. M4-UX-R04 is now
+closed by visible evidence. The prior About, paired icons, spacing, desktop and
+tablet checks remain accepted. M4-05/06 and earlier accepted functional checks
+are protected; no broad responsive, scientific, material or export matrix was
+repeated. M4-09 was identified by the owner as an internal superseded build and
+was not independently reviewed.
+
+Change under review
+The owner identifies only the lightbox detail controls and reduced phone margins
+as changed: Originalgroesse / Original size toggles a locally scrollable image;
+turning it off restores the fitted overview. Header/footer close controls remain
+outside the image viewport. No new asset or scientific-content change was part
+of this contract.
+
+Focused cases and observed results
+DE, 320 x 844, Lichtpfad:
+- The fitted image uses more of the available width and remains fully visible.
+- Tab reaches the native Originalgroesse checkbox; Space activates it.
+- Original size exposes readable interface and chart detail.
+- The named image area receives keyboard focus. Right and Down move only the
+  image contents; the dialog header, toggle and close controls remain in place.
+- Tab moves from image to footer close and wraps to the cross. Shift+Tab wraps
+  in the reverse direction. Focus does not escape to the underlying page.
+- Keyboard switching back restores the complete fitted image after panning.
+- Escape closes the viewer and restores focus to the Lichtpfad thumbnail.
+
+EN, 390 x 844, Material selection:
+- The fitted overview and Original size checkbox are visible and legible.
+- Mouse activation reveals readable material-card detail.
+- Horizontal and vertical scrolling stays inside the image area, including at
+  its lower extent. Header and footer close controls stay reachable.
+- Footer Close returns focus to the correct Material selection thumbnail.
+
+EN, 390 x 844, Table Export:
+- Enter opens the correct viewer in the same tab. The different image starts
+  in its fitted overview, independent of the material image's detail setting.
+- Space activates Original size, making row text readable.
+- The image area accepts keyboard focus and horizontal arrow-key movement.
+  Scrolling reaches the distant right-hand columns without page-wide overflow.
+- Tab cycles between the image region, footer close and cross inside the dialog.
+- Escape from detail mode restores focus to Table Export.
+- Reopening, switching back to fit and closing with the cross all work; focus
+  again returns to Table Export. No additional browser tab is created.
+
+These checks resolve the original concern: opening a preview on a phone now
+offers usable detail access while preserving an immediate overview and clear
+exit controls. The correction introduces no observed issue in the bounded check.
+
+Evidence directory:
+/Users/zauner/Documents/Codex/2026-10-01/spectran-visual-review/outputs/M4-10-screenshots/
+  01-de-320-fit.jpg
+  02-de-320-original-size.jpg
+  03-de-320-keyboard-pan.jpg
+  04-de-320-return-to-fit.jpg
+  05-en-390-material-fit.jpg
+  06-en-390-material-original.jpg
+  07-en-390-material-scrolled.jpg
+  08-en-390-table-fit.jpg
+  09-en-390-table-original.jpg
+  10-en-390-table-keyboard-pan.jpg
+  11-en-390-table-far-columns.jpg
+  12-en-390-table-return-to-fit.jpg
+
+Method: visible browser UI, mouse/keyboard operation, native accessibility state
+and screenshots only. No source or hidden-state inspection, numerical validation,
+new upload, generated-data download or video-playback test was performed.
+
+Both review tabs were closed and viewport overrides reset. No extra final user
+preview was opened. The programming chat owns the single final preview.
+
+Next gate: presentation of this frozen candidate to the user for design approval
+only. This review does not authorize commit, push, integration, deployment or a
+later milestone.

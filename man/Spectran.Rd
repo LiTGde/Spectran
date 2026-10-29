@@ -14,7 +14,7 @@ Spectran(
 \arguments{
 \item{lang_setting}{A language for the application. Currently \strong{Deutsch} for German and \strong{English} (default) are implemented. Expects a \emph{character}.}
 
-\item{lang_link}{Only relevant for the App deployed on \emph{Shinyapps.io}. Handles whether a link to the German/English Version of the App is present in the header. Expects a \emph{logical} (default FALSE)}
+\item{lang_link}{Show a header link to the other language version hosted on Posit Connect. Expects a \emph{logical} (default FALSE).}
 
 \item{color_palette}{A color palette for the application. Currently \verb{**Lang**} (default), \verb{**Lang_bright**}, \verb{**Dan_Bruton**}, and \verb{**Rainbow**} are implemented. Expects a \verb{*character*}. In terms of \verb{color accuracy}, the decending order is likely \verb{**Dan_Bruton**}, \verb{**Lang**}, \verb{**Lang_bright**}, and \verb{**Rainbow**}. However, all of them are wrong in the sense, that monochromatic light can not well be recreated with RGB colors. Look at the documentation for \link{ColorP} for more information about these palettes.}
 

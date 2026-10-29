@@ -1,0 +1,5 @@
+                component   bytes
+1          source archive 3681365
+2          all web assets 4466627
+3  shipped manual sources   32633
+4 web plus shipped manual 4499260

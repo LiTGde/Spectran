@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='864.00pt' height='576.00pt' viewBox='0 0 864.00 576.00'>
+<g class='svglite'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+    .svglite g.glyphgroup path {
+      fill: inherit;
+      stroke: none;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #F4F6F7;'/>
+<defs>
+  <clipPath id='cpMC4wMHw4NjQuMDB8MC4wMHw1NzYuMDA='>
+    <rect x='0.00' y='0.00' width='864.00' height='576.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw4NjQuMDB8MC4wMHw1NzYuMDA=)'>
+<polygon points='0.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,576.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 864.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,0.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 0.00,576.00 ' style='stroke-width: 0.54; stroke: none; fill: #F4F6F7;' />
+<polygon points='34.56,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,30.96 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 54.72,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,25.92 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 34.56,30.96 ' style='stroke-width: 0.54; stroke: none; fill: #F8E350;' />
+<text x='63.36' y='32.41' style='font-size: 10.08px; font-weight: bold;fill: #59616A; font-family: "Arial";' textLength='169.25px' lengthAdjust='spacingAndGlyphs'>SPECTRAN  /  MATERIAL EFFECTS</text>
+<text x='34.56' y='75.51' style='font-size: 25.92px; font-weight: bold;fill: #252C32; font-family: "Arial";' textLength='315.36px' lengthAdjust='spacingAndGlyphs'>From material to receiver.</text>
+<text x='34.56' y='99.94' style='font-size: 13.68px;fill: #59616A; font-family: "Arial";' textLength='474.89px' lengthAdjust='spacingAndGlyphs'>Material effects and geometrical coupling are separate steps in the calculation.</text>
+<polygon points='43.17,478.08 543.63,478.08 543.29,478.07 544.67,478.02 546.03,477.74 547.32,477.25 548.52,476.56 549.60,475.68 550.51,474.64 551.25,473.47 551.80,472.20 552.13,470.85 552.24,469.47 552.24,469.47 552.24,139.65 552.24,139.65 552.13,138.27 551.80,136.92 551.25,135.65 550.51,134.48 549.60,133.44 548.52,132.56 547.32,131.87 546.03,131.38 544.67,131.10 543.63,131.04 43.17,131.04 44.21,131.10 42.82,131.05 41.45,131.21 40.12,131.60 38.86,132.19 37.72,132.98 36.72,133.94 35.89,135.05 35.25,136.27 34.81,137.59 34.59,138.96 34.56,139.65 34.56,469.47 34.59,468.78 34.59,470.16 34.81,471.53 35.25,472.85 35.89,474.07 36.72,475.18 37.72,476.14 38.86,476.93 40.12,477.52 41.45,477.91 42.82,478.07 ' style='stroke-width: 0.54; stroke: #DDE1E3; fill: #FFFFFF;' />
+<polygon points='614.85,478.08 820.83,478.08 820.49,478.07 821.87,478.02 823.23,477.74 824.52,477.25 825.72,476.56 826.80,475.68 827.71,474.64 828.45,473.47 829.00,472.20 829.33,470.85 829.44,469.47 829.44,469.47 829.44,139.65 829.44,139.65 829.33,138.27 829.00,136.92 828.45,135.65 827.71,134.48 826.80,133.44 825.72,132.56 824.52,131.87 823.23,131.38 821.87,131.10 820.83,131.04 614.85,131.04 615.89,131.10 614.50,131.05 613.13,131.21 611.80,131.60 610.54,132.19 609.40,132.98 608.40,133.94 607.57,135.05 606.93,136.27 606.49,137.59 606.27,138.96 606.24,139.65 606.24,469.47 606.27,468.78 606.27,470.16 606.49,471.53 606.93,472.85 607.57,474.07 608.40,475.18 609.40,476.14 610.54,476.93 611.80,477.52 613.13,477.91 614.50,478.07 ' style='stroke-width: 0.54; stroke: #E2D78B; fill: #FFF9DA;' />
+<text x='53.28' y='157.69' style='font-size: 10.08px; font-weight: bold;fill: #59616A; font-family: "Arial";' textLength='93.11px' lengthAdjust='spacingAndGlyphs'>MATERIAL EFFECT</text>
+<text x='624.96' y='157.69' style='font-size: 10.08px; font-weight: bold;fill: #59616A; font-family: "Arial";' textLength='107.52px' lengthAdjust='spacingAndGlyphs'>RECEIVER SCENARIO</text>
+<polygon points='652.28,195.12 782.68,195.12 782.22,195.11 784.07,195.04 785.88,194.67 787.60,194.01 789.20,193.09 790.63,191.92 791.86,190.54 792.85,188.98 793.57,187.28 794.01,185.48 794.16,183.64 794.16,183.64 794.16,183.56 794.16,183.56 794.01,181.72 793.57,179.92 792.85,178.22 791.86,176.66 790.63,175.28 789.20,174.11 787.60,173.19 785.88,172.53 784.07,172.16 782.68,172.08 652.28,172.08 653.66,172.16 651.81,172.09 649.98,172.31 648.21,172.83 646.54,173.62 645.02,174.67 643.69,175.95 642.58,177.42 641.72,179.06 641.13,180.81 640.84,182.63 640.80,183.56 640.80,183.64 640.84,182.72 640.84,184.57 641.13,186.39 641.72,188.14 642.58,189.78 643.69,191.25 645.02,192.53 646.54,193.58 648.21,194.37 649.98,194.89 651.81,195.11 ' style='stroke-width: 0.54; stroke: none; fill: #F8E350;' />
+<text x='717.48' y='187.47' text-anchor='middle' style='font-size: 10.80px; font-weight: bold;fill: #252C32; font-family: "Arial";' textLength='90.89px' lengthAdjust='spacingAndGlyphs'>SPECTRAN: F = 1</text>
+<text x='54.72' y='204.90' style='font-size: 17.28px; font-weight: bold;fill: #127C77; font-family: "Arial";' textLength='111.34px' lengthAdjust='spacingAndGlyphs'>Transmission</text>
+<text x='77.49' y='253.39' style='font-size: 25.20px;fill: #9E8300; font-family: "Arial";' textLength='16.80px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text x='94.28' y='258.45' style='font-size: 17.64px;fill: #9E8300; font-family: "Symbol";' textLength='9.67px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<polyline points='128.88,246.96 187.20,246.96 ' style='stroke-width: 1.35; stroke: #9AA3AA;' />
+<polygon points='179.40,250.60 187.20,246.96 179.40,243.32 ' style='stroke-width: 1.35; stroke: #9AA3AA; fill: #9AA3AA;' />
+<polygon points='203.02,273.60 280.10,273.60 279.84,273.59 280.88,273.55 281.90,273.35 282.87,272.98 283.77,272.46 284.58,271.80 285.27,271.02 285.82,270.14 286.23,269.19 286.48,268.18 286.56,267.14 286.56,267.14 286.56,227.50 286.56,227.50 286.48,226.46 286.23,225.45 285.82,224.50 285.27,223.62 284.58,222.84 283.77,222.18 282.87,221.66 281.90,221.29 280.88,221.09 280.10,221.04 203.02,221.04 203.79,221.09 202.76,221.05 201.72,221.17 200.73,221.46 199.79,221.90 198.93,222.50 198.18,223.21 197.56,224.05 197.08,224.97 196.75,225.95 196.58,226.98 196.56,227.50 196.56,267.14 196.58,266.62 196.58,267.66 196.75,268.69 197.08,269.67 197.56,270.59 198.18,271.43 198.93,272.14 199.79,272.74 200.73,273.18 201.72,273.47 202.76,273.59 ' style='stroke-width: 0.54; stroke: none; fill: #E6F3F0;' />
+<text x='230.54' y='250.42' style='font-size: 25.92px;fill: #127C77; font-family: "Symbol";' textLength='11.38px' lengthAdjust='spacingAndGlyphs'>τ</text>
+<text x='241.91' y='255.63' style='font-size: 18.14px;fill: #127C77; font-family: "Symbol";' textLength='9.95px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<polyline points='296.64,246.96 355.68,246.96 ' style='stroke-width: 1.35; stroke: #9AA3AA;' />
+<polygon points='347.88,250.60 355.68,246.96 347.88,243.32 ' style='stroke-width: 1.35; stroke: #9AA3AA; fill: #9AA3AA;' />
+<text x='406.53' y='255.37' style='font-size: 25.20px;fill: #127C77; font-family: "Arial";' textLength='16.80px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text x='423.32' y='263.48' style='font-size: 17.64px;fill: #127C77; font-family: "Symbol";' textLength='9.67px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<text x='423.32' y='242.96' style='font-size: 17.64px;fill: #127C77; font-family: "Arial";' textLength='3.31px' lengthAdjust='spacingAndGlyphs'>′</text>
+<polyline points='470.88,246.96 632.88,246.96 ' style='stroke-width: 1.19; stroke: #59616A; stroke-dasharray: 6.34,6.34;' />
+<polygon points='626.38,249.99 632.88,246.96 626.38,243.93 ' style='stroke-width: 1.19; stroke: #59616A; stroke-dasharray: 6.34,6.34; fill: #59616A;' />
+<polygon points='570.90,262.80 581.82,262.80 581.18,262.79 583.72,262.68 586.21,262.18 588.58,261.28 590.78,260.01 592.75,258.40 594.44,256.50 595.79,254.35 596.79,252.02 597.40,249.55 597.60,247.02 597.60,247.02 597.60,246.90 597.60,246.90 597.40,244.37 596.79,241.90 595.79,239.57 594.44,237.42 592.75,235.52 590.78,233.91 588.58,232.64 586.21,231.74 583.72,231.24 581.82,231.12 570.90,231.12 572.80,231.24 570.27,231.13 567.74,231.44 565.30,232.15 563.01,233.23 560.92,234.68 559.09,236.44 557.56,238.47 556.38,240.72 555.58,243.12 555.17,245.63 555.12,246.90 555.12,247.02 555.17,245.75 555.17,248.29 555.58,250.80 556.38,253.20 557.56,255.45 559.09,257.48 560.92,259.24 563.01,260.69 565.30,261.77 567.74,262.48 570.27,262.79 ' style='stroke-width: 0.54; stroke: none; fill: #F4F6F7;' />
+<text x='576.00' y='252.37' text-anchor='middle' style='font-size: 15.12px;fill: #252C32; font-family: "Arial";' textLength='22.27px' lengthAdjust='spacingAndGlyphs'>× F</text>
+<text x='669.52' y='251.29' style='font-size: 17.28px;fill: #252C32; font-family: "Arial";' textLength='11.52px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text x='681.04' y='254.75' style='font-size: 12.10px;fill: #252C32; font-family: "Symbol";' textLength='6.64px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<text x='687.68' y='254.75' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='3.36px' lengthAdjust='spacingAndGlyphs'>,</text>
+<text x='691.04' y='254.75' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='4.03px' lengthAdjust='spacingAndGlyphs'>r</text>
+<text x='695.06' y='254.75' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='6.72px' lengthAdjust='spacingAndGlyphs'>e</text>
+<text x='701.79' y='254.75' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='6.05px' lengthAdjust='spacingAndGlyphs'>c</text>
+<text x='711.83' y='251.29' style='font-size: 17.28px;fill: #252C32; font-family: "Symbol";' textLength='9.47px' lengthAdjust='spacingAndGlyphs'>=</text>
+<text x='725.30' y='251.29' style='font-size: 17.28px;fill: #252C32; font-family: "Arial";' textLength='10.55px' lengthAdjust='spacingAndGlyphs'>F</text>
+<text x='739.05' y='251.29' style='font-size: 17.28px;fill: #252C32; font-family: "Symbol";' textLength='4.31px' lengthAdjust='spacingAndGlyphs'>⋅</text>
+<text x='746.56' y='251.29' style='font-size: 17.28px;fill: #252C32; font-family: "Arial";' textLength='11.52px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text x='758.08' y='256.85' style='font-size: 12.10px;fill: #252C32; font-family: "Symbol";' textLength='6.64px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<text x='758.08' y='242.78' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='2.27px' lengthAdjust='spacingAndGlyphs'>′</text>
+<text x='90.72' y='285.50' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='41.61px' lengthAdjust='spacingAndGlyphs'>Incident</text>
+<text x='90.72' y='303.32' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='52.17px' lengthAdjust='spacingAndGlyphs'>irradiance</text>
+<text x='241.20' y='285.50' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='42.25px' lengthAdjust='spacingAndGlyphs'>Material</text>
+<text x='241.20' y='303.32' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='53.27px' lengthAdjust='spacingAndGlyphs'>coefficient</text>
+<text x='419.76' y='285.50' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='62.27px' lengthAdjust='spacingAndGlyphs'>Transmitted</text>
+<text x='419.76' y='303.32' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='52.17px' lengthAdjust='spacingAndGlyphs'>irradiance</text>
+<text x='717.12' y='285.22' text-anchor='middle' style='font-size: 12.60px;fill: #252C32; font-family: "Arial";' textLength='55.97px' lengthAdjust='spacingAndGlyphs'>Irradiance</text>
+<text x='717.12' y='304.12' text-anchor='middle' style='font-size: 12.60px;fill: #252C32; font-family: "Arial";' textLength='79.77px' lengthAdjust='spacingAndGlyphs'>at the receiver</text>
+<text x='54.72' y='346.02' style='font-size: 17.28px; font-weight: bold;fill: #9A4C83; font-family: "Arial";' textLength='83.48px' lengthAdjust='spacingAndGlyphs'>Reflection</text>
+<text x='77.49' y='394.51' style='font-size: 25.20px;fill: #9E8300; font-family: "Arial";' textLength='16.80px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text x='94.28' y='399.57' style='font-size: 17.64px;fill: #9E8300; font-family: "Symbol";' textLength='9.67px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<polyline points='128.88,388.08 187.20,388.08 ' style='stroke-width: 1.35; stroke: #9AA3AA;' />
+<polygon points='179.40,391.72 187.20,388.08 179.40,384.44 ' style='stroke-width: 1.35; stroke: #9AA3AA; fill: #9AA3AA;' />
+<polygon points='203.02,414.72 280.10,414.72 279.84,414.71 280.88,414.67 281.90,414.47 282.87,414.10 283.77,413.58 284.58,412.92 285.27,412.14 285.82,411.26 286.23,410.31 286.48,409.30 286.56,408.26 286.56,408.26 286.56,368.62 286.56,368.62 286.48,367.58 286.23,366.57 285.82,365.62 285.27,364.74 284.58,363.96 283.77,363.30 282.87,362.78 281.90,362.41 280.88,362.21 280.10,362.16 203.02,362.16 203.79,362.21 202.76,362.17 201.72,362.29 200.73,362.58 199.79,363.02 198.93,363.62 198.18,364.33 197.56,365.17 197.08,366.09 196.75,367.07 196.58,368.10 196.56,368.62 196.56,408.26 196.58,407.74 196.58,408.78 196.75,409.81 197.08,410.79 197.56,411.71 198.18,412.55 198.93,413.26 199.79,413.86 200.73,414.30 201.72,414.59 202.76,414.71 ' style='stroke-width: 0.54; stroke: none; fill: #F5EAF2;' />
+<text x='229.11' y='391.49' style='font-size: 25.92px;fill: #9A4C83; font-family: "Symbol";' textLength='14.22px' lengthAdjust='spacingAndGlyphs'>ρ</text>
+<text x='243.33' y='396.69' style='font-size: 18.14px;fill: #9A4C83; font-family: "Symbol";' textLength='9.95px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<polyline points='296.64,388.08 355.68,388.08 ' style='stroke-width: 1.35; stroke: #9AA3AA;' />
+<polygon points='347.88,391.72 355.68,388.08 347.88,384.44 ' style='stroke-width: 1.35; stroke: #9AA3AA; fill: #9AA3AA;' />
+<text x='404.43' y='394.51' style='font-size: 25.20px;fill: #9A4C83; font-family: "Arial";' textLength='20.98px' lengthAdjust='spacingAndGlyphs'>M</text>
+<text x='425.42' y='399.57' style='font-size: 17.64px;fill: #9A4C83; font-family: "Symbol";' textLength='9.67px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<polyline points='470.88,388.08 632.88,388.08 ' style='stroke-width: 1.19; stroke: #59616A; stroke-dasharray: 6.34,6.34;' />
+<polygon points='626.38,391.11 632.88,388.08 626.38,385.05 ' style='stroke-width: 1.19; stroke: #59616A; stroke-dasharray: 6.34,6.34; fill: #59616A;' />
+<polygon points='570.90,403.92 581.82,403.92 581.18,403.91 583.72,403.80 586.21,403.30 588.58,402.40 590.78,401.13 592.75,399.52 594.44,397.62 595.79,395.47 596.79,393.14 597.40,390.67 597.60,388.14 597.60,388.14 597.60,388.02 597.60,388.02 597.40,385.49 596.79,383.02 595.79,380.69 594.44,378.54 592.75,376.64 590.78,375.03 588.58,373.76 586.21,372.86 583.72,372.36 581.82,372.24 570.90,372.24 572.80,372.36 570.27,372.25 567.74,372.56 565.30,373.27 563.01,374.35 560.92,375.80 559.09,377.56 557.56,379.59 556.38,381.84 555.58,384.24 555.17,386.75 555.12,388.02 555.12,388.14 555.17,386.87 555.17,389.41 555.58,391.92 556.38,394.32 557.56,396.57 559.09,398.60 560.92,400.36 563.01,401.81 565.30,402.89 567.74,403.60 570.27,403.91 ' style='stroke-width: 0.54; stroke: none; fill: #F4F6F7;' />
+<text x='576.00' y='393.49' text-anchor='middle' style='font-size: 15.12px;fill: #252C32; font-family: "Arial";' textLength='22.27px' lengthAdjust='spacingAndGlyphs'>× F</text>
+<text x='668.09' y='390.23' style='font-size: 17.28px;fill: #252C32; font-family: "Arial";' textLength='11.52px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text x='679.60' y='393.70' style='font-size: 12.10px;fill: #252C32; font-family: "Symbol";' textLength='6.64px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<text x='686.24' y='393.70' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='3.36px' lengthAdjust='spacingAndGlyphs'>,</text>
+<text x='689.60' y='393.70' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='4.03px' lengthAdjust='spacingAndGlyphs'>r</text>
+<text x='693.63' y='393.70' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='6.72px' lengthAdjust='spacingAndGlyphs'>e</text>
+<text x='700.35' y='393.70' style='font-size: 12.10px;fill: #252C32; font-family: "Arial";' textLength='6.05px' lengthAdjust='spacingAndGlyphs'>c</text>
+<text x='710.40' y='390.23' style='font-size: 17.28px;fill: #252C32; font-family: "Symbol";' textLength='9.47px' lengthAdjust='spacingAndGlyphs'>=</text>
+<text x='723.87' y='390.23' style='font-size: 17.28px;fill: #252C32; font-family: "Arial";' textLength='10.55px' lengthAdjust='spacingAndGlyphs'>F</text>
+<text x='737.61' y='390.23' style='font-size: 17.28px;fill: #252C32; font-family: "Symbol";' textLength='4.31px' lengthAdjust='spacingAndGlyphs'>⋅</text>
+<text x='745.13' y='390.23' style='font-size: 17.28px;fill: #252C32; font-family: "Arial";' textLength='14.38px' lengthAdjust='spacingAndGlyphs'>M</text>
+<text x='759.51' y='393.70' style='font-size: 12.10px;fill: #252C32; font-family: "Symbol";' textLength='6.64px' lengthAdjust='spacingAndGlyphs'>λ</text>
+<text x='90.72' y='426.62' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='41.61px' lengthAdjust='spacingAndGlyphs'>Incident</text>
+<text x='90.72' y='444.44' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='52.17px' lengthAdjust='spacingAndGlyphs'>irradiance</text>
+<text x='241.20' y='426.62' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='42.25px' lengthAdjust='spacingAndGlyphs'>Material</text>
+<text x='241.20' y='444.44' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='53.27px' lengthAdjust='spacingAndGlyphs'>coefficient</text>
+<text x='419.76' y='426.62' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='95.08px' lengthAdjust='spacingAndGlyphs'>Reflected spectral</text>
+<text x='419.76' y='444.44' text-anchor='middle' style='font-size: 11.88px;fill: #59616A; font-family: "Arial";' textLength='83.88px' lengthAdjust='spacingAndGlyphs'>radiant exitance</text>
+<text x='717.12' y='426.34' text-anchor='middle' style='font-size: 12.60px;fill: #252C32; font-family: "Arial";' textLength='55.97px' lengthAdjust='spacingAndGlyphs'>Irradiance</text>
+<text x='717.12' y='445.24' text-anchor='middle' style='font-size: 12.60px;fill: #252C32; font-family: "Arial";' textLength='79.77px' lengthAdjust='spacingAndGlyphs'>at the receiver</text>
+<polyline points='52.56,321.84 533.52,321.84 ' style='stroke-width: 0.54; stroke: #DDE1E3;' />
+<polyline points='34.56,509.04 829.44,509.04 ' style='stroke-width: 0.54; stroke: #DDE1E3;' />
+<text x='34.56' y='531.75' style='font-size: 11.16px;fill: #59616A; font-family: "Arial";' textLength='405.58px' lengthAdjust='spacingAndGlyphs'>F = 1: idealised geometrical coupling. Spectran does not calculate room geometry.</text>
+<text x='34.56' y='548.31' style='font-size: 11.16px;fill: #59616A; font-family: "Arial";' textLength='484.02px' lengthAdjust='spacingAndGlyphs'>The reflection-to-receiver relationship assumes a uniformly illuminated, diffusely reflecting surface.</text>
+</g>
+</g>
+</svg>

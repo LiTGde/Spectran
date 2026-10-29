@@ -3,7 +3,6 @@
 \docType{package}
 \name{Spectran-package}
 \alias{Spectran-package}
-\alias{_PACKAGE}
 \title{Spectran: Visual and Non-Visual Spectral Analysis of Light}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
@@ -23,9 +22,14 @@ Useful links:
 \author{
 \strong{Maintainer}: Johannes Zauner \email{spectran@litg.de} (\href{https://orcid.org/0000-0003-2171-4566}{ORCID}) [copyright holder]
 
+Authors:
+\itemize{
+  \item Johannes Zauner \email{spectran@litg.de} (\href{https://orcid.org/0000-0003-2171-4566}{ORCID}) [copyright holder]
+}
+
 Other contributors:
 \itemize{
-  \item LiTG (www.litg.de) [funder, copyright holder]
+  \item LiTG (URL: www.litg.de) [funder, copyright holder]
 }
 
 }

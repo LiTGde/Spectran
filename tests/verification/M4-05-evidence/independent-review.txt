@@ -1,0 +1,196 @@
+Spectran M4-05 targeted visual acceptance review
+Review date: 2026-10-05 (Europe/Berlin)
+
+Decision: accepted for renewed presentation to the user for design approval.
+Build: TRX-M4-05-4d0ad8041b6d
+German: http://127.0.0.1:7531/
+English: http://127.0.0.1:7532/
+Graphic/UI score: 9.2/10. UX score: 9.2/10.
+
+The revised Introduction and six explanation topics meet the visual acceptance
+target. Text now introduces the graphic and continues into clearly grouped
+application guidance. Permanently visible galleries and video are coherent with
+the user's requested presentation. No in-scope acceptance defect was found.
+One low-priority caption improvement is recorded separately below.
+
+Contract and method
+-------------------
+Independent, code-blind visual review as an experienced web designer familiar
+with lighting applications and without relying on Shiny implementation knowledge.
+Evidence came from rendered UI, mouse and keyboard actions, native accessibility
+state, screenshots and app-linked image/SVG tabs. No application source, hidden
+DOM evaluation, server state, logs, network payloads or scientific calculations
+were inspected. The frozen build identifier was visible in both languages.
+
+The programmer held M4-05 fixed for the pass. M4-04 remained the protected
+predecessor. The user's new design request supersedes earlier acceptance of
+collapsed galleries/video and inline graphic enlargement. Those removed patterns
+were not demanded as regressions. Unchanged scientific content, material/export
+workflows, About and navigation remain protected from the earlier reviews.
+
+Introduction acceptance
+------------------------
+1. The LiTG description and CIE Toolbox/luox links are inside the main hero box,
+   below the primary actions and separated by a restrained rule. They remain
+   readable at the checked narrow widths. The primary purpose and actions still
+   have clear priority. No detached duplicate footer paragraph was observed.
+2. All four example galleries are visible without disclosure controls. All twelve
+   thumbnails render in the desktop Introduction in each language. Import and
+   Analysis have aligned card boundaries and gallery rows; Material and Export
+   form a second aligned pair. Intermediate and phone layouts remain readable.
+3. The three new material images show the actual library, result comparison and
+   light-path interface. They match their captions and make the module's purpose
+   concrete. All three were opened from visible German gallery links in native
+   image tabs, visually inspected and closed. The first was opened with Enter;
+   the other two with mouse activation. German labels explicitly identify the
+   screenshots as English. The mobile material gallery stacks all three images
+   and captions without requiring a disclosure or horizontal page scrolling.
+4. The material entry button retains its leading filter icon and adds the
+   reflection icon after its label. Both icons remain visible when the German
+   label wraps at 320px. The yellow source action retains visual priority.
+5. The core-module video is permanently displayed, with its explanatory heading,
+   scope text and native controls. It is reachable after the learning action by
+   Tab on the sampled phones. Playback and the unchanged external video file
+   were deliberately not retested, as specified by the owner.
+
+Representative evidence:
+  01-de-introduction-top-1440.jpg
+  02-de-gallery-rows-1440.jpg
+  03-de-learning-video-1440.jpg
+  04-material-library-full.jpg
+  05-material-result-full.jpg
+  06-material-light-path-full.jpg
+  23-de-introduction-top-1024.jpg
+  24-de-gallery-rows-1024.jpg
+  25-de-introduction-top-320.jpg
+  26-de-hero-links-320.jpg
+  28-de-material-examples-320.jpg
+  29-de-video-320.jpg
+  35-en-introduction-top-1440.jpg
+  36-en-gallery-rows-1440.jpg
+  37-en-learning-video-1440.jpg
+  53-en-introduction-top-768.jpg
+  54-en-material-card-768.jpg
+  55-en-introduction-top-390.jpg
+  56-en-material-examples-390.jpg
+  57-en-video-390.jpg
+
+Six explanation topics
+-----------------------
+Each changed topic was read in both languages and inspected above and below the
+graphic at 1440px. The material introduces the relevant concepts before the
+graphic, and the section following it has a meaningful heading and consistent
+alignment. The text no longer appears as an unrelated block appended to an image.
+
+- Reading a spectrum: the two axes are introduced first, the graphic illustrates
+  the distinction, and the final section develops the route from spectrum to
+  metric. The highlighted formula and scale reminder belong visibly to that
+  final section.
+- Illuminance, EDI and DER: three introductory concept cards prepare the reader
+  for the graphic. The following section distinguishes light level from spectral
+  shape, then groups the formula, further context and limits.
+- Light colour and colour rendering: the two introductory questions and paired
+  definitions align with the graphic's comparison. The concluding section about
+  unavailable values is a clear application question.
+- Age and the eye: the reference scenario and two influences are explained
+  before the illustration. The formula and model limitation are grouped as an
+  interpretation section afterward.
+- Import, scaling and export: the opening states the comparison task, source and
+  level are introduced before the graphic, and the final numbered section deals
+  with analysis/export and choosing the comparison basis.
+- Steps and combined effects in the light path: saving and the comparison scope
+  precede the graphic. The final section explains how to read the plot and groups
+  its interpretation caveat with that guidance.
+
+On wide screens, the concluding heading in the left column and related text in
+the right column create a consistent reading structure. In the checked narrow
+layouts, these sections stack in the expected order. Long German words, English
+headings, formulas, cards and highlighted notes remain contained and readable.
+This is a judgment of information order and presentation, not an independent
+verification of physical statements, model outputs or numerical examples.
+
+Evidence: German desktop screenshots 07 through 19; English desktop screenshots
+38 through 49. Narrow full-page topic evidence: 30, 31, 32, 58, 59 and 60.
+
+Graphic controls and adjacent interaction
+----------------------------------------
+The inline 'Hier vergroessern und scrollen' / 'Enlarge and scroll here' control
+was absent from all ten topics in each language's visible accessibility state.
+The six changed topics were visually inspected in detail. The four older topics
+were visited only to check the changed graphic controls, without reopening their
+accepted content or workflows. Every visited topic retained its full-size SVG
+link. No inline enlargement remained in the Introduction galleries.
+
+At 320px in German and 390px in English, natural Tab navigation reached the
+full-size link and Enter opened the correct SVG in a new native browser tab.
+The graphic rendered, and the preview could be closed normally. This retains a
+working route to readable graphic detail after the user-requested removal of
+inline zoom. Native preview sizes are not counted as app breakpoint evidence.
+Evidence: 33-de-full-graphic-link-focus-320.jpg,
+34-de-workflow-native-preview.jpg and 61-en-path-native-preview.jpg.
+
+The adjacent Back checks in German at 1024px and English at 768px restored visible
+focus to the Introduction learning button and kept that learning area in view.
+Repeated Introduction entry returned to the topic overview, and the topic-card
+changes used throughout the pass worked consistently. Evidence: screenshots 22
+and 52. M4-UX-R01 and R03 remain closed. M4-UX-R02 remains a protected M4-04 pass;
+its complete closed/open navigation keyboard matrix was not replayed here.
+
+Actual responsive coverage
+---------------------------
+1440 x 1100, DE and EN: Introduction hero, both card pairs, all gallery thumbnails,
+static video, and all six changed explanation topics above/below the graphic.
+1024 x 900, DE: Introduction, card/gallery alignment, light-path topic and its
+concluding columns, and Back focus/scroll restoration.
+768 x 1000, EN: Introduction, material/export cards and galleries, static video,
+three-card metrics topic and stacked conclusion, and Back focus restoration.
+320 x 844, DE: hero links and wrapped material action; stacked material gallery;
+static video; metrics, age and workflow topics; keyboard full-size graphic link.
+390 x 844, EN: hero and material action; stacked material gallery; static video;
+spectrum, colour and light-path topics; keyboard full-size graphic link.
+
+This is the agreed reduced design-review matrix, not a complete language-by-topic
+test at every width. It covers the changed layout patterns and supplements the
+protected full review. No new in-scope collision, missing image, obstructed action
+or persistent horizontal page breakout was observed.
+
+Non-blocking improvement
+------------------------
+M4-UX-I01: Normalize the English Export UI example caption
+State: improvement. Priority: low. Scope: production-bound English Introduction.
+Reproduction: open English Introduction and scroll to the Export gallery.
+Observed: its first caption is 'Export_UI'; neighboring captions use spaces.
+Expected polish: 'Export UI', matching the German caption and normal prose.
+Impact: minor visual inconsistency; it does not impair understanding or use.
+Suggested change: replace the underscore in the displayed English caption and
+its accessible link name, preserving the destination.
+Regression surface: that caption/link in the English static gallery.
+Evidence: 36-en-gallery-rows-1440.jpg and 54-en-material-card-768.jpg.
+This is not an acceptance blocker or a request for a broader redesign. A further
+frozen review cycle is not requested solely for this optional caption polish.
+
+Limits, evidence and next gate
+-------------------------------
+No new scientific, computation, import/export round-trip or package audit was
+performed. The programmer's R render checks, image-load counts, file sizes and
+dependency claims remain programmer-supplied evidence. Unchanged graphic content
+acceptance, About and core workflows remain protected. The older native topic
+select keyboard-controller residual is not represented as a fresh pass; visible
+topic cards were used.
+
+The user's task-wide transfer authorization for 127.0.0.1 remains valid across
+ports. Only ordinary local image/SVG links were opened. No test upload, generated
+data download, external service visit or approval rejection was required.
+
+Screenshots:
+/Users/zauner/Documents/Codex/2026-10-01/spectran-visual-review/outputs/M4-05-screenshots/
+There are 62 numbered evidence images. Full-page screenshots supplement normal
+viewport screenshots for reading order; they are not used to infer hidden state.
+
+Temporary review and image-preview tabs were closed. A fresh German M4-05
+Introduction was left open at the normal viewport for the user. The predecessor
+servers and earlier accepted work were not changed.
+
+Next gate: renewed presentation to the user for design approval. Acceptance here
+authorizes that presentation only, not commits, integration, publication or a
+later milestone. No mandatory correction is requested from the programmer.

@@ -1,0 +1,10 @@
+Source: DIN/TS 67600:2022-08, Tables 6 to 10.
+Printed page numbers are recorded for each row.
+DIN labels are transcribed with line breaks removed; English labels are editorial translations.
+Only photopic and melanopic material coefficients are retained, not MDER or effective MDER.
+Source text MD5: 30a397b7cdb4efb31857e555927c60a9
+R version: 4.6.1
+dplyr: 1.2.1
+tidyr: 1.3.2
+purrr: 1.2.2
+Preparation: Rscript --vanilla data-raw/prepare_din_material_coefficients.R DIN.txt OUTPUT

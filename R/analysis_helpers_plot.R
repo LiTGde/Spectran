@@ -1,5 +1,11 @@
 #Plot-Hull for all spectral plots
 
+spectral_irradiance_axis_label <- function() {
+  title <- if (identical(transmission_language_setting(), "Deutsch"))
+    "Spektrale Bestrahlungsst\u00e4rke" else "Spectral irradiance"
+  paste0(title, "\n(mW/m\u00b2/nm)")
+}
+
 Plot_hull <- function(Spectrum,
                       Spectrum_Name,
                       maxE,
@@ -13,7 +19,7 @@ Plot_hull <- function(Spectrum,
                   ) +
     #general settings for the labs
     ggplot2::labs(x = lang$server(100), title = Spectrum_Name) +
-    ggplot2::ylab(bquote(.(lang$server(40)) ~  ~ mW / (m ^ { 2 } * '*' * nm))) +
+    ggplot2::ylab(spectral_irradiance_axis_label()) +
     #settings for the scales
     ggplot2::scale_fill_gradientn(colors = ColorP[[the$palette]], guide = "none") +
     ggplot2::scale_x_continuous(breaks = c(400, 500, 600, 700, 780)) +
@@ -66,18 +72,20 @@ Plot_Main <- function(
         }
       }  +
         
-    ggplot2::geom_path(lwd = (if(alpha == 1) 1.2 else 0.5),
+    ggplot2::geom_path(linewidth = (if(alpha == 1) 1.2 else 0.5),
                        lty = (if(alpha == 1) 1 else 2)) +
     
     #adding a second ridgeline if a spectral weighing function is added
       {
         if (!is.null(Sensitivity_Spectrum)) {
-          ggridges::geom_ridgeline_gradient(
+          list(ggridges::geom_ridgeline_gradient(
             ggplot2::aes(y = 0,
                          height = Sensitivity_Spectrum * 1000,
                          fill = Wellenlaenge),
-            lwd = 1.2
-          )
+            colour = NA
+          ), ggplot2::geom_path(
+            ggplot2::aes(y = Sensitivity_Spectrum * 1000), linewidth = 1.2
+          ))
         }
       }  +
         
@@ -262,6 +270,12 @@ Plot_age_pup <- function(Age,
 }
 
 
+# Narrow plots keep the legend outside the spectrum. Width is supplied by the
+# Shiny output or export settings, so screen and file layouts use the same rule.
+age_plot_is_compact <- function(plot_width, font_size = 15) {
+  length(plot_width) == 1L && is.finite(plot_width) && plot_width <= font_size / 3
+}
+
 #Age-dependent basis plot
 Plot_age_basis <- function(
     font_size = 15,
@@ -269,8 +283,16 @@ Plot_age_basis <- function(
     Spectrum_Name,
     maxE,
     plot_multiplier,
-    subtitle
+    subtitle,
+    plot_width = NULL
     ) {
+  compact <- age_plot_is_compact(plot_width, font_size)
+  if (compact) font_size <- min(font_size, 12)
+  compact_export <- compact && font_size <= 10 && plot_width >= 2.8
+  axis_label <- spectral_irradiance_axis_label()
+  if (compact) {
+    axis_label <- sub("^(Spectral|Spektrale) ", "\\1\n", axis_label)
+  }
   #Plotdata comes from outside the function
   ggplot2::ggplot(data = Spectrum,
                   ggplot2::aes(
@@ -281,8 +303,7 @@ Plot_age_basis <- function(
     #general settings for the labs
     ggplot2::labs(x = lang$server(100), title = Spectrum_Name) +
     ggplot2::labs(subtitle = subtitle) +
-    ggplot2::ylab(
-      bquote(.(lang$server(40)) ~  ~ mW / (m ^ { 2 } * '*' * nm))) +
+    ggplot2::ylab(axis_label) +
     #settings for the scales
     ggplot2::scale_fill_gradientn(colors = ColorP[[the$palette]],
                                   guide = "none") +
@@ -295,10 +316,21 @@ Plot_age_basis <- function(
   #settings for the theme
     cowplot::theme_cowplot(font_size, font_family = "sans") +
     ggplot2::theme(
-      legend.position = c(0.955, 0.07),
-      legend.key.width=grid::unit(1.25,"cm"),
+      plot.title = ggtext::element_textbox_simple(face = "bold", hjust = 0,
+        margin = ggplot2::margin(b = 5)),
+      plot.subtitle = ggtext::element_textbox_simple(hjust = 0,
+        margin = ggplot2::margin(b = 8)),
+      plot.title.position = if (compact) "plot" else "panel",
+      axis.title.y = ggplot2::element_text(size = if (compact) font_size * .85 else font_size),
+      legend.position = if (compact) "bottom" else "inside",
+      legend.position.inside = c(0.955, 0.07),
+      legend.location = if (compact) "plot" else "panel",
+      legend.direction = "vertical",
+      legend.key.width=grid::unit(if (compact_export) 0.6 else if (compact) 0.85 else 1.25,"cm"),
+      legend.text = ggplot2::element_text(size = if (compact_export) font_size * .8 else font_size),
       legend.text.align = 0,
-      legend.justification = c(1,0),
+      legend.justification = if (compact) "left" else c(1,0),
+      legend.margin = ggplot2::margin(t = 4),
       legend.background = ggplot2::element_rect(fill = "#FFFFFFDD"))
 
 }
@@ -349,7 +381,8 @@ Plot_age_tot <- function(...,
                          alpha, 
                          Spectrum_mel_wtd,
                          Alter_mel,
-                         font_size = 15){
+                         font_size = 15,
+                         plot_width = NULL){
 
   k_pup <- k_pup_fun(Age)
   Tau_rel <- Tau_rel_fun(Age)
@@ -359,7 +392,8 @@ Plot_age_tot <- function(...,
                        maxE = maxE, 
                        plot_multiplier = plot_multiplier,
                        font_size = font_size,
-                       subtitle = subtitle)
+                       subtitle = subtitle,
+                       plot_width = plot_width)
   #adding the various ridgelines
   p1 <- Ridges_alpha(p1, Bestrahlungsstaerke, alpha, 0.1)
   p1 <- Ridges_alpha(p1, Spectrum_mel_wtd, alpha, -0.1)
@@ -395,6 +429,9 @@ Plot_age_tot <- function(...,
     )+
     ggplot2::guides(
       linetype=ggplot2::guide_legend(
+        ncol = if (age_plot_is_compact(plot_width, font_size) &&
+          font_size <= 10 && plot_width >= 2.8) 2 else 1,
+        byrow = TRUE,
         override.aes = list(linewidth=c(0.5, 0.5, 0.5, 1.2))
       ))
       
@@ -417,7 +454,8 @@ Plot_age_tot <- function(...,
         ),
         col = Specs$Plot$Col[[1]],
         min.segment.length = 0,
-        ylim = c(maxE, maxE * 1.17),
+        ylim = c(0, maxE * plot_multiplier),
+        nudge_x = 60, nudge_y = maxE * .2, seed = 1,
         alpha = 0.85,
         parse = TRUE,
         size = 4 / 15 * font_size
@@ -439,7 +477,8 @@ Plot_age_trans_p1 <- function(...,
                          Alter_rel,
                          age_scale,
                          plot_multiplier,
-                         font_size = 15){
+                         font_size = 15,
+                         plot_width = NULL){
   Tau_rel <- Tau_rel_fun(Age)
 
   p1 <- Plot_age_basis(Spectrum = Spectrum, 
@@ -447,7 +486,8 @@ Plot_age_trans_p1 <- function(...,
                        maxE = maxE, 
                        plot_multiplier = plot_multiplier,
                        font_size = font_size,
-                       subtitle = subtitle
+                       subtitle = subtitle,
+                       plot_width = plot_width
                        )
   #adding the various ridgelines
   p1 <- Ridges_alpha(p1, Bestrahlungsstaerke, alpha, 0.1)
@@ -481,6 +521,9 @@ Plot_age_trans_p1 <- function(...,
     )+
     ggplot2::guides(
       linetype=ggplot2::guide_legend(
+        ncol = if (age_plot_is_compact(plot_width, font_size) &&
+          font_size <= 10 && plot_width >= 2.8) 2 else 1,
+        byrow = TRUE,
         override.aes = list(linewidth=c(0.5, 0.5, 1.2))
       ))
       
@@ -503,7 +546,8 @@ Plot_age_trans_p1 <- function(...,
         ),
         col = Specs$Plot$Col[[1]],
         min.segment.length = 0,
-        ylim = c(maxE, maxE * 1.17),
+        ylim = c(0, maxE * plot_multiplier),
+        nudge_x = 60, nudge_y = maxE * .2, seed = 1,
         alpha = 0.85,
         parse = TRUE,
         size = 4 / 15 * font_size
@@ -546,7 +590,8 @@ Plot_age_trans_p1 <- function(...,
 #part 2 of the tranmsission plot
 Plot_age_trans_p2 <- function(Age, 
                               Alter_mel, 
-                              font_size = 15) {
+                              font_size = 15,
+                              compact = FALSE) {
   Tau <- Tau32 %>% dplyr::mutate(Tau = prerecep_filter(Wellenlaenge, Age))
   #Plot
   p1 <-
@@ -559,8 +604,11 @@ Plot_age_trans_p2 <- function(Age,
     ggplot2::geom_path()+
     #Styling
     ggplot2::labs(x = lang$server(100))+
-    ggplot2::ylab(bquote(.(lang$server(99))~paste(tau)[paste(lambda)]))+
-    ggplot2::scale_y_continuous(labels = scales::percent_format(scale = 100))+
+    ggplot2::ylab(if (compact) bquote(tau[lambda]) else
+      bquote(.(lang$server(99))~paste(tau)[paste(lambda)]))+
+    ggplot2::labs(title = if (compact) lang$server(99) else NULL)+
+    ggplot2::scale_y_continuous(labels = scales::percent_format(scale = 100),
+      breaks = if (compact) c(0, .5, 1) else ggplot2::waiver())+
     ggplot2::coord_cartesian(ylim = c(0, 1))+
     cowplot::theme_cowplot(font_size = 8/15*font_size)+
     ggplot2::theme(
@@ -582,36 +630,26 @@ Plot_age_trans <- function(...,
                            Alter_mel, 
                            font_size = 15,
                            subtitle,
-                           Spectrum_Name) {
+                           Spectrum_Name,
+                           plot_width = NULL) {
 
-     # ggplot2::labs(subtitle = NULL, title = NULL)) +
-     patchwork::wrap_plots(
-       Plot_age_trans_p1(..., 
-                          font_size = font_size, 
-                          Age = Age, 
-                          Alter_mel = Alter_mel,
-                          subtitle = subtitle,
-                          Spectrum_Name = Spectrum_Name),
-       {
-         if(Alter_inset) {
-           patchwork::inset_element(
-             Plot_age_trans_p2(Age, Alter_mel, font_size), 
-             left = 0.75, 
-             bottom = 0.65, 
-             right = 0.98, 
-             top = 0.98, 
-             align_to = "full") 
-           # ggplot2::theme(plot.margin = ggplot2::margin())
-         }
-       }
-     ) +
-  patchwork::plot_annotation(
-    theme = ggplot2::theme(
-      plot.margin = ggplot2::margin(0,0,0,0)
-      ),
-    # title = Spectrum_Name,
-    # subtitle = subtitle
-    )
+  main <- Plot_age_trans_p1(..., font_size = font_size, Age = Age,
+    Alter_mel = Alter_mel, subtitle = subtitle, Spectrum_Name = Spectrum_Name,
+    plot_width = plot_width)
+  if (!isTRUE(Alter_inset)) return(main)
+  if (age_plot_is_compact(plot_width, font_size)) {
+    return(patchwork::wrap_plots(main,
+      Plot_age_trans_p2(Age, Alter_mel, font_size, compact = TRUE), ncol = 1,
+      heights = c(4, 1)))
+  }
+
+  patchwork::wrap_plots(main,
+    patchwork::inset_element(
+      Plot_age_trans_p2(Age, Alter_mel, font_size),
+      left = 0.75, bottom = 0.65, right = 0.98, top = 0.98,
+      align_to = "panel")) +
+    patchwork::plot_annotation(theme = ggplot2::theme(
+      plot.margin = ggplot2::margin(0, 0, 0, 0)))
 }
 
 # #Nimmt das Plot-Resizing wieder vor, sobald sich die Fensterbreite ändert

@@ -104,7 +104,8 @@ import_examplesUI <-
 import_examplesServer <- 
   function(
     id, 
-    Spectrum = NULL
+    Spectrum = NULL,
+    workspace = FALSE
     ) {
   
     shiny::moduleServer(id, function(input, output, session) {
@@ -125,9 +126,11 @@ import_examplesServer <-
     ),
     import_examples_boxServer,
     illu_eigen = shiny::reactive(input$illu_eigen),
-    down_import = shiny::reactive(input$down_import),
+    level_metric = shiny::reactive(if (workspace) input$level_metric %||% "photopic" else "photopic"),
+    down_import = shiny::reactive(if (workspace) "Import" else shiny::req(input$down_import)),
     examplespectra = examplespectra,
-    Spectrum = Spectrum
+    Spectrum = Spectrum,
+    workspace = workspace
     )
     
     # #Adjusting the names of the spectra
@@ -140,7 +143,9 @@ import_examplesServer <-
       examplespectra_descriptor = tibble::tibble(
         download = list(list("norm") %>% stats::setNames(lang$ui(71)))),
       illu_eigen = shiny::reactive(input$illu_eigen),
-      down_import = shiny::reactive(input$down_import),
+      level_metric = shiny::reactive(if (workspace) input$level_metric %||% "photopic" else "photopic"),
+      down_import = shiny::reactive(if (workspace) "Import" else shiny::req(input$down_import)),
+      workspace = workspace,
       daylight_CCT = shiny::reactive(input$CCT_norm) #only necessary for the
       #spectrum daylight
     )

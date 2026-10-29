@@ -16,3 +16,10 @@ rsconnect
 ^CRAN-SUBMISSION$
 _shiny_config.yml
 manifest.json
+^README\.md$
+^man/figures/English$
+^tests/verification$
+^\.Renviron$
+(^|/)Rplots\.pdf$
+^vignettes/\.quarto$
+^Spectran_Hexfarben_Kurzbeschreibung\.docx$
