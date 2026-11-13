@@ -64,7 +64,7 @@ learning_english <- c(
   "Transmissions-\nfaktor" = "Transmission\nfactor", "Pupillen-\nfaktor" = "Pupil\nfactor",
   "Altersbezogene\nBewertung" = "Age-adjusted\nassessment",
   "Modellbeispiel für 65 Jahre, keine Messung eines individuellen Auges. Beide Korrekturfaktoren sind mit 32 Jahren gleich 1." = "Model example for age 65, not a measurement of an individual's eye. Both correction factors equal 1 at age 32.",
-  "Der melanopische Transmissionsfaktor hängt zusätzlich vom untersuchten Lichtspektrum ab. Modell: DIN/TS 5031-100." = "The melanopic transmission factor also depends on the light spectrum. Model: DIN/TS 5031-100.",
+  "Der melanopische Transmissionsfaktor hängt zusätzlich vom untersuchten Lichtspektrum ab. Modell: DIN 5031-100:2025-09." = "The melanopic transmission factor also depends on the light spectrum. Model: DIN 5031-100:2025-09.",
   "Vom Import zum vergleichbaren Ergebnis." = "From import to comparable results.",
   "Lichtquelle wählen, Bezugsgröße festlegen und die passende Auswertung als Datei behalten." = "Choose a light source, set a comparison basis and keep the relevant results as a file.",
   "Lichtquelle" = "Light source", "Lichtniveau" = "Light level", "Ausgabe" = "Output",
@@ -336,7 +336,7 @@ age_graphic <- function() {
   txt(884, 624, "=", 28, muted, just = "centre")
   txt(1023, 624, "Altersbezogene\nBewertung", 21, face = "bold", just = "centre")
   footer(c("Modellbeispiel für 65 Jahre, keine Messung eines individuellen Auges. Beide Korrekturfaktoren sind mit 32 Jahren gleich 1.",
-    "Der melanopische Transmissionsfaktor hängt zusätzlich vom untersuchten Lichtspektrum ab. Modell: DIN/TS 5031-100."))
+    "Der melanopische Transmissionsfaktor hängt zusätzlich vom untersuchten Lichtspektrum ab. Modell: DIN 5031-100:2025-09."))
 }
 
 workflow_graphic <- function() {
@@ -442,4 +442,4 @@ for (language in c("de", "en")) for (i in seq_along(figures)) {
   dev.off()
 }
 write.csv(data.frame(wavelength_nm = wl, synthetic_source = source_curve, photopic_V = v_lambda, model_transmission_age32 = tau32, model_transmission_age65 = tau65, synthetic_material1 = material1, synthetic_material2 = material2, synthetic_material3 = material3, synthetic_step1 = path1, synthetic_step2 = path2, synthetic_step3 = path3), "data-raw/learning-illustrative-curves.csv", row.names = FALSE)
-writeLines(c(capture.output(sessionInfo()), "Command: source('data-raw/learning-explanations.R')", "Inputs: data/Specs.rda, data/ColorP.rda, R/analysis_helpers_age.R.", capture.output(tools::md5sum(c("data/Specs.rda", "data/ColorP.rda", "R/analysis_helpers_age.R"))), "Synthetic spectrum/material examples; no measurement data. Age curves/pupil ratio use existing Spectran R functions. All calculations occur at development time only.", "German design approved by human after LEARN-G3-e60b4ff7951a, 2026-10-05.", "Checks: passive path product identity and nonnegative decreasing curves; bounded age transmission; reference factors equal 1 at 32 years.", "Scientific references: CIE S026:2018, CIE TN013:2022, CIE13.3-1995; DIN/TS5031-100 model in existing Spectran functions."), "data-raw/learning-illustrations-provenance.txt")
+writeLines(c(capture.output(sessionInfo()), "Command: source('data-raw/learning-explanations.R')", "Inputs: data/Specs.rda, data/ColorP.rda, R/analysis_helpers_age.R.", capture.output(tools::md5sum(c("data/Specs.rda", "data/ColorP.rda", "R/analysis_helpers_age.R"))), "Synthetic spectrum/material examples; no measurement data. Age curves/pupil ratio use existing Spectran R functions. All calculations occur at development time only.", "German design approved by human after LEARN-G3-e60b4ff7951a, 2026-10-05.", "Checks: passive path product identity and nonnegative decreasing curves; bounded age transmission; reference factors equal 1 at 32 years.", "Scientific references: CIE S026:2018, CIE TN013:2022, CIE13.3-1995; DIN 5031-100:2025-09 model in existing Spectran functions."), "data-raw/learning-illustrations-provenance.txt")

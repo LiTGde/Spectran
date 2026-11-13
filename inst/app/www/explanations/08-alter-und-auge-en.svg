@@ -82,7 +82,7 @@
 <text x='736.56' y='466.30' text-anchor='middle' style='font-size: 15.12px; font-weight: bold;fill: #252C32; font-family: "Arial";' textLength='86.55px' lengthAdjust='spacingAndGlyphs'>assessment</text>
 <polyline points='34.56,512.64 829.44,512.64 ' style='stroke-width: 0.54; stroke: #DDE1E3;' />
 <text x='34.56' y='533.91' style='font-size: 11.16px;fill: #59616A; font-family: "Arial";' textLength='547.69px' lengthAdjust='spacingAndGlyphs'>Model example for age 65, not a measurement of an individual's eye. Both correction factors equal 1 at age 32.</text>
-<text x='34.56' y='550.47' style='font-size: 11.16px;fill: #59616A; font-family: "Arial";' textLength='478.61px' lengthAdjust='spacingAndGlyphs'>The melanopic transmission factor also depends on the light spectrum. Model: DIN/TS 5031-100.</text>
+<text x='34.56' y='550.47' style='font-size: 11.16px;fill: #59616A; font-family: "Arial";' textLength='505.30px' lengthAdjust='spacingAndGlyphs'>The melanopic transmission factor also depends on the light spectrum. Model: DIN 5031-100:2025-09.</text>
 </g>
 </g>
 </svg>

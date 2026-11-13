@@ -14,8 +14,8 @@ Description:
  calculations underlying common parameters used in the field. It is thus ideal
  for educational purposes or the creation of presentation ready graphs in
  lighting research and application. 'Spectran' uses equations and action spectra
- described in CIE S026 (2018) <doi:10.25039/S026.2018>, DIN/TS 5031-100 (2021)
- <doi:10.31030/3287213>, and ISO/CIE 23539 (2023)
+ described in CIE S026 (2018) <doi:10.25039/S026.2018>, DIN 5031-100:2025-09
+ <doi:10.31030/3622790>, and ISO/CIE 23539 (2023)
  <doi:10.25039/IS0.CIE.23539.2023>.
 License: MIT + file LICENSE
 Encoding: UTF-8
