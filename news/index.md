@@ -4,6 +4,9 @@
 
 ### Development preview
 
+- Update references and links throughout the app and documentation to
+  DIN 5031-100:2025-09. Calculation models and terminology are
+  unchanged.
 - Identify the transmission and reflection app as a development
   prototype in a bilingual startup notice shown once per session. Link
   the verification documentation and explain that interface details may

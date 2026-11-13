@@ -1016,7 +1016,7 @@ input_hashes |>
 
 | File | MD5 |
 |----|----|
-| DESCRIPTION | 9bd5f03dd03e88361c51dabaf08ad9e0 |
+| DESCRIPTION | f5bc1ff336e5f8b1925a567f5932df1e |
 | renv.lock | 69cfe4789487d2c8e49dac6c306574bb |
 | R/sysdata.rda | cffd8b740f522fc84af73913ab0edb11 |
 | data/Specs.rda | 90a9bbcef9bf7ccbb1429cac2145f98e |
@@ -1099,7 +1099,7 @@ software_versions |>
 
 | Component  | Version    |
 |------------|------------|
-| R          | 4.6.1      |
+| R          | 4.6.2      |
 | Quarto CLI | 1.9.37     |
 | Spectran   | 2.0.0.9000 |
 | pkgload    | 1.5.3      |

@@ -56,10 +56,10 @@ library(stringr)
 library(tidyr)
 library(readxl)
 library(magick)
-#> Linking to ImageMagick 6.9.12.98
-#> Enabled features: fontconfig, freetype, fftw, heic, lcms, pango, raw, webp, x11
-#> Disabled features: cairo, ghostscript, rsvg
-#> Using 4 threads
+#> Linking to ImageMagick 7.1.2.18
+#> Enabled features: fontconfig, freetype, fftw, heic, lcms, raw, webp, x11
+#> Disabled features: cairo, ghostscript, pango, rsvg
+#> Using 3 threads
 library(gt)
 library(here)
 #> here() starts at /home/runner/work/Spectran/Spectran
