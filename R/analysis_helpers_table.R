@@ -1,7 +1,7 @@
 #URLs for the hyperlinks
 URL_colorSpec <- 'https://cran.r-project.org/web/packages/colorSpec/vignettes/colorSpec-guide.html'
 URL_CIE <- 'https://cie.co.at/publications/cie-system-metrology-optical-radiation-iprgc-influenced-responses-light-0'
-URL_DIN <- 'https://www.beuth.de/de/vornorm/din-ts-5031-100/343737176'
+URL_DIN <- 'https://www.dinmedia.de/de/norm/din-5031-100/392132532'
 
 #Formats the Number-data in the tables
 Number_formatting_tables <- function(data, column = Wert) {
@@ -153,7 +153,7 @@ Quelle_Alter <- rlang::expr(
   gt::md(
     paste0(lang$server(88), 
            htmltools::a(
-             " DIN/TS 5031-100:2021-11. ",
+             " DIN 5031-100:2025-09. ",
              href = URL_DIN,
              target="_blank")
     )

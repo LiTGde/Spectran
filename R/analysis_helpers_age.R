@@ -1,4 +1,4 @@
-#Function to calculate the spectral age-dependent transmission of the eye, according to the DIN/TS 5031-100
+#Function to calculate the spectral age-dependent transmission of the eye, according to DIN 5031-100:2025-09
 prerecep_filter <- function(wavelength, age) {
   #Density
   Dichte <- 

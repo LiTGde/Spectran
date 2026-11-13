@@ -8141,7 +8141,7 @@
       "checksum": "90a9bbcef9bf7ccbb1429cac2145f98e"
     },
     "DESCRIPTION": {
-      "checksum": "9bd5f03dd03e88361c51dabaf08ad9e0"
+      "checksum": "f5bc1ff336e5f8b1925a567f5932df1e"
     },
     "inst/app/app.R": {
       "checksum": "f821b37c0bcd88ad04682629dc5ed116"
@@ -8198,10 +8198,10 @@
       "checksum": "2c052ba7fe1182c7aaae7b5cd6d3c980"
     },
     "inst/app/www/explanations/08-alter-und-auge-de.svg": {
-      "checksum": "e042c08247ce56e8c4e97a634bf474f1"
+      "checksum": "7b5309b773a5a9bc21f0b7f913b8cfba"
     },
     "inst/app/www/explanations/08-alter-und-auge-en.svg": {
-      "checksum": "c5f1aac2450fbf0c5b825b858ca4526a"
+      "checksum": "768596010b89762c87bc507057758f2b"
     },
     "inst/app/www/explanations/09-import-skalierung-export-de.svg": {
       "checksum": "0acf4acdae7b5b6592217a2b97455a44"
@@ -8330,10 +8330,10 @@
       "checksum": "258de72ba43428a6c70bec6409231b12"
     },
     "man/Specs.Rd": {
-      "checksum": "fa502ee4a65565013a1ea06dc78231d4"
+      "checksum": "19f6a7810649b0b5aa5377b265e4d17e"
     },
     "man/Spectran-package.Rd": {
-      "checksum": "61d56e966712e92d51631c85e0eebde7"
+      "checksum": "25a464cb0d163d993331493c4c161bf9"
     },
     "man/Spectran.Rd": {
       "checksum": "97d5229de6b6ebb59585180b49189eee"
@@ -8348,19 +8348,19 @@
       "checksum": "cfb2dcae08ce07b713747644790116a9"
     },
     "R/analysis_age.R": {
-      "checksum": "bb10ab622a3884a2ae1da856fae0fc11"
+      "checksum": "4747c3441fdcd79a3aaa552c565e2423"
     },
     "R/analysis_alpha.R": {
       "checksum": "9a3e48c65aff8d6ce42f640a247983f4"
     },
     "R/analysis_helpers_age.R": {
-      "checksum": "ac080e9effe8e613eb6fbe523c88ab8c"
+      "checksum": "205a02d75e9c0ec815305acee6a1ac18"
     },
     "R/analysis_helpers_plot.R": {
       "checksum": "0ac0e2938e1bf4f7abd92083e4517552"
     },
     "R/analysis_helpers_table.R": {
-      "checksum": "efb0e644596e8cbc4cc26b0c11000082"
+      "checksum": "3f4a5f476f561abcd7a8838bfd2b9081"
     },
     "R/analysis_helpers.R": {
       "checksum": "8df2c11411e0eedb6f105bc842e1b102"
@@ -8378,7 +8378,7 @@
       "checksum": "58117523b982e047df58e17e2ad57de4"
     },
     "R/data.R": {
-      "checksum": "3e58221826b0913c2070a4601f3e3100"
+      "checksum": "247a6430671e836a941bbb1540d1cfde"
     },
     "R/export_define_Output.R": {
       "checksum": "3e2a8b39821cfca3bf7e9418b496854e"
@@ -8498,7 +8498,7 @@
       "checksum": "f074ef6ca76f4588ef28ac960f035815"
     },
     "R/spectran_explanations.R": {
-      "checksum": "38acdb3aa085beb1175e6c9fdba02e71"
+      "checksum": "6b60cf753be90225e419be0d3dfed2e6"
     },
     "R/Spectran-package.R": {
       "checksum": "4340ff20a54c997a42804f77fbd2370a"
@@ -8543,7 +8543,7 @@
       "checksum": "df51b5f8c98f0de242154f225dfd4d5c"
     },
     "R/validity.R": {
-      "checksum": "3c2576b3401fb84c8f938a644bf05c42"
+      "checksum": "731f73a148ce78543ffd90354527f358"
     },
     "renv.lock": {
       "checksum": "69cfe4789487d2c8e49dac6c306574bb"

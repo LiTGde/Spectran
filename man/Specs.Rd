@@ -20,7 +20,7 @@
 \source{
 \href{https://cie.co.at/publications/cie-system-metrology-optical-radiation-iprgc-influenced-responses-light-0}{CIE S026}
 
-\href{https://www.dinmedia.de/de/vornorm/din-ts-5031-100/343737176}{DIN/TS 5031-100}
+\href{https://www.dinmedia.de/de/norm/din-5031-100/392132532}{DIN 5031-100:2025-09}
 }
 \usage{
 Specs

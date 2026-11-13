@@ -66,7 +66,7 @@ analysis_ageUI <- function(
         lang$ui(106),
         htmltools::a(
           .noWS = "outside",
-          "DIN/TS 5031-100:2021-11 ",
+          "DIN 5031-100:2025-09 ",
           href =
             URL_DIN,
           target = "_blank"

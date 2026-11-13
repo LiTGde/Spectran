@@ -49,7 +49,7 @@ validityUI <- function(
         htmltools::h4(lang$ui(179)),
         htmltools::p(lang$ui(155), 
                      htmltools::a(.noWS = "outside", 
-                                  "DIN/TS 5031-100:2021-11", 
+                                  "DIN 5031-100:2025-09",
                                   href = URL_DIN, target="_blank"),
                      lang$ui(156),
                      htmltools::a(.noWS = "outside", 

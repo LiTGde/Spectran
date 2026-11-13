@@ -176,7 +176,7 @@ spectran_explanation_content <- function(topic) {
       formula(tr("Altersbezogene Bewertung = Referenzbewertung \u00d7 Transmissionsfaktor \u00d7 Pupillenfaktor", "Age-adjusted assessment = reference assessment \u00d7 transmission factor \u00d7 pupil factor")),
       note(tr("Das ist ein Altersmodell, keine Messung eines individuellen Auges. Die Einstellungen der Darstellung ver\u00e4ndern die Ansicht; die Alterswahl bestimmt das Modellszenario.",
         "This is an age model, not a measurement of an individual's eye. Display settings change the presentation; the age selection determines the model scenario."))),
-      refs(link("DIN/TS 5031-100:2021-11", URL_DIN), " \u00b7 ", link("CIE S 026:2018", URL_CIE))),
+      refs(link("DIN 5031-100:2025-09", URL_DIN), " \u00b7 ", link("CIE S 026:2018", URL_CIE))),
     workflow = htmltools::tagList(
       p(
       tr("Ein Vergleich beginnt mit einer passenden Lichtquelle und einer klaren Bezugsgr\u00f6\u00dfe. Legen Sie beides fest, bevor Sie Ergebnisse auswerten und weitergeben.", "A comparison starts with an appropriate light source and a clear reference level. Set both before analysing and sharing results.")),
