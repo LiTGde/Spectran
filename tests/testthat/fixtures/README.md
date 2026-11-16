@@ -6,6 +6,19 @@ expected values from CIE/luox/DIN, the exact exceptions, and source provenance.
 It runs offline from a built package. Tests do not need Excel files, article
 rendering, a licensed PDF, or a live service.
 
+Two generated text files support review without R:
+
+- `reference-values.csv`: all 706 external reference values, their comparison
+  status, and the separately labelled 25 FL11 regression anchors. Numbers use
+  17 significant digits to retain the binary fixture's double precision.
+- `reference-input-checksums.csv`: the 35 archived input paths and their MD5
+  checksums, including the bundled inputs used only for the FL11 anchors.
+
+A unit test checks that these readable exports match the binary fixture. They
+are audit copies, not an additional source of expected results. An environment
+without R can inspect these files, but executing the scientific verification
+still requires R.
+
 The expected values are extracted from the same archived inputs used by
 `vignettes/articles/Validation.Rmd` and `Material_Validation.qmd`:
 
@@ -76,8 +89,8 @@ devtools::test(filter = "reference-")
 ```
 
 The builder needs `readxl`, already in Suggests. It validates export layouts,
-case counts, assignments and numeric values. It writes only this fixture and
-records the command, R/readxl versions, input paths and MD5 checksums in
+case counts, assignments and numeric values. It writes this fixture and its two
+readable audit copies, and records the command, R/readxl versions, input paths and MD5 checksums in
 `$provenance`. No Spectran calculation function produces the external expected
 values. The FL11 regression anchors are the explicitly labelled exception.
 

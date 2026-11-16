@@ -159,5 +159,30 @@ local({
   destination <- "tests/testthat/fixtures/validation-references.rds"
   dir.create(dirname(destination), recursive = TRUE, showWarnings = FALSE)
   saveRDS(references, destination, compress = "xz", version = 2)
+  # Readable audit copies let reviewers inspect every expected value, exception
+  # and source checksum without an R runtime or a binary-file viewer.
+  audit <- rbind(
+    data.frame(source = "CIE", case = cie$spectrum, metric = cie$metric,
+      unit = cie$unit, reference_value = cie$expected, status = "compare",
+      fl11_regression_anchor = NA_real_),
+    data.frame(source = "luox", case = luox$spectrum, metric = luox$metric,
+      unit = luox$unit, reference_value = luox$expected,
+      status = ifelse(luox$applicable, "compare", "inapplicable_cri"),
+      fl11_regression_anchor = NA_real_),
+    data.frame(source = "DIN",
+      case = paste(din$din_id, din$catalogue_id, din$illuminant, sep = " | "),
+      metric = din$metric, unit = din$unit, reference_value = din$expected,
+      status = ifelse(din$known_issue, "known_fl11_discrepancy", "compare"),
+      fl11_regression_anchor = ifelse(din$known_issue,
+        fl11$regression_value[match(din$din_id, fl11$din_id)], NA_real_))
+  )
+  for (column in c("reference_value", "fl11_regression_anchor"))
+    audit[[column]] <- ifelse(is.na(audit[[column]]), NA_character_,
+      sprintf("%.17g", audit[[column]]))
+  utils::write.csv(audit, file.path(dirname(destination), "reference-values.csv"),
+    row.names = FALSE, na = "")
+  utils::write.csv(references$provenance$inputs,
+    file.path(dirname(destination), "reference-input-checksums.csv"),
+    row.names = FALSE)
   message("Wrote ", destination, " (", file.info(destination)$size, " bytes)")
 })
