@@ -2,6 +2,9 @@
 
 ## Development preview
 
+* Run the archived CIE, luox and DIN validation comparisons as offline unit
+  tests with documented numerical limits. Keep the known FL11 photopic
+  reflection discrepancies explicit and protect them with regression checks.
 * Update references and links throughout the app and documentation to
   DIN 5031-100:2025-09. Calculation models and terminology are unchanged.
 * Identify the transmission and reflection app as a development prototype in a
