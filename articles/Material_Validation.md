@@ -1106,7 +1106,7 @@ software_versions |>
 | dplyr      | 1.2.1      |
 | tidyr      | 1.3.2      |
 | purrr      | 1.2.2      |
-| ggplot2    | 4.0.3      |
+| ggplot2    | 4.0.4      |
 | gt         | 1.4.0      |
 | knitr      | 1.52       |
 | rmarkdown  | 2.32       |
