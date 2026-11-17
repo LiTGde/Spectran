@@ -73,7 +73,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="standard-module-plot-fixes-2-0-0-9000">Standard-module plot fixes<a class="anchor" aria-label="anchor" href="#standard-module-plot-fixes-2-0-0-9000"></a></h3>
-<ul><li>Label spectral Y-axes as “Spectral irradiance” or “Spektrale Bestrahlungsstärke”, with units on a separate line for compact plots and exports. Integrated irradiance labels retain their meaning (<a href="https://github.com/LiTGde/Spectran/issues/32" class="external-link">#32</a>).</li>
+<ul><li>Align the melanopsin label with the age-adjusted sensitivity peak in both age plots. Bound its vertical position so it remains visible for young observers, including when the peak exceeds the displayed range.</li>
+<li>Label spectral Y-axes as “Spectral irradiance” or “Spektrale Bestrahlungsstärke”, with units on a separate line for compact plots and exports. Integrated irradiance labels retain their meaning (<a href="https://github.com/LiTGde/Spectran/issues/32" class="external-link">#32</a>).</li>
 <li>Draw radiometric and weighted spectral outlines with the same path geometry and foreground linewidth. Keep background spectra visually subordinate (<a href="https://github.com/LiTGde/Spectran/issues/31" class="external-link">#31</a>).</li>
 <li>Wrap titles and comparison subtitles in age plots. At narrow widths, move legends and the optional transmission inset below the spectrum and provide more vertical space in the app. Apply the same width-aware layout to exports. Keep long titles clear of the inset, compact axes and sensitivity labels within the figure, and allow disabling the inset without a plotting error.</li>
 <li>Set the package version to 2.0.0 and use the installed version in material audit citations.</li>
