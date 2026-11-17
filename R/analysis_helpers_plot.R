@@ -438,27 +438,12 @@ Plot_age_tot <- function(...,
   #adding the sensitivity Spectrum
   if(Alter_mel){
     p1 <- p1 +
-      ggplot2::geom_path(
-        data = Specs$AS_long %>% dplyr::filter(Type %in% "Melanopsin"),
-        ggplot2::aes(x = Wellenlaenge,
-                     y = rel_Sens * Tau_rel * maxE * k_pup),
-        col = Specs$Plot$Col[[1]],
-        lwd = 0.75
-      ) +
-      ggrepel::geom_label_repel(
-        data = Specs$Plot %>% dplyr::filter(Names %in% "Melanopsin"),
-        ggplot2::aes(
-          x = Peak,
-          y = maxE * k_pup * Tau_rel[[111]],
-          label = Names
-        ),
-        col = Specs$Plot$Col[[1]],
-        min.segment.length = 0,
-        ylim = c(0, maxE * plot_multiplier),
-        nudge_x = 60, nudge_y = maxE * .2, seed = 1,
-        alpha = 0.85,
-        parse = TRUE,
-        size = 4 / 15 * font_size
+      age_sensitivity_layers(
+        tau_rel = Tau_rel,
+        max_e = maxE,
+        plot_multiplier = plot_multiplier,
+        font_size = font_size,
+        pupil_factor = k_pup
       )
     }
   p1
@@ -530,27 +515,11 @@ Plot_age_trans_p1 <- function(...,
   #adding the sensitivity Spectrum
   if(Alter_mel){
     p1 <- p1 +
-      ggplot2::geom_path(
-        data = Specs$AS_long %>% dplyr::filter(Type %in% "Melanopsin"),
-        ggplot2::aes(x = Wellenlaenge,
-                     y = rel_Sens * Tau_rel * maxE),
-        col = Specs$Plot$Col[[1]],
-        lwd = 0.75
-      ) +
-      ggrepel::geom_label_repel(
-        data = Specs$Plot %>% dplyr::filter(Names %in% "Melanopsin"),
-        ggplot2::aes(
-          x = Peak,
-          y = maxE * Tau_rel[[111]],
-          label = Names
-        ),
-        col = Specs$Plot$Col[[1]],
-        min.segment.length = 0,
-        ylim = c(0, maxE * plot_multiplier),
-        nudge_x = 60, nudge_y = maxE * .2, seed = 1,
-        alpha = 0.85,
-        parse = TRUE,
-        size = 4 / 15 * font_size
+      age_sensitivity_layers(
+        tau_rel = Tau_rel,
+        max_e = maxE,
+        plot_multiplier = plot_multiplier,
+        font_size = font_size
       )
   }
   #conditionally adding a relative transmission spectrum
