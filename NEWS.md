@@ -80,6 +80,9 @@
 
 ## Standard-module plot fixes
 
+* Align the melanopsin label with the age-adjusted sensitivity peak in both
+  age plots. Bound its vertical position so it remains visible for young
+  observers, including when the peak exceeds the displayed range.
 * Label spectral Y-axes as "Spectral irradiance" or "Spektrale
   Bestrahlungsstärke", with units on a separate line for compact plots and
   exports. Integrated irradiance labels retain their meaning (#32).
